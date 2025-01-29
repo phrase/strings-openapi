@@ -5,6 +5,8 @@ job_template_locale:
   properties:
     id:
       type: string
+      nullable: true
+      description: The ID of the job template locale. Will return `null` if the related `job_template` is global.
     job_template:
       "$ref": "./job_template_preview.yaml#/job_template_preview"
     locale:

@@ -3505,7 +3505,9 @@
         "title": "job_template_locale",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "nullable": true,
+            "description": "The ID of the job template locale. Will return `null` if the related `job_template` is global."
           },
           "job_template": {
             "type": "object",
