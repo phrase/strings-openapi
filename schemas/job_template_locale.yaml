@@ -10,7 +10,7 @@ job_template_locale:
     job_template:
       "$ref": "./job_template_preview.yaml#/job_template_preview"
     locale:
-      "$ref": "./locale_preview.yaml#/locale_preview"
+      "$ref": "./locale_preview_global.yaml#/locale_preview_global"
     users:
       type: array
       items:
