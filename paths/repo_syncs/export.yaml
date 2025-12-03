@@ -12,6 +12,7 @@ parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
 - "$ref": "../../parameters.yaml#/account_id"
 - "$ref": "../../parameters.yaml#/id"
+- "$ref": "../../parameters.yaml#/pr_branch"
 responses:
   '200':
     description: OK
@@ -35,7 +36,7 @@ responses:
 x-code-samples:
 - lang: Curl
   source: |-
-    curl "https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs/45ef6789/export"\
+    curl "https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs/45ef6789/export?pr_branch=my-feature-branch"\
       -u USERNAME_OR_ACCESS_TOKEN \
       -X POST \
       -H 'Content-Type: application/json'
@@ -43,5 +44,6 @@ x-code-samples:
   source: |-
     phrase repo_syncs export \
     --id <repo_sync_id> \
+    --pr_branch my-feature-branch \
     --access_token <token>
 x-cli-version: '2.24'

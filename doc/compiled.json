@@ -4961,6 +4961,16 @@
         },
         "example": "my-feature-branch"
       },
+      "pr_branch": {
+        "name": "pr_branch",
+        "in": "query",
+        "description": "Source branch to open a pull request from",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "example": "my-feature-branch"
+      },
       "page": {
         "in": "query",
         "name": "page",
@@ -22891,6 +22901,9 @@
           },
           {
             "$ref": "#/components/parameters/id"
+          },
+          {
+            "$ref": "#/components/parameters/pr_branch"
           }
         ],
         "responses": {
@@ -22928,11 +22941,11 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs/45ef6789/export\"\\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs/45ef6789/export?pr_branch=my-feature-branch\"\\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -H 'Content-Type: application/json'"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase repo_syncs export \\\n--id <repo_sync_id> \\\n--access_token <token>"
+            "source": "phrase repo_syncs export \\\n--id <repo_sync_id> \\\n--pr_branch my-feature-branch \\\n--access_token <token>"
           }
         ],
         "x-cli-version": "2.24"
