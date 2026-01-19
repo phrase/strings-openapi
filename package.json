@@ -26,7 +26,7 @@
   "homepage": "https://developers.phrase.com/",
   "devDependencies": {
     "@apidevtools/swagger-cli": "^4.0.4",
-    "@openapitools/openapi-generator-cli": "^2.13.5",
+    "@openapitools/openapi-generator-cli": "^2.23.1",
     "husky": "^8.0.3",
     "release-please": "^15.10.5"
   },
