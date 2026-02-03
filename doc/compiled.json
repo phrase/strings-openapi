@@ -2372,6 +2372,7 @@
             "title": "translation_details",
             "properties": {
               "user": {
+                "description": "The user who last updated the translation content",
                 "$ref": "#/components/schemas/user_preview"
               },
               "word_count": {

@@ -6,6 +6,7 @@ translation_details:
     title: translation_details
     properties:
       user:
+        description: The user who last updated the translation content
         "$ref": "./user_preview.yaml#/user_preview"
       word_count:
         type: integer
