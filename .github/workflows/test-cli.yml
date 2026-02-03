@@ -6,7 +6,7 @@ on:
     paths:
       - .github/workflows/test-cli.yml
       - openapi-generator/cli_lang.yaml
-      - clients/cli/*
+      - 'clients/cli/**'
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: '1.24.4'
-      - name: Generate CLI and run tests
+      - name: Generate CLI and run unit tests
         env:
           GOPRIVATE: github.com/phrase/phrase-go
         run: |
@@ -28,6 +28,16 @@ jobs:
           npm run generate.cli
           go build .
           go test -v ./...
+      - name: Install Ruby and rspec
+        uses: ruby/setup-ruby@354a1ad156761f5ee2b7b13fa8e09943a5e8d252
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: ./clients/cli
+      - name: Run integration tests
+        run: |
+          cd ./clients/cli
+          bundle exec rspec
       - name: License check
         uses: phrase/actions/lawa-ci@v1
         with:
