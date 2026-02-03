@@ -209,14 +209,14 @@ class ApiClient(object):
             return (return_data)
         else:
             return (return_data, response_data.status,
-                    response_data.getheaders())
+                    response_data.headers)
 {{/tornado}}
 {{#tornado}}
         if _return_http_data_only:
             raise tornado.gen.Return(return_data)
         else:
             raise tornado.gen.Return((return_data, response_data.status,
-                                      response_data.getheaders()))
+                                      response_data.headers))
 {{/tornado}}
 
     def sanitize_for_serialization(self, obj):

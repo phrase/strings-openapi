@@ -44,7 +44,7 @@ class TestUploadsApi(unittest.TestCase):
         mock_post.return_value.data = '{"id": "upload_id", "format": "csv"}'.encode()
         mock_post.return_value.getencoding.return_value = 'utf-8'
         mock_post.return_value.status = 201
-        mock_post.return_value.getheader.side_effect = { 'Content-Type': "application/json" }.get
+        mock_post.return_value.headers = { 'Content-Type': "application/json" }
 
         project_id = "project_id_example"
         with phrase_api.ApiClient(self.configuration) as api_client:
