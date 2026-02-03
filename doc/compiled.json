@@ -1467,6 +1467,28 @@
           "code": "en-GB"
         }
       },
+      "locale_preview_global": {
+        "type": "object",
+        "title": "locale_preview_global",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true,
+            "description": "The ID of the locale. Global Job Templates will return `null` here."
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "id": "abcd1234cdef1234abcd1234cdef1234",
+          "name": "English",
+          "code": "en-GB"
+        }
+      },
       "locale": {
         "type": "object",
         "title": "locale",
@@ -3476,7 +3498,9 @@
         "title": "job_template_locale",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "nullable": true,
+            "description": "The ID of the job template locale. Will return `null` if the related `job_template` is global."
           },
           "job_template": {
             "type": "object",
@@ -3492,7 +3516,7 @@
             "example": null
           },
           "locale": {
-            "$ref": "#/components/schemas/locale_preview"
+            "$ref": "#/components/schemas/locale_preview_global"
           },
           "users": {
             "type": "array",

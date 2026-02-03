@@ -1,0 +1,17 @@
+---
+locale_preview_global:
+  type: object
+  title: locale_preview_global
+  properties:
+    id:
+      type: string
+      nullable: true
+      description: The ID of the locale. Global Job Templates will return `null` here.
+    name:
+      type: string
+    code:
+      type: string
+  example:
+    id: abcd1234cdef1234abcd1234cdef1234
+    name: English
+    code: en-GB
