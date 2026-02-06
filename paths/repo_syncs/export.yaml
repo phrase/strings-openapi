@@ -12,7 +12,18 @@ parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
 - "$ref": "../../parameters.yaml#/account_id"
 - "$ref": "../../parameters.yaml#/id"
-- "$ref": "../../parameters.yaml#/pr_branch"
+requestBody:
+  required: false
+  content:
+    application/json:
+      schema:
+        type: object
+        title: repo_sync/export/parameters
+        properties:
+          pr_branch:
+            description: Source branch to open a pull request from
+            type: string
+            example: my-feature-branch
 responses:
   '200':
     description: OK
@@ -36,10 +47,11 @@ responses:
 x-code-samples:
 - lang: Curl
   source: |-
-    curl "https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs/45ef6789/export?pr_branch=my-feature-branch"\
+    curl "https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs/45ef6789/export" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X POST \
-      -H 'Content-Type: application/json'
+      -H 'Content-Type: application/json' \
+      -d '{"pr_branch":"my-feature-branch"}'
 - lang: CLI v2
   source: |-
     phrase repo_syncs export \
