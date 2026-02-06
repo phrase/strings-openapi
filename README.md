@@ -32,7 +32,6 @@ You added an endpoint in Phrase Strings. In this project you do the following:
 2. Add new endpoints to `/paths/` directory and reference it in `paths.yaml`
 3. `npm start` to re-build the clients
 4. Open a PR with an informative title (e.g. `feat(API): Add an API endpoint for cat pics`)
-5. Merge automated documentation PR [(details)](#documentation-sync)
 
 ## Workflow
 
@@ -64,9 +63,10 @@ This includes:
 
 1. Pulling the most recent schema from this repository,
 2. Regenerating the documentation site,
-3. Deploying the updated docs.
+3. Merging the `developer-hub` PR,
+4. Deploying the updated docs.
 
-The last step in bringing your changes live is to merge in the automatically generated PR to `developer-hub`. This requires `write` permissions, so look to see who has merged previous PRs for who to ping to get something merged.
+The generated PR in `developer-hub` will be automatically merged if tests passes. Please ensure that the changes got merged. Only then they will be live & visible on our public API documentation.
 
 This setup ensures that the public API documentation always reflects the current OpenAPI spec.
 
