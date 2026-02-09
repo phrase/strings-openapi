@@ -22,7 +22,12 @@
   },
   "servers": [
     {
-      "url": "https://api.phrase.com/v2"
+      "url": "https://api.phrase.com/v2",
+      "description": "EU production server"
+    },
+    {
+      "url": "https://api.us.app.phrase.com/v2",
+      "description": "US production server"
     }
   ],
   "security": [
