@@ -15,7 +15,7 @@ import unittest
 import sys
 
 if sys.version_info[:2] <= (3, 7):
-    from mock import Mock, patch 
+    from mock import Mock, patch
 else:
     from unittest.mock import Mock, patch
 
@@ -71,7 +71,7 @@ class TestLocalesApi(unittest.TestCase):
         mock_get.return_value.data = body
         mock_get.return_value.status = 200
         mock_get.return_value.getencoding.return_value = 'utf-8'
-        mock_get.return_value.getheader.side_effect = { 'Content-Disposition': None }.get
+        mock_get.return_value.headers = { 'Content-Disposition': None }
 
         with phrase_api.ApiClient(self.configuration) as api_client:
             api_instance = phrase_api.api.locales_api.LocalesApi(api_client)
