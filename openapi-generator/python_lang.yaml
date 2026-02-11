@@ -3,7 +3,7 @@ generatorName: python
 outputDir: clients/python
 packageName: phrase_api
 projectName: phrase-api
-packageVersion: 3.15.1
+packageVersion: 3.16.0
 packageUrl: https://github.com/phrase/phrase-python
 gitUserId: phrase
 gitRepoId: phrase-python
