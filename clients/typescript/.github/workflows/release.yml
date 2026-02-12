@@ -18,7 +18,9 @@ jobs:
         tag: ${{github.event.release.tag_name}}
     - uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '22.14.0'
         registry-url: 'https://registry.npmjs.org/'
+    - name: Ensure npm >= 11.5.1
+      run: npm install -g npm@^11.5.1
     - run: npm install
-    - run: npm publish --access public
+    - run: npm publish --provenance --access public
