@@ -24,6 +24,10 @@ requestBody:
             description: Source branch to open a pull request from
             type: string
             example: my-feature-branch
+          branch:
+            description: Strings branch to export from
+            type: string
+            example: my-strings-branch
 responses:
   '200':
     description: OK
@@ -51,11 +55,10 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X POST \
       -H 'Content-Type: application/json' \
-      -d '{"pr_branch":"my-feature-branch"}'
+      -d '{"pr_branch":"my-feature-branch", "branch":"my-strings-branch"}'
 - lang: CLI v2
   source: |-
     phrase repo_syncs export \
     --id <repo_sync_id> \
-    --pr_branch my-feature-branch \
+    --data '{"pr_branch":"my-feature-branch", "branch":"my-strings-branch"}' \
     --access_token <token>
-x-cli-version: '2.24'
