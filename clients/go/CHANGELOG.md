@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.20.0](https://github.com/phrase/strings-openapi/compare/go-v4.19.0...go-v4.20.0) (2026-02-19)
+
+
+### Features
+
+* **API:** add pr_branch param to repo-sync export #SCD-594 ([#978](https://github.com/phrase/strings-openapi/issues/978)) ([7c3c19f](https://github.com/phrase/strings-openapi/commit/7c3c19fa6b7254315ce48a1ad420b97d529dbd9a))
+
 ## [4.19.0](https://github.com/phrase/strings-openapi/compare/go-v4.18.1...go-v4.19.0) (2026-01-27)
 
 
