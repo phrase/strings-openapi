@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.16.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.15.1...typescript-v3.16.0) (2026-02-19)
+
+
+### Features
+
+* **API:** Accept branch param in RepoSyncs#import ([#1035](https://github.com/phrase/strings-openapi/issues/1035)) ([fdfd542](https://github.com/phrase/strings-openapi/commit/fdfd54203510f94d546d771e1eeb6f4cc40f9b06))
+* **API:** add pr_branch param to repo-sync export #SCD-594 ([#978](https://github.com/phrase/strings-openapi/issues/978)) ([7c3c19f](https://github.com/phrase/strings-openapi/commit/7c3c19fa6b7254315ce48a1ad420b97d529dbd9a))
+* **API:** creating upload batches #SCD-687 ([#1022](https://github.com/phrase/strings-openapi/issues/1022)) ([83f5a41](https://github.com/phrase/strings-openapi/commit/83f5a411f1ebc63d26cdce0729093aa517d79b62))
+
+
+### Bug Fixes
+
+* remove project from account locales ([#1025](https://github.com/phrase/strings-openapi/issues/1025)) ([06b780f](https://github.com/phrase/strings-openapi/commit/06b780f91d2fe22a22ec821aa18968ed3b50510a))
+
 ## [3.15.1](https://github.com/phrase/strings-openapi/compare/typescript-v3.15.0...typescript-v3.15.1) (2026-01-16)
 
 
