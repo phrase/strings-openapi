@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.56.0](https://github.com/phrase/strings-openapi/compare/cli-v2.55.2...cli-v2.56.0) (2026-02-19)
+
+
+### Features
+
+* **API:** add pr_branch param to repo-sync export #SCD-594 ([#978](https://github.com/phrase/strings-openapi/issues/978)) ([7c3c19f](https://github.com/phrase/strings-openapi/commit/7c3c19fa6b7254315ce48a1ad420b97d529dbd9a))
+
 ## [2.55.2](https://github.com/phrase/strings-openapi/compare/cli-v2.55.1...cli-v2.55.2) (2026-02-03)
 
 
