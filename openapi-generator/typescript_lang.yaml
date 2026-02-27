@@ -1,7 +1,8 @@
-'!include': shared.yaml
+"!include": shared.yaml
 generatorName: typescript-fetch
 outputDir: clients/typescript
 npmName: phrase-js
 npmVersion: 3.16.0
 typescriptThreePlus: true
 templateDir: openapi-generator/templates/typescript-fetch
+repositoryUrl: https://github.com/phrase/phrase-js
