@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.16.1](https://github.com/phrase/strings-openapi/compare/typescript-v3.16.0...typescript-v3.16.1) (2026-02-27)
+
+
+### Bug Fixes
+
+* Add repo url to package.json to fix npm publish ([#1058](https://github.com/phrase/strings-openapi/issues/1058)) ([f021f13](https://github.com/phrase/strings-openapi/commit/f021f1305d1f203033a520e8b7e2f92da00b2fd2))
+
 ## [3.16.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.15.1...typescript-v3.16.0) (2026-02-19)
 
 
