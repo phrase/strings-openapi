@@ -28,7 +28,7 @@
     "@apidevtools/swagger-cli": "^4.0.4",
     "@openapitools/openapi-generator-cli": "^2.13.5",
     "husky": "^8.0.3",
-    "release-please": "^15.10.5"
+    "release-please": "^17.3.0"
   },
   "husky": {
     "hooks": {
