@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.17.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.16.1...typescript-v3.17.0) (2026-03-13)
+
+
+### Features
+
+* **API:** Add only_content_updates on translations versions ([#977](https://github.com/phrase/strings-openapi/issues/977)) ([57df730](https://github.com/phrase/strings-openapi/commit/57df730023ee736307b619e366bf9c87d9fe0db2))
+
 ## [3.16.1](https://github.com/phrase/strings-openapi/compare/typescript-v3.16.0...typescript-v3.16.1) (2026-02-27)
 
 
