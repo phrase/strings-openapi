@@ -2,7 +2,7 @@
 generatorName: php
 outputDir: clients/php
 invokerPackage: Phrase
-artifactVersion: 3.15.1
+artifactVersion: 3.16.0
 gitUserId: phrase
 gitRepoId: phrase-php
 packageName: phrase-php
