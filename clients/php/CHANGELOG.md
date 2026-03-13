@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.16.0](https://github.com/phrase/strings-openapi/compare/php-v3.15.1...php-v3.16.0) (2026-03-13)
+
+
+### Features
+
+* **API:** Accept branch param in RepoSyncs#import ([#1035](https://github.com/phrase/strings-openapi/issues/1035)) ([fdfd542](https://github.com/phrase/strings-openapi/commit/fdfd54203510f94d546d771e1eeb6f4cc40f9b06))
+* **API:** Add only_content_updates on translations versions ([#977](https://github.com/phrase/strings-openapi/issues/977)) ([57df730](https://github.com/phrase/strings-openapi/commit/57df730023ee736307b619e366bf9c87d9fe0db2))
+* **API:** add pr_branch param to repo-sync export #SCD-594 ([#978](https://github.com/phrase/strings-openapi/issues/978)) ([7c3c19f](https://github.com/phrase/strings-openapi/commit/7c3c19fa6b7254315ce48a1ad420b97d529dbd9a))
+* **API:** creating upload batches #SCD-687 ([#1022](https://github.com/phrase/strings-openapi/issues/1022)) ([83f5a41](https://github.com/phrase/strings-openapi/commit/83f5a411f1ebc63d26cdce0729093aa517d79b62))
+
+
+### Bug Fixes
+
+* Add repo url to package.json to fix npm publish ([#1058](https://github.com/phrase/strings-openapi/issues/1058)) ([f021f13](https://github.com/phrase/strings-openapi/commit/f021f1305d1f203033a520e8b7e2f92da00b2fd2))
+* remove project from account locales ([#1025](https://github.com/phrase/strings-openapi/issues/1025)) ([06b780f](https://github.com/phrase/strings-openapi/commit/06b780f91d2fe22a22ec821aa18968ed3b50510a))
+
 ## [3.15.1](https://github.com/phrase/strings-openapi/compare/php-v3.15.0...php-v3.15.1) (2026-01-16)
 
 
