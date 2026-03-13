@@ -44,6 +44,8 @@ schemas:
     "$ref": schemas/project_report.yaml#/project_report
   locale_preview:
     "$ref": schemas/locale_preview.yaml#/locale_preview
+  locale_preview_global:
+    "$ref": schemas/locale_preview_global.yaml#/locale_preview_global    
   locale:
     "$ref": schemas/locale.yaml#/locale
   locale_download:
