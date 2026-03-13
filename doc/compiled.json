@@ -15298,6 +15298,16 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "Indicates whether only content updates should be returned",
+            "example": true,
+            "name": "only_content_updates",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
           }
         ],
         "responses": {
@@ -15308,7 +15318,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/translation_version"
+                    "$ref": "#/components/schemas/translation_version_with_user"
                   }
                 }
               }
@@ -15344,11 +15354,11 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/translations/:translation_id/versions?branch=my-feature-branch\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/translations/:translation_id/versions?branch=my-feature-branch&only_content_updates=true\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase versions list \\\n--project_id <project_id> \\\n--translation_id <translation_id> \\\n--branch my-feature-branch \\\n--access_token <token>"
+            "source": "phrase versions list \\\n--project_id <project_id> \\\n--translation_id <translation_id> \\\n--branch my-feature-branch \\\n--only_content_updates true \\\n--access_token <token>"
           }
         ],
         "x-cli-version": "2.5"

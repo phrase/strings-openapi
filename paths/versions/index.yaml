@@ -16,6 +16,13 @@ parameters:
   in: query
   schema:
     type: string
+- description: Indicates whether only content updates should be returned
+  example: true
+  name: only_content_updates
+  in: query
+  schema:
+    type: boolean
+    default: false
 responses:
   '200':
     description: OK
@@ -24,7 +31,7 @@ responses:
         schema:
           type: array
           items:
-            "$ref": "../../schemas/translation_version.yaml#/translation_version"
+            "$ref": "../../schemas/translation_version_with_user.yaml#/translation_version_with_user"
     headers:
       X-Rate-Limit-Limit:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
@@ -45,7 +52,7 @@ responses:
 x-code-samples:
 - lang: Curl
   source: |-
-    curl "https://api.phrase.com/v2/projects/:project_id/translations/:translation_id/versions?branch=my-feature-branch" \
+    curl "https://api.phrase.com/v2/projects/:project_id/translations/:translation_id/versions?branch=my-feature-branch&only_content_updates=true" \
       -u USERNAME_OR_ACCESS_TOKEN
 - lang: CLI v2
   source: |-
@@ -53,5 +60,6 @@ x-code-samples:
     --project_id <project_id> \
     --translation_id <translation_id> \
     --branch my-feature-branch \
+    --only_content_updates true \
     --access_token <token>
 x-cli-version: '2.5'
