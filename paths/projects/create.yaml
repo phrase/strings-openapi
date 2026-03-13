@@ -145,4 +145,8 @@ requestBody:
             description: "(Optional) Requires autotranslate_enabled to be true"
             type: boolean
             example: true
+          autotranslate_overwrite_unverified_translations:
+            description: "(Optional) Requires autotranslate_enabled to be true"
+            type: boolean
+            example: true
 x-cli-version: "2.6.3"

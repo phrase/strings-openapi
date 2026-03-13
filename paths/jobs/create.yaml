@@ -95,4 +95,8 @@ requestBody:
             description: id of a job template you would like to model the created job after. Any manually added parameters will take preference over template attributes.
             type: string
             example: abcd1234cdef1234abcd1234cdef1234
+          autotranslate_enabled:
+            description: Automatically translate the job using machine translation.
+            type: boolean
+            example: true
 x-cli-version: '2.5'
