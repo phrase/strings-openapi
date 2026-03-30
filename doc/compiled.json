@@ -2066,6 +2066,24 @@
               "default_encoding": {
                 "type": "string",
                 "example": "UTF-8"
+              },
+              "cldr_version": {
+                "type": "string",
+                "example": "legacy"
+              },
+              "job_locking_enabled": {
+                "type": "boolean",
+                "example": false
+              },
+              "placeholder_styles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "example": [
+                  "angular",
+                  "iOS"
+                ]
               }
             },
             "example": {
@@ -2084,7 +2102,13 @@
               "autotranslate_mark_as_unverified": false,
               "autotranslate_use_machine_translation": false,
               "autotranslate_use_translation_memory": true,
-              "default_encoding": "UTF-8"
+              "default_encoding": "UTF-8",
+              "cldr_version": "legacy",
+              "job_locking_enabled": false,
+              "placeholder_styles": [
+                "angular",
+                "iOS"
+              ]
             }
           }
         ]
@@ -15953,6 +15977,17 @@
                     "description": "(Optional) Requires autotranslate_enabled to be true",
                     "type": "boolean",
                     "example": true
+                  },
+                  "placeholder_styles": {
+                    "description": "(Optional) List of placeholder styles enabled for the project.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "angular",
+                      "iOS"
+                    ]
                   }
                 }
               }
@@ -16208,6 +16243,17 @@
                       "UTF-16BE",
                       "UTF-16LE",
                       "ISO-8859-1"
+                    ]
+                  },
+                  "placeholder_styles": {
+                    "description": "(Optional) List of placeholder styles enabled for the project.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "angular",
+                      "iOS"
                     ]
                   }
                 }

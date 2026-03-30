@@ -51,6 +51,19 @@ project_details:
       default_encoding:
         type: string
         example: "UTF-8"
+      cldr_version:
+        type: string
+        example: "legacy"
+      job_locking_enabled:
+        type: boolean
+        example: false
+      placeholder_styles:
+        type: array
+        items:
+          type: string
+        example:
+          - "angular"
+          - "iOS"
 
     example:
       slug: my-android-project
@@ -69,3 +82,8 @@ project_details:
       autotranslate_use_machine_translation: false
       autotranslate_use_translation_memory: true
       default_encoding: "UTF-8"
+      cldr_version: "legacy"
+      job_locking_enabled: false
+      placeholder_styles:
+        - "angular"
+        - "iOS"

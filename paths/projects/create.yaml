@@ -145,4 +145,12 @@ requestBody:
             description: "(Optional) Requires autotranslate_enabled to be true"
             type: boolean
             example: true
+          placeholder_styles:
+            description: "(Optional) List of placeholder styles enabled for the project."
+            type: array
+            items:
+              type: string
+            example:
+              - "angular"
+              - "iOS"
 x-cli-version: "2.6.3"
