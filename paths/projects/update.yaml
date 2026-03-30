@@ -144,11 +144,19 @@ requestBody:
           default_encoding:
             description: "(Optional) Sets the default encoding for Uploads. If you leave it empty, we will try to guess it automatically for you when you Upload a file. You can still override this value by setting the [`file_encoding`](/en/api/strings/uploads/upload-a-new-file) parameter for Uploads."
             type: string
-            example: "UTF-8"            
+            example: "UTF-8"
             enum:
               - "UTF-8"
               - "UTF-16"
               - "UTF-16BE"
               - "UTF-16LE"
               - "ISO-8859-1"
+          placeholder_styles:
+            description: "(Optional) List of placeholder styles enabled for the project."
+            type: array
+            items:
+              type: string
+            example:
+              - "angular"
+              - "iOS"
 x-cli-version: "2.6.3"
