@@ -372,6 +372,11 @@ func TestParseConfig(t *testing.T) {
 	if config.Token != "123" {
 		t.Errorf("Got %s, expected %s", config.Token, "123")
 	}
+
+	if config.LocaleMapping["en"] != "English" {
+		t.Errorf("Got %s, expected %s", config.LocaleMapping["en"], "English")
+	}
+
 }
 
 func TestParseConfig_fromPath(t *testing.T) {

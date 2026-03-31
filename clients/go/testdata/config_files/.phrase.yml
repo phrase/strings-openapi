@@ -1,5 +1,7 @@
 phrase:
   access_token: "123"
+  locale_mapping:
+    en: English
   push:
     sources:
       - file: "./config/locales/<locale_name>.yml"
