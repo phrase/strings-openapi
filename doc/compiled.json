@@ -10920,6 +10920,11 @@
                     "description": "id of a job template you would like to model the created job after. Any manually added parameters will take preference over template attributes.",
                     "type": "string",
                     "example": "abcd1234cdef1234abcd1234cdef1234"
+                  },
+                  "autotranslate": {
+                    "description": "Automatically translate the job using machine translation.",
+                    "type": "boolean",
+                    "example": true
                   }
                 }
               }
@@ -11183,6 +11188,11 @@
                     "description": "URL to a ticket for this job (e.g. Jira, Trello)",
                     "type": "string",
                     "example": "https://example.atlassian.net/browse/FOO"
+                  },
+                  "autotranslate": {
+                    "description": "Automatically translate the job using machine translation",
+                    "type": "boolean",
+                    "example": true
                   }
                 }
               }
@@ -11930,6 +11940,11 @@
                     "description": "Briefing for the translators",
                     "type": "string",
                     "example": "text"
+                  },
+                  "autotranslate": {
+                    "description": "Automatically translate the job using machine translation.",
+                    "type": "boolean",
+                    "example": true
                   }
                 },
                 "required": [
@@ -12096,6 +12111,11 @@
                     "description": "Briefing for the translators",
                     "type": "string",
                     "example": "text"
+                  },
+                  "autotranslate": {
+                    "description": "Automatically translate the job using machine translation.",
+                    "type": "boolean",
+                    "example": true
                   }
                 },
                 "required": [
@@ -15978,6 +15998,11 @@
                     "type": "boolean",
                     "example": true
                   },
+                  "autotranslate_overwrite_unverified_translations": {
+                    "description": "(Optional) Requires autotranslate_enabled to be true",
+                    "type": "boolean",
+                    "example": true
+                  },
                   "placeholder_styles": {
                     "description": "(Optional) List of placeholder styles enabled for the project.",
                     "type": "array",
@@ -16229,6 +16254,11 @@
                     "example": true
                   },
                   "autotranslate_use_translation_memory": {
+                    "description": "(Optional) Requires autotranslate_enabled to be true",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "autotranslate_overwrite_unverified_translations": {
                     "description": "(Optional) Requires autotranslate_enabled to be true",
                     "type": "boolean",
                     "example": true
@@ -27807,6 +27837,11 @@
                     "description": "Briefing for the translators",
                     "type": "string",
                     "example": "text"
+                  },
+                  "autotranslate": {
+                    "description": "Automatically translate the job using machine translation.",
+                    "type": "boolean",
+                    "example": true
                   }
                 },
                 "required": [
@@ -27959,6 +27994,11 @@
                     "description": "Briefing for the translators",
                     "type": "string",
                     "example": "text"
+                  },
+                  "autotranslate": {
+                    "description": "Automatically translate the job using machine translation.",
+                    "type": "boolean",
+                    "example": true
                   }
                 },
                 "required": [
