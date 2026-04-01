@@ -22,7 +22,12 @@
   },
   "servers": [
     {
-      "url": "https://api.phrase.com/v2"
+      "url": "https://api.phrase.com/v2",
+      "description": "EU production server"
+    },
+    {
+      "url": "https://api.us.app.phrase.com/v2",
+      "description": "US production server"
     }
   ],
   "security": [
@@ -2061,6 +2066,24 @@
               "default_encoding": {
                 "type": "string",
                 "example": "UTF-8"
+              },
+              "cldr_version": {
+                "type": "string",
+                "example": "legacy"
+              },
+              "job_locking_enabled": {
+                "type": "boolean",
+                "example": false
+              },
+              "placeholder_styles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "example": [
+                  "angular",
+                  "iOS"
+                ]
               }
             },
             "example": {
@@ -2079,7 +2102,13 @@
               "autotranslate_mark_as_unverified": false,
               "autotranslate_use_machine_translation": false,
               "autotranslate_use_translation_memory": true,
-              "default_encoding": "UTF-8"
+              "default_encoding": "UTF-8",
+              "cldr_version": "legacy",
+              "job_locking_enabled": false,
+              "placeholder_styles": [
+                "angular",
+                "iOS"
+              ]
             }
           }
         ]
@@ -2717,7 +2746,12 @@
             "type": "string"
           }
         },
-        "example": null
+        "example": {
+          "id": "abcd1234cdef1234abcd1234cdef1234",
+          "username": "johndoe",
+          "name": "John Doe",
+          "gravatar_uid": "205e460b479e2e5b48aec07710c08d50"
+        }
       },
       "user": {
         "type": "object",
@@ -9109,7 +9143,12 @@
                     "example": true
                   },
                   "format_options": {
-                    "description": "Additional formatting and render options. See the [format guide](https://support.phrase.com/hc/en-us/sections/6111343326364) for a list of options available for each format. Specify format options like this: `...&format_options[foo]=bar`",
+                    "description": "Additional formatting and render options. See the [format guide](https://support.phrase.com/hc/en-us/sections/6111343326364)\nfor a list of options available for each format. Pass format options as a JSON object with key-value pairs corresponding\nto the option name and value. For example, to include comments in a Gettext file, pass `{\"include_comments\": true}`.\n",
+                    "example": {
+                      "format_options": {
+                        "foo": "bar"
+                      }
+                    },
                     "type": "object",
                     "properties": {}
                   },
@@ -10882,7 +10921,7 @@
                     "type": "string",
                     "example": "abcd1234cdef1234abcd1234cdef1234"
                   },
-                  "autotranslate_enabled": {
+                  "autotranslate": {
                     "description": "Automatically translate the job using machine translation.",
                     "type": "boolean",
                     "example": true
@@ -11150,7 +11189,7 @@
                     "type": "string",
                     "example": "https://example.atlassian.net/browse/FOO"
                   },
-                  "autotranslate_enabled": {
+                  "autotranslate": {
                     "description": "Automatically translate the job using machine translation",
                     "type": "boolean",
                     "example": true
@@ -11901,6 +11940,11 @@
                     "description": "Briefing for the translators",
                     "type": "string",
                     "example": "text"
+                  },
+                  "autotranslate": {
+                    "description": "Automatically translate the job using machine translation.",
+                    "type": "boolean",
+                    "example": true
                   }
                 },
                 "required": [
@@ -12067,6 +12111,11 @@
                     "description": "Briefing for the translators",
                     "type": "string",
                     "example": "text"
+                  },
+                  "autotranslate": {
+                    "description": "Automatically translate the job using machine translation.",
+                    "type": "boolean",
+                    "example": true
                   }
                 },
                 "required": [
@@ -15126,6 +15175,141 @@
         "x-cli-version": "2.5"
       }
     },
+    "/projects/{project_id}/upload_batches": {
+      "post": {
+        "summary": "Create upload batch",
+        "description": "Groups multiple file uploads into a single batch. Optionally, launches the deletion of unmentioned translation keys\nafter all uploads in the batch are completed.\n",
+        "operationId": "upload_batches/create",
+        "tags": [
+          "Upload Batches"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-PhraseApp-OTP"
+          },
+          {
+            "$ref": "#/components/parameters/project_id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "upload_batches/create/parameters",
+                "required": [
+                  "upload_ids"
+                ],
+                "properties": {
+                  "branch": {
+                    "description": "specify the branch to use",
+                    "type": "string",
+                    "example": "my-feature-branch"
+                  },
+                  "delete_unmentioned_keys": {
+                    "description": "If set to true, after all uploads in the batch are completed, translation keys that were not mentioned in any of the uploaded files will be deleted.",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "upload_ids": {
+                    "description": "Array of upload IDs to include in the batch",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "abcd1234cdef1234abcd1234cdef1234",
+                      "bcde2345defg2345bcde2345defg2345"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "upload_batch",
+                  "properties": {
+                    "state": {
+                      "type": "string",
+                      "description": "Processing state of the upload batch",
+                      "enum": [
+                        "started",
+                        "done"
+                      ]
+                    },
+                    "delete_unmentioned_keys": {
+                      "type": "boolean",
+                      "description": "Indicates whether unmentioned keys will be deleted after processing all uploads in the batch"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "project": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/project_short"
+                    },
+                    "user": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/user_preview"
+                    },
+                    "uploads": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/upload"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          }
+        },
+        "x-code-samples": [
+          {
+            "lang": "Curl",
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/upload_batches\" \\\n-X POST \\\n-H \"Content-Type: application/json\" \\\n-d '{\n  \"branch\": \"my-feature-branch\",\n  \"delete_unmentioned_keys\": true,\n  \"upload_ids\": [\n    \"abcd1234cdef1234abcd1234cdef1234\",\n    \"bcde2345defg2345bcde2345defg2345\"\n  ]\n}' \\\n-u <token>:"
+          },
+          {
+            "lang": "CLI v2",
+            "source": "phrase upload_batches create --project-id :project_id \\\n--data '{\n  \"branch\": \"my-feature-branch\",\n  \"delete_unmentioned_keys\": true,\n  \"upload_ids\": [\n    \"abcd1234cdef1234abcd1234cdef1234\",\n    \"bcde2345defg2345bcde2345defg2345\"\n  ]\n}' \\\n--access_token <token>"
+          }
+        ]
+      }
+    },
     "/projects/{project_id}/translations/{translation_id}/versions": {
       "get": {
         "summary": "List all versions",
@@ -15158,6 +15342,16 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "Indicates whether only content updates should be returned",
+            "example": true,
+            "name": "only_content_updates",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
           }
         ],
         "responses": {
@@ -15168,7 +15362,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/translation_version"
+                    "$ref": "#/components/schemas/translation_version_with_user"
                   }
                 }
               }
@@ -15204,11 +15398,11 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/translations/:translation_id/versions?branch=my-feature-branch\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/translations/:translation_id/versions?branch=my-feature-branch&only_content_updates=true\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase versions list \\\n--project_id <project_id> \\\n--translation_id <translation_id> \\\n--branch my-feature-branch \\\n--access_token <token>"
+            "source": "phrase versions list \\\n--project_id <project_id> \\\n--translation_id <translation_id> \\\n--branch my-feature-branch \\\n--only_content_updates true \\\n--access_token <token>"
           }
         ],
         "x-cli-version": "2.5"
@@ -15808,6 +16002,17 @@
                     "description": "(Optional) Requires autotranslate_enabled to be true",
                     "type": "boolean",
                     "example": true
+                  },
+                  "placeholder_styles": {
+                    "description": "(Optional) List of placeholder styles enabled for the project.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "angular",
+                      "iOS"
+                    ]
                   }
                 }
               }
@@ -16068,6 +16273,17 @@
                       "UTF-16BE",
                       "UTF-16LE",
                       "ISO-8859-1"
+                    ]
+                  },
+                  "placeholder_styles": {
+                    "description": "(Optional) List of placeholder styles enabled for the project.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "angular",
+                      "iOS"
                     ]
                   }
                 }
@@ -22773,6 +22989,29 @@
             "$ref": "#/components/parameters/id"
           }
         ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "repo_sync/export/parameters",
+                "properties": {
+                  "pr_branch": {
+                    "description": "Source branch to open a pull request from",
+                    "type": "string",
+                    "example": "my-feature-branch"
+                  },
+                  "branch": {
+                    "description": "Strings branch to export from",
+                    "type": "string",
+                    "example": "my-strings-branch"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -22808,14 +23047,13 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs/45ef6789/export\"\\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs/45ef6789/export\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"pr_branch\":\"my-feature-branch\", \"branch\":\"my-strings-branch\"}'"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase repo_syncs export \\\n--id <repo_sync_id> \\\n--access_token <token>"
+            "source": "phrase repo_syncs export \\\n--id <repo_sync_id> \\\n--data '{\"pr_branch\":\"my-feature-branch\", \"branch\":\"my-strings-branch\"}' \\\n--access_token <token>"
           }
-        ],
-        "x-cli-version": "2.24"
+        ]
       }
     },
     "/accounts/{account_id}/repo_syncs/{id}/import": {
@@ -22837,6 +23075,29 @@
             "$ref": "#/components/parameters/id"
           }
         ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "repo_sync/import/parameters",
+                "properties": {
+                  "repository_branch": {
+                    "description": "Branch to import from",
+                    "type": "string",
+                    "example": "my-feature-branch"
+                  },
+                  "branch": {
+                    "description": "Strings branch to import to",
+                    "type": "string",
+                    "example": "my-strings-branch"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -22872,14 +23133,13 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs/45ef6789/import\"\\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs/45ef6789/import\"\\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -d '{\"repository_branch\":\"my-feature-branch\", \"branch\":\"my-strings-branch\"}' \\\n  -H 'Content-Type: application/json'"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase repo_syncs import \\\n--id <repo_sync_id> \\\n--access_token <token>"
+            "source": "phrase repo_syncs import \\\n--id <repo_sync_id> \\\n--data '{\"repository_branch\":\"my-feature-branch\", \"branch\":\"my-strings-branch\"}' \\\n--access_token <token>"
           }
-        ],
-        "x-cli-version": "2.24"
+        ]
       }
     },
     "/accounts/{account_id}/repo_syncs/{id}/events": {
@@ -27577,6 +27837,11 @@
                     "description": "Briefing for the translators",
                     "type": "string",
                     "example": "text"
+                  },
+                  "autotranslate": {
+                    "description": "Automatically translate the job using machine translation.",
+                    "type": "boolean",
+                    "example": true
                   }
                 },
                 "required": [
@@ -27729,6 +27994,11 @@
                     "description": "Briefing for the translators",
                     "type": "string",
                     "example": "text"
+                  },
+                  "autotranslate": {
+                    "description": "Automatically translate the job using machine translation.",
+                    "type": "boolean",
+                    "example": true
                   }
                 },
                 "required": [

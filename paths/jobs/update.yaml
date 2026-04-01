@@ -73,7 +73,7 @@ requestBody:
             description: URL to a ticket for this job (e.g. Jira, Trello)
             type: string
             example: https://example.atlassian.net/browse/FOO
-          autotranslate_enabled:
+          autotranslate:
             description: Automatically translate the job using machine translation
             type: boolean
             example: true

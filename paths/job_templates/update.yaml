@@ -63,6 +63,10 @@ requestBody:
             description: Briefing for the translators
             type: string
             example: text
+          autotranslate:
+            description: Automatically translate the job using machine translation.
+            type: boolean
+            example: true
         required:
         - name
 x-cli-version: '2.5'
