@@ -29,7 +29,7 @@ type DownloadCache struct {
 	Entries map[string]CacheEntry `json:"entries"`
 	path    string
 	dirty   bool
-	mu      sync.Mutex
+	mu      sync.Mutex `json:"-"`
 }
 
 func LoadDownloadCache() *DownloadCache {
@@ -81,6 +81,8 @@ func (dc *DownloadCache) Set(key string, entry CacheEntry) {
 }
 
 func (dc *DownloadCache) Save() error {
+	dc.mu.Lock()
+	defer dc.mu.Unlock()
 	if !dc.dirty {
 		return nil
 	}

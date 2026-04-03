@@ -108,13 +108,14 @@ func (cmd *PullCommand) Run(config *phrase.Config) error {
 	if cmd.Parallel && cmd.Async {
 		print.Warn("--parallel is not supported with --async, ignoring parallel")
 	}
-	type pullFn func(*Target) error
-	pull := pullFn(func(t *Target) error { return t.Pull(client, cmd.Async, cache) })
-	if cmd.Parallel && !cmd.Async {
-		pull = func(t *Target) error { return t.PullParallel(client, cache) }
-	}
 	for _, target := range targets {
-		if err := pull(target); err != nil {
+		var err error
+		if cmd.Parallel && !cmd.Async {
+			err = target.PullParallel(client, cache)
+		} else {
+			err = target.Pull(client, cmd.Async, cache)
+		}
+		if err != nil {
 			return err
 		}
 	}
@@ -238,6 +239,10 @@ func (target *Target) PullParallel(client *phrase.APIClient, cache *DownloadCach
 
 	for i, lf := range localeFiles {
 		g.Go(func() error {
+			if ctx.Err() != nil {
+				return ctx.Err()
+			}
+
 			opts, err := target.buildDownloadOpts(lf)
 			if err != nil {
 				err = fmt.Errorf("%s for %s", err, lf.Path)
@@ -326,9 +331,6 @@ func (target *Target) downloadWithRateGate(client *phrase.APIClient, localeFile 
 			opts.IfModifiedSince = optional.String{}
 			file, response, err = client.LocalesApi.LocaleDownload(Auth, target.ProjectID, localeFile.ID, &opts)
 			if err != nil {
-				if response != nil && response.StatusCode == 304 {
-					return nil, response, nil
-				}
 				return nil, response, err
 			}
 		} else {
@@ -451,17 +453,17 @@ func (target *Target) downloadSynchronously(client *phrase.APIClient, localeFile
 }
 
 func copyToDestination(file *os.File, path string) error {
+	if file == nil {
+		return fmt.Errorf("no content to write to %s", path)
+	}
+	defer file.Close()
 	destFile, err := os.Create(path)
 	if err != nil {
 		return err
 	}
 	defer destFile.Close()
-	if file != nil {
-		defer file.Close()
-		_, err = io.Copy(destFile, file)
-		return err
-	}
-	return nil
+	_, err = io.Copy(destFile, file)
+	return err
 }
 
 func downloadExportedLocale(url string, localName string) error {
