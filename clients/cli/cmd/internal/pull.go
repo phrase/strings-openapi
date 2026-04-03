@@ -230,7 +230,6 @@ func (target *Target) PullParallel(client *phrase.APIClient, cache *DownloadCach
 
 	results := make([]downloadResult, len(localeFiles))
 	var rateMu sync.RWMutex
-	var cacheMu sync.Mutex
 
 	ctx, cancel := context.WithTimeout(context.Background(), timeoutInMinutes)
 	defer cancel()
@@ -249,9 +248,7 @@ func (target *Target) PullParallel(client *phrase.APIClient, cache *DownloadCach
 			var cacheKey string
 			if cache != nil {
 				cacheKey = CacheKey(target.ProjectID, lf.ID, opts)
-				cacheMu.Lock()
 				applyCacheHeaders(cache, cacheKey, &opts)
-				cacheMu.Unlock()
 			}
 
 			file, response, dlErr := target.downloadWithRateGate(client, lf, opts, &rateMu)
@@ -272,9 +269,7 @@ func (target *Target) PullParallel(client *phrase.APIClient, cache *DownloadCach
 			}
 
 			if cache != nil {
-				cacheMu.Lock()
 				updateCache(cache, cacheKey, response)
-				cacheMu.Unlock()
 			}
 
 			if err := copyToDestination(file, lf.Path); err != nil {
@@ -296,7 +291,7 @@ func (target *Target) PullParallel(client *phrase.APIClient, cache *DownloadCach
 	// Print results in original order: successes and failures
 	for _, r := range results {
 		switch {
-		case r.notModified:
+		case r.notModified && r.path != "":
 			print.Success("Not modified %s", r.path)
 		case r.path != "":
 			print.Success("Downloaded %s to %s", r.message, r.path)
@@ -331,6 +326,9 @@ func (target *Target) downloadWithRateGate(client *phrase.APIClient, localeFile 
 			opts.IfModifiedSince = optional.String{}
 			file, response, err = client.LocalesApi.LocaleDownload(Auth, target.ProjectID, localeFile.ID, &opts)
 			if err != nil {
+				if response != nil && response.StatusCode == 304 {
+					return nil, response, nil
+				}
 				return nil, response, err
 			}
 		} else {
