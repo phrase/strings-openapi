@@ -108,7 +108,7 @@ func (cmd *PullCommand) Run(config *phrase.Config) error {
 	for _, target := range targets {
 		var err error
 		if cmd.Parallel && !cmd.Async {
-			err = target.PullParallel(client)
+			err = target.PullParallel(client, cache)
 		} else {
 			if cmd.Parallel && cmd.Async {
 				print.Warn("--parallel is not supported with --async, ignoring parallel")
@@ -181,9 +181,10 @@ func (target *Target) Pull(client *phrase.APIClient, async bool, cache *Download
 }
 
 type downloadResult struct {
-	message string
-	path    string
-	errMsg  string
+	message     string
+	path        string
+	errMsg      string
+	notModified bool
 }
 
 func (target *Target) DownloadAndWriteToFile(client *phrase.APIClient, localeFile *LocaleFile, async bool, cache *DownloadCache) error {
@@ -226,7 +227,7 @@ func (target *Target) DownloadAndWriteToFile(client *phrase.APIClient, localeFil
 	return target.downloadSynchronously(client, localeFile, localVarOptionals, cache)
 }
 
-func (target *Target) PullParallel(client *phrase.APIClient) error {
+func (target *Target) PullParallel(client *phrase.APIClient, cache *DownloadCache) error {
 	if err := target.CheckPreconditions(); err != nil {
 		return err
 	}
@@ -245,6 +246,7 @@ func (target *Target) PullParallel(client *phrase.APIClient) error {
 
 	results := make([]downloadResult, len(localeFiles))
 	var rateMu sync.RWMutex
+	var cacheMu sync.Mutex
 
 	ctx, cancel := context.WithTimeout(context.Background(), timeoutInMinutes)
 	defer cancel()
@@ -264,11 +266,57 @@ func (target *Target) PullParallel(client *phrase.APIClient) error {
 				return err
 			}
 
-			err = target.downloadWithRateGate(client, lf, opts, &rateMu)
-			if err != nil {
-				if openapiError, ok := err.(phrase.GenericOpenAPIError); ok {
+			var cacheKey string
+			if cache != nil {
+				cacheKey = CacheKey(target.ProjectID, lf.ID, opts)
+				cacheMu.Lock()
+				entry, ok := cache.Get(cacheKey)
+				cacheMu.Unlock()
+				if ok {
+					debugFprintln("Cache hit for", lf.ID, "- sending conditional request")
+					if entry.ETag != "" {
+						opts.IfNoneMatch = optional.NewString(entry.ETag)
+					}
+					if entry.LastModified != "" {
+						opts.IfModifiedSince = optional.NewString(entry.LastModified)
+					}
+				} else {
+					debugFprintln("Cache miss for", lf.ID)
+				}
+			}
+
+			file, response, dlErr := target.downloadWithRateGateRaw(client, lf, opts, &rateMu)
+
+			if response != nil && response.StatusCode == 304 {
+				debugFprintln("Not modified (304), skipping", lf.Path)
+				results[i] = downloadResult{
+					message: lf.Message(),
+					path:    lf.RelPath(),
+					notModified: true,
+				}
+				return nil
+			}
+
+			if dlErr != nil {
+				if openapiError, ok := dlErr.(phrase.GenericOpenAPIError); ok {
 					print.Warn("API response: %s", openapiError.Body())
 				}
+				dlErr = fmt.Errorf("%s for %s", dlErr, lf.Path)
+				results[i] = downloadResult{errMsg: dlErr.Error()}
+				return dlErr
+			}
+
+			if cache != nil && response != nil {
+				etag := response.Header.Get("ETag")
+				lastMod := response.Header.Get("Last-Modified")
+				if etag != "" || lastMod != "" {
+					cacheMu.Lock()
+					cache.Set(cacheKey, CacheEntry{ETag: etag, LastModified: lastMod})
+					cacheMu.Unlock()
+				}
+			}
+
+			if err := copyToDestination(file, lf.Path); err != nil {
 				err = fmt.Errorf("%s for %s", err, lf.Path)
 				results[i] = downloadResult{errMsg: err.Error()}
 				return err
@@ -287,7 +335,9 @@ func (target *Target) PullParallel(client *phrase.APIClient) error {
 	// Print results in original order: successes and failures
 	var skipCount int
 	for _, r := range results {
-		if r.path != "" {
+		if r.notModified {
+			print.Success("Not modified %s", r.path)
+		} else if r.path != "" {
 			print.Success("Downloaded %s to %s", r.message, r.path)
 		} else if r.errMsg != "" {
 			print.Failure("Failed %s", r.errMsg)
@@ -306,12 +356,24 @@ func (target *Target) PullParallel(client *phrase.APIClient) error {
 // Uses RWMutex as a broadcast gate: workers take a read lock (cheap, concurrent),
 // and a rate-limited worker takes the write lock to pause everyone until reset.
 func (target *Target) downloadWithRateGate(client *phrase.APIClient, localeFile *LocaleFile, opts phrase.LocaleDownloadOpts, gate *sync.RWMutex) error {
+	file, _, err := target.downloadWithRateGateRaw(client, localeFile, opts, gate)
+	if err != nil {
+		return err
+	}
+	return copyToDestination(file, localeFile.Path)
+}
+
+// downloadWithRateGateRaw is like downloadWithRateGate but returns the raw file and response.
+func (target *Target) downloadWithRateGateRaw(client *phrase.APIClient, localeFile *LocaleFile, opts phrase.LocaleDownloadOpts, gate *sync.RWMutex) (*os.File, *phrase.APIResponse, error) {
 	// Read-lock gate: blocks only when a writer (rate-limited worker) holds it
 	gate.RLock()
 	gate.RUnlock()
 
 	file, response, err := client.LocalesApi.LocaleDownload(Auth, target.ProjectID, localeFile.ID, &opts)
 	if err != nil {
+		if response != nil && response.StatusCode == 304 {
+			return nil, response, nil
+		}
 		if response != nil && response.Rate.Remaining == 0 {
 			// TryLock ensures only one worker handles the rate limit pause.
 			// Others will block on their next RLock until the pause is over.
@@ -324,15 +386,18 @@ func (target *Target) downloadWithRateGate(client *phrase.APIClient, localeFile 
 				gate.RUnlock()
 			}
 
-			file, _, err = client.LocalesApi.LocaleDownload(Auth, target.ProjectID, localeFile.ID, &opts)
+			// Strip conditional headers on retry to get a full response
+			opts.IfNoneMatch = optional.String{}
+			opts.IfModifiedSince = optional.String{}
+			file, response, err = client.LocalesApi.LocaleDownload(Auth, target.ProjectID, localeFile.ID, &opts)
 			if err != nil {
-				return err
+				return nil, response, err
 			}
 		} else {
-			return err
+			return nil, response, err
 		}
 	}
-	return copyToDestination(file, localeFile.Path)
+	return file, response, nil
 }
 
 // buildDownloadOpts prepares the LocaleDownloadOpts for a locale file download.
