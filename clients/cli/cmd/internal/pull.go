@@ -108,14 +108,13 @@ func (cmd *PullCommand) Run(config *phrase.Config) error {
 	if cmd.Parallel && cmd.Async {
 		print.Warn("--parallel is not supported with --async, ignoring parallel")
 	}
+	type pullFn func(*Target) error
+	pull := pullFn(func(t *Target) error { return t.Pull(client, cmd.Async, cache) })
+	if cmd.Parallel && !cmd.Async {
+		pull = func(t *Target) error { return t.PullParallel(client, cache) }
+	}
 	for _, target := range targets {
-		var err error
-		if cmd.Parallel && !cmd.Async {
-			err = target.PullParallel(client, cache)
-		} else {
-			err = target.Pull(client, cmd.Async, cache)
-		}
-		if err != nil {
+		if err := pull(target); err != nil {
 			return err
 		}
 	}
@@ -240,10 +239,6 @@ func (target *Target) PullParallel(client *phrase.APIClient, cache *DownloadCach
 
 	for i, lf := range localeFiles {
 		g.Go(func() error {
-			if ctx.Err() != nil {
-				return ctx.Err()
-			}
-
 			opts, err := target.buildDownloadOpts(lf)
 			if err != nil {
 				err = fmt.Errorf("%s for %s", err, lf.Path)
@@ -317,9 +312,8 @@ func (target *Target) PullParallel(client *phrase.APIClient, cache *DownloadCach
 // Uses RWMutex as a broadcast gate: workers take a read lock (cheap, concurrent),
 // and a rate-limited worker takes the write lock to pause everyone until reset.
 func (target *Target) downloadWithRateGate(client *phrase.APIClient, localeFile *LocaleFile, opts phrase.LocaleDownloadOpts, gate *sync.RWMutex) (*os.File, *phrase.APIResponse, error) {
-	// Read-lock gate: blocks only when a writer (rate-limited worker) holds it
-	gate.RLock()
-	gate.RUnlock()
+	waitForGate := func() { gate.RLock(); gate.RUnlock() }
+	waitForGate()
 
 	file, response, err := client.LocalesApi.LocaleDownload(Auth, target.ProjectID, localeFile.ID, &opts)
 	if err != nil {
@@ -327,18 +321,12 @@ func (target *Target) downloadWithRateGate(client *phrase.APIClient, localeFile 
 			return nil, response, nil
 		}
 		if response != nil && response.Rate.Remaining == 0 {
-			// TryLock ensures only one worker handles the rate limit pause.
-			// Others will block on their next RLock until the pause is over.
 			if gate.TryLock() {
 				waitForRateLimit(response.Rate)
 				gate.Unlock()
 			} else {
-				// Another worker is already pausing; wait for it
-				gate.RLock()
-				gate.RUnlock()
+				waitForGate()
 			}
-
-			// Strip conditional headers on retry to get a full response
 			opts.IfNoneMatch = optional.String{}
 			opts.IfModifiedSince = optional.String{}
 			file, response, err = client.LocalesApi.LocaleDownload(Auth, target.ProjectID, localeFile.ID, &opts)
@@ -387,7 +375,7 @@ func (target *Target) downloadAsynchronously(client *phrase.APIClient, localeFil
 		return err
 	}
 
-	for i := 0; asyncDownload.Status == "processing"; i++ {
+	for i := 0; asyncDownload.Status == "processing" && i <= asyncRetryCount; i++ {
 		debugFprintln("Waiting for the files to be exported...")
 		time.Sleep(asyncWaitTime)
 		debugFprintln("Checking if the download is ready...")
@@ -396,9 +384,9 @@ func (target *Target) downloadAsynchronously(client *phrase.APIClient, localeFil
 		if err != nil {
 			return err
 		}
-		if i > asyncRetryCount {
-			return fmt.Errorf("download is taking too long")
-		}
+	}
+	if asyncDownload.Status == "processing" {
+		return fmt.Errorf("download is taking too long")
 	}
 	if asyncDownload.Status == "completed" {
 		return downloadExportedLocale(asyncDownload.Result.Url, localeFile.Path)
@@ -495,8 +483,8 @@ func downloadExportedLocale(url string, localName string) error {
 		return err
 	}
 	defer response.Body.Close()
-	io.Copy(file, response.Body)
-	return nil
+	_, err = io.Copy(file, response.Body)
+	return err
 }
 
 // asyncDownloadParams converts the optional parameters from the Pull command into a LocaleDownloadCreateParameters struct.
