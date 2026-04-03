@@ -105,14 +105,14 @@ func (cmd *PullCommand) Run(config *phrase.Config) error {
 		}
 	}
 
+	if cmd.Parallel && cmd.Async {
+		print.Warn("--parallel is not supported with --async, ignoring parallel")
+	}
 	for _, target := range targets {
 		var err error
 		if cmd.Parallel && !cmd.Async {
 			err = target.PullParallel(client, cache)
 		} else {
-			if cmd.Parallel && cmd.Async {
-				print.Warn("--parallel is not supported with --async, ignoring parallel")
-			}
 			err = target.Pull(client, cmd.Async, cache)
 		}
 		if err != nil {
@@ -188,24 +188,9 @@ type downloadResult struct {
 }
 
 func (target *Target) DownloadAndWriteToFile(client *phrase.APIClient, localeFile *LocaleFile, async bool, cache *DownloadCache) error {
-	localVarOptionals := phrase.LocaleDownloadOpts{}
-
-	if target.Params != nil {
-		localVarOptionals = target.Params.LocaleDownloadOpts
-		translationKeyPrefix, err := placeholders.ResolveTranslationKeyPrefix(target.Params.TranslationKeyPrefix, localeFile.Path)
-		if err != nil {
-			return err
-		}
-		localVarOptionals.TranslationKeyPrefix = translationKeyPrefix
-	}
-
-	if localVarOptionals.FileFormat.Value() == "" {
-		localVarOptionals.FileFormat = optional.NewString(localeFile.FileFormat)
-	}
-
-	if localeFile.Tag != "" {
-		localVarOptionals.Tags = optional.NewString(localeFile.Tag)
-		localVarOptionals.Tag = optional.EmptyString()
+	localVarOptionals, err := target.buildDownloadOpts(localeFile)
+	if err != nil {
+		return err
 	}
 
 	debugFprintln("Target file pattern:", target.File)
@@ -270,30 +255,15 @@ func (target *Target) PullParallel(client *phrase.APIClient, cache *DownloadCach
 			if cache != nil {
 				cacheKey = CacheKey(target.ProjectID, lf.ID, opts)
 				cacheMu.Lock()
-				entry, ok := cache.Get(cacheKey)
+				applyCacheHeaders(cache, cacheKey, &opts)
 				cacheMu.Unlock()
-				if ok {
-					debugFprintln("Cache hit for", lf.ID, "- sending conditional request")
-					if entry.ETag != "" {
-						opts.IfNoneMatch = optional.NewString(entry.ETag)
-					}
-					if entry.LastModified != "" {
-						opts.IfModifiedSince = optional.NewString(entry.LastModified)
-					}
-				} else {
-					debugFprintln("Cache miss for", lf.ID)
-				}
 			}
 
-			file, response, dlErr := target.downloadWithRateGateRaw(client, lf, opts, &rateMu)
+			file, response, dlErr := target.downloadWithRateGate(client, lf, opts, &rateMu)
 
 			if response != nil && response.StatusCode == 304 {
 				debugFprintln("Not modified (304), skipping", lf.Path)
-				results[i] = downloadResult{
-					message: lf.Message(),
-					path:    lf.RelPath(),
-					notModified: true,
-				}
+				results[i] = downloadResult{message: lf.Message(), path: lf.RelPath(), notModified: true}
 				return nil
 			}
 
@@ -306,14 +276,10 @@ func (target *Target) PullParallel(client *phrase.APIClient, cache *DownloadCach
 				return dlErr
 			}
 
-			if cache != nil && response != nil {
-				etag := response.Header.Get("ETag")
-				lastMod := response.Header.Get("Last-Modified")
-				if etag != "" || lastMod != "" {
-					cacheMu.Lock()
-					cache.Set(cacheKey, CacheEntry{ETag: etag, LastModified: lastMod})
-					cacheMu.Unlock()
-				}
+			if cache != nil {
+				cacheMu.Lock()
+				updateCache(cache, cacheKey, response)
+				cacheMu.Unlock()
 			}
 
 			if err := copyToDestination(file, lf.Path); err != nil {
@@ -333,20 +299,15 @@ func (target *Target) PullParallel(client *phrase.APIClient, cache *DownloadCach
 	waitErr := g.Wait()
 
 	// Print results in original order: successes and failures
-	var skipCount int
 	for _, r := range results {
-		if r.notModified {
+		switch {
+		case r.notModified:
 			print.Success("Not modified %s", r.path)
-		} else if r.path != "" {
+		case r.path != "":
 			print.Success("Downloaded %s to %s", r.message, r.path)
-		} else if r.errMsg != "" {
+		case r.errMsg != "":
 			print.Failure("Failed %s", r.errMsg)
-		} else {
-			skipCount++
 		}
-	}
-	if skipCount > 0 {
-		print.Warn("%d download(s) skipped due to earlier failure", skipCount)
 	}
 
 	return waitErr
@@ -355,16 +316,7 @@ func (target *Target) PullParallel(client *phrase.APIClient, cache *DownloadCach
 // downloadWithRateGate downloads a locale file with rate-limit coordination.
 // Uses RWMutex as a broadcast gate: workers take a read lock (cheap, concurrent),
 // and a rate-limited worker takes the write lock to pause everyone until reset.
-func (target *Target) downloadWithRateGate(client *phrase.APIClient, localeFile *LocaleFile, opts phrase.LocaleDownloadOpts, gate *sync.RWMutex) error {
-	file, _, err := target.downloadWithRateGateRaw(client, localeFile, opts, gate)
-	if err != nil {
-		return err
-	}
-	return copyToDestination(file, localeFile.Path)
-}
-
-// downloadWithRateGateRaw is like downloadWithRateGate but returns the raw file and response.
-func (target *Target) downloadWithRateGateRaw(client *phrase.APIClient, localeFile *LocaleFile, opts phrase.LocaleDownloadOpts, gate *sync.RWMutex) (*os.File, *phrase.APIResponse, error) {
+func (target *Target) downloadWithRateGate(client *phrase.APIClient, localeFile *LocaleFile, opts phrase.LocaleDownloadOpts, gate *sync.RWMutex) (*os.File, *phrase.APIResponse, error) {
 	// Read-lock gate: blocks only when a writer (rate-limited worker) holds it
 	gate.RLock()
 	gate.RUnlock()
@@ -454,34 +406,43 @@ func (target *Target) downloadAsynchronously(client *phrase.APIClient, localeFil
 	return fmt.Errorf("download failed: %s", asyncDownload.Error)
 }
 
+func applyCacheHeaders(cache *DownloadCache, cacheKey string, opts *phrase.LocaleDownloadOpts) {
+	if entry, ok := cache.Get(cacheKey); ok {
+		debugFprintln("Cache hit for", cacheKey, "- sending conditional request")
+		if entry.ETag != "" {
+			opts.IfNoneMatch = optional.NewString(entry.ETag)
+		}
+		if entry.LastModified != "" {
+			opts.IfModifiedSince = optional.NewString(entry.LastModified)
+		}
+	} else {
+		debugFprintln("Cache miss for", cacheKey)
+	}
+}
+
+func updateCache(cache *DownloadCache, cacheKey string, response *phrase.APIResponse) {
+	if response == nil {
+		return
+	}
+	etag, lastMod := response.Header.Get("ETag"), response.Header.Get("Last-Modified")
+	if etag != "" || lastMod != "" {
+		cache.Set(cacheKey, CacheEntry{ETag: etag, LastModified: lastMod})
+	}
+}
+
 func (target *Target) downloadSynchronously(client *phrase.APIClient, localeFile *LocaleFile, downloadOpts phrase.LocaleDownloadOpts, cache *DownloadCache) error {
-	// Compute cache key before mutating opts
 	var cacheKey string
 	if cache != nil {
 		cacheKey = CacheKey(target.ProjectID, localeFile.ID, downloadOpts)
-		if entry, ok := cache.Get(cacheKey); ok {
-			debugFprintln("Cache hit for", localeFile.ID, "- sending conditional request")
-			if entry.ETag != "" {
-				downloadOpts.IfNoneMatch = optional.NewString(entry.ETag)
-			}
-			if entry.LastModified != "" {
-				downloadOpts.IfModifiedSince = optional.NewString(entry.LastModified)
-			}
-		} else {
-			debugFprintln("Cache miss for", localeFile.ID)
-		}
+		applyCacheHeaders(cache, cacheKey, &downloadOpts)
 	}
 
 	file, response, err := client.LocalesApi.LocaleDownload(Auth, target.ProjectID, localeFile.ID, &downloadOpts)
-
-	// The SDK treats status >= 300 as an error, including 304 Not Modified.
-	// Check response.StatusCode before err to intercept the 304 case.
-	if response != nil && response.StatusCode == 304 {
-		debugFprintln("Not modified (304), skipping", localeFile.Path)
-		return errNotModified
-	}
-
 	if err != nil {
+		if response != nil && response.StatusCode == 304 {
+			debugFprintln("Not modified (304), skipping", localeFile.Path)
+			return errNotModified
+		}
 		if response != nil && response.Rate.Remaining == 0 {
 			waitForRateLimit(response.Rate)
 			// Strip conditional headers on retry to get a full response
@@ -496,13 +457,8 @@ func (target *Target) downloadSynchronously(client *phrase.APIClient, localeFile
 		}
 	}
 
-	// Update cache from response headers
-	if cache != nil && response != nil {
-		etag := response.Header.Get("ETag")
-		lastMod := response.Header.Get("Last-Modified")
-		if etag != "" || lastMod != "" {
-			cache.Set(cacheKey, CacheEntry{ETag: etag, LastModified: lastMod})
-		}
+	if cache != nil {
+		updateCache(cache, cacheKey, response)
 	}
 
 	return copyToDestination(file, localeFile.Path)
