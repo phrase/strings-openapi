@@ -34,6 +34,8 @@ type Config struct {
 	Pull []byte
 	Push []byte
 
+	LocaleMapping map[string]string
+
 	UserAgent string
 }
 
@@ -132,17 +134,19 @@ func configPath() (string, error) {
 
 func (cfg *Config) UnmarshalYAML(unmarshal func(i interface{}) error) error {
 	m := map[string]interface{}{}
+	localeMapping := map[string]interface{}{}
 	err := ParseYAMLToMap(unmarshal, map[string]interface{}{
-		"access_token": &cfg.Credentials.Token,
-		"host":         &cfg.Credentials.Host,
-		"debug":        &cfg.Debug,
-		"page":         &cfg.Page,
-		"per_page":     &cfg.PerPage,
-		"project_id":   &cfg.DefaultProjectID,
-		"file_format":  &cfg.DefaultFileFormat,
-		"push":         &cfg.Push,
-		"pull":         &cfg.Pull,
-		"defaults":     &m,
+		"access_token":   &cfg.Credentials.Token,
+		"host":           &cfg.Credentials.Host,
+		"debug":          &cfg.Debug,
+		"page":           &cfg.Page,
+		"per_page":       &cfg.PerPage,
+		"project_id":     &cfg.DefaultProjectID,
+		"file_format":    &cfg.DefaultFileFormat,
+		"push":           &cfg.Push,
+		"pull":           &cfg.Pull,
+		"locale_mapping": &localeMapping,
+		"defaults":       &m,
 	})
 	if err != nil {
 		return err
@@ -151,6 +155,13 @@ func (cfg *Config) UnmarshalYAML(unmarshal func(i interface{}) error) error {
 	cfg.Defaults = map[string]map[string]interface{}{}
 	for path, rawConfig := range m {
 		cfg.Defaults[path], err = ValidateIsRawMap("defaults."+path, rawConfig)
+		if err != nil {
+			return err
+		}
+	}
+
+	if len(localeMapping) > 0 {
+		cfg.LocaleMapping, err = ConvertToStringMap(localeMapping)
 		if err != nil {
 			return err
 		}
