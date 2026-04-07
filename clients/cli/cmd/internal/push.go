@@ -297,6 +297,9 @@ func (source *Source) LocaleFiles() (LocaleFiles, error) {
 		localeFile := new(LocaleFile)
 		localeFile.fillFromPath(path, sourcePattern)
 
+		// Apply reverse locale mapping (local → remote) if configured
+		source.ApplyReverseLocaleMapping(localeFile)
+
 		localeFile.Path, err = filepath.Abs(path)
 		if err != nil {
 			return nil, err

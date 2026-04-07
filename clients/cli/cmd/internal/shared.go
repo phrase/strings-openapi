@@ -257,3 +257,25 @@ func CreateUploadBatch(client *phrase.APIClient, confirm bool, ids []string, bra
 	}
 	return nil
 }
+
+// ApplyLocaleMapping returns the mapped local locale name if a mapping exists,
+// otherwise returns the original remote name.
+// Used for pull operations: remote → local
+func ApplyLocaleMapping(localeMapping map[string]string, remoteName string) string {
+	if localName, ok := localeMapping[remoteName]; ok {
+		return localName
+	}
+	return remoteName
+}
+
+// ReverseLocaleMapping returns the remote locale name if a reverse mapping exists,
+// otherwise returns the original local name.
+// Used for push operations: local → remote
+func ReverseLocaleMapping(localeMapping map[string]string, localName string) string {
+	for remoteName, mappedLocalName := range localeMapping {
+		if mappedLocalName == localName {
+			return remoteName
+		}
+	}
+	return localName
+}

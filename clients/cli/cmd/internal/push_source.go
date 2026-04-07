@@ -53,6 +53,9 @@ func SourcesFromConfig(config phrase.Config) (Sources, bool, error) {
 			source.Params = new(UploadParams)
 		}
 
+		// Pass locale mapping from config to source
+		source.LocaleMapping = config.LocaleMapping
+
 		if !source.Params.FileFormat.IsSet() {
 			switch {
 			case source.FileFormat != "":
@@ -89,12 +92,13 @@ type UploadParams struct {
 }
 
 type Source struct {
-	File        string        `json:"file"`
-	ProjectID   string        `json:"project_id"`
-	Branch      string        `json:"branch"`
-	AccessToken string        `json:"access_token"`
-	FileFormat  string        `json:"file_format"`
-	Params      *UploadParams `json:"params,omitempty"`
+	File          string        `json:"file"`
+	ProjectID     string        `json:"project_id"`
+	Branch        string        `json:"branch"`
+	AccessToken   string        `json:"access_token"`
+	FileFormat    string        `json:"file_format"`
+	Params        *UploadParams `json:"params,omitempty"`
+	LocaleMapping map[string]string
 
 	RemoteLocales []*phrase.Locale
 	Format        *phrase.Format
@@ -156,6 +160,7 @@ func (sources Sources) GetAllLocalesCacheKeys() []LocalesCacheKey {
 	}
 	return projectIdsBranches
 }
+
 func (source *Source) uploadFile(client *phrase.APIClient, localeFile *LocaleFile, branch string, tag string) (*phrase.Upload, error) {
 	if Debug {
 		fmt.Fprintln(os.Stdout, "Source file pattern:", source.File)
@@ -294,4 +299,16 @@ func (source *Source) replacePlaceholderInParams(localeFile *LocaleFile) string 
 		return strings.Replace(source.GetLocaleID(), "<locale_code>", localeFile.Code, 1)
 	}
 	return ""
+}
+
+// ApplyReverseLocaleMapping applies the reverse locale mapping (local → remote)
+// to the LocaleFile's Name and Code fields. This is used when pushing files with
+// local locale names so they get uploaded to the correct remote locale.
+func (source *Source) ApplyReverseLocaleMapping(localeFile *LocaleFile) {
+	if localeFile.Name != "" {
+		localeFile.Name = ReverseLocaleMapping(source.LocaleMapping, localeFile.Name)
+	}
+	if localeFile.Code != "" {
+		localeFile.Code = ReverseLocaleMapping(source.LocaleMapping, localeFile.Code)
+	}
 }
