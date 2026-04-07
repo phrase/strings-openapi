@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.22.0](https://github.com/phrase/strings-openapi/compare/go-v4.21.0...go-v4.22.0) (2026-04-07)
+
+
+### Features
+
+* **CLI:** Support locale_mapping on pull #SCD-863 ([#1080](https://github.com/phrase/strings-openapi/issues/1080)) ([bff02eb](https://github.com/phrase/strings-openapi/commit/bff02ebba05886c17118bde7bf8bf92fef86625b))
+
 ## [4.21.0](https://github.com/phrase/strings-openapi/compare/go-v4.20.0...go-v4.21.0) (2026-04-01)
 
 
