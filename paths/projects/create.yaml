@@ -145,6 +145,10 @@ requestBody:
             description: "(Optional) Requires autotranslate_enabled to be true"
             type: boolean
             example: true
+          autotranslate_overwrite_unverified_translations:
+            description: "(Optional) Requires autotranslate_enabled to be true"
+            type: boolean
+            example: true
           placeholder_styles:
             description: "(Optional) List of placeholder styles enabled for the project."
             type: array

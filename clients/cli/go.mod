@@ -11,7 +11,7 @@ require (
 	github.com/daviddengcn/go-colortext v1.0.0
 	github.com/jpillora/backoff v1.0.0
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/phrase/phrase-go/v4 v4.20.0 // x-release-please-version
+	github.com/phrase/phrase-go/v4 v4.21.0 // x-release-please-version
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.7.1
 	gopkg.in/yaml.v2 v2.4.0
@@ -37,5 +37,6 @@ require (
 	github.com/pelletier/go-toml v1.2.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/stretchr/testify v1.9.0 // indirect
+	golang.org/x/sync v0.12.0
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 )

@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.17.0](https://github.com/phrase/strings-openapi/compare/php-v3.16.0...php-v3.17.0) (2026-04-02)
+
+
+### Features
+
+* **API:** Add missing project & job params ([#1065](https://github.com/phrase/strings-openapi/issues/1065)) ([0df6013](https://github.com/phrase/strings-openapi/commit/0df6013f919fdb763c15a1192372e1e5dc743a58))
+* **API:** Extend exposed project settings ([#1071](https://github.com/phrase/strings-openapi/issues/1071)) ([b93ce3b](https://github.com/phrase/strings-openapi/commit/b93ce3be6194f8e7df2170aa3bab6c6d0578d7ec))
+* **API:** RepoSync export: optional branch parameter ([#1050](https://github.com/phrase/strings-openapi/issues/1050)) ([07b3182](https://github.com/phrase/strings-openapi/commit/07b31825bfa648d7c7578c86a31c2dd31583090d))
+
 ## [3.16.0](https://github.com/phrase/strings-openapi/compare/php-v3.15.1...php-v3.16.0) (2026-03-13)
 
 
