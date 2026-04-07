@@ -267,15 +267,3 @@ func ApplyLocaleMapping(localeMapping map[string]string, remoteName string) stri
 	}
 	return remoteName
 }
-
-// ReverseLocaleMapping returns the remote locale name if a reverse mapping exists,
-// otherwise returns the original local name.
-// Used for push operations: local → remote
-func ReverseLocaleMapping(localeMapping map[string]string, localName string) string {
-	for remoteName, mappedLocalName := range localeMapping {
-		if mappedLocalName == localName {
-			return remoteName
-		}
-	}
-	return localName
-}

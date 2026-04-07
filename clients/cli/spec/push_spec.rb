@@ -355,6 +355,32 @@ RSpec.describe "phrase push" do
       expect(filenames).to include("eng.yml")
       expect(filenames).to include("ger.yml")
     end
+
+    context "two locales map to the same local name" do
+      let(:config) do
+        <<~YAML
+          phrase:
+            host: #{ENV.fetch("BASE_URL")}
+            project_id: "#{project_id}"
+            access_token: "#{token}"
+            locale_mapping:
+              en-US: "english"
+              en-GB: "english"
+            push:
+              sources:
+              - file: "#{@tmpdir}/locales/<locale_code>.yml"
+                params:
+                  file_format: yml
+        YAML
+      end
+
+      it "returns an error indicating the conflict" do
+        r = run_cli("push", config: config)
+
+        expect(r[:exit_code]).not_to eq(0)
+        expect(r[:stderr]).to match(/locale_mapping error.*both.*map to the same local name/i)
+      end
+    end
   end
 
   describe "push with --wait flag" do

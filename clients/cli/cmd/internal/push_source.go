@@ -13,6 +13,21 @@ import (
 	"github.com/spf13/viper"
 )
 
+// reverseLocaleMapping reverses a locale mapping from remote→local to local→remote
+func reverseLocaleMapping(mapping map[string]string) (map[string]string, error) {
+	if mapping == nil {
+		return nil, nil
+	}
+	reversed := make(map[string]string, len(mapping))
+	for remote, local := range mapping {
+		if existingRemote, exists := reversed[local]; exists {
+			return nil, fmt.Errorf("locale_mapping error: both '%s' and '%s' map to the same local name '%s'", existingRemote, remote, local)
+		}
+		reversed[local] = remote
+	}
+	return reversed, nil
+}
+
 func SourcesFromConfig(config phrase.Config) (Sources, bool, error) {
 	if config.Push == nil || len(config.Push) == 0 {
 		return nil, false, fmt.Errorf("no sources for upload specified")
@@ -41,6 +56,13 @@ func SourcesFromConfig(config phrase.Config) (Sources, bool, error) {
 	projectId := config.DefaultProjectID
 	fileFormat := config.DefaultFileFormat
 
+	// Validate and reverse locale mapping for push operations
+	// For push: we need local→remote mapping (reversed from config's remote→local)
+	reversedMapping, err := reverseLocaleMapping(config.LocaleMapping)
+	if err != nil {
+		return nil, false, err
+	}
+
 	validSources := []*Source{}
 	for _, source := range srcs {
 		if source == nil {
@@ -53,8 +75,9 @@ func SourcesFromConfig(config phrase.Config) (Sources, bool, error) {
 			source.Params = new(UploadParams)
 		}
 
-		// Pass locale mapping from config to source
-		source.LocaleMapping = config.LocaleMapping
+		// Pass reversed locale mapping from config to source
+		// This allows lookup from local file names to remote locale names
+		source.LocaleMapping = reversedMapping
 
 		if !source.Params.FileFormat.IsSet() {
 			switch {
@@ -299,13 +322,4 @@ func (source *Source) replacePlaceholderInParams(localeFile *LocaleFile) string 
 		return strings.Replace(source.GetLocaleID(), "<locale_code>", localeFile.Code, 1)
 	}
 	return ""
-}
-
-// ApplyReverseLocaleMapping applies the reverse locale mapping (local → remote)
-// to the LocaleFile's Name field. This is used when pushing files with
-// local locale names so they get uploaded to the correct remote locale.
-func (source *Source) ApplyReverseLocaleMapping(localeFile *LocaleFile) {
-	if localeFile.Name != "" {
-		localeFile.Name = ReverseLocaleMapping(source.LocaleMapping, localeFile.Name)
-	}
 }
