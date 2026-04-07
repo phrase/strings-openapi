@@ -378,7 +378,7 @@ RSpec.describe "phrase push" do
         r = run_cli("push", config: config)
 
         expect(r[:exit_code]).not_to eq(0)
-        expect(r[:stderr]).to match(/locale_mapping error.*both.*map to the same local name/i)
+        expect(r[:stderr]).to match(/locale_mapping error.*both 'en-..' and 'en-..' map to the same local name 'english'/i)
       end
     end
   end
