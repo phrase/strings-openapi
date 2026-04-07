@@ -208,14 +208,3 @@ func TargetsFromConfig(config phrase.Config) (Targets, error) {
 
 	return validTargets, nil
 }
-
-// applyLocaleMapping returns the mapped local locale name if a mapping exists,
-// otherwise returns the original remote name
-func (target *Target) applyLocaleMapping(remoteName string) string {
-	if target.LocaleMapping != nil {
-		if localName, ok := target.LocaleMapping[remoteName]; ok {
-			return localName
-		}
-	}
-	return remoteName
-}

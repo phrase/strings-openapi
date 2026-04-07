@@ -302,13 +302,10 @@ func (source *Source) replacePlaceholderInParams(localeFile *LocaleFile) string 
 }
 
 // ApplyReverseLocaleMapping applies the reverse locale mapping (local → remote)
-// to the LocaleFile's Name and Code fields. This is used when pushing files with
+// to the LocaleFile's Name field. This is used when pushing files with
 // local locale names so they get uploaded to the correct remote locale.
 func (source *Source) ApplyReverseLocaleMapping(localeFile *LocaleFile) {
 	if localeFile.Name != "" {
 		localeFile.Name = ReverseLocaleMapping(source.LocaleMapping, localeFile.Name)
-	}
-	if localeFile.Code != "" {
-		localeFile.Code = ReverseLocaleMapping(source.LocaleMapping, localeFile.Code)
 	}
 }
