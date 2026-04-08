@@ -31,6 +31,12 @@
     "summary": {},
     "tag": null,
     "tags": [],
-    "url": "http://www.example.com/accounts/company-account/projects/translation-project/uploads/955ac73e72b75aae4fcaf2548798fe9c?branch=new-feature-1"
+    "url": "http://www.example.com/accounts/company-account/projects/translation-project/uploads/955ac73e72b75aae4fcaf2548798fe9c?branch=new-feature-1",
+    "user": {
+      "id": "24b9a53ad72e198ca332fba91bb95f57",
+      "username": "john.smith",
+      "name": "John Smith",
+      "gravatar_uid": "1bc5edb4799fd8eec67c66122f47eb73"
+    }
   }
 }
