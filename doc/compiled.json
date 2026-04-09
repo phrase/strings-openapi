@@ -1804,6 +1804,10 @@
             "type": "string",
             "description": "The URL to the upload in Phrase Strings app.\n"
           },
+          "user": {
+            "type": "object",
+            "$ref": "#/components/schemas/user_preview"
+          },
           "summary": {
             "type": "object",
             "properties": {
@@ -1864,6 +1868,12 @@
             "translations_updated": 3,
             "tags_created": 2,
             "translation_keys_ignored": 0
+          },
+          "user": {
+            "id": "abcd1234cdef1234abcd1234cdef1234",
+            "username": "johndoe",
+            "name": "John Doe",
+            "gravatar_uid": "205e460b479e2e5b48aec07710c08d50"
           },
           "created_at": "2015-01-28T09:52:53Z",
           "updated_at": "2015-01-28T09:52:53Z"
