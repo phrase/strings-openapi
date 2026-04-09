@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.19.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.18.0...typescript-v3.19.0) (2026-04-09)
+
+
+### Features
+
+* **API:** Include user in uploads [SCD-857] ([#1089](https://github.com/phrase/strings-openapi/issues/1089)) ([393f47a](https://github.com/phrase/strings-openapi/commit/393f47a789a526f74d33ca8d3991035872437c43))
+
 ## [3.18.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.17.0...typescript-v3.18.0) (2026-04-02)
 
 
