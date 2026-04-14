@@ -65,6 +65,10 @@ requestBody:
             description: Automatically translate the job using machine translation.
             type: boolean
             example: true
+          source_locale_id:
+            description: The API id of the source language. This locale will be set as source locale for the job template. If not provided, the project default locale will be used.
+            type: string
+            example: abcd1234cdef1234abcd1234cdef1234
         required:
         - name
 x-cli-version: '2.5'
