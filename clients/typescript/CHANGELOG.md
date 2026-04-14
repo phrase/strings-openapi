@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.20.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.19.0...typescript-v3.20.0) (2026-04-14)
+
+
+### Features
+
+* **API:** Add source_locale_id to job templates create/update ([#1099](https://github.com/phrase/strings-openapi/issues/1099)) ([91be019](https://github.com/phrase/strings-openapi/commit/91be0196e2777e3a9ad1065556ac357f887f04e3))
+
 ## [3.19.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.18.0...typescript-v3.19.0) (2026-04-09)
 
 
