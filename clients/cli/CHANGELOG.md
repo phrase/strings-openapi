@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.60.0](https://github.com/phrase/strings-openapi/compare/cli-v2.59.0...cli-v2.60.0) (2026-04-14)
+
+
+### Features
+
+* **API:** Add source_locale_id to job templates create/update ([#1099](https://github.com/phrase/strings-openapi/issues/1099)) ([91be019](https://github.com/phrase/strings-openapi/commit/91be0196e2777e3a9ad1065556ac357f887f04e3))
+* **API:** Include user in uploads [SCD-857] ([#1089](https://github.com/phrase/strings-openapi/issues/1089)) ([393f47a](https://github.com/phrase/strings-openapi/commit/393f47a789a526f74d33ca8d3991035872437c43))
+
+## [2.59.0](https://github.com/phrase/strings-openapi/compare/cli-v2.58.0...cli-v2.59.0) (2026-04-08)
+
+
+### Features
+
+* **CLI:** Support locale_mapping on pull #SCD-863 ([#1080](https://github.com/phrase/strings-openapi/issues/1080)) ([bff02eb](https://github.com/phrase/strings-openapi/commit/bff02ebba05886c17118bde7bf8bf92fef86625b))
+* **CLI:** Support locale_mapping on push #SCD-863 ([#1088](https://github.com/phrase/strings-openapi/issues/1088)) ([5f4b5c1](https://github.com/phrase/strings-openapi/commit/5f4b5c11920164de6a06beafcd95771a864cca44))
+
 ## [2.58.0](https://github.com/phrase/strings-openapi/compare/cli-v2.57.0...cli-v2.58.0) (2026-04-02)
 
 

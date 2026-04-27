@@ -14,8 +14,8 @@ jobs:
         run: |
           npm install
           npm run generate.go
-          cd ./clients/go/test
-          go test
+          cd ./clients/go
+          go test ./... -v
       - name: License check
         uses: phrase/actions/lawa-ci@v1
         with:

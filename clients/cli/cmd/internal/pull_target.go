@@ -29,6 +29,7 @@ type Target struct {
 	AccessToken   string      `json:"access_token"`
 	FileFormat    string      `json:"file_format"`
 	Params        *PullParams `json:"params" mapstructure:"omittable-nested,omitempty"`
+	LocaleMapping map[string]string
 	RemoteLocales []*phrase.Locale
 }
 
@@ -118,7 +119,7 @@ func (target *Target) ReplacePlaceholders(localeFile *LocaleFile) (string, error
 		return "", err
 	}
 
-	path := strings.Replace(absPath, "<locale_name>", localeFile.Name, -1)
+	path := strings.Replace(absPath, "<locale_name>", ApplyLocaleMapping(target.LocaleMapping, localeFile.Name), -1)
 	path = strings.Replace(path, "<locale_code>", localeFile.Code, -1)
 	path = strings.Replace(path, "<tag>", localeFile.Tag, -1)
 
@@ -197,6 +198,7 @@ func TargetsFromConfig(config phrase.Config) (Targets, error) {
 		if target.FileFormat == "" {
 			target.FileFormat = fileFormat
 		}
+		target.LocaleMapping = config.LocaleMapping
 		validTargets = append(validTargets, target)
 	}
 
