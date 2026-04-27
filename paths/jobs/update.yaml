@@ -73,6 +73,13 @@ requestBody:
             description: URL to a ticket for this job (e.g. Jira, Trello)
             type: string
             example: https://example.atlassian.net/browse/FOO
+          target_locale_ids:
+            description: List of target locales for the job.
+            type: array
+            items:
+              type: string
+            example:
+            - abcd1234cdef1234abcd1234cdef1234
           autotranslate:
             description: Automatically translate the job using machine translation
             type: boolean

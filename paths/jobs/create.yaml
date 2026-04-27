@@ -91,8 +91,15 @@ requestBody:
               type: string
             example:
             - abcd1234cdef1234abcd1234cdef1234
+          target_locale_ids:
+            description: List of target locales for the job. Mutually exclusive with `job_template_id`.
+            type: array
+            items:
+              type: string
+            example:
+            - abcd1234cdef1234abcd1234cdef1234
           job_template_id:
-            description: id of a job template you would like to model the created job after. Any manually added parameters will take preference over template attributes.
+            description: id of a job template you would like to model the created job after. Any manually added parameters will take preference over template attributes. Mutually exclusive with `target_locale_ids`.
             type: string
             example: abcd1234cdef1234abcd1234cdef1234
           autotranslate:
