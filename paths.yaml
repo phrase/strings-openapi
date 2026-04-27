@@ -520,6 +520,8 @@
 "/accounts/{account_id}/repo_syncs":
   get:
     "$ref": "./paths/repo_syncs/index.yaml"
+  post:
+    "$ref": "./paths/repo_syncs/create.yaml"
 "/accounts/{account_id}/repo_syncs/{id}":
   get:
     "$ref": "./paths/repo_syncs/show.yaml"
