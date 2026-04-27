@@ -67,7 +67,8 @@ requestBody:
             type: string
             example: abcd1234abcd1234abcd1234abcd1234
           git_provider:
-            description: The Git provider to use. Defaults to `github` if not specified.
+            description: The Git provider to use.
+            default: github
             type: string
             enum:
               - github
