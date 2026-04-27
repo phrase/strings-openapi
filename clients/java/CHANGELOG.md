@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.20.0](https://github.com/phrase/strings-openapi/compare/java-v3.19.0...java-v3.20.0) (2026-04-27)
+
+
+### Features
+
+* **repo_syncs:** add API docs for create endpoint [SCD-933] ([#1113](https://github.com/phrase/strings-openapi/issues/1113)) ([3f65e16](https://github.com/phrase/strings-openapi/commit/3f65e16f6aeb074b933c7d7899197a1884c32865))
+
 ## [3.19.0](https://github.com/phrase/strings-openapi/compare/java-v3.18.0...java-v3.19.0) (2026-04-27)
 
 
