@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.19.0](https://github.com/phrase/strings-openapi/compare/php-v3.18.0...php-v3.19.0) (2026-04-27)
+
+
+### Features
+
+* **API:** Add target_locale_ids to jobs create/update ([#1106](https://github.com/phrase/strings-openapi/issues/1106)) ([00140ab](https://github.com/phrase/strings-openapi/commit/00140ab96ff351bec548e4af1f271f3e60087989))
+
 ## [3.18.0](https://github.com/phrase/strings-openapi/compare/php-v3.17.0...php-v3.18.0) (2026-04-14)
 
 
