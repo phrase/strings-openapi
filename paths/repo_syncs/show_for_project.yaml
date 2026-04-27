@@ -1,0 +1,40 @@
+---
+summary: Get Repo Sync for a Project
+description: Returns the Repo Sync connected to a specific project, if any exists.
+operationId: repo_sync/show_for_project
+tags:
+- Repo Syncs
+parameters:
+- "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+- "$ref": "../../parameters.yaml#/project_id"
+responses:
+  '200':
+    description: OK
+    content:
+      application/json:
+        schema:
+          "$ref": "../../schemas/repo_sync.yaml#/repo_sync"
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+  '400':
+    "$ref": "../../responses.yaml#/400"
+  '404':
+    "$ref": "../../responses.yaml#/404"
+  '429':
+    "$ref": "../../responses.yaml#/429"
+x-code-samples:
+- lang: Curl
+  source: |-
+    curl "https://api.phrase.com/v2/projects/abcd1234abcd1234abcd1234abcd1234/repo_sync"\
+      -u USERNAME_OR_ACCESS_TOKEN
+- lang: CLI v2
+  source: |-
+    phrase repo_syncs show_for_project \
+    --project_id abcd1234abcd1234abcd1234abcd1234 \
+    --access_token <token>
+x-cli-version: '2.60'

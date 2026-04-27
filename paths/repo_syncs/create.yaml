@@ -1,0 +1,116 @@
+---
+summary: Create a Repo Sync
+description: |-
+  Create a new Repo Sync.
+operationId: repo_sync/create
+tags:
+- Repo Syncs
+parameters:
+- "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+- "$ref": "../../parameters.yaml#/account_id"
+responses:
+  '201':
+    description: Created
+    content:
+      application/json:
+        schema:
+          "$ref": "../../schemas/repo_sync.yaml#/repo_sync"
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+  '400':
+    "$ref": "../../responses.yaml#/400"
+  '404':
+    "$ref": "../../responses.yaml#/404"
+  '422':
+    "$ref": "../../responses.yaml#/422"
+  '429':
+    "$ref": "../../responses.yaml#/429"
+x-code-samples:
+- lang: Curl
+  source: |-
+    curl "https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs" \
+      -u USERNAME_OR_ACCESS_TOKEN \
+      -X POST \
+      -H 'Content-Type: application/json' \
+      -d '{
+        "project_id": "abcd1234abcd1234abcd1234abcd1234",
+        "git_provider": "github",
+        "connection_type": "github_app",
+        "repo_name": "my-org/my-repo",
+        "base_branch": "main"
+      }'
+- lang: CLI v2
+  source: |-
+    phrase repo_syncs create \
+    --account_id abcd1234 \
+    --data '{"project_id":"abcd1234abcd1234abcd1234abcd1234","git_provider":"github","connection_type":"github_app","repo_name":"my-org/my-repo","base_branch":"main"}' \
+    --access_token <token>
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        title: repo_sync/create/parameters
+        required:
+          - project_id
+          - repo_name
+          - connection_type
+        properties:
+          project_id:
+            description: ID of the project to connect the Repo Sync to.
+            type: string
+            example: abcd1234abcd1234abcd1234abcd1234
+          git_provider:
+            description: The Git provider to use. Defaults to `github` if not specified.
+            type: string
+            enum:
+              - github
+              - gitlab
+              - bitbucket
+            example: github
+          connection_type:
+            description: |-
+              The authentication method used to connect to the Git provider.
+              Defaults to `token` if not specified.
+
+              Valid values:
+              - `token` — Personal access token stored on the Repo Sync. Supported by all providers.
+              - `github_app` — Authenticate via the Phrase GitHub App installation on your account. GitHub only. The account must already have the GitHub App installed; if not, the response will include a `github_app_installation_url`.
+              - `self_hosted` — Token-based auth for self-hosted Git instances. Requires `custom_api_endpoint`.
+            type: string
+            enum:
+              - token
+              - github_app
+              - self_hosted
+            example: github_app
+          repo_name:
+            description: Full repository name including the owner, e.g. `my-org/my-repo`.
+            type: string
+            example: my-org/my-repo
+          base_branch:
+            description: The default branch to use for imports and exports.
+            type: string
+            example: main
+          pr_branch:
+            description: Branch that translations are exported to before opening a pull request. If omitted, exports go directly to `base_branch`.
+            type: string
+            example: phrase-translations
+          auto_import:
+            description: Enable automatic import of translations triggered by pushes to the repository.
+            type: boolean
+            example: false
+          access_token:
+            description: Personal access token for the Git provider. Required when `connection_type` is `token` or `self_hosted`. Not used for `github_app`.
+            type: string
+            example: ghp_xxxxxxxxxxxxxxxxxxxx
+          custom_api_endpoint:
+            description: Custom API endpoint URL for self-hosted Git instances. Required when `connection_type` is `self_hosted`.
+            type: string
+            example: https://git.example.com/api/v4
+x-cli-version: '2.60'
