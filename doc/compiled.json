@@ -22856,67 +22856,6 @@
         "x-cli-version": "2.20"
       }
     },
-    "/projects/{project_id}/repo_sync": {
-      "get": {
-        "summary": "Get Repo Sync for a Project",
-        "description": "Returns the Repo Sync connected to a specific project, if any exists.",
-        "operationId": "repo_sync/show_for_project",
-        "tags": [
-          "Repo Syncs"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/X-PhraseApp-OTP"
-          },
-          {
-            "$ref": "#/components/parameters/project_id"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/repo_sync"
-                }
-              }
-            },
-            "headers": {
-              "X-Rate-Limit-Limit": {
-                "$ref": "#/components/headers/X-Rate-Limit-Limit"
-              },
-              "X-Rate-Limit-Remaining": {
-                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
-              },
-              "X-Rate-Limit-Reset": {
-                "$ref": "#/components/headers/X-Rate-Limit-Reset"
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          },
-          "429": {
-            "$ref": "#/components/responses/429"
-          }
-        },
-        "x-code-samples": [
-          {
-            "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/abcd1234abcd1234abcd1234abcd1234/repo_sync\"\\\n  -u USERNAME_OR_ACCESS_TOKEN"
-          },
-          {
-            "lang": "CLI v2",
-            "source": "phrase repo_syncs show_for_project \\\n--project_id abcd1234abcd1234abcd1234abcd1234 \\\n--access_token <token>"
-          }
-        ],
-        "x-cli-version": "2.60"
-      }
-    },
     "/accounts/{account_id}/repo_syncs": {
       "get": {
         "summary": "Get Repo Syncs",
