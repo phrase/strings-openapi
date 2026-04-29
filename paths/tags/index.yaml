@@ -20,6 +20,12 @@ parameters:
     in: query
     schema:
       type: string
+  - description: Specify a query to filter tags by name.
+    example: feature
+    name: q
+    in: query
+    schema:
+      type: string
 responses:
   '200':
     description: OK
