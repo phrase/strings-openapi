@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.22.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.21.0...typescript-v3.22.0) (2026-05-05)
+
+
+### Features
+
+* **repo_syncs:** add API docs for create endpoint [SCD-933] ([#1113](https://github.com/phrase/strings-openapi/issues/1113)) ([3f65e16](https://github.com/phrase/strings-openapi/commit/3f65e16f6aeb074b933c7d7899197a1884c32865))
+* **SCM-1430:** Add q search param to tags list endpoint ([#1122](https://github.com/phrase/strings-openapi/issues/1122)) ([b1342c6](https://github.com/phrase/strings-openapi/commit/b1342c6b94f2f9256d5d0f093ef65c7602e44ae5))
+
 ## [3.21.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.20.0...typescript-v3.21.0) (2026-04-27)
 
 
