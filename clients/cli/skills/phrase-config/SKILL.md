@@ -12,7 +12,7 @@ Generates `.phrase.yml` for any project that uses the Phrase Strings CLI or Stri
 ## References (load on demand)
 
 - [`references/schema.md`](./references/schema.md) — every `.phrase.yml` key, placeholder rules, and the validation rules the generated file must satisfy.
-- [`references/formats.md`](./references/formats.md) — detection rules, all 51 format identifiers + default file patterns, and per-format `format_options`.
+- [`references/formats.md`](./references/formats.md) — detection rules, plus how to look up canonical identifiers and per-format `format_options` live (via `phrase formats list` and the Phrase help center).
 - [`references/examples.md`](./references/examples.md) — config examples for common project layouts.
 - [`references/troubleshooting.md`](./references/troubleshooting.md) — keyed by error message: locale not found, wildcard rejected, plural splitting, values/ vs values-en/, etc.
 - [`references/cli.md`](./references/cli.md) — install instructions, `phrase push` / `phrase pull` flags, and `PHRASE_*` environment variables.
@@ -50,7 +50,7 @@ Then infer the path pattern from the discovered files:
 - iOS `de.lproj/Localizable.strings` → `<locale_code>.lproj/Localizable.strings`.
 - Flutter `lib/l10n/app_en.arb` → `lib/l10n/app_<locale_code>.arb`.
 
-If detection fails, fall back to the format's default pattern from `formats.md`.
+If detection fails, fall back to the `default_file` field from `phrase formats list` for the chosen `api_name`.
 
 **Source locale:** infer from the existing locale files (`en` is the most common). Don't ask — write the inferred value into `locale_id:` and tell the user in chat to change it if their Phrase project uses a different name.
 
