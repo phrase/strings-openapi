@@ -21,6 +21,12 @@ parameters:
   in: query
   schema:
     type: string
+- description: Specify a query to filter locales by name.
+  example: name:en
+  name: q
+  in: query
+  schema:
+    type: string
 responses:
   '200':
     description: OK

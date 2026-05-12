@@ -251,7 +251,8 @@ public class LocalesApiTest {
         Integer perPage = null;
         String sortBy = null;
         String branch = "MY_BRANCH";
-        List<Locale> response = api.localesList(projectId, xPhraseAppOTP, page, perPage, sortBy, branch);
+        String q = null;
+        List<Locale> response = api.localesList(projectId, xPhraseAppOTP, page, perPage, sortBy, branch, q);
 
         Assert.assertEquals("Correct number of elements", response.size(), 3);
         Assert.assertEquals("Correct locale name", response.get(0).getName(), "de-DE");
