@@ -8355,6 +8355,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "Specify a query to filter locales. Currently supports `name` argument, filtering only locales with names starting with the given string.",
+            "example": "name:en",
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
