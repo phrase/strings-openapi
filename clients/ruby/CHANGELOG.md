@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.22.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.21.0...ruby-v4.22.0) (2026-05-15)
+
+
+### Features
+
+* **API:** Add q search param to locales list endpoint ([#1127](https://github.com/phrase/strings-openapi/issues/1127)) ([24f3a73](https://github.com/phrase/strings-openapi/commit/24f3a73ded885e4b855ad51547990af032dd2b26))
+
 ## [4.21.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.20.0...ruby-v4.21.0) (2026-05-06)
 
 
