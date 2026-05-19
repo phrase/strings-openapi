@@ -1,6 +1,9 @@
 ---
 summary: Update a branch
-description: Update an existing branch.
+description: |
+  Update an existing branch. Only the branch name can be changed.
+
+  Requires the Branching feature to be enabled on the account.
 operationId: branch/update
 tags:
 - Branches
@@ -24,8 +27,15 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to update this branch, or when the Branching feature is not available on the account.
   '404':
     "$ref": "../../responses.yaml#/404"
+  '422':
+    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:

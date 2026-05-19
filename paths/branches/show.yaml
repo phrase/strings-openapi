@@ -1,6 +1,9 @@
 ---
 summary: Get a single branch
-description: Get details on a single branch for a given project.
+description: |
+  Get details on a single branch for a given project.
+
+  Requires the Branching feature to be enabled on the account.
 operationId: branch/show
 tags:
 - Branches
@@ -24,6 +27,11 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `read` scope, when the user is not allowed to read this branch, or when the Branching feature is not available on the account.
   '404':
     "$ref": "../../responses.yaml#/404"
   '429':

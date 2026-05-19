@@ -1,9 +1,13 @@
 ---
 summary: Sync a branch
 description: |
-  Sync an existing branch.
+  Pull changes from the base branch into this branch, applying the chosen conflict-resolution strategy.
 
-  *Note: Only available for branches created with new branching.*
+  The sync runs asynchronously. The branch transitions to `syncing_branch` and settles back into `success` (or `merge_conflict` / `branch_error`) once the background job completes; the response body for this request is empty. Poll the branch resource to observe the final state.
+
+  Only branches created with the newer branching system can be synced. Requests against branches from the older system, or against branches whose current state does not allow a sync, are rejected with `422 Unprocessable Entity` and an empty body.
+
+  Requires the Branching feature to be enabled on the account.
 operationId: branch/sync
 tags:
 - Branches
@@ -13,7 +17,7 @@ parameters:
 - "$ref": "../../parameters.yaml#/name"
 responses:
   '200':
-    description: OK
+    description: OK. The sync has been scheduled. The response body is empty; observe progress by polling the branch resource.
     headers:
       X-Rate-Limit-Limit:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
@@ -23,8 +27,15 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to sync this branch, or when the Branching feature is not available on the account.
   '404':
     "$ref": "../../responses.yaml#/404"
+  '422':
+    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -51,6 +62,10 @@ requestBody:
         title: branch/sync/parameters
         properties:
           strategy:
-            description: strategy used for conflicts, use_main or use_branch
+            description: |
+              Conflict resolution strategy applied when the branch and its base have diverged. `use_main` keeps the values from the base branch; `use_branch` keeps the values from this branch.
             type: string
+            enum:
+              - use_main
+              - use_branch
             example: use_main
