@@ -1,0 +1,38 @@
+---
+distribution_details:
+  allOf:
+  - "$ref": "./distribution.yaml#/distribution"
+  - type: object
+    title: distribution_details
+    properties:
+      locales:
+        type: array
+        items:
+          "$ref": "./locale_preview.yaml#/locale_preview"
+      releases:
+        type: array
+        items:
+          "$ref": "./release_preview.yaml#/release_preview"
+    example:
+      locales:
+      - id: abcd1234cdef1234abcd1234cdef1234
+        name: English
+        code: en-GB
+      releases:
+      - id: abcd1234cdef1234abcd1234cdef1234
+        version: 1
+        project:
+          id: abcd1234cdef1234abcd1234cdef1234
+          name: My Android Project
+          main_format: xml
+          created_at: '2015-01-28T09:52:53Z'
+          updated_at: '2015-01-28T09:52:53Z'
+        platforms:
+        - android
+        environments:
+        - development
+        locale_codes:
+        - de
+        - en
+        created_at: '2015-01-28T09:52:53Z'
+        updated_at: '2015-01-28T09:52:53Z'

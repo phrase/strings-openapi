@@ -13,6 +13,10 @@ job_template:
       "$ref": "./project_short.yaml#/project_short"
     branch:
       "$ref": "./branch_name.yaml#/branch_name"
+    autotranslate_enabled:
+      type: boolean
+      description: |
+        When `true`, jobs created from this template are auto-translated on creation.
     created_at:
       type: string
       format: date-time

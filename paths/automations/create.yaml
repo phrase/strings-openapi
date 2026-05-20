@@ -68,6 +68,16 @@ requestBody:
             description: along with cron_schedule, specifies when the scheduled automation is supposed to run
             type: string
             example: GMT
+          job_owner_id:
+            description: |
+              User ID of the job owner that newly created jobs are assigned to.
+            type: string
+            example: abcd1234abcd1234abcd1234abcd1234
+          include_only_updated_locales:
+            description: |
+              When `true`, the automation only acts on locales that changed since its last run. Defaults to `false`.
+            type: boolean
+            example: false
 responses:
   '201':
     description: Created
@@ -86,6 +96,13 @@ responses:
     "$ref": "../../responses.yaml#/400"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '422':
+    "$ref": "../../responses.yaml#/422"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create automations in this account, or when the account does not have the Automation Job Creation feature.
   '422':
     "$ref": "../../responses.yaml#/422"
   '429':

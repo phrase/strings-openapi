@@ -1,6 +1,7 @@
 ---
 summary: Delete a project
-description: Delete an existing project.
+description: |
+  Delete an existing project. Associated repository syncs and OTA distributions are removed. A `project:delete` event is dispatched.
 operationId: project/delete
 tags:
 - Projects
@@ -12,8 +13,15 @@ responses:
     "$ref": "../../responses.yaml#/204"
   '400':
     "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to manage this project.
   '404':
     "$ref": "../../responses.yaml#/404"
+  '422':
+    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:

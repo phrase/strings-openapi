@@ -1,11 +1,6 @@
 ---
 summary: Delete a branch
-description: |
-  Delete an existing branch.
-
-  A branch cannot be deleted while it still has open jobs or open translation orders attached to its branch project — in that case the request is rejected with `409 Conflict`. A branch whose current `state` does not allow deletion (for example, while a merge or sync is in progress) is rejected with `422 Unprocessable Entity`.
-
-  Requires the Branching feature to be enabled on the account.
+description: Delete an existing branch.
 operationId: branch/delete
 tags:
 - Branches
@@ -18,18 +13,8 @@ responses:
     "$ref": "../../responses.yaml#/204"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '401':
-    "$ref": "../../responses.yaml#/401"
-  '403':
-    "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to delete this branch, or when the Branching feature is not available on the account.
   '404':
     "$ref": "../../responses.yaml#/404"
-  '409':
-    "$ref": "../../responses.yaml#/409"
-    description: Conflict. The branch has open jobs or open translation orders. The response body lists the blockers, for example `{"errors":["open_jobs","open_orders"]}`. Close or complete the listed resources before retrying.
-  '422':
-    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:

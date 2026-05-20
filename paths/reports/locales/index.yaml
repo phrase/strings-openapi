@@ -37,6 +37,11 @@ responses:
         "$ref": "../../../headers.yaml#/Link"
   "400":
     "$ref": "../../../responses.yaml#/400"
+  "401":
+    "$ref": "../../../responses.yaml#/401"
+  "403":
+    "$ref": "../../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to view reports for this project.
   "404":
     "$ref": "../../../responses.yaml#/404"
   "429":

@@ -30,6 +30,8 @@ responses:
     "$ref": "../../responses.yaml#/403"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '422':
+    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:

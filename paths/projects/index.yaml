@@ -1,6 +1,9 @@
 ---
 summary: List projects
-description: List all projects the current user has access to.
+description: |
+  List all projects the current user has access to.
+
+  When the `account_id` query parameter is omitted, the response includes projects across every account the user is a member of. Pass `account_id` to scope the results to a single account.
 operationId: projects/list
 tags:
 - Projects
@@ -9,13 +12,21 @@ parameters:
 - "$ref": "../../parameters.yaml#/page"
 - "$ref": "../../parameters.yaml#/per_page"
 - "$ref": "../../parameters.yaml#/query_account_id"
-- description: Sort projects. Valid options are "name_asc", "name_desc", "updated_at_asc", "updated_at_desc", "space_asc" and "space_desc".
-  example:
+- description: |-
+    Sort projects. Valid values are `name_asc`, `name_desc`, `updated_at_asc`, `updated_at_desc`, `space_asc`, and `space_desc`. The trailing direction segment is optional; if omitted or invalid, projects are sorted ascending. Any other value is ignored and the default ordering is returned.
   name: sort_by
   in: query
   schema:
     type: string
-- description: Filter projects. Valid options are ["favorites"].
+    enum:
+      - name_asc
+      - name_desc
+      - updated_at_asc
+      - updated_at_desc
+      - space_asc
+      - space_desc
+- description: |-
+    Filter projects. The only supported value is `favorites`, which restricts the results to projects the current user has starred.
   example: favorites
   name: filters
   in: query
@@ -23,6 +34,15 @@ parameters:
     type: array
     items:
       type: string
+      enum:
+        - favorites
+- description: |-
+    Search query. The only supported syntax is `name:<text>` — for example `name:android` returns projects whose name matches `android` (case-insensitive substring). Any value that does not match the `name:` prefix is ignored.
+  name: q
+  in: query
+  example: "name:android"
+  schema:
+    type: string
 responses:
   '200':
     description: OK
@@ -45,6 +65,11 @@ responses:
         "$ref": "../../headers.yaml#/Pagination"
   '400':
     "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not confirmed.
   '404':
     "$ref": "../../responses.yaml#/404"
   '429':

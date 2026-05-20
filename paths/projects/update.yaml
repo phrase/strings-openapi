@@ -23,8 +23,15 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   "400":
     "$ref": "../../responses.yaml#/400"
+  "401":
+    "$ref": "../../responses.yaml#/401"
+  "403":
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to manage this project.
   "404":
     "$ref": "../../responses.yaml#/404"
+  "422":
+    "$ref": "../../responses.yaml#/422"
   "429":
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -51,7 +58,8 @@ requestBody:
         title: project/update/parameters
         properties:
           account_id:
-            description: Required if the requesting user is a member of multiple accounts. Account ID to specify the actual account the project should be created in.
+            description: |
+              (Optional) ID of an account the requesting user belongs to. Used only to disambiguate the request context; the project itself cannot be moved between accounts through this endpoint.
             type: string
             example: abcd1234
           name:
@@ -163,4 +171,32 @@ requestBody:
             example:
               - "angular"
               - "iOS"
+          autocomplete_job_enabled:
+            description: "(Optional) Enable autocomplete-job behavior so that newly created keys and locales are automatically added to in-progress jobs."
+            type: boolean
+            example: false
+          job_locking_enabled:
+            description: "(Optional) When enabled, translations are locked once a job moves into review."
+            type: boolean
+            example: false
+          smart_suggest_enabled:
+            description: "(Optional) Enable Smart Suggest for the project."
+            type: boolean
+            example: true
+          smart_suggest_use_glossary:
+            description: "(Optional) Allow Smart Suggest to source suggestions from the project glossary."
+            type: boolean
+            example: true
+          smart_suggest_use_machine_translation:
+            description: "(Optional) Allow Smart Suggest to source suggestions from machine translation."
+            type: boolean
+            example: true
+          translation_keys_sort_collation:
+            description: "(Optional) Collation used when sorting translation keys alphabetically."
+            type: string
+            example: unicode_ci
+          cldr_version:
+            description: "(Optional) CLDR plural-rule version used by the project."
+            type: string
+            example: "legacy"
 x-cli-version: "2.6.3"

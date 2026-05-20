@@ -17,6 +17,14 @@ glossary_term:
       type: array
       items:
         "$ref": "./glossary_term_translation.yaml#/glossary_term_translation"
+    glossary:
+      type: object
+      description: The glossary this term belongs to.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
     created_at:
       type: string
       format: date-time

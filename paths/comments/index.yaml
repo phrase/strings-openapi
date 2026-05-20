@@ -29,7 +29,8 @@ parameters:
       type: array
       items:
         type: string
-  - description: Specify the filter for the comments
+  - description: |-
+      Specify the filter for the comments. Supported values are `read` and `unread`. Combine both to return all comments (read + unread) without filtering.
     name: filters
     in: query
     schema:
@@ -37,12 +38,19 @@ parameters:
       example: [read, unread]
       items:
         type: string
-  - description: 'Order direction. Can be one of: asc, desc.'
+        enum:
+          - read
+          - unread
+  - description: |-
+      Order direction. Defaults to `desc`. Values other than `asc` and `desc` fall back to `desc`.
     name: order
     in: query
     example: desc
     schema:
       type: string
+      enum:
+        - asc
+        - desc
 responses:
   '200':
     description: OK
@@ -67,6 +75,11 @@ responses:
     "$ref": "../../responses.yaml#/400"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list comments on this key.
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:

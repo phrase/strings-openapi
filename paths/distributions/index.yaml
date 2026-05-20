@@ -17,7 +17,7 @@ responses:
         schema:
           type: array
           items:
-            "$ref": "../../schemas/distribution_preview.yaml#/distribution_preview"
+            "$ref": "../../schemas/distribution.yaml#/distribution"
     headers:
       X-Rate-Limit-Limit:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
@@ -33,6 +33,11 @@ responses:
     "$ref": "../../responses.yaml#/400"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to list distributions in this account, or when the account does not have the Over-the-Air feature.
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:

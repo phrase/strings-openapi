@@ -30,5 +30,16 @@ requestBody:
 responses:
   '200':
     description: OK
+  '400':
+    "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to unlink keys for this parent.
+  '404':
+    "$ref": "../../responses.yaml#/404"
   '422':
     "$ref": "../../responses.yaml#/422"
+  '429':
+    "$ref": "../../responses.yaml#/429"

@@ -9,6 +9,13 @@ parameters:
 - "$ref": "../../parameters.yaml#/page"
 - "$ref": "../../parameters.yaml#/per_page"
 - "$ref": "../../parameters.yaml#/project_id"
+- description: |-
+    Search query. Filters documents by name (case-insensitive substring match).
+  name: q
+  in: query
+  example: invoice
+  schema:
+    type: string
 responses:
   '200':
     description: OK
@@ -33,6 +40,11 @@ responses:
     "$ref": "../../responses.yaml#/400"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list documents in this project.
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:

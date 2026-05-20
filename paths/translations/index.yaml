@@ -18,6 +18,20 @@ parameters:
   in: query
   schema:
     type: string
+- description: |-
+    Filter translations to those attached to the key identified by this code. Equivalent to calling `GET /projects/{project_id}/keys/{key_id}/translations`.
+  name: key_id
+  in: query
+  example: abcd1234cdef1234abcd1234cdef1234
+  schema:
+    type: string
+- description: |-
+    Filter translations to those for the given locale (locale code or id). Equivalent to calling `GET /projects/{project_id}/locales/{locale_id}/translations`.
+  name: locale_id
+  in: query
+  example: abcd1234cdef1234abcd1234cdef1234
+  schema:
+    type: string
 - description: 'Sort criteria. Can be one of: key_name, created_at, updated_at.'
   example: updated_at
   name: sort
@@ -74,6 +88,11 @@ responses:
     "$ref": "../../responses.yaml#/400"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read translations in this project.
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:

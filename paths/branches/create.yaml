@@ -2,11 +2,7 @@
 summary: Create a branch
 description: |
   Create a new branch.
-
-  Branch project provisioning runs asynchronously, so the newly created branch is returned in a transitional state (typically `creating_branch`) and only reaches `success` once the underlying project has been set up. Poll the branch resource until its `state` becomes `success` before performing further operations on it.
-
-  Requires the Branching feature to be enabled on the account.
-
+  
   *Note: Creating a new branch may take several minutes depending on the project size.*
 operationId: branch/create
 tags:
@@ -30,15 +26,8 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '401':
-    "$ref": "../../responses.yaml#/401"
-  '403':
-    "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to create branches in this project, or when the Branching feature is not available on the account.
   '404':
     "$ref": "../../responses.yaml#/404"
-  '422':
-    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -69,8 +58,4 @@ requestBody:
             description: Name of the branch
             type: string
             example: my-branch
-          base:
-            description: Name of an existing branch to use as the base for the new branch.
-            type: string
-            example: parent-branch
 x-cli-version: '2.5'

@@ -7,6 +7,10 @@ tag:
       type: string
     keys_count:
       type: integer
+    system_tag:
+      type: boolean
+      description: |
+        `true` when the tag was created automatically by the system (e.g. for jobs, uploads, or Figma attachments) rather than by a user.
     created_at:
       type: string
       format: date-time

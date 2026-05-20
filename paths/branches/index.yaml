@@ -1,9 +1,6 @@
 ---
 summary: List branches
-description: |
-  List all branches of the current project.
-
-  Requires the Branching feature to be enabled on the account.
+description: List all branches the of the current project.
 operationId: branches/list
 tags:
 - Branches
@@ -34,11 +31,6 @@ responses:
         "$ref": "../../headers.yaml#/Pagination"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '401':
-    "$ref": "../../responses.yaml#/401"
-  '403':
-    "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `read` scope, when the user is not allowed to read branches in this project, or when the Branching feature is not available on the account.
   '404':
     "$ref": "../../responses.yaml#/404"
   '429':

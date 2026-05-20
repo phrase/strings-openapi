@@ -30,6 +30,11 @@ responses:
     "$ref": "../../responses.yaml#/400"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read the account's translation keys.
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -72,4 +77,12 @@ requestBody:
             description: Number of results per page
             type: integer
             example: 25
+          project_ids:
+            description: |
+              Limit the search to the given project codes. When omitted, the search spans every project the user can access in this account.
+            type: array
+            items:
+              type: string
+            example:
+              - abcd1234abcd1234abcd1234abcd1234
 x-cli-version: '2.5'

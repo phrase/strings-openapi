@@ -6,9 +6,22 @@ screenshot_marker:
     id:
       type: string
     presentation:
-      type: string
+      type: object
+      description: |
+        Coordinates and size of the marker on the screenshot, in pixels.
+      properties:
+        x:
+          type: integer
+        y:
+          type: integer
+        w:
+          type: integer
+        h:
+          type: integer
     presentation_type:
       type: string
+      description: |
+        Marker presentation style. The default value is `default`.
     created_at:
       type: string
       format: date-time

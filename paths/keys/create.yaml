@@ -25,6 +25,13 @@ responses:
     "$ref": "../../responses.yaml#/400"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to create keys in this project.
+  '422':
+    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -139,5 +146,19 @@ requestBody:
             example:
               fruit: Apple
               vegetable: Tomato
+          excluded_in_locales:
+            description: |
+              Public codes of locales for which translations of this key are excluded from exports. Pass an empty array to clear exclusions.
+            type: array
+            items:
+              type: string
+            example:
+              - de
+              - fr
+          format_value_type:
+            description: |
+              Override of the value type for the key in the export. Most useful for formats like Android XML that distinguish string vs. plural resources.
+            type: string
+            example: string
 
 x-cli-version: '2.5'

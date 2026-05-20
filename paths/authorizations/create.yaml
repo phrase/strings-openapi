@@ -24,6 +24,13 @@ responses:
     "$ref": "../../responses.yaml#/400"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `write` scope.
+  '422':
+    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -57,6 +64,11 @@ requestBody:
             type: array
             items:
               type: string
+              enum:
+                - read
+                - write
+                - orders.create
+                - team.manage
             example:
             - read
             - write
