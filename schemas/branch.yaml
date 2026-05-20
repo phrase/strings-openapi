@@ -9,6 +9,10 @@ branch:
       type: string
     name:
       type: string
+    base:
+      type: string
+      nullable: true
+      description: Name of the base branch this branch was created from. Only present for branches created with the newer branching system.
     created_at:
       type: string
       format: date-time
@@ -24,6 +28,14 @@ branch:
       "$ref": "./user_preview.yaml#/user_preview"
     state:
       type: string
+      enum:
+        - creating_branch
+        - merging_branch
+        - syncing_branch
+        - merged
+        - success
+        - branch_error
+        - merge_conflict
     child_branches:
       type: array
       items:

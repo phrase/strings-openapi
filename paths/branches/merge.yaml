@@ -1,7 +1,13 @@
 ---
 summary: Merge a branch
 description: |
-  Merge an existing branch.
+  Merge an existing branch back into its base branch.
+
+  The merge runs asynchronously. The branch transitions to `merging_branch` and settles in `merged`, `merge_error`, or `merge_conflict` once the background job completes; the response body for this request is empty. Poll the branch resource to observe the final state.
+
+  A branch cannot be merged while it still has open jobs or open translation orders attached to its branch project — in that case the request is rejected with `409 Conflict`. A branch whose current `state` does not allow a merge is rejected with `422 Unprocessable Entity`.
+
+  Requires the Branching feature to be enabled on the account.
 
   *Note: Merging a branch may take several minutes depending on diff size.*
 operationId: branch/merge
@@ -13,7 +19,7 @@ parameters:
 - "$ref": "../../parameters.yaml#/name"
 responses:
   '200':
-    description: OK
+    description: OK. The merge has been scheduled. The response body is empty; observe progress by polling the branch resource.
     headers:
       X-Rate-Limit-Limit:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
@@ -23,8 +29,18 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to merge this branch, or when the Branching feature is not available on the account.
   '404':
     "$ref": "../../responses.yaml#/404"
+  '409':
+    "$ref": "../../responses.yaml#/409"
+    description: Conflict. The branch has open jobs or open translation orders. The response body lists the blockers, for example `{"errors":["open_jobs","open_orders"]}`. Close or complete the listed resources before retrying.
+  '422':
+    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -51,6 +67,10 @@ requestBody:
         title: branch/merge/parameters
         properties:
           strategy:
-            description: strategy used for merge conflicts, use_main or use_branch
+            description: |
+              Conflict resolution strategy applied when the branch and its base have diverged. `use_main` keeps the values from the base branch; `use_branch` keeps the values from the branch being merged.
             type: string
+            enum:
+              - use_main
+              - use_branch
             example: use_main
