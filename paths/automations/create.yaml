@@ -94,15 +94,13 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '404':
-    "$ref": "../../responses.yaml#/404"
-  '422':
-    "$ref": "../../responses.yaml#/422"
   '401':
     "$ref": "../../responses.yaml#/401"
   '403':
     "$ref": "../../responses.yaml#/403"
     description: Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create automations in this account, or when the account does not have the Automation Job Creation feature.
+  '404':
+    "$ref": "../../responses.yaml#/404"
   '422':
     "$ref": "../../responses.yaml#/422"
   '429':
