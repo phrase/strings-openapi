@@ -3631,6 +3631,11 @@
           "name": {
             "type": "string"
           },
+          "base": {
+            "type": "string",
+            "nullable": true,
+            "description": "Name of the base branch this branch was created from. Only present for branches created with the newer branching system."
+          },
           "created_at": {
             "type": "string",
             "format": "date-time"
@@ -3650,7 +3655,16 @@
             "$ref": "#/components/schemas/user_preview"
           },
           "state": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "creating_branch",
+              "merging_branch",
+              "syncing_branch",
+              "merged",
+              "success",
+              "branch_error",
+              "merge_conflict"
+            ]
           },
           "child_branches": {
             "type": "array",
@@ -18393,7 +18407,7 @@
     "/projects/{project_id}/branches": {
       "get": {
         "summary": "List branches",
-        "description": "List all branches the of the current project.",
+        "description": "List all branches of the current project.\n\nRequires the Branching feature to be enabled on the account.\n",
         "operationId": "branches/list",
         "tags": [
           "Branches"
@@ -18446,6 +18460,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the user is not allowed to read branches in this project, or when the Branching feature is not available on the account."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -18467,7 +18488,7 @@
       },
       "post": {
         "summary": "Create a branch",
-        "description": "Create a new branch.\n\n*Note: Creating a new branch may take several minutes depending on the project size.*\n",
+        "description": "Create a new branch.\n\nBranch project provisioning runs asynchronously, so the newly created branch is returned in a transitional state (typically `creating_branch`) and only reaches `success` once the underlying project has been set up. Poll the branch resource until its `state` becomes `success` before performing further operations on it.\n\nRequires the Branching feature to be enabled on the account.\n\n*Note: Creating a new branch may take several minutes depending on the project size.*\n",
         "operationId": "branch/create",
         "tags": [
           "Branches"
@@ -18505,8 +18526,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to create branches in this project, or when the Branching feature is not available on the account."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18537,6 +18568,11 @@
                     "description": "Name of the branch",
                     "type": "string",
                     "example": "my-branch"
+                  },
+                  "base": {
+                    "description": "Name of an existing branch to use as the base for the new branch.",
+                    "type": "string",
+                    "example": "parent-branch"
                   }
                 }
               }
@@ -18549,7 +18585,7 @@
     "/projects/{project_id}/branches/{name}": {
       "get": {
         "summary": "Get a single branch",
-        "description": "Get details on a single branch for a given project.",
+        "description": "Get details on a single branch for a given project.\n\nRequires the Branching feature to be enabled on the account.\n",
         "operationId": "branch/show",
         "tags": [
           "Branches"
@@ -18590,6 +18626,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the user is not allowed to read this branch, or when the Branching feature is not available on the account."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -18611,7 +18654,7 @@
       },
       "patch": {
         "summary": "Update a branch",
-        "description": "Update an existing branch.",
+        "description": "Update an existing branch. Only the branch name can be changed.\n\nRequires the Branching feature to be enabled on the account.\n",
         "operationId": "branch/update",
         "tags": [
           "Branches"
@@ -18652,8 +18695,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to update this branch, or when the Branching feature is not available on the account."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18691,7 +18744,7 @@
       },
       "delete": {
         "summary": "Delete a branch",
-        "description": "Delete an existing branch.",
+        "description": "Delete an existing branch.\n\nA branch cannot be deleted while it still has open jobs or open translation orders attached to its branch project — in that case the request is rejected with `409 Conflict`. A branch whose current `state` does not allow deletion (for example, while a merge or sync is in progress) is rejected with `422 Unprocessable Entity`.\n\nRequires the Branching feature to be enabled on the account.\n",
         "operationId": "branch/delete",
         "tags": [
           "Branches"
@@ -18714,8 +18767,22 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to delete this branch, or when the Branching feature is not available on the account."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409",
+            "description": "Conflict. The branch has open jobs or open translation orders. The response body lists the blockers, for example `{\"errors\":[\"open_jobs\",\"open_orders\"]}`. Close or complete the listed resources before retrying."
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18737,7 +18804,7 @@
     "/projects/{project_id}/branches/{name}/merge": {
       "patch": {
         "summary": "Merge a branch",
-        "description": "Merge an existing branch.\n\n*Note: Merging a branch may take several minutes depending on diff size.*\n",
+        "description": "Merge an existing branch back into its base branch.\n\nThe merge runs asynchronously. The branch transitions to `merging_branch` and settles in `merged`, `merge_error`, or `merge_conflict` once the background job completes; the response body for this request is empty. Poll the branch resource to observe the final state.\n\nA branch cannot be merged while it still has open jobs or open translation orders attached to its branch project — in that case the request is rejected with `409 Conflict`. A branch whose current `state` does not allow a merge is rejected with `422 Unprocessable Entity`.\n\nRequires the Branching feature to be enabled on the account.\n\n*Note: Merging a branch may take several minutes depending on diff size.*\n",
         "operationId": "branch/merge",
         "tags": [
           "Branches"
@@ -18755,7 +18822,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK. The merge has been scheduled. The response body is empty; observe progress by polling the branch resource.",
             "headers": {
               "X-Rate-Limit-Limit": {
                 "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -18771,8 +18838,22 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to merge this branch, or when the Branching feature is not available on the account."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409",
+            "description": "Conflict. The branch has open jobs or open translation orders. The response body lists the blockers, for example `{\"errors\":[\"open_jobs\",\"open_orders\"]}`. Close or complete the listed resources before retrying."
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18797,8 +18878,12 @@
                 "title": "branch/merge/parameters",
                 "properties": {
                   "strategy": {
-                    "description": "strategy used for merge conflicts, use_main or use_branch",
+                    "description": "Conflict resolution strategy applied when the branch and its base have diverged. `use_main` keeps the values from the base branch; `use_branch` keeps the values from the branch being merged.\n",
                     "type": "string",
+                    "enum": [
+                      "use_main",
+                      "use_branch"
+                    ],
                     "example": "use_main"
                   }
                 }
@@ -18811,7 +18896,7 @@
     "/projects/{project_id}/branches/{name}/sync": {
       "patch": {
         "summary": "Sync a branch",
-        "description": "Sync an existing branch.\n\n*Note: Only available for branches created with new branching.*\n",
+        "description": "Pull changes from the base branch into this branch, applying the chosen conflict-resolution strategy.\n\nThe sync runs asynchronously. The branch transitions to `syncing_branch` and settles back into `success` (or `merge_conflict` / `branch_error`) once the background job completes; the response body for this request is empty. Poll the branch resource to observe the final state.\n\nOnly branches created with the newer branching system can be synced. Requests against branches from the older system, or against branches whose current state does not allow a sync, are rejected with `422 Unprocessable Entity` and an empty body.\n\nRequires the Branching feature to be enabled on the account.\n",
         "operationId": "branch/sync",
         "tags": [
           "Branches"
@@ -18829,7 +18914,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK. The sync has been scheduled. The response body is empty; observe progress by polling the branch resource.",
             "headers": {
               "X-Rate-Limit-Limit": {
                 "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -18845,8 +18930,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to sync this branch, or when the Branching feature is not available on the account."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18871,8 +18966,12 @@
                 "title": "branch/sync/parameters",
                 "properties": {
                   "strategy": {
-                    "description": "strategy used for conflicts, use_main or use_branch",
+                    "description": "Conflict resolution strategy applied when the branch and its base have diverged. `use_main` keeps the values from the base branch; `use_branch` keeps the values from this branch.\n",
                     "type": "string",
+                    "enum": [
+                      "use_main",
+                      "use_branch"
+                    ],
                     "example": "use_main"
                   }
                 }
