@@ -754,6 +754,7 @@
               },
               "roles": {
                 "type": "array",
+                "description": "Roles the requesting user holds in the account.\n",
                 "items": {
                   "type": "string"
                 }
@@ -1089,8 +1090,9 @@
               "$ref": "#/components/schemas/project/properties/space"
             }
           },
-          "project_role": {
+          "project_roles": {
             "type": "array",
+            "description": "Per-project roles assigned to the invitee.\n",
             "items": {
               "type": "object",
               "properties": {
@@ -1209,6 +1211,12 @@
               "$ref": "#/components/schemas/project_short"
             }
           },
+          "spaces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/project/properties/space"
+            }
+          },
           "created_at": {
             "type": "string",
             "format": "date-time"
@@ -1266,6 +1274,18 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/glossary_term_translation"
+            }
+          },
+          "glossary": {
+            "type": "object",
+            "description": "The glossary this term belongs to.",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
             }
           },
           "created_at": {
@@ -2073,6 +2093,14 @@
                 "type": "boolean",
                 "example": true
               },
+              "autotranslate_overwrite_unverified_translations": {
+                "type": "boolean",
+                "example": false
+              },
+              "autocomplete_job_enabled": {
+                "type": "boolean",
+                "example": false
+              },
               "default_encoding": {
                 "type": "string",
                 "example": "UTF-8"
@@ -2094,6 +2122,9 @@
                   "angular",
                   "iOS"
                 ]
+              },
+              "branch": {
+                "$ref": "#/components/schemas/branch"
               }
             },
             "example": {
@@ -2112,6 +2143,8 @@
               "autotranslate_mark_as_unverified": false,
               "autotranslate_use_machine_translation": false,
               "autotranslate_use_translation_memory": true,
+              "autotranslate_overwrite_unverified_translations": false,
+              "autocomplete_job_enabled": false,
               "default_encoding": "UTF-8",
               "cldr_version": "legacy",
               "job_locking_enabled": false,
@@ -2241,6 +2274,10 @@
           },
           "keys_count": {
             "type": "integer"
+          },
+          "system_tag": {
+            "type": "boolean",
+            "description": "`true` when the tag was created automatically by the system (e.g. for jobs, uploads, or Figma attachments) rather than by a user.\n"
           },
           "created_at": {
             "type": "string",
@@ -2603,8 +2640,9 @@
               "$ref": "#/components/schemas/locale_preview"
             }
           },
-          "tag": {
-            "type": "string"
+          "tag_name": {
+            "type": "string",
+            "description": "Name of the tag whose keys are included in the order."
           },
           "styleguide": {
             "$ref": "#/components/schemas/styleguide_preview"
@@ -2653,7 +2691,7 @@
               "code": "fr-FR"
             }
           ],
-          "tag": "latest-upload",
+          "tag_name": "latest-upload",
           "styleguide": {
             "id": "abcd1234cdef1234abcd1234cdef1234",
             "title": "My Styleguide"
@@ -3291,7 +3329,12 @@
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/job_annotation_short"
-                }
+                },
+                "description": "Returned only when `include_annotations=true` is supplied on the request."
+              },
+              "locked": {
+                "type": "boolean",
+                "description": "`true` if the job has been locked by the project's job-locking workflow (translations attached to the job are read-only until the job advances).\n"
               }
             },
             "example": {
@@ -3441,6 +3484,10 @@
           },
           "branch": {
             "$ref": "#/components/schemas/job/properties/branch"
+          },
+          "autotranslate_enabled": {
+            "type": "boolean",
+            "description": "When `true`, jobs created from this template are auto-translated on creation.\n"
           },
           "created_at": {
             "type": "string",
@@ -3631,11 +3678,6 @@
           "name": {
             "type": "string"
           },
-          "base": {
-            "type": "string",
-            "nullable": true,
-            "description": "Name of the base branch this branch was created from. Only present for branches created with the newer branching system."
-          },
           "created_at": {
             "type": "string",
             "format": "date-time"
@@ -3655,16 +3697,7 @@
             "$ref": "#/components/schemas/user_preview"
           },
           "state": {
-            "type": "string",
-            "enum": [
-              "creating_branch",
-              "merging_branch",
-              "syncing_branch",
-              "merged",
-              "success",
-              "branch_error",
-              "merge_conflict"
-            ]
+            "type": "string"
           },
           "child_branches": {
             "type": "array",
@@ -3695,9 +3728,9 @@
           ]
         }
       },
-      "distribution_preview": {
+      "distribution": {
         "type": "object",
-        "title": "distribution_preview",
+        "title": "distribution",
         "properties": {
           "id": {
             "type": "string"
@@ -3721,9 +3754,14 @@
             "type": "string",
             "format": "date-time"
           },
-          "deleted_at": {
+          "updated_at": {
             "type": "string",
             "format": "date-time"
+          },
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         },
         "example": {
@@ -3744,87 +3782,64 @@
           "updated_at": "2015-01-28T09:52:53Z"
         }
       },
-      "distribution": {
-        "type": "object",
-        "title": "distribution",
-        "properties": {
-          "id": {
-            "type": "string"
+      "distribution_details": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/distribution"
           },
-          "name": {
-            "type": "string"
-          },
-          "project": {
-            "$ref": "#/components/schemas/project_short"
-          },
-          "platforms": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "locales": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/locale_preview"
-            }
-          },
-          "releases": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/release_preview"
-            }
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "deleted_at": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "example": {
-          "id": "abcd1234cdef1234abcd1234cdef1234",
-          "name": "Android Distribution",
-          "project": {
-            "id": "abcd1234cdef1234abcd1234cdef1234",
-            "name": "My Android Project",
-            "main_format": "xml",
-            "created_at": "2015-01-28T09:52:53Z",
-            "updated_at": "2015-01-28T09:52:53Z"
-          },
-          "platforms": [
-            "android"
-          ],
-          "releases": [
-            {
-              "id": "abcd1234cdef1234abcd1234cdef1234",
-              "version": 1,
-              "project": {
-                "id": "abcd1234cdef1234abcd1234cdef1234",
-                "name": "My Android Project",
-                "main_format": "xml",
-                "created_at": "2015-01-28T09:52:53Z",
-                "updated_at": "2015-01-28T09:52:53Z"
+          {
+            "type": "object",
+            "title": "distribution_details",
+            "properties": {
+              "locales": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/locale_preview"
+                }
               },
-              "platforms": [
-                "android"
+              "releases": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/release_preview"
+                }
+              }
+            },
+            "example": {
+              "locales": [
+                {
+                  "id": "abcd1234cdef1234abcd1234cdef1234",
+                  "name": "English",
+                  "code": "en-GB"
+                }
               ],
-              "environments": [
-                "development"
-              ],
-              "locale_codes": [
-                "de",
-                "en"
-              ],
-              "created_at": "2015-01-28T09:52:53Z",
-              "updated_at": "2015-01-28T09:52:53Z"
+              "releases": [
+                {
+                  "id": "abcd1234cdef1234abcd1234cdef1234",
+                  "version": 1,
+                  "project": {
+                    "id": "abcd1234cdef1234abcd1234cdef1234",
+                    "name": "My Android Project",
+                    "main_format": "xml",
+                    "created_at": "2015-01-28T09:52:53Z",
+                    "updated_at": "2015-01-28T09:52:53Z"
+                  },
+                  "platforms": [
+                    "android"
+                  ],
+                  "environments": [
+                    "development"
+                  ],
+                  "locale_codes": [
+                    "de",
+                    "en"
+                  ],
+                  "created_at": "2015-01-28T09:52:53Z",
+                  "updated_at": "2015-01-28T09:52:53Z"
+                }
+              ]
             }
-          ],
-          "created_at": "2015-01-28T09:52:53Z",
-          "updated_at": "2015-01-28T09:52:53Z"
-        }
+          }
+        ]
       },
       "release_preview": {
         "type": "object",
@@ -3951,6 +3966,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "state": {
+            "type": "string"
           },
           "project": {
             "$ref": "#/components/schemas/project_short"
@@ -4111,10 +4129,26 @@
             "type": "string"
           },
           "presentation": {
-            "type": "string"
+            "type": "object",
+            "description": "Coordinates and size of the marker on the screenshot, in pixels.\n",
+            "properties": {
+              "x": {
+                "type": "integer"
+              },
+              "y": {
+                "type": "integer"
+              },
+              "w": {
+                "type": "integer"
+              },
+              "h": {
+                "type": "integer"
+              }
+            }
           },
           "presentation_type": {
-            "type": "string"
+            "type": "string",
+            "description": "Marker presentation style. The default value is `default`.\n"
           },
           "created_at": {
             "type": "string",
@@ -4441,6 +4475,15 @@
           "briefing": {
             "type": "string"
           },
+          "autotranslate_enabled": {
+            "type": "boolean",
+            "description": "When `true`, jobs created from this template are auto-translated on creation. Maps to the `autotranslate` field on the request body.\n"
+          },
+          "source_locale_id": {
+            "type": "string",
+            "description": "Optional. ID of the source locale used by jobs created from this template. When omitted, the project's default source locale is used.\n",
+            "nullable": true
+          },
           "created_at": {
             "type": "string",
             "format": "date-time"
@@ -4561,6 +4604,11 @@
           },
           "repo_name": {
             "type": "string"
+          },
+          "pr_branch": {
+            "type": "string",
+            "description": "Branch used as the source of exports/PRs. May be `null` when the sync is configured to push directly to `base_branch`.\n",
+            "nullable": true
           },
           "created_at": {
             "type": "string",
@@ -4686,8 +4734,24 @@
           "project_id": {
             "type": "string"
           },
+          "project_ids": {
+            "type": "array",
+            "description": "All project IDs the automation applies to. Returned alongside the singular `project_id` for backwards compatibility.",
+            "items": {
+              "type": "string"
+            }
+          },
           "job_template_id": {
             "type": "string"
+          },
+          "job_owner_id": {
+            "type": "string",
+            "description": "User ID of the job owner that newly created jobs are assigned to.",
+            "nullable": true
+          },
+          "include_only_updated_locales": {
+            "type": "boolean",
+            "description": "When `true`, the automation only acts on locales that changed since its last run."
           },
           "tags": {
             "type": "array",
@@ -5353,6 +5417,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -5379,9 +5450,14 @@
                 "title": "icu/skeleton/parameters",
                 "properties": {
                   "content": {
-                    "description": "Source content",
+                    "description": "Source content to derive skeletons from. Mutually exclusive with `id`; exactly one of the two must be provided.\n",
                     "type": "string",
                     "example": "{number, plural, one {One} other {%{n}}}"
+                  },
+                  "id": {
+                    "description": "Translation code to source content from. Mutually exclusive with `content`; exactly one of the two must be provided.\n",
+                    "type": "string",
+                    "example": "abcd1234abcd1234abcd1234abcd1234"
                   },
                   "locale_codes": {
                     "description": "Locale codes",
@@ -5476,6 +5552,15 @@
           },
           {
             "$ref": "#/components/parameters/project_id"
+          },
+          {
+            "description": "Search query. Filters documents by name (case-insensitive substring match).",
+            "name": "q",
+            "in": "query",
+            "example": "invoice",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -5535,6 +5620,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list documents in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -5581,8 +5673,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this document."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -5653,6 +5755,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to view reports for this project."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -5742,6 +5851,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to view reports for this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -5827,6 +5943,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to list Figma attachments in this project, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -5895,8 +6018,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create Figma attachments in this project, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -5994,6 +6127,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this Figma attachment, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -6065,8 +6205,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this Figma attachment, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -6141,8 +6291,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this Figma attachment, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -6333,6 +6493,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list style guides in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -6392,8 +6559,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to create style guides in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -6431,18 +6608,43 @@
                     "example": "customer-facing"
                   },
                   "target_audience": {
-                    "description": "Can be one of: not_specified, children, teenager, young_adults, adults, old_adults.",
+                    "description": "Target audience for the translations.",
                     "type": "string",
+                    "enum": [
+                      "not_specified",
+                      "children",
+                      "teenager",
+                      "young_adults",
+                      "adults",
+                      "old_adults"
+                    ],
                     "example": "teenager"
                   },
                   "grammatical_person": {
-                    "description": "Can be one of: not_specified, first_person_singular, second_person_singular, third_person_singular_masculine, third_person_singular_feminine, third_person_singular_neuter, first_person_plural, second_person_plural, third_person_plural.",
+                    "description": "Preferred grammatical person.",
                     "type": "string",
+                    "enum": [
+                      "not_specified",
+                      "first_person_singular",
+                      "second_person_singular",
+                      "third_person_singular_masculine",
+                      "third_person_singular_feminine",
+                      "third_person_singular_neuter",
+                      "first_person_plural",
+                      "second_person_plural",
+                      "third_person_plural"
+                    ],
                     "example": "first_person_singular"
                   },
                   "vocabulary_type": {
-                    "description": "Can be one of: not_specified, popular, technical, fictional.",
+                    "description": "Vocabulary register the translations should use.",
                     "type": "string",
+                    "enum": [
+                      "not_specified",
+                      "popular",
+                      "technical",
+                      "fictional"
+                    ],
                     "example": "technical"
                   },
                   "business": {
@@ -6537,6 +6739,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this style guide."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -6599,8 +6808,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to update this style guide."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -6635,18 +6854,43 @@
                     "example": "customer-facing"
                   },
                   "target_audience": {
-                    "description": "Can be one of: not_specified, children, teenager, young_adults, adults, old_adults.",
+                    "description": "Target audience for the translations.",
                     "type": "string",
+                    "enum": [
+                      "not_specified",
+                      "children",
+                      "teenager",
+                      "young_adults",
+                      "adults",
+                      "old_adults"
+                    ],
                     "example": "teenager"
                   },
                   "grammatical_person": {
-                    "description": "Can be one of: not_specified, first_person_singular, second_person_singular, third_person_singular_masculine, third_person_singular_feminine, third_person_singular_neuter, first_person_plural, second_person_plural, third_person_plural.",
+                    "description": "Preferred grammatical person.",
                     "type": "string",
+                    "enum": [
+                      "not_specified",
+                      "first_person_singular",
+                      "second_person_singular",
+                      "third_person_singular_masculine",
+                      "third_person_singular_feminine",
+                      "third_person_singular_neuter",
+                      "first_person_plural",
+                      "second_person_plural",
+                      "third_person_plural"
+                    ],
                     "example": "first_person_singular"
                   },
                   "vocabulary_type": {
-                    "description": "Can be one of: not_specified, popular, technical, fictional.",
+                    "description": "Vocabulary register the translations should use.",
                     "type": "string",
+                    "enum": [
+                      "not_specified",
+                      "popular",
+                      "technical",
+                      "fictional"
+                    ],
                     "example": "technical"
                   },
                   "business": {
@@ -6721,8 +6965,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this style guide."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -7539,6 +7793,9 @@
           "404": {
             "$ref": "#/components/responses/404"
           },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
           "429": {
             "$ref": "#/components/responses/429"
           }
@@ -7660,6 +7917,9 @@
           "404": {
             "$ref": "#/components/responses/404"
           },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
           "429": {
             "$ref": "#/components/responses/429"
           }
@@ -7730,6 +7990,9 @@
           "404": {
             "$ref": "#/components/responses/404"
           },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
           "429": {
             "$ref": "#/components/responses/429"
           }
@@ -7799,6 +8062,9 @@
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -7914,6 +8180,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read screenshot markers in this project, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -7990,6 +8263,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this screenshot marker, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -8054,8 +8334,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create screenshot markers in this project, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -8147,8 +8437,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this screenshot marker, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -8228,8 +8528,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this screenshot marker, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -8262,6 +8572,12 @@
           },
           {
             "$ref": "#/components/parameters/id"
+          },
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/per_page"
           }
         ],
         "responses": {
@@ -8310,6 +8626,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this account."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -8414,6 +8737,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list locales in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -8473,8 +8803,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create locales in this project, when `unverify_new_translations` / `unverify_updated_translations` is set without the Advanced Workflows feature, or when `main=true` is set without the Verification System feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -8618,6 +8958,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this locale."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -8680,8 +9027,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this locale, when `unverify_new_translations` / `unverify_updated_translations` is set without the Advanced Workflows feature, or when `main=true` is set without the Verification System feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -8801,8 +9158,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this locale."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -9266,8 +9633,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to create download jobs for this locale."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -9339,8 +9716,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this download."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "410": {
+            "description": "Gone. The async download has expired (downloads are retained for a limited time after completion) and can no longer be retrieved. Issue a new download request.\n"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -9389,7 +9776,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/distribution_preview"
+                    "$ref": "#/components/schemas/distribution"
                   }
                 }
               }
@@ -9414,6 +9801,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to list distributions in this account, or when the account does not have the Over-the-Air feature."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -9455,7 +9849,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/distribution"
+                  "$ref": "#/components/schemas/distribution_details"
                 }
               }
             },
@@ -9474,8 +9868,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create distributions in this account, or when the account does not have the Over-the-Air feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -9596,7 +10000,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/distribution"
+                  "$ref": "#/components/schemas/distribution_details"
                 }
               }
             },
@@ -9614,6 +10018,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this distribution, or when the account does not have the Over-the-Air feature."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -9658,7 +10069,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/distribution"
+                  "$ref": "#/components/schemas/distribution_details"
                 }
               }
             },
@@ -9677,8 +10088,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this distribution, or when the account does not have the Over-the-Air feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -9794,8 +10215,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this distribution, or when the account does not have the Over-the-Air feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -9873,6 +10304,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, or when the requesting user is not allowed to list releases in this distribution."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -9935,8 +10373,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, or when the requesting user is not allowed to create releases in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -10068,6 +10516,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, or when the requesting user is not allowed to read this release."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -10133,8 +10588,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, or when the requesting user is not allowed to update this release."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -10224,8 +10689,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, or when the requesting user is not allowed to delete this release."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -10291,8 +10766,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, or when the requesting user is not allowed to publish this release."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -10773,6 +11258,30 @@
             "$ref": "#/components/parameters/job_state"
           },
           {
+            "description": "Filter by multiple job states at once. Accepted values are the same as `state`. When supplied, `state` is ignored. Rejected with `400 Bad Request` if any value is unknown.",
+            "name": "states",
+            "in": "query",
+            "example": [
+              "in_progress",
+              "completed"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "Filter to jobs that include the translation key identified by this code (matches via the job's tags).",
+            "name": "key_id",
+            "in": "query",
+            "example": "abcd1234cdef1234abcd1234cdef1234",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "$ref": "#/components/parameters/job_updated_since"
           }
         ],
@@ -10809,6 +11318,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list jobs in this project."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -10869,8 +11385,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to create jobs in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -11045,6 +11571,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list jobs in this account."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -11118,6 +11651,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this job."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -11180,8 +11720,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to update this job."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -11288,8 +11838,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this job."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -11352,8 +11912,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to start this job."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -11434,8 +12004,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to complete this job."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -11516,8 +12096,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to reopen this job."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -11583,14 +12173,42 @@
           }
         ],
         "responses": {
-          "204": {
-            "$ref": "#/components/responses/204"
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/job_details"
+                }
+              }
+            },
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to lock this job."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -11638,14 +12256,42 @@
           }
         ],
         "responses": {
-          "204": {
-            "$ref": "#/components/responses/204"
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/job_details"
+                }
+              }
+            },
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to unlock this job."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -11895,6 +12541,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to list job templates in this project, or when the account does not have the Job Templates feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -11954,8 +12607,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create job templates in this project, or when the account does not have the Job Templates feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -12068,6 +12731,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this job template, or when the account does not have the Job Templates feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -12130,8 +12800,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this job template, or when the account does not have the Job Templates feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -12224,8 +12904,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this job template, or when the account does not have the Job Templates feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -12300,6 +12990,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to list glossaries in this account, or when the account does not have the Glossary feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -12359,8 +13056,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create glossaries in this account, when the account does not have the Glossary feature, or when `space_ids` are supplied without the Spaces feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -12460,6 +13167,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this glossary, or when the account does not have the Glossary feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -12522,8 +13236,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this glossary, when the account does not have the Glossary feature, or when `space_ids` are supplied without the Spaces feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -12600,8 +13324,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this glossary, or when the account does not have the Glossary feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -12673,6 +13407,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list their authorizations."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -12729,8 +13470,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -12766,7 +13517,13 @@
                     "description": "A list of scopes that the access can be used for.",
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "read",
+                        "write",
+                        "orders.create",
+                        "team.manage"
+                      ]
                     },
                     "example": [
                       "read",
@@ -12828,6 +13585,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this authorization."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -12887,8 +13651,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to update this authorization."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -12921,7 +13695,13 @@
                     "description": "A list of scopes that the access can be used for.",
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "read",
+                        "write",
+                        "orders.create",
+                        "team.manage"
+                      ]
                     },
                     "example": [
                       "read",
@@ -12963,8 +13743,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this authorization."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -13040,7 +13830,7 @@
             }
           },
           {
-            "description": "Specify the filter for the comments",
+            "description": "Specify the filter for the comments. Supported values are `read` and `unread`. Combine both to return all comments (read + unread) without filtering.",
             "name": "filters",
             "in": "query",
             "schema": {
@@ -13050,17 +13840,25 @@
                 "unread"
               ],
               "items": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "read",
+                  "unread"
+                ]
               }
             }
           },
           {
-            "description": "Order direction. Can be one of: asc, desc.",
+            "description": "Order direction. Defaults to `desc`. Values other than `asc` and `desc` fall back to `desc`.",
             "name": "order",
             "in": "query",
             "example": "desc",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -13097,6 +13895,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list comments on this key."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -13160,8 +13965,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to create comments on this key."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -13273,6 +14088,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this comment."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -13338,8 +14160,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to update this comment."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -13417,8 +14249,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this comment."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -13466,8 +14308,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to mark this comment as read."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -13540,8 +14392,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to mark this comment as unread."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -13595,6 +14457,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this comment."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -14489,6 +15358,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to list webhooks in this project, or when the account does not have the Webhooks feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -14548,8 +15424,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create webhooks in this project, or when the account does not have the Webhooks feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -14658,6 +15544,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this webhook, or when the account does not have the Webhooks feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -14720,8 +15613,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this webhook, or when the account does not have the Webhooks feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -14807,8 +15710,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this webhook, or when the account does not have the Webhooks feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -14830,7 +15743,7 @@
     "/projects/{project_id}/webhooks/{id}/test": {
       "post": {
         "summary": "Test a webhook",
-        "description": "Perform a test request for a webhook.",
+        "description": "Perform a test request for a webhook. Sends a synthetic `test:event` payload to the webhook's `callback_url` and returns the webhook resource.\n",
         "operationId": "webhook/test",
         "tags": [
           "Webhooks"
@@ -14849,6 +15762,13 @@
         "responses": {
           "200": {
             "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/webhook"
+                }
+              }
+            },
             "headers": {
               "X-Rate-Limit-Limit": {
                 "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -14864,8 +15784,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to test this webhook, or when the account does not have the Webhooks feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -14925,8 +15855,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to create uploads in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -15073,6 +16013,12 @@
                     "description": "This prefix will be added to all uploaded translation key names to prevent collisions. Use a meaningful prefix related to your project or file to keep key names organized.",
                     "type": "string",
                     "example": "prefix_"
+                  },
+                  "skip_automated_job_creation": {
+                    "description": "When `true`, the automation rules for the project will not fire for this upload, so no jobs are created as a side effect of importing this file. Defaults to `false`.\n",
+                    "type": "boolean",
+                    "default": false,
+                    "example": false
                   }
                 }
               }
@@ -15144,6 +16090,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list uploads in this project."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -15217,6 +16170,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this upload."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -15300,7 +16260,7 @@
                   "type": "object",
                   "title": "upload_batch",
                   "properties": {
-                    "state": {
+                    "status": {
                       "type": "string",
                       "description": "Processing state of the upload batch",
                       "enum": [
@@ -15311,6 +16271,10 @@
                     "delete_unmentioned_keys": {
                       "type": "boolean",
                       "description": "Indicates whether unmentioned keys will be deleted after processing all uploads in the batch"
+                    },
+                    "uploads_count": {
+                      "type": "integer",
+                      "description": "Number of uploads attached to this batch."
                     },
                     "created_at": {
                       "type": "string",
@@ -15354,8 +16318,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to create uploads in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -15451,6 +16425,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to list translation versions, or when the account does not have the History feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -15527,6 +16508,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this translation version, or when the account does not have the History feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -15594,8 +16582,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create translations on this glossary term, or when the account does not have the Glossary feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -15691,8 +16689,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this glossary term translation, or when the account does not have the Glossary feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -15764,8 +16772,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this glossary term translation, or when the account does not have the Glossary feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -15787,7 +16805,7 @@
     "/projects": {
       "get": {
         "summary": "List projects",
-        "description": "List all projects the current user has access to.",
+        "description": "List all projects the current user has access to.\n\nWhen the `account_id` query parameter is omitted, the response includes projects across every account the user is a member of. Pass `account_id` to scope the results to a single account.\n",
         "operationId": "projects/list",
         "tags": [
           "Projects"
@@ -15806,24 +16824,43 @@
             "$ref": "#/components/parameters/query_account_id"
           },
           {
-            "description": "Sort projects. Valid options are \"name_asc\", \"name_desc\", \"updated_at_asc\", \"updated_at_desc\", \"space_asc\" and \"space_desc\".",
-            "example": null,
+            "description": "Sort projects. Valid values are `name_asc`, `name_desc`, `updated_at_asc`, `updated_at_desc`, `space_asc`, and `space_desc`. The trailing direction segment is optional; if omitted or invalid, projects are sorted ascending. Any other value is ignored and the default ordering is returned.",
             "name": "sort_by",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "name_asc",
+                "name_desc",
+                "updated_at_asc",
+                "updated_at_desc",
+                "space_asc",
+                "space_desc"
+              ]
             }
           },
           {
-            "description": "Filter projects. Valid options are [\"favorites\"].",
+            "description": "Filter projects. The only supported value is `favorites`, which restricts the results to projects the current user has starred.",
             "example": "favorites",
             "name": "filters",
             "in": "query",
             "schema": {
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "favorites"
+                ]
               }
+            }
+          },
+          {
+            "description": "Search query. The only supported syntax is `name:<text>` — for example `name:android` returns projects whose name matches `android` (case-insensitive substring). Any value that does not match the `name:` prefix is ignored.",
+            "name": "q",
+            "in": "query",
+            "example": "name:android",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -15861,6 +16898,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not confirmed."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -15882,7 +16926,7 @@
       },
       "post": {
         "summary": "Create a project",
-        "description": "Create a new project.",
+        "description": "Create a new project in the given account.\n\nWhen `source_project_id` is supplied, the new project is created as a clone of that project. All locales, keys, and translations are copied asynchronously after the response is returned, so they may not be available immediately. Settings from the source project are inherited unless explicitly overridden in the request; in clone mode, the `shares_translation_memory` field is ignored and inherited from the source.\n\n`shares_translation_memory` defaults to `true` when omitted on a non-clone create.\n",
         "operationId": "project/create",
         "tags": [
           "Projects"
@@ -15917,8 +16961,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to create projects in the target account."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -16066,6 +17120,53 @@
                     "type": "boolean",
                     "example": true
                   },
+                  "autocomplete_job_enabled": {
+                    "description": "(Optional) Enable autocomplete-job behavior so that newly created keys and locales are automatically added to in-progress jobs.",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "job_locking_enabled": {
+                    "description": "(Optional) When enabled, translations are locked once a job moves into review.",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "smart_suggest_enabled": {
+                    "description": "(Optional) Enable Smart Suggest for the project. Defaults to `true` when omitted.",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "smart_suggest_use_glossary": {
+                    "description": "(Optional) Allow Smart Suggest to source suggestions from the project glossary. Defaults to `true` when omitted.",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "smart_suggest_use_machine_translation": {
+                    "description": "(Optional) Allow Smart Suggest to source suggestions from machine translation. Defaults to `true` when omitted.",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "translation_keys_sort_collation": {
+                    "description": "(Optional) Collation used when sorting translation keys alphabetically. Defaults to `unicode_ci` when omitted.",
+                    "type": "string",
+                    "example": "unicode_ci"
+                  },
+                  "default_encoding": {
+                    "description": "(Optional) Sets the default encoding for Uploads. If you leave it empty, we will try to guess it automatically for you when you Upload a file. You can still override this value by setting the [`file_encoding`](/en/api/strings/uploads/upload-a-new-file) parameter for Uploads.",
+                    "type": "string",
+                    "example": "UTF-8",
+                    "enum": [
+                      "UTF-8",
+                      "UTF-16",
+                      "UTF-16BE",
+                      "UTF-16LE",
+                      "ISO-8859-1"
+                    ]
+                  },
+                  "cldr_version": {
+                    "description": "(Optional) CLDR plural-rule version used by the project.",
+                    "type": "string",
+                    "example": "cldr48"
+                  },
                   "placeholder_styles": {
                     "description": "(Optional) List of placeholder styles enabled for the project.",
                     "type": "array",
@@ -16126,6 +17227,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -16185,8 +17293,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to manage this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -16211,7 +17329,7 @@
                 "title": "project/update/parameters",
                 "properties": {
                   "account_id": {
-                    "description": "Required if the requesting user is a member of multiple accounts. Account ID to specify the actual account the project should be created in.",
+                    "description": "(Optional) ID of an account the requesting user belongs to. Used only to disambiguate the request context; the project itself cannot be moved between accounts through this endpoint.\n",
                     "type": "string",
                     "example": "abcd1234"
                   },
@@ -16348,6 +17466,41 @@
                       "angular",
                       "iOS"
                     ]
+                  },
+                  "autocomplete_job_enabled": {
+                    "description": "(Optional) Enable autocomplete-job behavior so that newly created keys and locales are automatically added to in-progress jobs.",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "job_locking_enabled": {
+                    "description": "(Optional) When enabled, translations are locked once a job moves into review.",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "smart_suggest_enabled": {
+                    "description": "(Optional) Enable Smart Suggest for the project.",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "smart_suggest_use_glossary": {
+                    "description": "(Optional) Allow Smart Suggest to source suggestions from the project glossary.",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "smart_suggest_use_machine_translation": {
+                    "description": "(Optional) Allow Smart Suggest to source suggestions from machine translation.",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "translation_keys_sort_collation": {
+                    "description": "(Optional) Collation used when sorting translation keys alphabetically.",
+                    "type": "string",
+                    "example": "unicode_ci"
+                  },
+                  "cldr_version": {
+                    "description": "(Optional) CLDR plural-rule version used by the project.",
+                    "type": "string",
+                    "example": "legacy"
                   }
                 }
               }
@@ -16358,7 +17511,7 @@
       },
       "delete": {
         "summary": "Delete a project",
-        "description": "Delete an existing project.",
+        "description": "Delete an existing project. Associated repository syncs and OTA distributions are removed. A `project:delete` event is dispatched.\n",
         "operationId": "project/delete",
         "tags": [
           "Projects"
@@ -16378,8 +17531,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to manage this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18106,6 +19269,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list variables in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -18165,8 +19335,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to create variables in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18255,6 +19435,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this variable."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -18317,8 +19504,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to update this variable."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18384,8 +19581,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this variable."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18407,7 +19614,7 @@
     "/projects/{project_id}/branches": {
       "get": {
         "summary": "List branches",
-        "description": "List all branches of the current project.\n\nRequires the Branching feature to be enabled on the account.\n",
+        "description": "List all branches the of the current project.",
         "operationId": "branches/list",
         "tags": [
           "Branches"
@@ -18460,13 +19667,6 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the user is not allowed to read branches in this project, or when the Branching feature is not available on the account."
-          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -18488,7 +19688,7 @@
       },
       "post": {
         "summary": "Create a branch",
-        "description": "Create a new branch.\n\nBranch project provisioning runs asynchronously, so the newly created branch is returned in a transitional state (typically `creating_branch`) and only reaches `success` once the underlying project has been set up. Poll the branch resource until its `state` becomes `success` before performing further operations on it.\n\nRequires the Branching feature to be enabled on the account.\n\n*Note: Creating a new branch may take several minutes depending on the project size.*\n",
+        "description": "Create a new branch.\n\n*Note: Creating a new branch may take several minutes depending on the project size.*\n",
         "operationId": "branch/create",
         "tags": [
           "Branches"
@@ -18526,18 +19726,8 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to create branches in this project, or when the Branching feature is not available on the account."
-          },
           "404": {
             "$ref": "#/components/responses/404"
-          },
-          "422": {
-            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18568,11 +19758,6 @@
                     "description": "Name of the branch",
                     "type": "string",
                     "example": "my-branch"
-                  },
-                  "base": {
-                    "description": "Name of an existing branch to use as the base for the new branch.",
-                    "type": "string",
-                    "example": "parent-branch"
                   }
                 }
               }
@@ -18585,7 +19770,7 @@
     "/projects/{project_id}/branches/{name}": {
       "get": {
         "summary": "Get a single branch",
-        "description": "Get details on a single branch for a given project.\n\nRequires the Branching feature to be enabled on the account.\n",
+        "description": "Get details on a single branch for a given project.",
         "operationId": "branch/show",
         "tags": [
           "Branches"
@@ -18626,13 +19811,6 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the user is not allowed to read this branch, or when the Branching feature is not available on the account."
-          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -18654,7 +19832,7 @@
       },
       "patch": {
         "summary": "Update a branch",
-        "description": "Update an existing branch. Only the branch name can be changed.\n\nRequires the Branching feature to be enabled on the account.\n",
+        "description": "Update an existing branch.",
         "operationId": "branch/update",
         "tags": [
           "Branches"
@@ -18695,18 +19873,8 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to update this branch, or when the Branching feature is not available on the account."
-          },
           "404": {
             "$ref": "#/components/responses/404"
-          },
-          "422": {
-            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18744,7 +19912,7 @@
       },
       "delete": {
         "summary": "Delete a branch",
-        "description": "Delete an existing branch.\n\nA branch cannot be deleted while it still has open jobs or open translation orders attached to its branch project — in that case the request is rejected with `409 Conflict`. A branch whose current `state` does not allow deletion (for example, while a merge or sync is in progress) is rejected with `422 Unprocessable Entity`.\n\nRequires the Branching feature to be enabled on the account.\n",
+        "description": "Delete an existing branch.",
         "operationId": "branch/delete",
         "tags": [
           "Branches"
@@ -18767,22 +19935,8 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to delete this branch, or when the Branching feature is not available on the account."
-          },
           "404": {
             "$ref": "#/components/responses/404"
-          },
-          "409": {
-            "$ref": "#/components/responses/409",
-            "description": "Conflict. The branch has open jobs or open translation orders. The response body lists the blockers, for example `{\"errors\":[\"open_jobs\",\"open_orders\"]}`. Close or complete the listed resources before retrying."
-          },
-          "422": {
-            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18804,7 +19958,7 @@
     "/projects/{project_id}/branches/{name}/merge": {
       "patch": {
         "summary": "Merge a branch",
-        "description": "Merge an existing branch back into its base branch.\n\nThe merge runs asynchronously. The branch transitions to `merging_branch` and settles in `merged`, `merge_error`, or `merge_conflict` once the background job completes; the response body for this request is empty. Poll the branch resource to observe the final state.\n\nA branch cannot be merged while it still has open jobs or open translation orders attached to its branch project — in that case the request is rejected with `409 Conflict`. A branch whose current `state` does not allow a merge is rejected with `422 Unprocessable Entity`.\n\nRequires the Branching feature to be enabled on the account.\n\n*Note: Merging a branch may take several minutes depending on diff size.*\n",
+        "description": "Merge an existing branch.\n\n*Note: Merging a branch may take several minutes depending on diff size.*\n",
         "operationId": "branch/merge",
         "tags": [
           "Branches"
@@ -18822,7 +19976,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK. The merge has been scheduled. The response body is empty; observe progress by polling the branch resource.",
+            "description": "OK",
             "headers": {
               "X-Rate-Limit-Limit": {
                 "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -18838,22 +19992,8 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to merge this branch, or when the Branching feature is not available on the account."
-          },
           "404": {
             "$ref": "#/components/responses/404"
-          },
-          "409": {
-            "$ref": "#/components/responses/409",
-            "description": "Conflict. The branch has open jobs or open translation orders. The response body lists the blockers, for example `{\"errors\":[\"open_jobs\",\"open_orders\"]}`. Close or complete the listed resources before retrying."
-          },
-          "422": {
-            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18878,12 +20018,8 @@
                 "title": "branch/merge/parameters",
                 "properties": {
                   "strategy": {
-                    "description": "Conflict resolution strategy applied when the branch and its base have diverged. `use_main` keeps the values from the base branch; `use_branch` keeps the values from the branch being merged.\n",
+                    "description": "strategy used for merge conflicts, use_main or use_branch",
                     "type": "string",
-                    "enum": [
-                      "use_main",
-                      "use_branch"
-                    ],
                     "example": "use_main"
                   }
                 }
@@ -18896,7 +20032,7 @@
     "/projects/{project_id}/branches/{name}/sync": {
       "patch": {
         "summary": "Sync a branch",
-        "description": "Pull changes from the base branch into this branch, applying the chosen conflict-resolution strategy.\n\nThe sync runs asynchronously. The branch transitions to `syncing_branch` and settles back into `success` (or `merge_conflict` / `branch_error`) once the background job completes; the response body for this request is empty. Poll the branch resource to observe the final state.\n\nOnly branches created with the newer branching system can be synced. Requests against branches from the older system, or against branches whose current state does not allow a sync, are rejected with `422 Unprocessable Entity` and an empty body.\n\nRequires the Branching feature to be enabled on the account.\n",
+        "description": "Sync an existing branch.\n\n*Note: Only available for branches created with new branching.*\n",
         "operationId": "branch/sync",
         "tags": [
           "Branches"
@@ -18914,7 +20050,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK. The sync has been scheduled. The response body is empty; observe progress by polling the branch resource.",
+            "description": "OK",
             "headers": {
               "X-Rate-Limit-Limit": {
                 "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -18930,18 +20066,8 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
-          "401": {
-            "$ref": "#/components/responses/401"
-          },
-          "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the user is not allowed to sync this branch, or when the Branching feature is not available on the account."
-          },
           "404": {
             "$ref": "#/components/responses/404"
-          },
-          "422": {
-            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -18966,12 +20092,8 @@
                 "title": "branch/sync/parameters",
                 "properties": {
                   "strategy": {
-                    "description": "Conflict resolution strategy applied when the branch and its base have diverged. `use_main` keeps the values from the base branch; `use_branch` keeps the values from this branch.\n",
+                    "description": "strategy used for conflicts, use_main or use_branch",
                     "type": "string",
-                    "enum": [
-                      "use_main",
-                      "use_branch"
-                    ],
                     "example": "use_main"
                   }
                 }
@@ -19170,6 +20292,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list accounts."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -19231,6 +20360,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this account."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -19288,6 +20424,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -19512,6 +20655,9 @@
           "404": {
             "$ref": "#/components/responses/404"
           },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
           "429": {
             "$ref": "#/components/responses/429"
           }
@@ -19628,6 +20774,9 @@
           "404": {
             "$ref": "#/components/responses/404"
           },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
           "429": {
             "$ref": "#/components/responses/429"
           }
@@ -19697,6 +20846,9 @@
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -19818,6 +20970,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to list screenshots in this project, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -19877,8 +21036,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create screenshots in this project, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -19984,6 +21153,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this screenshot, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -20046,8 +21222,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this screenshot, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -20133,8 +21319,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this screenshot, or when the account does not have the Attachable Screenshots feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -20212,6 +21408,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to list glossary terms in this glossary, or when the account does not have the Glossary feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -20274,8 +21477,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create glossary terms in this glossary, or when the account does not have the Glossary feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -20377,6 +21590,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this glossary term, or when the account does not have the Glossary feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -20442,8 +21662,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this glossary term, or when the account does not have the Glossary feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -20522,8 +21752,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this glossary term, or when the account does not have the Glossary feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -20564,9 +21804,18 @@
             "$ref": "#/components/parameters/per_page"
           },
           {
-            "description": "excludes tags generated by the system, e.g. job, upload or figma tags",
+            "description": "Excludes tags generated by the system, e.g. job, upload or figma tags. Mutually exclusive with `only_system_tags`.",
             "name": "exclude_system_tags",
             "example": true,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Returns only system-generated tags (e.g. job, upload, figma) and excludes user-defined tags. Mutually exclusive with `exclude_system_tags`.",
+            "name": "only_system_tags",
+            "example": false,
             "in": "query",
             "schema": {
               "type": "boolean"
@@ -20624,6 +21873,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list tags in this project."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -20684,8 +21940,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create tags in this project, or when the project is protected."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -20792,6 +22058,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this tag."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -20845,8 +22118,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this tag."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -20930,6 +22213,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list blocked keys in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -20989,8 +22279,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to create blocked keys in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -21074,6 +22374,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this blocked key."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -21136,8 +22443,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to update this blocked key."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -21198,8 +22515,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this blocked key."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -21313,6 +22640,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list keys in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -21372,8 +22706,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to create keys in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -21500,6 +22844,22 @@
                       "fruit": "Apple",
                       "vegetable": "Tomato"
                     }
+                  },
+                  "excluded_in_locales": {
+                    "description": "Public codes of locales for which translations of this key are excluded from exports. Pass an empty array to clear exclusions.\n",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "de",
+                      "fr"
+                    ]
+                  },
+                  "format_value_type": {
+                    "description": "Override of the value type for the key in the export. Most useful for formats like Android XML that distinguish string vs. plural resources.\n",
+                    "type": "string",
+                    "example": "string"
                   }
                 }
               }
@@ -21568,6 +22928,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to manage keys in this project."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -21641,6 +23008,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list keys in this project."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -21753,6 +23127,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this key."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -21815,8 +23196,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to update this key."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -21930,6 +23321,22 @@
                       "fruit": "Apple",
                       "vegetable": "Tomato"
                     }
+                  },
+                  "excluded_in_locales": {
+                    "description": "Public codes of locales for which translations of this key are excluded from exports. Pass an empty array to clear exclusions.\n",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "de",
+                      "fr"
+                    ]
+                  },
+                  "format_value_type": {
+                    "description": "Override of the value type for the key in the export. Most useful for formats like Android XML that distinguish string vs. plural resources.\n",
+                    "type": "string",
+                    "example": "string"
                   }
                 }
               }
@@ -21972,8 +23379,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this key."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -22033,8 +23450,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to tag keys in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -22126,6 +23553,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to tag keys in this project."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -22221,6 +23655,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to manage exclusions in this project, or when the account does not have the Batch Actions feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -22315,6 +23756,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to manage exclusions in this project, or when the account does not have the Batch Actions feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -22397,6 +23845,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "Filter the result to orders that include the given translation. When supplied with a translation code that does not exist, an empty list is returned.",
+            "name": "translation_id",
+            "in": "query",
+            "example": "abcd1234cdef1234abcd1234cdef1234",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -22432,6 +23889,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list translation orders in this project."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -22492,8 +23956,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `orders.create` scope or when the requesting user is not allowed to create translation orders in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -22663,6 +24137,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this translation order."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -22716,8 +24197,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this translation order."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -22780,8 +24271,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `orders.create` scope or when the requesting user is not allowed to confirm this translation order."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -23043,6 +24544,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read git syncs in this account, or when the account does not have the Repo Sync feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -23101,6 +24609,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to manage git syncs in this account, or when the account does not have the Repo Sync feature."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -23243,6 +24758,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read git syncs in this account, or when the account does not have the Repo Sync feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -23330,8 +24852,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to export to the synced repository, or when the account does not have the Repo Sync feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -23416,8 +24948,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to import from the synced repository, or when the account does not have the Repo Sync feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -23619,8 +25161,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to manage git syncs in this account, or when the account does not have the Repo Sync feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -23683,8 +25235,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to manage git syncs in this account, or when the account does not have the Repo Sync feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -25013,6 +26575,24 @@
             }
           },
           {
+            "description": "Filter translations to those attached to the key identified by this code. Equivalent to calling `GET /projects/{project_id}/keys/{key_id}/translations`.",
+            "name": "key_id",
+            "in": "query",
+            "example": "abcd1234cdef1234abcd1234cdef1234",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter translations to those for the given locale (locale code or id). Equivalent to calling `GET /projects/{project_id}/locales/{locale_id}/translations`.",
+            "name": "locale_id",
+            "in": "query",
+            "example": "abcd1234cdef1234abcd1234cdef1234",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "description": "Sort criteria. Can be one of: key_name, created_at, updated_at.",
             "example": "updated_at",
             "name": "sort",
@@ -25074,6 +26654,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read translations in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -25133,8 +26720,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to translate this locale, or (when `unverified` is `true`) when the account does not have the Verification System or Advanced Workflows feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -25197,6 +26794,16 @@
                     "description": "Indicates whether the translation should be auto-translated. Responses with status 422 if provided for translation within a non-default locale or the project does not have the Autopilot feature enabled.",
                     "type": "boolean",
                     "example": null
+                  },
+                  "minor_change": {
+                    "description": "When `true`, the translation is marked as a minor edit and does not trigger downstream re-verification on the linked locales' translations.\n",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "reviewed": {
+                    "description": "When `true` and the project's review workflow is enabled, the translation is created in the `reviewed` state.\n",
+                    "type": "boolean",
+                    "example": false
                   }
                 }
               }
@@ -25300,6 +26907,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read translations in this project."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -25416,6 +27030,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read translations for this key."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -25488,6 +27109,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read translations in this project."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -25595,6 +27223,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read this translation."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -25657,8 +27292,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this translation, or (when `unverified` is `true`) when the account does not have the Verification System or Advanced Workflows feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -25716,6 +27361,11 @@
                     "description": "When set to `true`, the translation will be marked as reviewed.",
                     "type": "boolean",
                     "example": true
+                  },
+                  "minor_change": {
+                    "description": "When `true`, the update is treated as a minor edit and does not trigger downstream re-verification on the linked locales' translations.\n",
+                    "type": "boolean",
+                    "example": false
                   }
                 }
               }
@@ -25769,8 +27419,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to verify this translation, or when the account does not have the Verification System or Advanced Workflows feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -25851,8 +27511,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to unverify this translation, or when the account does not have the Verification System or Advanced Workflows feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -25933,8 +27603,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to review this translation, or when the account does not have the Workflow feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -26015,8 +27695,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to unreview this translation, or when the account does not have the Workflow feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -26097,8 +27787,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to exclude this translation from export."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -26179,8 +27879,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to include this translation in export."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -26258,8 +27968,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the account does not have the Batch Actions feature, when the account does not have the Verification System or Advanced Workflows feature, or when the requesting user is not allowed to verify the matched translations."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -26347,8 +28067,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the account does not have the Batch Actions feature, when the account does not have the Verification System or Advanced Workflows feature, or when the requesting user is not allowed to unverify the matched translations."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -26441,8 +28171,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the account does not have the Batch Actions feature, when the account does not have the Workflow feature, or when the requesting user is not allowed to review the matched translations."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -26525,8 +28265,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the account does not have the Batch Actions feature, when the account does not have the Workflow feature, or when the requesting user is not allowed to unreview the matched translations."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -26608,6 +28358,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the account does not have the Batch Actions feature, or when the requesting user is not allowed to exclude translations from export in this project."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -26703,6 +28460,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the account does not have the Batch Actions feature, or when the requesting user is not allowed to include translations in export in this project."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -26782,6 +28546,15 @@
             "schema": {
               "type": "boolean"
             }
+          },
+          {
+            "description": "Restrict the results to notifications created within the last N days. Coerced to integer; non-numeric values resolve to 0 (returning nothing).",
+            "example": 7,
+            "name": "last_days",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
           }
         ],
         "responses": {
@@ -26817,6 +28590,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not the recipient of the listed notifications."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -26878,6 +28658,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not the recipient of the listed notifications."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -27019,6 +28806,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not the recipient of the listed notification groups."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -27080,6 +28874,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not the recipient of the listed notification groups."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -27140,6 +28941,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not the recipient of the notification group."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -27331,6 +29139,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read the account's translation keys."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -27375,6 +29190,16 @@
                     "description": "Number of results per page",
                     "type": "integer",
                     "example": 25
+                  },
+                  "project_ids": {
+                    "description": "Limit the search to the given project codes. When omitted, the search spans every project the user can access in this account.\n",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "abcd1234abcd1234abcd1234abcd1234"
+                    ]
                   }
                 }
               }
@@ -28037,6 +29862,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to list organization job templates in this account, or when the account does not have the Job Templates feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -28096,8 +29928,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create organization job templates, or when the account does not have the Job Templates feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -28191,6 +30033,13 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this organization job template, or when the account does not have the Job Templates feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -28253,8 +30102,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this organization job template, or when the account does not have the Job Templates feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -28328,8 +30187,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this organization job template, or when the account does not have the Job Templates feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -28853,8 +30722,24 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to unlink keys for this parent."
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
           "422": {
             "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
           }
         }
       },
@@ -28904,6 +30789,19 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to read key links for this key."
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
           }
         }
       },
@@ -28963,8 +30861,24 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to link this key."
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
           "422": {
             "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
           }
         }
       }
@@ -29001,8 +30915,24 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to unlink this key."
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
           "422": {
             "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
           }
         }
       }
@@ -29063,8 +30993,12 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "403": {
-            "$ref": "#/components/responses/403"
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to list automations in this account, or when the account does not have the Automation Job Creation feature."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -29171,6 +31105,16 @@
                     "description": "along with cron_schedule, specifies when the scheduled automation is supposed to run",
                     "type": "string",
                     "example": "GMT"
+                  },
+                  "job_owner_id": {
+                    "description": "User ID of the job owner that newly created jobs are assigned to.\n",
+                    "type": "string",
+                    "example": "abcd1234abcd1234abcd1234abcd1234"
+                  },
+                  "include_only_updated_locales": {
+                    "description": "When `true`, the automation only acts on locales that changed since its last run. Defaults to `false`.\n",
+                    "type": "boolean",
+                    "example": false
                   }
                 }
               }
@@ -29201,6 +31145,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create automations in this account, or when the account does not have the Automation Job Creation feature."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -29267,6 +31218,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this automation, or when the account does not have the Automation Job Creation feature."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -29376,6 +31334,16 @@
                     "description": "along with cron_schedule, specifies when the scheduled automation is supposed to run",
                     "type": "string",
                     "example": "GMT"
+                  },
+                  "job_owner_id": {
+                    "description": "User ID of the job owner that newly created jobs are assigned to.\n",
+                    "type": "string",
+                    "example": "abcd1234abcd1234abcd1234abcd1234"
+                  },
+                  "include_only_updated_locales": {
+                    "description": "When `true`, the automation only acts on locales that changed since its last run.\n",
+                    "type": "boolean",
+                    "example": false
                   }
                 }
               }
@@ -29407,8 +31375,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this automation, or when the account does not have the Automation Job Creation feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -29449,6 +31427,13 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this automation, or when the account does not have the Automation Job Creation feature."
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -29513,8 +31498,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to activate this automation, or when the account does not have the Automation Job Creation feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -29576,8 +31571,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to deactivate this automation, or when the account does not have the Automation Job Creation feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -29621,8 +31626,18 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to trigger this automation, or when the account does not have the Automation Job Creation feature."
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"

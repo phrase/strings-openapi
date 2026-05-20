@@ -126,7 +126,7 @@ public class UploadsApiTest {
             tags, updateTranslations, updateCustomMetadata, updateTranslationKeys, updateTranslationsOnSourceMatch, sourceLocaleId,
             updateDescriptions, convertEmoji, skipUploadTags, skipUnverification, fileEncoding,
             localeMapping, formatOptionsMap, autotranslate, verifyMentionedTranslations, markReviewed, tagOnlyAffectedKeys,
-            translationKeyPrefix);
+            translationKeyPrefix, null);
 
         Assert.assertEquals("valid id returned", "id_example", response.getId());
         Assert.assertEquals("valid creation date returned", OffsetDateTime.parse("2015-01-28T09:52:53Z"), response.getCreatedAt());
