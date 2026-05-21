@@ -140,7 +140,7 @@ requestBody:
               vegetable: Tomato
           excluded_in_locales:
             description: |
-              Public codes of locales for which translations of this key are excluded from exports. Pass an empty array to clear exclusions.
+              Locales for which translations of this key are excluded from exports. Pass an empty array to clear exclusions.
             type: array
             items:
               type: string
