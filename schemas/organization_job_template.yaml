@@ -9,6 +9,15 @@ organization_job_template:
       type: string
     briefing:
       type: string
+    autotranslate_enabled:
+      type: boolean
+      description: |
+        When `true`, jobs created from this template are auto-translated on creation. Maps to the `autotranslate` field on the request body.
+    source_locale_id:
+      type: string
+      description: |
+        Optional. ID of the source locale used by jobs created from this template. When omitted, the project's default source locale is used.
+      nullable: true
     created_at:
       type: string
       format: date-time

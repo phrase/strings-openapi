@@ -11,6 +11,10 @@ glossary:
       type: array
       items:
         "$ref": "./project_short.yaml#/project_short"
+    spaces:
+      type: array
+      items:
+        "$ref": "./space_short.yaml#/space_short"
     created_at:
       type: string
       format: date-time

@@ -3,7 +3,7 @@ upload_batch:
   type: object
   title: upload_batch
   properties:
-    state:
+    status:
       type: string
       description: Processing state of the upload batch
       enum:
@@ -12,6 +12,9 @@ upload_batch:
     delete_unmentioned_keys:
       type: boolean
       description: Indicates whether unmentioned keys will be deleted after processing all uploads in the batch
+    uploads_count:
+      type: integer
+      description: Number of uploads attached to this batch.
     created_at:
       type: string
       format: date-time

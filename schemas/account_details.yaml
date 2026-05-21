@@ -11,6 +11,8 @@ account_details:
         type: string
       roles:
         type: array
+        description: |
+          Roles the requesting user holds in the account.
         items:
           type: string
     example:

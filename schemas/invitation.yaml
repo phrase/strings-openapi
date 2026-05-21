@@ -46,8 +46,10 @@ invitation:
       type: array
       items:
         "$ref": "./space_short.yaml#/space_short"
-    project_role:
+    project_roles:
       type: array
+      description: |
+        Per-project roles assigned to the invitee.
       items:
         type: object
         properties:

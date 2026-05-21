@@ -48,6 +48,12 @@ project_details:
       autotranslate_use_translation_memory:
         type: boolean
         example: true
+      autotranslate_overwrite_unverified_translations:
+        type: boolean
+        example: false
+      autocomplete_job_enabled:
+        type: boolean
+        example: false
       default_encoding:
         type: string
         example: "UTF-8"
@@ -64,6 +70,8 @@ project_details:
         example:
           - "angular"
           - "iOS"
+      branch:
+        "$ref": "./branch.yaml#/branch"
 
     example:
       slug: my-android-project
@@ -81,6 +89,8 @@ project_details:
       autotranslate_mark_as_unverified: false
       autotranslate_use_machine_translation: false
       autotranslate_use_translation_memory: true
+      autotranslate_overwrite_unverified_translations: false
+      autocomplete_job_enabled: false
       default_encoding: "UTF-8"
       cldr_version: "legacy"
       job_locking_enabled: false

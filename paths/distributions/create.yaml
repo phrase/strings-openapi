@@ -13,7 +13,7 @@ responses:
     content:
       application/json:
         schema:
-          "$ref": "../../schemas/distribution.yaml#/distribution"
+          "$ref": "../../schemas/distribution_details.yaml#/distribution_details"
     headers:
       X-Rate-Limit-Limit:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
@@ -25,6 +25,13 @@ responses:
     "$ref": "../../responses.yaml#/400"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create distributions in this account, or when the account does not have the Over-the-Air feature.
+  '422':
+    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:

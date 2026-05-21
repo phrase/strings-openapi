@@ -21,8 +21,20 @@ automation:
         enum: [unverified, untranslated, ready_for_review]
     project_id:
       type: string
+    project_ids:
+      type: array
+      description: All project IDs the automation applies to. Returned alongside the singular `project_id` for backwards compatibility.
+      items:
+        type: string
     job_template_id:
       type: string
+    job_owner_id:
+      type: string
+      description: User ID of the job owner that newly created jobs are assigned to.
+      nullable: true
+    include_only_updated_locales:
+      type: boolean
+      description: When `true`, the automation only acts on locales that changed since its last run.
     tags:
       type: array
       items:

@@ -27,8 +27,9 @@ translation_order:
       type: array
       items:
         "$ref": "./locale_preview.yaml#/locale_preview"
-    tag:
+    tag_name:
       type: string
+      description: Name of the tag whose keys are included in the order.
     styleguide:
       "$ref": "./styleguide_preview.yaml#/styleguide_preview"
     unverify_translations_upon_delivery:
@@ -63,7 +64,7 @@ translation_order:
     - id: abcd1234cdef1234abcd1234cdef1234
       name: fr
       code: fr-FR
-    tag: latest-upload
+    tag_name: latest-upload
     styleguide:
       id: abcd1234cdef1234abcd1234cdef1234
       title: My Styleguide

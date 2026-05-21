@@ -15,6 +15,11 @@ repo_sync:
       type: boolean
     repo_name:
       type: string
+    pr_branch:
+      type: string
+      description: |
+        Branch used as the source of exports/PRs. May be `null` when the sync is configured to push directly to `base_branch`.
+      nullable: true
     created_at:
       type: string
       format: date-time

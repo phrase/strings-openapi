@@ -26,6 +26,11 @@ responses:
     "$ref": "../../responses.yaml#/400"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `read` scope.
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -50,9 +55,15 @@ requestBody:
         title: icu/skeleton/parameters
         properties:
           content:
-            description: Source content
+            description: |
+              Source content to derive skeletons from. Mutually exclusive with `id`; exactly one of the two must be provided.
             type: string
             example: "{number, plural, one {One} other {%{n}}}"
+          id:
+            description: |
+              Translation code to source content from. Mutually exclusive with `content`; exactly one of the two must be provided.
+            type: string
+            example: abcd1234abcd1234abcd1234abcd1234
           locale_codes:
             description: Locale codes
             type: array

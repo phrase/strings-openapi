@@ -25,6 +25,11 @@ job_details:
           type: array
           items:
             "$ref": "./job_annotation_short.yaml#/job_annotation_short"
+          description: Returned only when `include_annotations=true` is supplied on the request.
+        locked:
+          type: boolean
+          description: |
+            `true` if the job has been locked by the project's job-locking workflow (translations attached to the job are read-only until the job advances).
       example:
         owner:
           id: abcd1234cdef1234abcd1234cdef1234

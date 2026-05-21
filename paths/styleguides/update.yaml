@@ -26,6 +26,13 @@ responses:
     "$ref": "../../responses.yaml#/400"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to update this style guide.
+  '422':
+    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -60,16 +67,38 @@ requestBody:
             type: string
             example: customer-facing
           target_audience:
-            description: 'Can be one of: not_specified, children, teenager, young_adults, adults, old_adults.'
+            description: Target audience for the translations.
             type: string
+            enum:
+              - not_specified
+              - children
+              - teenager
+              - young_adults
+              - adults
+              - old_adults
             example: teenager
           grammatical_person:
-            description: 'Can be one of: not_specified, first_person_singular, second_person_singular, third_person_singular_masculine, third_person_singular_feminine, third_person_singular_neuter, first_person_plural, second_person_plural, third_person_plural.'
+            description: Preferred grammatical person.
             type: string
+            enum:
+              - not_specified
+              - first_person_singular
+              - second_person_singular
+              - third_person_singular_masculine
+              - third_person_singular_feminine
+              - third_person_singular_neuter
+              - first_person_plural
+              - second_person_plural
+              - third_person_plural
             example: first_person_singular
           vocabulary_type:
-            description: 'Can be one of: not_specified, popular, technical, fictional.'
+            description: Vocabulary register the translations should use.
             type: string
+            enum:
+              - not_specified
+              - popular
+              - technical
+              - fictional
             example: technical
           business:
             description: Description of the business

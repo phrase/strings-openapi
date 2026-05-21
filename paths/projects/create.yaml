@@ -1,6 +1,11 @@
 ---
 summary: Create a project
-description: Create a new project.
+description: |
+  Create a new project in the given account.
+
+  When `source_project_id` is supplied, the new project is created as a clone of that project. All locales, keys, and translations are copied asynchronously after the response is returned, so they may not be available immediately. Settings from the source project are inherited unless explicitly overridden in the request; in clone mode, the `shares_translation_memory` field is ignored and inherited from the source.
+
+  `shares_translation_memory` defaults to `true` when omitted on a non-clone create.
 operationId: project/create
 tags:
   - Projects
@@ -22,8 +27,15 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   "400":
     "$ref": "../../responses.yaml#/400"
+  "401":
+    "$ref": "../../responses.yaml#/401"
+  "403":
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to create projects in the target account.
   "404":
     "$ref": "../../responses.yaml#/404"
+  "422":
+    "$ref": "../../responses.yaml#/422"
   "429":
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -149,6 +161,44 @@ requestBody:
             description: "(Optional) Requires autotranslate_enabled to be true"
             type: boolean
             example: true
+          autocomplete_job_enabled:
+            description: "(Optional) Enable autocomplete-job behavior so that newly created keys and locales are automatically added to in-progress jobs."
+            type: boolean
+            example: false
+          job_locking_enabled:
+            description: "(Optional) When enabled, translations are locked once a job moves into review."
+            type: boolean
+            example: false
+          smart_suggest_enabled:
+            description: "(Optional) Enable Smart Suggest for the project. Defaults to `true` when omitted."
+            type: boolean
+            example: true
+          smart_suggest_use_glossary:
+            description: "(Optional) Allow Smart Suggest to source suggestions from the project glossary. Defaults to `true` when omitted."
+            type: boolean
+            example: true
+          smart_suggest_use_machine_translation:
+            description: "(Optional) Allow Smart Suggest to source suggestions from machine translation. Defaults to `true` when omitted."
+            type: boolean
+            example: true
+          translation_keys_sort_collation:
+            description: "(Optional) Collation used when sorting translation keys alphabetically. Defaults to `unicode_ci` when omitted."
+            type: string
+            example: unicode_ci
+          default_encoding:
+            description: "(Optional) Sets the default encoding for Uploads. If you leave it empty, we will try to guess it automatically for you when you Upload a file. You can still override this value by setting the [`file_encoding`](/en/api/strings/uploads/upload-a-new-file) parameter for Uploads."
+            type: string
+            example: "UTF-8"
+            enum:
+              - "UTF-8"
+              - "UTF-16"
+              - "UTF-16BE"
+              - "UTF-16LE"
+              - "ISO-8859-1"
+          cldr_version:
+            description: "(Optional) CLDR plural-rule version used by the project."
+            type: string
+            example: "cldr48"
           placeholder_styles:
             description: "(Optional) List of placeholder styles enabled for the project."
             type: array

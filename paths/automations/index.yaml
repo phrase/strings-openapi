@@ -34,8 +34,11 @@ responses:
         "$ref": "../../headers.yaml#/Pagination"
   '400':
     "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
   '403':
     "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to list automations in this account, or when the account does not have the Automation Job Creation feature.
   '404':
     "$ref": "../../responses.yaml#/404"
   '429':

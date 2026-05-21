@@ -113,6 +113,7 @@ public class UploadsApiTest {
         Boolean markReviewed = null;
         Boolean tagOnlyAffectedKeys = null;
         String translationKeyPrefix = null;
+        Boolean skipAutomatedJobCreation = null;
 
         Map<String, String> nestedFormatOptionsMap = new HashMap<>();
         nestedFormatOptionsMap.put("nested_option", "sub_option");
@@ -126,7 +127,7 @@ public class UploadsApiTest {
             tags, updateTranslations, updateCustomMetadata, updateTranslationKeys, updateTranslationsOnSourceMatch, sourceLocaleId,
             updateDescriptions, convertEmoji, skipUploadTags, skipUnverification, fileEncoding,
             localeMapping, formatOptionsMap, autotranslate, verifyMentionedTranslations, markReviewed, tagOnlyAffectedKeys,
-            translationKeyPrefix);
+            translationKeyPrefix, skipAutomatedJobCreation);
 
         Assert.assertEquals("valid id returned", "id_example", response.getId());
         Assert.assertEquals("valid creation date returned", OffsetDateTime.parse("2015-01-28T09:52:53Z"), response.getCreatedAt());

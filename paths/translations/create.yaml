@@ -25,6 +25,13 @@ responses:
     "$ref": "../../responses.yaml#/400"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to translate this locale, or (when `unverified` is `true`) when the account does not have the Verification System or Advanced Workflows feature.
+  '422':
+    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -81,4 +88,14 @@ requestBody:
             description: Indicates whether the translation should be auto-translated. Responses with status 422 if provided for translation within a non-default locale or the project does not have the Autopilot feature enabled.
             type: boolean
             example:
+          minor_change:
+            description: |
+              When `true`, the translation is marked as a minor edit and does not trigger downstream re-verification on the linked locales' translations.
+            type: boolean
+            example: false
+          reviewed:
+            description: |
+              When `true` and the project's review workflow is enabled, the translation is created in the `reviewed` state.
+            type: boolean
+            example: false
 x-cli-version: '2.5'

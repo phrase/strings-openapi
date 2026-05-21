@@ -13,6 +13,24 @@ parameters:
 - "$ref": "../../parameters.yaml#/job_owner"
 - "$ref": "../../parameters.yaml#/job_assignee"
 - "$ref": "../../parameters.yaml#/job_state"
+- description: |-
+    Filter by multiple job states at once. Accepted values are the same as `state`. When supplied, `state` is ignored. Rejected with `400 Bad Request` if any value is unknown.
+  name: states
+  in: query
+  example:
+    - in_progress
+    - completed
+  schema:
+    type: array
+    items:
+      type: string
+- description: |-
+    Filter to jobs that include the translation key identified by this code (matches via the job's tags).
+  name: key_id
+  in: query
+  example: abcd1234cdef1234abcd1234cdef1234
+  schema:
+    type: string
 - "$ref": "../../parameters.yaml#/job_updated_since"
 responses:
   '200':
@@ -38,6 +56,11 @@ responses:
     "$ref": "../../responses.yaml#/400"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list jobs in this project.
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:

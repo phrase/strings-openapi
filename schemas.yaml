@@ -132,10 +132,10 @@ schemas:
     "$ref": schemas/job_comment.yaml#/job_comment
   branch:
     "$ref": schemas/branch.yaml#/branch
-  distribution_preview:
-    "$ref": schemas/distribution_preview.yaml#/distribution_preview
   distribution:
     "$ref": schemas/distribution.yaml#/distribution
+  distribution_details:
+    "$ref": schemas/distribution_details.yaml#/distribution_details
   release_preview:
     "$ref": schemas/release_preview.yaml#/release_preview
   release:

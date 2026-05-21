@@ -29,6 +29,8 @@ release:
       type: array
       items:
         type: string
+    state:
+      type: string
     project:
       "$ref": "./project_short.yaml#/project_short"
     created_at:
