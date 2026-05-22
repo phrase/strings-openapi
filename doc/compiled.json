@@ -7445,7 +7445,7 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/accounts/:account_id/custom_metadata/properties/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN\n  -X DELETE\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/accounts/:account_id/custom_metadata/properties/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -H 'Content-Type: application/json'"
           },
           {
             "lang": "CLI v2",
@@ -8562,7 +8562,7 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:screenshot_id/markers\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE\n  -d '{\"branch\":\"my-feature-branch\"}' \\\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:screenshot_id/markers\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -d '{\"branch\":\"my-feature-branch\"}' \\\n  -H 'Content-Type: application/json'"
           },
           {
             "lang": "CLI v2",
@@ -21438,7 +21438,7 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE\n  -d '{\"branch\":\"my-feature-branch\"}' \\\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -d '{\"branch\":\"my-feature-branch\"}' \\\n  -H 'Content-Type: application/json'"
           },
           {
             "lang": "CLI v2",
@@ -22825,7 +22825,7 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/keys\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -F branch=my-feature-branch \\\n  -F name=home.index.headline \\\n  -F description=Some%20description%20worth%20knowing... \\\n  -F name_plural=home.index.headlines \\\n  -F data_type=number \\\n  -F tags=awesome-feature,needs-proofreading \\\n  -F max_characters_allowed=140 \\\n  -F screenshot=@/path/to/my/screenshot.png\n  -F custom_metadata[property]=value"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/keys\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -F branch=my-feature-branch \\\n  -F name=home.index.headline \\\n  -F description=Some%20description%20worth%20knowing... \\\n  -F name_plural=home.index.headlines \\\n  -F data_type=number \\\n  -F tags=awesome-feature,needs-proofreading \\\n  -F max_characters_allowed=140 \\\n  -F screenshot=@/path/to/my/screenshot.png \\\n  -F custom_metadata[property]=value"
           },
           {
             "lang": "CLI v2",
@@ -23315,7 +23315,7 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/keys/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X PATCH \\\n  -F branch=my-feature-branch \\\n  -F name=home.index.headline \\\n  -F description=Some%20description%20worth%20knowing... \\\n  -F name_plural=home.index.headlines \\\n  -F data_type=number \\\n  -F tags=awesome-feature,needs-proofreading \\\n  -F max_characters_allowed=140 \\\n  -F screenshot=@/path/to/my/screenshot.png\n  -F custom_metadata[property]=value"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/keys/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X PATCH \\\n  -F branch=my-feature-branch \\\n  -F name=home.index.headline \\\n  -F description=Some%20description%20worth%20knowing... \\\n  -F name_plural=home.index.headlines \\\n  -F data_type=number \\\n  -F tags=awesome-feature,needs-proofreading \\\n  -F max_characters_allowed=140 \\\n  -F screenshot=@/path/to/my/screenshot.png \\\n  -F custom_metadata[property]=value"
           },
           {
             "lang": "CLI v2",
@@ -31544,7 +31544,7 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/accounts/:account_id/automations/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN\n  -X DELETE\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/accounts/:account_id/automations/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -H 'Content-Type: application/json'"
           },
           {
             "lang": "CLI v2",
@@ -31617,7 +31617,7 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/accounts/:account_id/automations/:id/activate\" \\\n  -u USERNAME_OR_ACCESS_TOKEN\n  -X POST\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/accounts/:account_id/automations/:id/activate\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -H 'Content-Type: application/json'"
           },
           {
             "lang": "CLI v2",
@@ -31690,7 +31690,7 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/accounts/:account_id/automations/:id/deactivate\" \\\n  -u USERNAME_OR_ACCESS_TOKEN\n  -X POST\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/accounts/:account_id/automations/:id/deactivate\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -H 'Content-Type: application/json'"
           },
           {
             "lang": "CLI v2",
@@ -31745,7 +31745,7 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/accounts/:account_id/automations/:id/trigger\" \\\n  -u USERNAME_OR_ACCESS_TOKEN\n  -X POST\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/accounts/:account_id/automations/:id/trigger\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -H 'Content-Type: application/json'"
           },
           {
             "lang": "CLI v2",
