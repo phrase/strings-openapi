@@ -47,7 +47,7 @@ x-code-samples:
       -F data_type=number \
       -F tags=awesome-feature,needs-proofreading \
       -F max_characters_allowed=140 \
-      -F screenshot=@/path/to/my/screenshot.png
+      -F screenshot=@/path/to/my/screenshot.png \
       -F custom_metadata[property]=value
 - lang: CLI v2
   source: |-
