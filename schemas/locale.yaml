@@ -30,6 +30,28 @@ locale:
     created_at:
       type: string
       format: date-time
+    unverify_new_translations:
+      type: boolean
+      description: >
+        When true, new translations for this locale are automatically marked as
+        unverified. Returns false when the account does not have the
+        advanced_workflows feature or the project uses a review workflow.
+    unverify_updated_translations:
+      type: boolean
+      description: >
+        When true, translations for this locale are automatically unverified
+        when their content changes. Returns false under the same conditions as
+        unverify_new_translations.
+    unverify_on_source_changes:
+      type: boolean
+      description: >
+        When true, translations are automatically unverified when the
+        corresponding source locale translation changes. Requires
+        source_locale_id to be set.
+    language_ai_profile:
+      type: string
+      nullable: true
+      description: Language AI profile assigned to this locale.
     updated_at:
       type: string
       format: date-time
@@ -55,5 +77,9 @@ locale:
       id: abcd1234cdef1234abcd1234cdef1234
       name: en
       code: en-GB
+    unverify_new_translations: false
+    unverify_updated_translations: false
+    unverify_on_source_changes: false
+    language_ai_profile:
     created_at: '2015-01-28T09:52:53Z'
     updated_at: '2015-01-28T09:52:53Z'

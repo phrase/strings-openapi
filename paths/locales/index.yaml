@@ -9,12 +9,28 @@ parameters:
 - "$ref": "../../parameters.yaml#/project_id"
 - "$ref": "../../parameters.yaml#/page"
 - "$ref": "../../parameters.yaml#/per_page"
-- description: Sort locales. Valid options are "name_asc", "name_desc", "default_asc", "default_desc".
-  example:
+- description: >
+    Sort order for locales. name_asc and name_desc sort alphabetically by
+    locale name. default_asc and default_desc sort by whether the locale is the
+    project default, with a secondary alphabetical sort by name.
   name: sort_by
   in: query
   schema:
     type: string
+    enum:
+      - name_asc
+      - name_desc
+      - default_asc
+      - default_desc
+- description: >
+    Limit results to the locales with the specified public codes. Multiple
+    codes can be provided.
+  name: filtered_ids[]
+  in: query
+  schema:
+    type: array
+    items:
+      type: string
 - description: specify the branch to use
   example: my-feature-branch
   name: branch
@@ -49,6 +65,10 @@ responses:
         "$ref": "../../headers.yaml#/Pagination"
   '400':
     "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
   '404':
     "$ref": "../../responses.yaml#/404"
   '429':

@@ -1,6 +1,12 @@
 ---
 summary: Update a locale
-description: Update an existing locale.
+description: >
+  Update an existing locale. Requires manage permission on the locale.
+  Setting source_locale_id to an empty string removes the source locale and
+  automatically sets unverify_on_source_changes to false. Setting
+  unverify_new_translations or unverify_updated_translations to true requires
+  the advanced_workflows plan feature. Setting main to true requires the
+  verification_system plan feature. Returns 403 when the project is protected.
 operationId: locale/update
 tags:
 - Locales
@@ -24,8 +30,14 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '422':
+    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -84,15 +96,28 @@ requestBody:
             type: string
             example: abcd1234abcd1234abcd1234abcd1234
           unverify_new_translations:
-            description: Indicates that new translations for this locale should be marked as unverified. Part of the [Advanced Workflows](https://support.phrase.com/hc/en-us/articles/5784094755484) feature.
+            description: >
+              When true, new translations for this locale are automatically
+              marked as unverified. Requires the advanced_workflows plan feature;
+              sending true without the feature returns 403.
             type: boolean
             example:
           unverify_updated_translations:
-            description: Indicates that updated translations for this locale should be marked as unverified. Part of the [Advanced Workflows](https://support.phrase.com/hc/en-us/articles/5784094755484) feature.
+            description: >
+              When true, translations are automatically unverified when their
+              content changes. Requires the advanced_workflows plan feature;
+              sending true without the feature returns 403.
             type: boolean
             example:
-          autotranslate:
-            description: If set, translations for this locale will be fetched automatically, right after creation.
+          unverify_on_source_changes:
+            description: >
+              When true, translations are automatically unverified when the
+              corresponding source locale translation changes. Requires
+              source_locale_id to be set.
             type: boolean
+            example:
+          language_ai_profile:
+            description: Language AI profile to assign to this locale.
+            type: string
             example:
 x-cli-version: '2.5'

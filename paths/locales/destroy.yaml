@@ -1,6 +1,10 @@
 ---
 summary: Delete a locale
-description: Delete an existing locale.
+description: >
+  Delete an existing locale. All translations for the locale are deleted
+  asynchronously. Returns 422 when the locale is the project's default locale
+  or has an active translation order in progress. Returns 403 when the project
+  is protected or the caller lacks manage permission.
 operationId: locale/delete
 tags:
 - Locales
@@ -19,8 +23,14 @@ responses:
     "$ref": "../../responses.yaml#/204"
   '400':
     "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
   '404':
     "$ref": "../../responses.yaml#/404"
+  '422':
+    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
