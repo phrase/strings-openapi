@@ -97,7 +97,6 @@ requestBody:
               In the simple workflow, "non-final" means `unverified`. In the review workflow, it additionally includes `translated` (awaiting review).
               No stored translations are modified. Requires `fallback_locale_id` or `use_locale_fallback` to be set; a `422` validation error is returned otherwise.
             type: boolean
-            default: false
             example: false
           source_locale_id:
             description: Provides the source language of a corresponding job as the source language of the generated locale file. This parameter will be ignored unless used in combination with a `tag` parameter indicating a specific job.
