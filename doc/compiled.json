@@ -9382,8 +9382,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "boolean",
-              "default": false
+              "type": "boolean"
             },
             "example": null
           },
@@ -9616,7 +9615,6 @@
                   "fallback_for_unverified_translations": {
                     "description": "If set to `true`, translations in a non-final state are replaced by the fallback locale's translation at export time.\nIn the simple workflow, \"non-final\" means `unverified`. In the review workflow, it additionally includes `translated` (awaiting review).\nNo stored translations are modified. Requires `fallback_locale_id` or `use_locale_fallback` to be set; a `422` validation error is returned otherwise.\n",
                     "type": "boolean",
-                    "default": false,
                     "example": false
                   },
                   "source_locale_id": {
