@@ -27,6 +27,18 @@ job:
     updated_at:
       type: string
       format: date-time
+    automation_id:
+      type: string
+      nullable: true
+      description: >-
+        The ID of the automation that created this job, or null if the job was
+        created manually.
+    job_template_id:
+      type: string
+      nullable: true
+      description: >-
+        The ID of the job template this job was created from, or null if no
+        template was used.
   example:
     id: 626ea67628690c73ac86ac81eec2d185
     name: Translations for new Feature

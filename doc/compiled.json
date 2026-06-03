@@ -3221,6 +3221,16 @@
           "updated_at": {
             "type": "string",
             "format": "date-time"
+          },
+          "automation_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "The ID of the automation that created this job, or null if the job was created manually."
+          },
+          "job_template_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "The ID of the job template this job was created from, or null if no template was used."
           }
         },
         "example": {
@@ -3335,6 +3345,16 @@
               "locked": {
                 "type": "boolean",
                 "description": "`true` if the job has been locked by the project's job-locking workflow (translations attached to the job are read-only until the job advances).\n"
+              },
+              "automation_id": {
+                "type": "string",
+                "nullable": true,
+                "description": "The ID of the automation that created this job, or null if the job was created manually."
+              },
+              "job_template_id": {
+                "type": "string",
+                "nullable": true,
+                "description": "The ID of the job template this job was created from, or null if no template was used."
               }
             },
             "example": {
