@@ -4607,8 +4607,24 @@
           "project": {
             "$ref": "#/components/schemas/project_short"
           },
+          "git_provider": {
+            "type": "string",
+            "enum": [
+              "github",
+              "gitlab",
+              "bitbucket"
+            ],
+            "description": "The git provider this sync is connected to. Carries the same value as `provider`; `provider` is retained for backward compatibility.",
+            "example": "github"
+          },
           "provider": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "github",
+              "gitlab",
+              "bitbucket"
+            ],
+            "description": "The git provider this sync is connected to. Use `git_provider` going forward; both fields carry the same value."
           },
           "enabled": {
             "type": "boolean"
@@ -4637,6 +4653,13 @@
             "format": "date-time"
           }
         },
+        "required": [
+          "id",
+          "git_provider",
+          "provider",
+          "enabled",
+          "auto_import"
+        ],
         "example": {
           "id": "abcd1234cdef1234abcd1234cdef1234",
           "project": {
@@ -4646,6 +4669,7 @@
             "created_at": "2015-01-28T09:52:53Z",
             "updated_at": "2015-01-28T09:52:53Z"
           },
+          "git_provider": "github",
           "provider": "github",
           "enabled": true,
           "auto_import": true,
