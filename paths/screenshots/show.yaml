@@ -1,19 +1,32 @@
 ---
 summary: Get a single screenshot
-description: Get details on a single screenshot for a given project.
-operationId: screenshot/show
+description: |
+  Returns the details of a single screenshot within a project. Screenshots are image
+  files uploaded to a project to provide visual context for translators; each screenshot
+  may be linked to one or more translation keys via markers.
+
+  Use this endpoint to retrieve a screenshot's metadata — including its name, description,
+  hosted image URL, and the count of translation-key markers attached to it — by its
+  unique identifier.
+
+  The `id` field in the response is the screenshot's string code, not a numeric primary
+  key. Pass this value to other screenshot endpoints.
+
+  **Access control:** The requesting token must carry the `read` OAuth scope, and the
+  authenticated user must have at least read permission on the project. Access is also
+  gated on the Attachable Screenshots feature being enabled for the account; a 403 is
+  returned when the feature is unavailable.
+
+  **Branches:** When working with branch-isolated projects, pass the `branch` parameter
+  to read from a specific branch's screenshot context. Omit it to read from the main branch.
+operationId: screenshots/show
 tags:
 - Screenshots
 parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
 - "$ref": "../../parameters.yaml#/project_id"
 - "$ref": "../../parameters.yaml#/id"
-- description: specify the branch to use
-  example: my-feature-branch
-  name: branch
-  in: query
-  schema:
-    type: string
+- "$ref": "../../parameters.yaml#/branch"
 responses:
   '200':
     description: OK
@@ -21,6 +34,14 @@ responses:
       application/json:
         schema:
           "$ref": "../../schemas/screenshot.yaml#/screenshot"
+        example:
+          id: d2e056aa9e70b01121f41693e344f5ee
+          name: Onboarding step 1
+          description: First step of the user onboarding flow showing the project selection screen
+          screenshot_url: https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png
+          created_at: '2024-03-15T10:22:31Z'
+          updated_at: '2024-03-18T14:05:12Z'
+          markers_count: 3
     headers:
       X-Rate-Limit-Limit:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
@@ -30,25 +51,29 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '404':
-    "$ref": "../../responses.yaml#/404"
   '401':
     "$ref": "../../responses.yaml#/401"
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this screenshot, or when the account does not have the Attachable Screenshots feature.
+    description: |
+      Forbidden. Returned when:
+      - The access token lacks the `read` OAuth scope.
+      - The authenticated user does not have read permission on this project or screenshot.
+      - The account does not have the Attachable Screenshots feature enabled on its plan.
+  '404':
+    "$ref": "../../responses.yaml#/404"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
 - lang: Curl
   source: |-
-    curl "https://api.phrase.com/v2/projects/:project_id/screenshots/:id?branch=my-feature-branch" \
+    curl "https://api.phrase.com/v2/projects/3d7ce831a3e9e1b843dc16d36ee5b9f4/screenshots/d2e056aa9e70b01121f41693e344f5ee?branch=main" \
       -u USERNAME_OR_ACCESS_TOKEN
 - lang: CLI v2
   source: |-
     phrase screenshots show \
-    --project_id <project_id> \
-    --id <id> \
-    --branch my-feature-branch \
+    --project_id 3d7ce831a3e9e1b843dc16d36ee5b9f4 \
+    --id d2e056aa9e70b01121f41693e344f5ee \
+    --branch main \
     --access_token <token>
 x-cli-version: '2.5'
