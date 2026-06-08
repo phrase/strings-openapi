@@ -1,31 +1,52 @@
 ---
 summary: Delete a screenshot
-description: Delete an existing screenshot.
-operationId: screenshot/delete
+description: |
+  Permanently deletes a screenshot from the project. All translation key markers
+  attached to the screenshot are also removed as part of the deletion. Use this
+  operation when a screenshot is no longer needed or has been replaced by an
+  updated image.
+
+  Requires the `write` OAuth scope. The requesting user must have Manage
+  permission on the Screenshot resource in the project. This endpoint is only
+  available to accounts with the Attachable Screenshots feature enabled; requests
+  from accounts without this feature return 403.
+
+  The `id` path parameter is the screenshot's string code (e.g.
+  `d2e056aa9e70b01121f41693e344f5ee`), not a numeric identifier.
+
+  Deletion dispatches a `screenshots:delete` event that may trigger configured
+  webhook subscriptions.
+operationId: screenshots/destroy
 tags:
 - Screenshots
 parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
 - "$ref": "../../parameters.yaml#/project_id"
 - "$ref": "../../parameters.yaml#/id"
-- description: specify the branch to use
-  example: my-feature-branch
-  name: branch
-  in: query
-  schema:
-    type: string
+- "$ref": "../../parameters.yaml#/branch"
 responses:
   '204':
-    "$ref": "../../responses.yaml#/204"
+    description: The screenshot was deleted successfully. No response body is returned.
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '404':
-    "$ref": "../../responses.yaml#/404"
   '401':
     "$ref": "../../responses.yaml#/401"
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this screenshot, or when the account does not have the Attachable Screenshots feature.
+    description: >-
+      Forbidden. Returned when the access token lacks the `write` scope,
+      when the requesting user does not have Manage permission on the
+      Screenshot resource, or when the account does not have the
+      Attachable Screenshots feature enabled.
+  '404':
+    "$ref": "../../responses.yaml#/404"
   '422':
     "$ref": "../../responses.yaml#/422"
   '429':
@@ -33,16 +54,14 @@ responses:
 x-code-samples:
 - lang: Curl
   source: |-
-    curl "https://api.phrase.com/v2/projects/:project_id/screenshots/:id" \
+    curl "https://api.phrase.com/v2/projects/your_project_id/screenshots/d2e056aa9e70b01121f41693e344f5ee?branch=my-feature-branch" \
       -u USERNAME_OR_ACCESS_TOKEN \
-      -X DELETE \
-      -d '{"branch":"my-feature-branch"}' \
-      -H 'Content-Type: application/json'
+      -X DELETE
 - lang: CLI v2
   source: |-
     phrase screenshots delete \
-    --project_id <project_id> \
-    --id <id> \
+    --project_id your_project_id \
+    --id d2e056aa9e70b01121f41693e344f5ee \
     --branch my-feature-branch \
     --access_token <token>
 x-cli-version: '2.5'
