@@ -5,25 +5,39 @@ screenshot:
   properties:
     id:
       type: string
+      description: The unique string code identifying this screenshot. Use this value when referencing the screenshot in other API calls.
+      example: d2e056aa9e70b01121f41693e344f5ee
     name:
       type: string
+      description: A human-readable name for the screenshot.
+      example: Onboarding step 1
     description:
       type: string
+      description: An optional longer description of what the screenshot shows, providing additional context for translators.
+      example: First step of the user onboarding flow showing the project selection screen
     screenshot_url:
       type: string
+      description: The full URL of the hosted screenshot image file.
+      example: https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png
     created_at:
       type: string
       format: date-time
+      description: The date and time when the screenshot was first uploaded, in ISO 8601 format.
+      example: '2024-03-15T10:22:31Z'
     updated_at:
       type: string
       format: date-time
+      description: The date and time when the screenshot was last modified, in ISO 8601 format.
+      example: '2024-03-18T14:05:12Z'
     markers_count:
       type: integer
+      description: The number of translation-key markers currently attached to this screenshot.
+      example: 3
   example:
     id: d2e056aa9e70b01121f41693e344f5ee
-    name: A screenshot name
-    description: A screenshot description
-    screenshot_url: http://assets.example.com/screenshot.png
-    created_at: '2015-01-28T09:52:53Z'
-    updated_at: '2015-01-28T09:52:53Z'
-    markers_count: 0
+    name: Onboarding step 1
+    description: First step of the user onboarding flow showing the project selection screen
+    screenshot_url: https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png
+    created_at: '2024-03-15T10:22:31Z'
+    updated_at: '2024-03-18T14:05:12Z'
+    markers_count: 3
