@@ -1,7 +1,47 @@
 ---
 summary: Get a single screenshot
-description: Get details on a single screenshot for a given project.
-operationId: screenshot/show
+description: |
+  Returns the full metadata for one screenshot within a project.
+
+  Screenshots are image files uploaded to a project to provide translators with
+  visual context for the strings they are working on. Each screenshot can be
+  associated with one or more translation keys by attaching markers that point to
+  specific regions of the image. This endpoint retrieves a single screenshot
+  record by its unique string identifier, including the hosted image URL and the
+  count of translation-key markers currently attached to it.
+
+  **When to use:** Use this endpoint to retrieve a screenshot's metadata,
+  verify its marker count, or resolve the hosted image URL before presenting it
+  in a localization workflow tool.
+
+  **`id` field semantics:** The `id` in the response is the screenshot's string
+  code (for example, `d2e056aa9e70b01121f41693e344f5ee`), not a numeric primary
+  key. Use this value as the `id` path segment when calling other screenshot
+  endpoints (update, delete, marker operations).
+
+  **Branches:** Pass the `branch` query parameter to scope the lookup to a
+  branch-isolated copy of the project. Omit it to read from the main (default)
+  branch.
+
+  **Access control:** Requires the `read` OAuth scope. The authenticated user
+  must have at least read permission on the project. If the account's plan does
+  not include the Attachable Screenshots feature, the endpoint returns 403 for
+  all callers regardless of user permission level.
+
+  **Error codes**
+
+  The `message` field in error responses uses a stable string identifier in
+  UPPER_SNAKE_CASE format. Use the `message` value for programmatic error
+  handling; the human-readable text may change between releases.
+
+  | HTTP status | Error code | Cause | Remediation |
+  |-------------|------------|-------|-------------|
+  | 400 | `bad_request` | Malformed request parameter or unparseable JSON body | Fix the request syntax and retry |
+  | 401 | `unauthorized` | Missing or invalid access token; 2FA code required but absent or wrong | Provide a valid access token; supply `X-PhraseApp-OTP` when 2FA is enabled |
+  | 403 | `forbidden` | Token lacks `read` scope; account unconfirmed; caller lacks read permission on the project; account plan does not include the Attachable Screenshots feature | Upgrade the OAuth token scope to `read`, confirm the account, or upgrade the account plan |
+  | 404 | `not_found` | Project or screenshot with the given `project_id` or `id` does not exist, or is not accessible to the caller | Verify both path parameters reference existing, accessible resources |
+  | 429 | `rate_limit_exceeded` | Request rate limit or concurrency limit exceeded | Reduce request rate; observe `X-Rate-Limit-Reset` before retrying |
+operationId: screenshots/show
 tags:
 - Screenshots
 parameters:
@@ -30,25 +70,65 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '404':
-    "$ref": "../../responses.yaml#/404"
+    description: >-
+      Bad request. The `project_id`, `id`, or `branch` parameter is malformed,
+      or the request body cannot be parsed. Fix the request syntax and retry.
   '401':
     "$ref": "../../responses.yaml#/401"
+    description: >-
+      Unauthorized. The access token is missing or invalid. When the account has
+      two-factor authentication enabled, provide the current one-time password
+      (OTP) in the `X-PhraseApp-OTP` header.
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this screenshot, or when the account does not have the Attachable Screenshots feature.
+    description: >-
+      Forbidden. Returned in any of these situations: the access token does not
+      carry the `read` OAuth scope or the user account is unconfirmed; the
+      authenticated user does not have read permission on this project; or the
+      account's plan does not include the Attachable Screenshots feature.
+  '404':
+    "$ref": "../../responses.yaml#/404"
+    description: >-
+      Not found. No project matches `project_id`, or no screenshot matches `id`
+      within that project. Verify both path parameters reference existing,
+      accessible resources.
   '429':
     "$ref": "../../responses.yaml#/429"
+    description: >-
+      Too many requests. The per-user rate limit or concurrency limit has been
+      exceeded. Check the `X-Rate-Limit-Reset` response header for the Unix
+      timestamp at which the limit resets, then retry.
 x-code-samples:
 - lang: Curl
   source: |-
-    curl "https://api.phrase.com/v2/projects/:project_id/screenshots/:id?branch=my-feature-branch" \
+    curl "https://api.phrase.com/v2/projects/3d7ce831a3e9e1b843dc16d36ee5b9f4/screenshots/d2e056aa9e70b01121f41693e344f5ee" \
       -u USERNAME_OR_ACCESS_TOKEN
+
+    # Expected response (HTTP 200):
+    # {
+    #   "id": "d2e056aa9e70b01121f41693e344f5ee",
+    #   "name": "Onboarding — step 1",
+    #   "description": "First step of the user onboarding flow showing the project selection screen",
+    #   "screenshot_url": "https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png",
+    #   "created_at": "2024-03-15T10:22:31Z",
+    #   "updated_at": "2024-03-18T14:05:12Z",
+    #   "markers_count": 3
+    # }
 - lang: CLI v2
   source: |-
     phrase screenshots show \
-    --project_id <project_id> \
-    --id <id> \
-    --branch my-feature-branch \
-    --access_token <token>
+    --project_id 3d7ce831a3e9e1b843dc16d36ee5b9f4 \
+    --id d2e056aa9e70b01121f41693e344f5ee \
+    --access_token 4a8e3f7c2b1d9e6a0c5f8b2d4e7a1c3f
+
+    # Expected response (HTTP 200):
+    # {
+    #   "id": "d2e056aa9e70b01121f41693e344f5ee",
+    #   "name": "Onboarding — step 1",
+    #   "description": "First step of the user onboarding flow showing the project selection screen",
+    #   "screenshot_url": "https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png",
+    #   "created_at": "2024-03-15T10:22:31Z",
+    #   "updated_at": "2024-03-18T14:05:12Z",
+    #   "markers_count": 3
+    # }
 x-cli-version: '2.5'
