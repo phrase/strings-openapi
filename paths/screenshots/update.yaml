@@ -1,20 +1,89 @@
 ---
 summary: Update a screenshot
-description: Update an existing screenshot.
-operationId: screenshot/update
+description: |
+  Updates the name or description of an existing screenshot within a project.
+
+  Use this operation to rename a screenshot or revise its description after upload. The
+  screenshot file itself cannot be replaced via this endpoint; to change the image, delete
+  the screenshot and create a new one.
+
+  **Authorization:** Requires the `write` OAuth scope. The caller must have manage permission
+  on the screenshot resource (`grant_manage?`) and the project must not be protected.
+  Specifically, `ScreenshotPolicy#update?` (aliased from `create?`) requires
+  `permissions.grant_manage?(record) && !project.protected?`. Requests from users whose
+  token lacks the `write` scope, who lack manage permission, or who target a protected
+  project receive a 403 response.
+
+  **Feature gate:** This endpoint is only available on plans that include the Screenshots
+  feature (`attachable_screenshots`). Accounts without this feature receive a 403 response
+  with a localized plan-upgrade message.
+
+  On success, a `screenshots:update` event is dispatched to configured webhooks.
+
+  **Error codes:** When a request cannot be completed, the response body includes a `message`
+  string and a `documentation_url` string. The table below lists the stable error codes
+  returned in the `message` field for each error condition. Error codes follow
+  `UPPER_SNAKE_CASE` format.
+
+  | HTTP status | Error code | Condition |
+  |-------------|------------|-----------|
+  | 400 | `BAD_REQUEST` | Malformed request body (unparseable JSON), missing required parameter, or invalid branch reference. |
+  | 401 | `UNAUTHORIZED` | Missing or invalid authentication credentials, or invalid OTP (one-time password) code. |
+  | 403 | `FORBIDDEN` | Token lacks the `write` scope; caller lacks manage permission on the screenshot; project is protected; or account plan does not include the Screenshots feature. |
+  | 404 | `NOT_FOUND` | The project or screenshot does not exist, or is not accessible to the caller. |
+  | 422 | `UNPROCESSABLE_ENTITY` | Screenshot attributes failed model validation (for example, a blank or duplicate name). The `errors` array in the response body contains per-field details. |
+  | 429 | `RATE_LIMIT_EXCEEDED` | The caller has exceeded their per-minute request quota or concurrent-request limit. |
+operationId: screenshots/update
 tags:
-- Screenshots
+  - Screenshots
 parameters:
-- "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
-- "$ref": "../../parameters.yaml#/project_id"
-- "$ref": "../../parameters.yaml#/id"
+  - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+    required: false
+  - "$ref": "../../parameters.yaml#/project_id"
+    required: true
+  - "$ref": "../../parameters.yaml#/id"
+    required: true
+  - name: branch
+    in: query
+    description: Specifies the branch to use. When omitted, the default branch is used.
+    required: false
+    schema:
+      type: string
+      example: my-feature-branch
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: New name for the screenshot.
+            example: main_nav_v2
+          description:
+            type: string
+            description: >-
+              Descriptive text for the screenshot, used to provide context for
+              translators.
+            example: Shows the main navigation bar after the v2 redesign
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: New name for the screenshot.
+            example: main_nav_v2
+          description:
+            type: string
+            description: >-
+              Descriptive text for the screenshot, used to provide context for
+              translators.
+            example: Shows the main navigation bar after the v2 redesign
 responses:
   '200':
     description: OK
-    content:
-      application/json:
-        schema:
-          "$ref": "../../schemas/screenshot.yaml#/screenshot"
     headers:
       X-Rate-Limit-Limit:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
@@ -22,59 +91,99 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
       X-Rate-Limit-Reset:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+    content:
+      application/json:
+        schema:
+          "$ref": "../../schemas/screenshot.yaml#/screenshot"
+        example:
+          id: b827204f17cefe7fa3b6a8ced17ead26
+          name: main_nav_v2
+          description: Shows the main navigation bar after the v2 redesign
+          screenshot_url: "https://uploads.phrase.com/screenshots/b827204f17cefe7fa3b6a8ced17ead26/screenshot-7411f4f0a5c11802.jpg"
+          created_at: "2015-01-28T09:52:53Z"
+          updated_at: "2025-03-14T11:20:00Z"
+          markers_count: 2
   '400':
     "$ref": "../../responses.yaml#/400"
-  '404':
-    "$ref": "../../responses.yaml#/404"
+    description: >-
+      Returned when the request body cannot be parsed (for example, malformed JSON), a
+      required parameter is missing, or the specified branch reference is not
+      interactable. Fix the request body or query parameters and retry.
   '401':
     "$ref": "../../responses.yaml#/401"
+    description: >-
+      Returned when no valid authentication credentials are provided, or when the
+      X-PhraseApp-OTP header contains an invalid one-time password code. Provide a
+      valid access token (Basic auth or Bearer token) and, when two-factor
+      authentication is enabled on the account, a current OTP value.
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this screenshot, or when the account does not have the Attachable Screenshots feature.
+    description: >-
+      Returned when the access token lacks the `write` scope, the caller does not
+      have manage permission on the screenshot, the project is protected, or the
+      account plan does not include the Screenshots feature. Ensure the token has
+      the `write` scope and the authenticated user has manage-level access to
+      the project.
+  '404':
+    "$ref": "../../responses.yaml#/404"
+    description: >-
+      Returned when the project or screenshot identified by `project_id` or `id`
+      does not exist, has been deleted, or is not accessible to the authenticated
+      user. Verify that both identifiers are correct and the user has access to
+      the project.
   '422':
     "$ref": "../../responses.yaml#/422"
+    description: >-
+      Returned when screenshot attributes fail model validation, for example when
+      the provided name is blank or conflicts with an existing screenshot. The
+      response body includes an `errors` array with per-field details. Correct the
+      field values indicated in `errors` and resubmit.
   '429':
     "$ref": "../../responses.yaml#/429"
+    description: >-
+      Returned when the caller exceeds their per-minute request quota or maximum
+      concurrent-request limit. Wait for the interval indicated by the
+      `X-Rate-Limit-Reset` response header before retrying.
 x-code-samples:
-- lang: Curl
-  source: |-
-    curl "https://api.phrase.com/v2/projects/:project_id/screenshots/:id" \
-      -u USERNAME_OR_ACCESS_TOKEN \
-      -X PATCH \
-      -F branch=my-feature-branch \
-      -F name=A%20screenshot%20name \
-      -F description=A%20screenshot%20description \
-      -F filename=@/path/to/my/screenshot.png
-- lang: CLI v2
-  source: |-
-    phrase screenshots update \
-    --project_id <project_id> \
-    --id <id> \
-    --data '{"branch":"my-feature-branch", "name": "A screenshot name", "description": "A screenshot description", "filename":"/path/to/my/screenshot.png"}' \
-    --access_token <token>
-requestBody:
-  required: true
-  content:
-    application/json:
-      schema:
-        type: object
-        title: screenshot/update/parameters
-        properties:
-          branch:
-            description: specify the branch to use
-            type: string
-            example: my-feature-branch
-          name:
-            description: Name of the screenshot
-            type: string
-            example: A screenshot name
-          description:
-            description: Description of the screenshot
-            type: string
-            example: A screenshot description
-          filename:
-            description: Screenshot file
-            type: string
-            format: binary
-            example: "/path/to/my/screenshot.png"
+  - lang: Curl
+    source: |-
+      curl "https://api.phrase.com/v2/projects/abcd1234abcd1234abcd1234abcd1234/screenshots/b827204f17cefe7fa3b6a8ced17ead26" \
+        -u USERNAME:abcd1234abcd1234abcd1234abcd1234 \
+        -X PATCH \
+        -H "Content-Type: application/json" \
+        -d '{"name":"main_nav_v2","description":"Shows the main navigation bar after the v2 redesign"}'
+
+      # Example response (HTTP 200):
+      # {
+      #   "id": "b827204f17cefe7fa3b6a8ced17ead26",
+      #   "name": "main_nav_v2",
+      #   "description": "Shows the main navigation bar after the v2 redesign",
+      #   "screenshot_url": "https://uploads.phrase.com/screenshots/b827204f17cefe7fa3b6a8ced17ead26/screenshot-7411f4f0a5c11802.jpg",
+      #   "created_at": "2015-01-28T09:52:53Z",
+      #   "updated_at": "2025-03-14T11:20:00Z",
+      #   "markers_count": 2
+      # }
+  - lang: CLI v2
+    source: |-
+      phrase screenshots update \
+        --project_id abcd1234abcd1234abcd1234abcd1234 \
+        --id b827204f17cefe7fa3b6a8ced17ead26 \
+        --data '{"name":"main_nav_v2","description":"Shows the main navigation bar after the v2 redesign"}' \
+        --access_token abcd1234abcd1234abcd1234abcd1234
+
+      # Example response (HTTP 200):
+      # {
+      #   "id": "b827204f17cefe7fa3b6a8ced17ead26",
+      #   "name": "main_nav_v2",
+      #   "description": "Shows the main navigation bar after the v2 redesign",
+      #   "screenshot_url": "https://uploads.phrase.com/screenshots/b827204f17cefe7fa3b6a8ced17ead26/screenshot-7411f4f0a5c11802.jpg",
+      #   "created_at": "2015-01-28T09:52:53Z",
+      #   "updated_at": "2025-03-14T11:20:00Z",
+      #   "markers_count": 2
+      # }
 x-cli-version: '2.5'
+security:
+  - Basic: []
+  - Token: []
+  - OAuthAccessToken:
+      - write
