@@ -1,48 +1,155 @@
 ---
 summary: Delete a screenshot
-description: Delete an existing screenshot.
-operationId: screenshot/delete
+description: |
+  Permanently deletes the screenshot identified by `id` from the project
+  identified by `project_id`. All translation-key markers attached to the
+  screenshot are removed as part of the deletion. Use this operation when a
+  screenshot is no longer needed or has been replaced by an updated image.
+
+  **Parameters**
+
+  | Name | In | Type | Required | Description |
+  |------|----|------|----------|-------------|
+  | X-PhraseApp-OTP | header | string | No | Two-factor authentication token. OTP (One-Time Password) value from your authenticator app, required only when 2FA is enabled on the account. |
+  | project_id | path | string | Yes | Unique string code identifying the project (for example, `3d7ce831a3e9e1b843dc16d36ee5b9f4`). |
+  | id | path | string | Yes | String code of the screenshot to delete (for example, `d2e056aa9e70b01121f41693e344f5ee`). This is the `id` field returned by the create, show, and list screenshot endpoints — it is not a numeric primary key. |
+  | branch | query | string | No | Name of the branch to use. When omitted the operation applies to the main project. |
+
+  **Authorization:** Requires the `write` OAuth scope. The authenticated user
+  must have Manage permission on the Screenshot resource within the project.
+
+  **Feature gate:** This endpoint is available only to accounts with the
+  Attachable Screenshots feature enabled. Requests from accounts on plans that
+  do not include this feature receive a 403 response with error code
+  `features_unavailable`. Requests originating from the Phrase Sketch Plugin
+  are additionally gated on the Sketch Plugin feature; accounts without that
+  feature also receive 403.
+
+  **Cascade effect:** A successful deletion dispatches a `screenshots:delete`
+  event, which may trigger any configured webhook subscriptions for the project.
+
+  **Validation failures (422):** If the underlying model destroy fails, the
+  response body contains a `message` string and an `errors` array with
+  per-field detail. Each entry in `errors` carries `resource`, `field`, and
+  `message`.
+
+  **Errors**
+
+  | Status | Error code | Cause | Resolution |
+  |--------|------------|-------|------------|
+  | 400 | `bad_request` | Malformed request parameters (for example, a branch name referencing a non-interactable branch). | Correct the request parameters and retry. |
+  | 401 | `unauthorized` | Authentication credentials are missing or invalid. | Supply a valid access token via `-u USERNAME:ACCESS_TOKEN` or the `Authorization` header. |
+  | 403 | `forbidden` | The access token lacks the `write` OAuth scope; the user account is unconfirmed; the authenticated user lacks Manage permission on the Screenshot resource; or the account does not have the Attachable Screenshots or Sketch Plugin feature enabled. | Use a token with the `write` scope, confirm the user account, or upgrade the subscription plan to one that includes Attachable Screenshots. |
+  | 404 | `not_found` | No screenshot with the given `id` exists in the specified project, or the `project_id` does not match any accessible project. | Verify both `project_id` and `id` using the list or show endpoints. |
+  | 422 | `unprocessable_entity` | The screenshot record could not be destroyed due to a model validation or database constraint failure. | Inspect the `errors` array in the response body for field-level detail. |
+  | 429 | `rate_limit_exceeded` | The request rate or concurrency limit for the access token has been exceeded. | Back off and retry after the interval indicated in the `X-Rate-Limit-Reset` response header. |
+operationId: screenshots/delete
 tags:
 - Screenshots
 parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+  name: X-PhraseApp-OTP
+  in: header
+  required: false
+  description: >-
+    OTP (One-Time Password) token from your authenticator app. Required only
+    when two-factor authentication is enabled on the account.
+  schema:
+    type: string
 - "$ref": "../../parameters.yaml#/project_id"
+  name: project_id
+  in: path
+  required: true
+  description: >-
+    Unique string code of the project (for example,
+    `3d7ce831a3e9e1b843dc16d36ee5b9f4`).
+  schema:
+    type: string
 - "$ref": "../../parameters.yaml#/id"
-- description: specify the branch to use
-  example: my-feature-branch
+  name: id
+  in: path
+  required: true
+  description: >-
+    String code of the screenshot to delete (for example,
+    `d2e056aa9e70b01121f41693e344f5ee`). This is the `id` field returned by
+    the create, show, and list screenshot endpoints.
+  schema:
+    type: string
+    pattern: '^[0-9a-f]{32}$'
+- "$ref": "../../parameters.yaml#/branch"
   name: branch
   in: query
+  required: false
+  description: >-
+    Name of the branch to use. When omitted the operation applies to the main
+    project.
   schema:
     type: string
 responses:
   '204':
-    "$ref": "../../responses.yaml#/204"
+    description: >-
+      The screenshot was deleted successfully. No response body is returned.
+      The HTTP status `204 No Content` confirms deletion.
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '404':
-    "$ref": "../../responses.yaml#/404"
+    description: >-
+      Bad request. Returned when request parameters are malformed (for example,
+      referencing a non-interactable branch). Correct the request parameters
+      and retry. Error code: `bad_request`.
   '401':
     "$ref": "../../responses.yaml#/401"
+    description: >-
+      Unauthorized. Authentication credentials are missing or invalid. Supply a
+      valid access token. Error code: `unauthorized`.
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this screenshot, or when the account does not have the Attachable Screenshots feature.
+    description: >-
+      Forbidden. Returned when: the access token lacks the `write` OAuth scope;
+      the user account is unconfirmed; the authenticated user lacks Manage
+      permission on the Screenshot resource in this project; or the account
+      subscription does not include the Attachable Screenshots or Sketch Plugin
+      feature. To resolve: use a token with the `write` scope, confirm the user
+      account, or upgrade to a plan that includes Attachable Screenshots.
+      Error code: `forbidden` or `features_unavailable`.
+  '404':
+    "$ref": "../../responses.yaml#/404"
+    description: >-
+      Not found. No screenshot with the given `id` exists in the specified
+      project, or the `project_id` is invalid. Verify both identifiers using
+      the list or show endpoints. Error code: `not_found`.
   '422':
     "$ref": "../../responses.yaml#/422"
+    description: >-
+      Unprocessable entity. The screenshot record could not be destroyed due to
+      a model validation or constraint failure. Inspect the `errors` array in
+      the response body for field-level detail. Error code:
+      `unprocessable_entity`.
   '429':
     "$ref": "../../responses.yaml#/429"
+    description: >-
+      Too many requests. The request rate or concurrency limit has been
+      exceeded. Back off and retry after the interval indicated in the
+      `X-Rate-Limit-Reset` response header. Error code: `rate_limit_exceeded`.
 x-code-samples:
 - lang: Curl
   source: |-
-    curl "https://api.phrase.com/v2/projects/:project_id/screenshots/:id" \
-      -u USERNAME_OR_ACCESS_TOKEN \
-      -X DELETE \
-      -d '{"branch":"my-feature-branch"}' \
-      -H 'Content-Type: application/json'
+    curl "https://api.phrase.com/v2/projects/3d7ce831a3e9e1b843dc16d36ee5b9f4/screenshots/d2e056aa9e70b01121f41693e344f5ee" \
+      -u stephenlumenta:AbCdEf123456789xYzAbCdEf123456789xYz \
+      -X DELETE
+    # Expected response: HTTP 204 No Content (empty body)
 - lang: CLI v2
   source: |-
     phrase screenshots delete \
-    --project_id <project_id> \
-    --id <id> \
+    --project_id 3d7ce831a3e9e1b843dc16d36ee5b9f4 \
+    --id d2e056aa9e70b01121f41693e344f5ee \
     --branch my-feature-branch \
-    --access_token <token>
+    --access_token AbCdEf123456789xYzAbCdEf123456789xYz
+    # Expected response: HTTP 204 No Content (empty body)
 x-cli-version: '2.5'
