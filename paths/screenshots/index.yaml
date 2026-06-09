@@ -1,26 +1,64 @@
 ---
 summary: List screenshots
-description: List all screenshots for the given project.
+description: |
+  Returns a paginated list of all screenshots uploaded to a project.
+
+  Screenshots provide visual context for translators by associating translation keys with
+  marked regions of an on-screen image. Use this endpoint to retrieve all screenshots for a
+  project, or to filter to only those that contain a marker for a specific translation key by
+  passing the `key_id` query parameter.
+
+  Results are ordered so that screenshots with no attached key markers appear first, followed
+  by screenshots ordered by upload date descending. This ordering ensures recently uploaded,
+  unmarked screenshots surface at the top for triage.
+
+  Pagination is communicated through the `Link` response header, not an envelope field.
+  Iterate using the `page` and `per_page` parameters.
+
+  **Feature requirement:** This endpoint requires the Attachable Screenshots feature to be
+  enabled on the account. Requests from accounts without this feature return 403 with message
+  `"Feature not available on your subscription"`. Contact your account administrator or
+  upgrade your subscription to enable screenshots.
+
+  **Branch support:** Pass the `branch` query parameter to scope the request to a branch
+  project. An invalid or non-interactable branch returns 400. Verify the branch name matches
+  an existing branch in the project before retrying.
+
+  **Filtering by translation key:** When `key_id` is supplied, only screenshots with at least
+  one marker for that translation key are returned. The value is the key's `id` field as
+  returned by the Keys endpoints (a 32-character hexadecimal string). If no key with that
+  code exists in the project, the request returns 404.
+
+  **Error body shape:** All error responses use the structure
+  `{"message": "<reason>", "documentation_url": "<link>"}`. There is no machine-readable
+  error code field beyond the HTTP status. Use the `message` string and the HTTP status
+  together to distinguish error conditions.
 operationId: screenshots/list
 tags:
 - Screenshots
 parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+- "$ref": "../../parameters.yaml#/If-Modified-Since"
+- "$ref": "../../parameters.yaml#/If-None-Match"
 - "$ref": "../../parameters.yaml#/project_id"
 - "$ref": "../../parameters.yaml#/page"
 - "$ref": "../../parameters.yaml#/per_page"
-- description: specify the branch to use
-  example: my-feature-branch
-  name: branch
+- "$ref": "../../parameters.yaml#/branch"
+- name: key_id
   in: query
-  schema:
-    type: string
-- description: filter by key
+  required: false
+  description: >-
+    Filter results to screenshots that contain at least one marker for the translation key
+    with this ID. This is the `id` field of the key (a 32-character hexadecimal string) as
+    returned by the Keys endpoints. When supplied, any key that does not exist in the project
+    causes the request to return 404. Omit this parameter to return all screenshots regardless
+    of key association.
   example: abcd1234cdef1234abcd1234cdef1234
-  name: key_id
-  in: query
   schema:
     type: string
+    pattern: '^[a-fA-F0-9]{32}$'
+    minLength: 32
+    maxLength: 32
 responses:
   '200':
     description: OK
@@ -30,6 +68,21 @@ responses:
           type: array
           items:
             "$ref": "../../schemas/screenshot.yaml#/screenshot"
+        example:
+          - id: d2e056aa9e70b01121f41693e344f5ee
+            name: Onboarding step 1
+            description: First step of the user onboarding flow showing the project selection screen
+            screenshot_url: https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png
+            created_at: '2024-03-15T10:22:31Z'
+            updated_at: '2024-03-18T14:05:12Z'
+            markers_count: 3
+          - id: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4
+            name: Settings panel
+            description: Account settings panel with locale selector
+            screenshot_url: https://assets.phrase.com/screenshots/a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4.png
+            created_at: '2024-03-10T08:14:00Z'
+            updated_at: '2024-03-10T08:14:00Z'
+            markers_count: 0
     headers:
       X-Rate-Limit-Limit:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
@@ -43,24 +96,90 @@ responses:
         "$ref": "../../headers.yaml#/Pagination"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '404':
-    "$ref": "../../responses.yaml#/404"
+    description: >-
+      Bad request. Returned when the `branch` parameter names a branch that exists but is
+      not in an interactable state (for example, a branch currently being merged or deleted).
+      The response message will be `"Bad Request: <reason>"`. Check that the branch is fully
+      created and not locked before retrying.
   '401':
     "$ref": "../../responses.yaml#/401"
+    description: >-
+      Unauthorized. Returned when no valid access token is provided, when the token has
+      expired, or when two-factor authentication is required but the `X-PhraseApp-OTP`
+      header is missing or contains an incorrect code. The response message will be
+      `"You must specify a valid two-factor authentication code."` for OTP failures, or a
+      generic unauthorized message otherwise. Provide a valid token and, if your account has
+      two-factor authentication enabled, include the current OTP value in the
+      `X-PhraseApp-OTP` header.
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to list screenshots in this project, or when the account does not have the Attachable Screenshots feature.
+    description: >-
+      Forbidden. Returned in three cases: (1) the access token lacks the `read` scope —
+      regenerate a token with at least the `read` scope; (2) the requesting user does not
+      have read permission on screenshots in this project — ask a project manager to grant
+      read access; (3) the account does not have the Attachable Screenshots feature enabled —
+      the response message will be `"Feature not available on your subscription"`, and you
+      must upgrade the account subscription or contact support to enable this feature.
+  '404':
+    "$ref": "../../responses.yaml#/404"
+    description: >-
+      Not found. Returned when the project identified by `project_id` does not exist or is
+      not accessible to the requesting user, when the `branch` parameter names a branch that
+      does not exist in the project, or when the key identified by `key_id` does not exist in
+      the project. Verify the `project_id`, `branch`, and `key_id` values and retry.
   '429':
     "$ref": "../../responses.yaml#/429"
+    description: >-
+      Too many requests. Returned when the account's per-minute rate limit or the
+      per-application concurrency limit is exceeded. The response message will be
+      `"Rate limit exceeded"` or `"Concurrency limit exceeded"`. Inspect the
+      `X-Rate-Limit-Remaining` and `X-Rate-Limit-Reset` response headers to determine when
+      capacity is available, then retry after the reset timestamp.
 x-code-samples:
 - lang: Curl
   source: |-
-    curl "https://api.phrase.com/v2/projects/:project_id/screenshots?branch=my-feature-branch" \
+    curl "https://api.phrase.com/v2/projects/abcdef1234abcdef1234abcdef1234ab/screenshots" \
       -u USERNAME_OR_ACCESS_TOKEN
+  response: |-
+    [
+      {
+        "id": "d2e056aa9e70b01121f41693e344f5ee",
+        "name": "Onboarding step 1",
+        "description": "First step of the user onboarding flow showing the project selection screen",
+        "screenshot_url": "https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png",
+        "created_at": "2024-03-15T10:22:31Z",
+        "updated_at": "2024-03-18T14:05:12Z",
+        "markers_count": 3
+      },
+      {
+        "id": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4",
+        "name": "Settings panel",
+        "description": "Account settings panel with locale selector",
+        "screenshot_url": "https://assets.phrase.com/screenshots/a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4.png",
+        "created_at": "2024-03-10T08:14:00Z",
+        "updated_at": "2024-03-10T08:14:00Z",
+        "markers_count": 0
+      }
+    ]
+- lang: Curl
+  source: |-
+    curl "https://api.phrase.com/v2/projects/abcdef1234abcdef1234abcdef1234ab/screenshots?key_id=abcd1234cdef1234abcd1234cdef1234&page=1&per_page=25" \
+      -u USERNAME_OR_ACCESS_TOKEN
+  response: |-
+    [
+      {
+        "id": "d2e056aa9e70b01121f41693e344f5ee",
+        "name": "Onboarding step 1",
+        "description": "First step of the user onboarding flow showing the project selection screen",
+        "screenshot_url": "https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png",
+        "created_at": "2024-03-15T10:22:31Z",
+        "updated_at": "2024-03-18T14:05:12Z",
+        "markers_count": 3
+      }
+    ]
 - lang: CLI v2
   source: |-
     phrase screenshots list \
-    --project_id <project_id> \
-    --branch my-feature-branch \
-    --access_token <token>
+    --project_id abcdef1234abcdef1234abcdef1234ab \
+    --access_token 3d4b5e6f7a8b9c0d1e2f3a4b5c6d7e8f
 x-cli-version: '2.5'
