@@ -1,6 +1,15 @@
 ---
 summary: Detach the Figma attachment from a key
-description: Detach the Figma attachment from a key
+description: |
+  Removes the association between a Figma attachment and a translation key in the specified project.
+
+  Use this endpoint when a design asset is no longer relevant to a translation key — for example, when a UI component has been redesigned and the old Figma frame no longer represents the string's context.
+
+  The token must have the `write` scope, and the authenticated user must have manage permissions on both the Figma attachment and the key (`FigmaAttachmentsTranslationKey`). The `attachable_screenshots` feature must be enabled for the account. Attempting to detach an attachment that is not currently linked to the key returns 422 ("Already detached").
+
+  Pitfalls:
+  - Detaching a Figma attachment does not delete the attachment itself from the project — it only removes the link to this key. The attachment remains in the project and can be re-attached.
+  - Protected projects block this operation even for manage-level users; 403 is returned.
 operationId: figma_attachment/detach_from_key
 tags:
   - Key's Figma attachments
@@ -9,7 +18,7 @@ parameters:
   - "$ref": "../../parameters.yaml#/project_id"
   - "$ref": "../../parameters.yaml#/figma_attachment_id"
   - "$ref": "../../parameters.yaml#/id"
-  - description: specify the branch to use
+  - description: Branch name to scope the key lookup to. When omitted, the main branch is used.
     example: my-feature-branch
     name: branch
     in: query
@@ -20,8 +29,16 @@ responses:
     "$ref": "../../responses.yaml#/204"
   "400":
     "$ref": "../../responses.yaml#/400"
+  "401":
+    "$ref": "../../responses.yaml#/401"
+  "403":
+    "$ref": "../../responses.yaml#/403"
+    description: |
+      Forbidden. Returned when the access token lacks the `write` scope, the account does not have the `attachable_screenshots` feature enabled, the user lacks manage permissions on the Figma attachment or key, or the project is protected.
   "404":
     "$ref": "../../responses.yaml#/404"
+  "422":
+    "$ref": "../../responses.yaml#/422"
   "429":
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -30,7 +47,6 @@ x-code-samples:
       curl "https://api.phrase.com/v2/projects/:project_id/figma_attachments/:figma_attachment_id/keys/:id" \
         -u USERNAME_OR_ACCESS_TOKEN \
         -X DELETE \
-        -F branch=my-feature-branch \
         -H 'Content-Type: application/json'
   - lang: CLI v2
     source: |-
