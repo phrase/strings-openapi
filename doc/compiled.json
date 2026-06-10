@@ -21421,7 +21421,7 @@
       },
       "delete": {
         "summary": "Delete a screenshot",
-        "description": "Delete an existing screenshot.",
+        "description": "Permanently deletes a screenshot from a Phrase Strings project. A screenshot\nis an image attached to one or more translation keys to provide visual context\nfor translators; it stores the filename, an optional name and description, and\nzero or more markers that map key regions to on-screen coordinates.\n\nUse this operation when a screenshot is no longer needed, has been superseded\nby an updated image, or should be removed before archiving a project.\n\n**Deletion is irreversible.** All screenshot markers (key associations) attached\nto the screenshot are removed as a cascade side effect. Translators who relied\non this screenshot for visual context will no longer see it. A `screenshots:delete`\nevent is dispatched after a successful deletion, which may trigger any configured\nwebhook subscriptions.\n\n**Pitfalls and constraints:**\n- The `id` path parameter is the screenshot's string code (a 32-character hex\n  string such as `d2e056aa9e70b01121f41693e344f5ee`), not a numeric database ID.\n- Requires the `write` OAuth scope. Calls with only a `read` scope receive 403.\n- The requesting user must have Manage permission on the Screenshot resource in\n  the project. Project Translators and Reviewers without Manage permission\n  receive 403.\n- The project must have the Attachable Screenshots feature enabled on the account\n  plan. Accounts without this feature receive 403.\n- Deletion on a protected project is blocked; the policy enforces\n  `!project.protected?` before granting Manage access.\n- If the screenshot code does not exist in the project, the loader raises\n  `ActiveRecord::RecordNotFound` and the endpoint returns 404.\n\n**Error codes:** Phrase Strings uses HTTP status codes as its machine-readable\nerror identifiers. No additional string error codes are returned. All error\nresponses include a `message` field and, where applicable, a `documentation_url`\nfield. Validation failure responses (422) additionally include an `errors` array\nwith per-field `resource`, `field`, and `message` entries.\n",
         "operationId": "screenshot/delete",
         "tags": [
           "Screenshots"
@@ -21437,10 +21437,11 @@
             "$ref": "#/components/parameters/id"
           },
           {
-            "description": "specify the branch to use",
+            "description": "Name of the branch to operate on. When omitted, the operation targets the project's main (default) branch.",
             "example": "my-feature-branch",
             "name": "branch",
             "in": "query",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -21448,7 +21449,18 @@
         ],
         "responses": {
           "204": {
-            "$ref": "#/components/responses/204"
+            "description": "Screenshot deleted successfully. No response body is returned. The HTTP 204 No Content status confirms permanent removal.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -21458,10 +21470,11 @@
           },
           "403": {
             "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this screenshot, or when the account does not have the Attachable Screenshots feature."
+            "description": "Forbidden. Returned in three cases: (1) The access token was issued with the `read` scope only — re-authorize with the `write` scope. (2) The requesting user does not have Manage permission on the Screenshot resource in this project — contact a project Owner or Admin to grant the required role. (3) The account plan does not include the Attachable Screenshots feature — upgrade the plan or contact Phrase support."
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "$ref": "#/components/responses/404",
+            "description": "Not found. The `project_id` or screenshot `id` does not correspond to an existing record accessible to the authenticated user. Verify both values and retry."
           },
           "422": {
             "$ref": "#/components/responses/422"
@@ -21473,11 +21486,11 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -d '{\"branch\":\"my-feature-branch\"}' \\\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE\n\n# With an optional branch query parameter:\ncurl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id?branch=my-feature-branch\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE\n\n# Expected response: HTTP 204 No Content (empty body)"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase screenshots delete \\\n--project_id <project_id> \\\n--id <id> \\\n--branch my-feature-branch \\\n--access_token <token>"
+            "source": "phrase screenshots delete \\\n--project_id <project_id> \\\n--id d2e056aa9e70b01121f41693e344f5ee \\\n--branch my-feature-branch \\\n--access_token <token>\n\n# Expected response: HTTP 204 No Content (empty body)"
           }
         ],
         "x-cli-version": "2.5"
