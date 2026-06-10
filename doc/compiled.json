@@ -21132,7 +21132,7 @@
       },
       "post": {
         "summary": "Create a screenshot",
-        "description": "Create a new screenshot.",
+        "description": "Uploads a new screenshot image to the specified project, making it available for\ntranslators as visual context. Screenshots are image files associated with a project\nand can subsequently be linked to one or more translation keys via screenshot markers.\n\nUse this endpoint when you want to provide translators with on-screen context for\nthe strings they are working on. After creating a screenshot, use the screenshot\nmarkers endpoint (`POST /projects/{project_id}/screenshots/{screenshot_id}/markers`)\nto associate the screenshot with specific translation keys.\n\nThe `id` field in the response is the screenshot's string code (not a numeric primary\nkey). Pass this value as the `screenshot_id` path segment in subsequent marker or\nscreenshot calls.\n\n**Accepted formats:** JPG, JPEG, GIF, and PNG. The maximum file size is 10 MB by\ndefault (configurable per deployment).\n\n**Name uniqueness:** Screenshot names must be unique within the project\n(case-insensitive). Attempting to create a duplicate name returns a 422 error.\n\n**File upload:** The request body must be sent as `multipart/form-data`. The `filename`\nfield is required; omitting it or uploading a file that cannot be processed by the\nimage pipeline will return a 422 with an error on the `filename` field.\n\n**Side effects:** A `screenshots:create` event is dispatched upon success, which may\ntrigger configured webhook notifications for your project.\n\n**Access control:** The requesting token must carry the `write` OAuth scope, and the\nauthenticated user must have manage permission on the Screenshot resource within the\nproject. Protected projects cannot receive new screenshots regardless of the user's\nrole, returning a 403. Access is also gated on the Attachable Screenshots feature\nbeing enabled for the account; a 403 is returned when the feature is unavailable on\nthe account's plan. When the Phrase Sketch Plugin user-agent is detected and the\naccount's Sketch Plugin feature is not enabled, a 403 is also returned.\n\n**Branches:** Pass the `branch` parameter in the request body to create the screenshot\nwithin a specific branch context. Omit it to create against the main branch.\n",
         "operationId": "screenshot/create",
         "tags": [
           "Screenshots"
@@ -21152,6 +21152,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/screenshot"
+                },
+                "example": {
+                  "id": "d2e056aa9e70b01121f41693e344f5ee",
+                  "name": "Onboarding step 1",
+                  "description": "First step of the user onboarding flow showing the project selection screen",
+                  "screenshot_url": "https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png",
+                  "created_at": "2024-03-15T10:22:31Z",
+                  "updated_at": "2024-03-18T14:05:12Z",
+                  "markers_count": 0
                 }
               }
             },
@@ -21168,33 +21177,38 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/400"
+            "$ref": "#/components/responses/400",
+            "description": "Bad request. Returned when the request is malformed, a required parameter is\nmissing, or the request body cannot be parsed. Verify that all required fields\nare present and the multipart form data is correctly encoded.\n"
           },
           "401": {
-            "$ref": "#/components/responses/401"
+            "$ref": "#/components/responses/401",
+            "description": "Unauthorized. The access token is missing, expired, or invalid. Provide a valid\ntoken via the `Authorization` header or the `access_token` query parameter.\n"
           },
           "403": {
             "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create screenshots in this project, or when the account does not have the Attachable Screenshots feature."
+            "description": "Forbidden. Returned when:\n- The access token lacks the `write` OAuth scope, or the user's account is unconfirmed.\n- The authenticated user does not have manage permission on screenshots in this project.\n- The project is protected, which prevents creating new screenshots.\n- The account does not have the Attachable Screenshots feature enabled on its plan.\n- The request originates from the Phrase Sketch Plugin and the account's Sketch Plugin\n  feature is not enabled.\n"
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "$ref": "#/components/responses/404",
+            "description": "Not found. The specified project does not exist or is not accessible with the\nprovided credentials. Verify the `project_id` path parameter.\n"
           },
           "422": {
-            "$ref": "#/components/responses/422"
+            "$ref": "#/components/responses/422",
+            "description": "Unprocessable entity. Returned when validation fails. Common causes:\n- `name` is blank or already taken by another screenshot in this project\n  (names must be unique within a project, case-insensitive).\n- `filename` is missing or the uploaded file could not be processed.\n- The uploaded file is not a supported image format (JPG, JPEG, GIF, or PNG).\n- The uploaded file exceeds the maximum allowed size (10 MB by default).\nThe response body contains a `message` and an `errors` array identifying the\naffected field and the reason.\n"
           },
           "429": {
-            "$ref": "#/components/responses/429"
+            "$ref": "#/components/responses/429",
+            "description": "Too many requests. The rate limit for this endpoint has been exceeded. Wait until\nthe time indicated by the `X-Rate-Limit-Reset` response header before retrying.\n"
           }
         },
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -F branch=my-feature-branch \\\n  -F name=A%20screenshot%20name \\\n  -F description=A%20screenshot%20description \\\n  -F filename=@/path/to/my/screenshot.png"
+            "source": "curl \"https://api.phrase.com/v2/projects/3d7ce831a3e9e1b843dc16d36ee5b9f4/screenshots\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -F \"branch=my-feature-branch\" \\\n  -F \"name=Onboarding step 1\" \\\n  -F \"description=First step of the user onboarding flow\" \\\n  -F \"filename=@/path/to/screenshot.png\""
           },
           {
             "lang": "CLI v2",
-            "source": "phrase screenshots create \\\n--project_id <project_id> \\\n--branch \"my-feature-branch\" --name \"A screenshot name\" --description \"A screenshot description\" --filename \"/path/to/my/screenshot.png\" \\\n--access_token <token>"
+            "source": "phrase screenshots create \\\n--project_id 3d7ce831a3e9e1b843dc16d36ee5b9f4 \\\n--branch \"my-feature-branch\" \\\n--name \"Onboarding step 1\" \\\n--description \"First step of the user onboarding flow\" \\\n--filename \"/path/to/screenshot.png\" \\\n--access_token <token>"
           }
         ],
         "requestBody": {
@@ -21204,27 +21218,29 @@
               "schema": {
                 "type": "object",
                 "title": "screenshot/create/parameters",
+                "required": [
+                  "filename"
+                ],
                 "properties": {
                   "branch": {
-                    "description": "specify the branch to use",
+                    "description": "Branch to create the screenshot in. Omit to target the main branch.",
                     "type": "string",
                     "example": "my-feature-branch"
                   },
                   "name": {
-                    "description": "Name of the screenshot",
+                    "description": "Human-readable name for the screenshot shown in the Phrase dashboard and to\ntranslators. Must be unique within the project (case-insensitive). When\nomitted, a name is derived from the uploaded file's name.\n",
                     "type": "string",
-                    "example": "A screenshot name"
+                    "example": "Onboarding step 1"
                   },
                   "description": {
-                    "description": "Description of the screenshot",
+                    "description": "Optional longer description providing additional context about what the screenshot depicts.",
                     "type": "string",
-                    "example": "A screenshot description"
+                    "example": "First step of the user onboarding flow showing the project selection screen"
                   },
                   "filename": {
-                    "description": "Screenshot file",
+                    "description": "The screenshot image file to upload. Accepted formats: JPG, JPEG, GIF, PNG.\nMaximum file size is 10 MB. Pass the file using multipart form data\n(e.g., `@/path/to/image.png` with curl). If the file is missing or cannot\nbe processed, a 422 is returned with an error on the `filename` field.\n",
                     "type": "string",
-                    "format": "binary",
-                    "example": "/path/to/my/screenshot.png"
+                    "format": "binary"
                   }
                 }
               }

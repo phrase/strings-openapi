@@ -37,7 +37,7 @@ description: |
 
   **Branches:** Pass the `branch` parameter in the request body to create the screenshot
   within a specific branch context. Omit it to create against the main branch.
-operationId: screenshots/create
+operationId: screenshot/create
 tags:
 - Screenshots
 parameters:
@@ -135,7 +135,6 @@ requestBody:
         title: screenshot/create/parameters
         required:
         - filename
-        - name
         properties:
           branch:
             description: Branch to create the screenshot in. Omit to target the main branch.
@@ -144,7 +143,8 @@ requestBody:
           name:
             description: |
               Human-readable name for the screenshot shown in the Phrase dashboard and to
-              translators. Must be unique within the project (case-insensitive).
+              translators. Must be unique within the project (case-insensitive). When
+              omitted, a name is derived from the uploaded file's name.
             type: string
             example: Onboarding step 1
           description:
