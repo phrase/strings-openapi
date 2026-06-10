@@ -5413,7 +5413,7 @@
     "/icu/skeleton": {
       "post": {
         "summary": "Build ICU skeletons",
-        "description": "Returns ICU skeletons for multiple locale codes based on a source content.",
+        "description": "Generates ICU (International Components for Unicode) message format skeletons for one or more locale codes, given a source ICU string or a translation by code.\n\nUse this endpoint when you need to pre-build the plural-form shells for a given ICU message across multiple locales — for example, to pre-populate untranslated keys before sending them to a translator. The endpoint is synchronous and returns immediately.\n\nThe source content must be a valid ICU message format string. The operation extracts the plural categories required by each requested locale using CLDR (Common Locale Data Repository) plural rules for that locale code and returns an empty skeleton for each category. You must supply exactly one of `content` or `id`.\n\nPitfalls and constraints:\n- If the ICU string is syntactically invalid, the endpoint returns 422 with the parser error in the `error` field. Check the `error` field in the response body and correct the ICU syntax before retrying.\n- `locale_codes` must be valid CLDR locale codes; unknown or unsupported codes are silently skipped.\n- The `legacy` CLDR variant omits the `zero` form even when `zero_form_enabled` is true for locales that have it under CLDR 41. Switch to `cldr_version: cldr_41` to include it.\n- Rate limits apply: requests exceeding the account rate limit return 429. Implement exponential backoff and retry after the interval indicated by the `X-Rate-Limit-Reset` header.\n",
         "operationId": "icu/skeleton",
         "tags": [
           "ICU"
@@ -5423,13 +5423,70 @@
             "$ref": "#/components/parameters/X-PhraseApp-OTP"
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "icu/skeleton/parameters",
+                "properties": {
+                  "content": {
+                    "description": "Source ICU message format string to derive skeletons from. Mutually exclusive with `id`; exactly one of the two must be provided.\n",
+                    "type": "string",
+                    "example": "{number, plural, one {One item} other {# items}}"
+                  },
+                  "id": {
+                    "description": "Code of an existing translation to source the ICU content from. Mutually exclusive with `content`; exactly one of the two must be provided. The token must have the `read` scope to access the translation.\n",
+                    "type": "string",
+                    "example": "abcd1234abcd1234abcd1234abcd1234"
+                  },
+                  "locale_codes": {
+                    "description": "List of CLDR locale codes for which to generate skeletons. The response object contains one entry per requested locale code.\n",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "en",
+                      "de"
+                    ]
+                  },
+                  "keep_content": {
+                    "description": "When true, preserves existing plural forms from the source string and only adds missing forms for each locale. Defaults to false.\n",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "zero_form_enabled": {
+                    "description": "When true, includes the `zero` plural form in skeletons for locales that require it under the selected CLDR variant. Defaults to false.\n",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "cldr_version": {
+                    "description": "CLDR plural-rules variant to use. Accepted values: `legacy` (default) and `cldr_41`. Use `cldr_41` for full CLDR 41 plural category support, including distinct `zero` and `one` forms in locales such as Arabic.\n",
+                    "type": "string",
+                    "enum": [
+                      "legacy",
+                      "cldr_41"
+                    ],
+                    "example": "cldr_41"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK — ICU skeletons keyed by locale code.",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/icu"
+                },
+                "example": {
+                  "en": "{number, plural, one {} other {}}",
+                  "de": "{number, plural, one {} other {}}"
                 }
               }
             },
@@ -5442,9 +5499,6 @@
               },
               "X-Rate-Limit-Reset": {
                 "$ref": "#/components/headers/X-Rate-Limit-Reset"
-              },
-              "Link": {
-                "$ref": "#/components/headers/Link"
               }
             }
           },
@@ -5456,10 +5510,29 @@
           },
           "403": {
             "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `read` scope."
+            "description": "Forbidden. Returned when the access token lacks the `read` scope, or when `id` is provided and the token does not have access to the referenced translation. Ensure the token was created with the `read` scope and that the authenticated user has access to the project containing the translation.\n"
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "description": "Unprocessable entity. Returned when the source ICU string is syntactically invalid. The response body contains an `error` field with the parser error message.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "ICU message format parser error description."
+                    }
+                  },
+                  "example": {
+                    "error": "Expected `}` but got `{` at position 42"
+                  }
+                }
+              }
+            }
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -5468,62 +5541,13 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/icu/skeleton\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -d '{\"content\":\"{number, plural, one {One} other {%{n}}}\",\"locale_codes\":[\"en\"],\"zero_form_enabled\": true}' \\\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/icu/skeleton\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"content\":\"{number, plural, one {One item} other {# items}}\",\"locale_codes\":[\"en\",\"de\"],\"zero_form_enabled\":true,\"cldr_version\":\"cldr_41\"}'"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase icu skeleton \\\n--data '{\"content\":\"{number, plural, one {One} other {%{n}}}\",\"locale_codes\":[\"en\"],\"zero_form_enabled\": true}' \\\n--access_token <token>"
+            "source": "phrase icu skeleton \\\n--data '{\"content\":\"{number, plural, one {One item} other {# items}}\",\"locale_codes\":[\"en\",\"de\"],\"zero_form_enabled\":true}' \\\n--access_token <token>"
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "title": "icu/skeleton/parameters",
-                "properties": {
-                  "content": {
-                    "description": "Source content to derive skeletons from. Mutually exclusive with `id`; exactly one of the two must be provided.\n",
-                    "type": "string",
-                    "example": "{number, plural, one {One} other {%{n}}}"
-                  },
-                  "id": {
-                    "description": "Translation code to source content from. Mutually exclusive with `content`; exactly one of the two must be provided.\n",
-                    "type": "string",
-                    "example": "abcd1234abcd1234abcd1234abcd1234"
-                  },
-                  "locale_codes": {
-                    "description": "Locale codes",
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "example": "en"
-                    },
-                    "example": [
-                      "en"
-                    ]
-                  },
-                  "keep_content": {
-                    "description": "Keep the content and add missing plural forms for each locale",
-                    "type": "boolean",
-                    "example": null
-                  },
-                  "zero_form_enabled": {
-                    "description": "Indicates whether the zero form should be included or excluded in the returned skeletons",
-                    "type": "boolean",
-                    "example": null
-                  },
-                  "cldr_version": {
-                    "description": "Strings supports two CLDR variants, when it comes to pluralization rules. \\\nYou can choose which one you want to use when constructing the skeletons. Possible values \\\nare `legacy` and `cldr_41`. Default value is `legacy`.",
-                    "type": "string",
-                    "example": "cldr_41"
-                  }
-                }
-              }
-            }
-          }
-        },
         "x-cli-version": "2.9"
       }
     },

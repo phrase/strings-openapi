@@ -1,51 +1,22 @@
 ---
 summary: Build ICU skeletons
-description: Returns ICU skeletons for multiple locale codes based on a source content.
+description: |
+  Generates ICU (International Components for Unicode) message format skeletons for one or more locale codes, given a source ICU string or a translation by code.
+
+  Use this endpoint when you need to pre-build the plural-form shells for a given ICU message across multiple locales — for example, to pre-populate untranslated keys before sending them to a translator. The endpoint is synchronous and returns immediately.
+
+  The source content must be a valid ICU message format string. The operation extracts the plural categories required by each requested locale using CLDR (Common Locale Data Repository) plural rules for that locale code and returns an empty skeleton for each category. You must supply exactly one of `content` or `id`.
+
+  Pitfalls and constraints:
+  - If the ICU string is syntactically invalid, the endpoint returns 422 with the parser error in the `error` field. Check the `error` field in the response body and correct the ICU syntax before retrying.
+  - `locale_codes` must be valid CLDR locale codes; unknown or unsupported codes are silently skipped.
+  - The `legacy` CLDR variant omits the `zero` form even when `zero_form_enabled` is true for locales that have it under CLDR 41. Switch to `cldr_version: cldr_41` to include it.
+  - Rate limits apply: requests exceeding the account rate limit return 429. Implement exponential backoff and retry after the interval indicated by the `X-Rate-Limit-Reset` header.
 operationId: icu/skeleton
 tags:
 - ICU
 parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
-responses:
-  '200':
-    description: OK
-    content:
-      application/json:
-        schema:
-          "$ref": "../../schemas/icu.yaml#/skeleton"
-    headers:
-      X-Rate-Limit-Limit:
-        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
-      X-Rate-Limit-Remaining:
-        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
-      X-Rate-Limit-Reset:
-        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
-      Link:
-        "$ref": "../../headers.yaml#/Link"
-  '400':
-    "$ref": "../../responses.yaml#/400"
-  '404':
-    "$ref": "../../responses.yaml#/404"
-  '401':
-    "$ref": "../../responses.yaml#/401"
-  '403':
-    "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `read` scope.
-  '429':
-    "$ref": "../../responses.yaml#/429"
-x-code-samples:
-- lang: Curl
-  source: |-
-    curl "https://api.phrase.com/v2/icu/skeleton" \
-      -u USERNAME_OR_ACCESS_TOKEN \
-      -X POST \
-      -d '{"content":"{number, plural, one {One} other {%{n}}}","locale_codes":["en"],"zero_form_enabled": true}' \
-      -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase icu skeleton \
-    --data '{"content":"{number, plural, one {One} other {%{n}}}","locale_codes":["en"],"zero_form_enabled": true}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -56,36 +27,94 @@ requestBody:
         properties:
           content:
             description: |
-              Source content to derive skeletons from. Mutually exclusive with `id`; exactly one of the two must be provided.
+              Source ICU message format string to derive skeletons from. Mutually exclusive with `id`; exactly one of the two must be provided.
             type: string
-            example: "{number, plural, one {One} other {%{n}}}"
+            example: "{number, plural, one {One item} other {# items}}"
           id:
             description: |
-              Translation code to source content from. Mutually exclusive with `content`; exactly one of the two must be provided.
+              Code of an existing translation to source the ICU content from. Mutually exclusive with `content`; exactly one of the two must be provided. The token must have the `read` scope to access the translation.
             type: string
             example: abcd1234abcd1234abcd1234abcd1234
           locale_codes:
-            description: Locale codes
+            description: |
+              List of CLDR locale codes for which to generate skeletons. The response object contains one entry per requested locale code.
             type: array
             items:
               type: string
-              example: en
             example:
             - en
+            - de
           keep_content:
-            description: Keep the content and add missing plural forms for each locale
+            description: |
+              When true, preserves existing plural forms from the source string and only adds missing forms for each locale. Defaults to false.
             type: boolean
-            example:
+            example: false
           zero_form_enabled:
-            description: Indicates whether the zero form should be included or excluded in the returned skeletons
+            description: |
+              When true, includes the `zero` plural form in skeletons for locales that require it under the selected CLDR variant. Defaults to false.
             type: boolean
-            example:
+            example: true
           cldr_version:
-            description: |-
-              Strings supports two CLDR variants, when it comes to pluralization rules. \
-              You can choose which one you want to use when constructing the skeletons. Possible values \
-              are `legacy` and `cldr_41`. Default value is `legacy`.
+            description: |
+              CLDR plural-rules variant to use. Accepted values: `legacy` (default) and `cldr_41`. Use `cldr_41` for full CLDR 41 plural category support, including distinct `zero` and `one` forms in locales such as Arabic.
             type: string
+            enum:
+            - legacy
+            - cldr_41
             example: cldr_41
-
+responses:
+  '200':
+    description: OK — ICU skeletons keyed by locale code.
+    content:
+      application/json:
+        schema:
+          "$ref": "../../schemas/icu.yaml#/skeleton"
+        example:
+          en: "{number, plural, one {} other {}}"
+          de: "{number, plural, one {} other {}}"
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+  '400':
+    "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: |
+      Forbidden. Returned when the access token lacks the `read` scope, or when `id` is provided and the token does not have access to the referenced translation. Ensure the token was created with the `read` scope and that the authenticated user has access to the project containing the translation.
+  '404':
+    "$ref": "../../responses.yaml#/404"
+  '422':
+    description: |
+      Unprocessable entity. Returned when the source ICU string is syntactically invalid. The response body contains an `error` field with the parser error message.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              description: ICU message format parser error description.
+          example:
+            error: "Expected `}` but got `{` at position 42"
+  '429':
+    "$ref": "../../responses.yaml#/429"
+x-code-samples:
+- lang: Curl
+  source: |-
+    curl "https://api.phrase.com/v2/icu/skeleton" \
+      -u USERNAME_OR_ACCESS_TOKEN \
+      -X POST \
+      -H 'Content-Type: application/json' \
+      -d '{"content":"{number, plural, one {One item} other {# items}}","locale_codes":["en","de"],"zero_form_enabled":true,"cldr_version":"cldr_41"}'
+- lang: CLI v2
+  source: |-
+    phrase icu skeleton \
+    --data '{"content":"{number, plural, one {One item} other {# items}}","locale_codes":["en","de"],"zero_form_enabled":true}' \
+    --access_token <token>
 x-cli-version: '2.9'
