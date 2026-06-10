@@ -1,0 +1,74 @@
+name: Breaking changes
+
+# Gate every PR on a semantic diff of the compiled spec. The generated-client
+# test matrix only catches changes that fail to compile; a renamed operationId,
+# a removed parameter, or a type change regenerates clients (and their tests)
+# that stay green while breaking every SDK consumer. oasdiff compares the spec
+# itself, so doc-only edits (descriptions, examples) pass and functional
+# surface changes fail.
+#
+# Both sides of the diff are the committed doc/compiled.json: the
+# compare-output job in lint.yml already guarantees it matches a fresh bundle,
+# so no recompile is needed here.
+#
+# Escape hatch for intentional API changes: add the
+# `breaking-change-approved` label to the PR and the gate is skipped
+# (the changelog comment still posts).
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  breaking-changes:
+    name: Breaking changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+
+      - name: Checkout base spec
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.24.4
+
+      - name: Install oasdiff
+        run: go install github.com/oasdiff/oasdiff@v1.18.6
+
+      - name: Post API changelog as PR comment
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          MARKER="<!-- oasdiff-changelog -->"
+          CHANGELOG=$(oasdiff changelog base/doc/compiled.json doc/compiled.json || true)
+          BODY="$MARKER
+          ### API changelog (oasdiff)
+
+          Doc-only edits (descriptions, examples) do not appear here.
+
+          \`\`\`
+          $CHANGELOG
+          \`\`\`"
+          EXISTING=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+            --jq "[.[] | select(.body | startswith(\"$MARKER\"))][0].id // empty")
+          if [ -n "$EXISTING" ]; then
+            gh api --method PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${EXISTING}" -f body="$BODY" > /dev/null
+          else
+            gh api --method POST "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" -f body="$BODY" > /dev/null
+          fi
+
+      - name: Fail on breaking API changes
+        if: ${{ !contains(github.event.pull_request.labels.*.name, 'breaking-change-approved') }}
+        run: oasdiff breaking base/doc/compiled.json doc/compiled.json --fail-on ERR
