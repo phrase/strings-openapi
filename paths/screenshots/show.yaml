@@ -1,46 +1,31 @@
 ---
 summary: Get a single screenshot
 description: |
-  Returns the full metadata for one screenshot within a project.
+  Returns the full metadata for one screenshot in a project, identified by its string code.
 
-  Screenshots are image files uploaded to a project to provide translators with
-  visual context for the strings they are working on. Each screenshot can be
-  associated with one or more translation keys by attaching markers that point to
-  specific regions of the image. This endpoint retrieves a single screenshot
-  record by its unique string identifier, including the hosted image URL and the
-  count of translation-key markers currently attached to it.
+  A screenshot in Phrase is an image file uploaded to a project to give translators visual
+  context. Each screenshot can be linked to one or more translation keys via rectangular
+  marker regions. This endpoint retrieves the screenshot's name, description, hosted image
+  URL, and the count of markers currently attached to it.
 
-  **When to use:** Use this endpoint to retrieve a screenshot's metadata,
-  verify its marker count, or resolve the hosted image URL before presenting it
-  in a localization workflow tool.
+  Use this endpoint when you have a screenshot's `id` (its string code) and need its current
+  metadata or image URL. To discover screenshot codes, first call the list endpoint
+  (`screenshots/list`); to inspect the individual markers attached to a screenshot, call the
+  screenshot markers list endpoint.
 
-  **`id` field semantics:** The `id` in the response is the screenshot's string
-  code (for example, `d2e056aa9e70b01121f41693e344f5ee`), not a numeric primary
-  key. Use this value as the `id` path segment when calling other screenshot
-  endpoints (update, delete, marker operations).
+  **Feature requirement:** All screenshot endpoints require the Attachable Screenshots feature
+  to be enabled on the account. Requests made against an account without this feature return
+  `403` immediately, before any permission checks run.
 
-  **Branches:** Pass the `branch` query parameter to scope the lookup to a
-  branch-isolated copy of the project. Omit it to read from the main (default)
-  branch.
+  **Access control:** The access token must carry the `read` OAuth scope. The authenticated
+  user must have at least read permission on the project and on the screenshot resource.
 
-  **Access control:** Requires the `read` OAuth scope. The authenticated user
-  must have at least read permission on the project. If the account's plan does
-  not include the Attachable Screenshots feature, the endpoint returns 403 for
-  all callers regardless of user permission level.
+  **The `id` field is a string code, not a numeric primary key.** The value returned in the
+  response `id` field is the screenshot's code (e.g., `d2e056aa9e70b01121f41693e344f5ee`).
+  Pass this value to other screenshot endpoints such as update or delete.
 
-  **Error codes**
-
-  The `message` field in error responses uses a stable string identifier in
-  UPPER_SNAKE_CASE format. Use the `message` value for programmatic error
-  handling; the human-readable text may change between releases.
-
-  | HTTP status | Error code | Cause | Remediation |
-  |-------------|------------|-------|-------------|
-  | 400 | `bad_request` | Malformed request parameter or unparseable JSON body | Fix the request syntax and retry |
-  | 401 | `unauthorized` | Missing or invalid access token; 2FA code required but absent or wrong | Provide a valid access token; supply `X-PhraseApp-OTP` when 2FA is enabled |
-  | 403 | `forbidden` | Token lacks `read` scope; account unconfirmed; caller lacks read permission on the project; account plan does not include the Attachable Screenshots feature | Upgrade the OAuth token scope to `read`, confirm the account, or upgrade the account plan |
-  | 404 | `not_found` | Project or screenshot with the given `project_id` or `id` does not exist, or is not accessible to the caller | Verify both path parameters reference existing, accessible resources |
-  | 429 | `rate_limit_exceeded` | Request rate limit or concurrency limit exceeded | Reduce request rate; observe `X-Rate-Limit-Reset` before retrying |
+  **Branches:** Pass the `branch` query parameter to read from a branch project. Omit it to
+  read from the default branch. An invalid or inaccessible branch causes a `404` response.
 operationId: screenshots/show
 tags:
 - Screenshots
@@ -61,6 +46,14 @@ responses:
       application/json:
         schema:
           "$ref": "../../schemas/screenshot.yaml#/screenshot"
+        example:
+          id: d2e056aa9e70b01121f41693e344f5ee
+          name: Onboarding step 1
+          description: First step of the user onboarding flow showing the project selection screen
+          screenshot_url: https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png
+          created_at: '2024-03-15T10:22:31Z'
+          updated_at: '2024-03-18T14:05:12Z'
+          markers_count: 3
     headers:
       X-Rate-Limit-Limit:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
@@ -71,33 +64,39 @@ responses:
   '400':
     "$ref": "../../responses.yaml#/400"
     description: >-
-      Bad request. The `project_id`, `id`, or `branch` parameter is malformed,
-      or the request body cannot be parsed. Fix the request syntax and retry.
+      Bad request. Returned when a query parameter is malformed or cannot be parsed.
+      Check the request URL and query parameter syntax; refer to the error `message`
+      field for the specific parsing problem.
   '401':
     "$ref": "../../responses.yaml#/401"
     description: >-
-      Unauthorized. The access token is missing or invalid. When the account has
-      two-factor authentication enabled, provide the current one-time password
-      (OTP) in the `X-PhraseApp-OTP` header.
+      Unauthorized. The request did not include a valid access token, or the token has
+      expired. Generate a new access token in Phrase account settings and pass it via
+      HTTP Basic auth or the `Authorization: Bearer` header. When 2FA is enabled,
+      supply the current OTP in `X-PhraseApp-OTP`.
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: >-
-      Forbidden. Returned in any of these situations: the access token does not
-      carry the `read` OAuth scope or the user account is unconfirmed; the
-      authenticated user does not have read permission on this project; or the
-      account's plan does not include the Attachable Screenshots feature.
+    description: |
+      Forbidden. Returned in the following cases:
+
+      | Cause | Remediation |
+      |-------|-------------|
+      | The Attachable Screenshots feature is not enabled on the account plan. | Upgrade the account plan or contact Phrase support to enable the Attachable Screenshots feature. |
+      | The access token lacks the `read` OAuth scope. | Re-authorize the OAuth application with the `read` scope. |
+      | The authenticated user does not have read permission on this project or screenshot. | Ask a project admin to grant at least Viewer access to this project. |
   '404':
     "$ref": "../../responses.yaml#/404"
     description: >-
-      Not found. No project matches `project_id`, or no screenshot matches `id`
-      within that project. Verify both path parameters reference existing,
-      accessible resources.
+      Not found. Returned when the project, screenshot, or the specified branch does not
+      exist or is not accessible to the requesting user. Verify the `project_id`, `id`,
+      and `branch` values. Use the screenshots list endpoint to retrieve valid screenshot
+      codes for the project.
   '429':
     "$ref": "../../responses.yaml#/429"
     description: >-
-      Too many requests. The per-user rate limit or concurrency limit has been
-      exceeded. Check the `X-Rate-Limit-Reset` response header for the Unix
-      timestamp at which the limit resets, then retry.
+      Rate limit exceeded. The account has exceeded its API request quota for the current
+      window. Reduce request frequency and implement exponential backoff. Check the
+      `X-Rate-Limit-Reset` response header for the Unix timestamp when the quota resets.
 x-code-samples:
 - lang: Curl
   source: |-
@@ -107,7 +106,7 @@ x-code-samples:
     # Expected response (HTTP 200):
     # {
     #   "id": "d2e056aa9e70b01121f41693e344f5ee",
-    #   "name": "Onboarding — step 1",
+    #   "name": "Onboarding step 1",
     #   "description": "First step of the user onboarding flow showing the project selection screen",
     #   "screenshot_url": "https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png",
     #   "created_at": "2024-03-15T10:22:31Z",
@@ -124,7 +123,7 @@ x-code-samples:
     # Expected response (HTTP 200):
     # {
     #   "id": "d2e056aa9e70b01121f41693e344f5ee",
-    #   "name": "Onboarding — step 1",
+    #   "name": "Onboarding step 1",
     #   "description": "First step of the user onboarding flow showing the project selection screen",
     #   "screenshot_url": "https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png",
     #   "created_at": "2024-03-15T10:22:31Z",
