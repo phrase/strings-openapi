@@ -21315,7 +21315,7 @@
       },
       "patch": {
         "summary": "Update a screenshot",
-        "description": "Update an existing screenshot.",
+        "description": "Updates the name or description of an existing screenshot in a Phrase Strings project.\n\nUse this operation when you need to correct a screenshot's display name or clarify its description\nfor translators. Screenshots in Phrase Strings are images attached to translation keys to provide\nvisual context: they help translators understand where a string appears in the UI. Each screenshot\ncan have zero or more markers (`markers_count`) linking it to specific translation keys.\n\n**Important constraints and pitfalls:**\n- The `name` must be unique within the project (case-insensitive). Submitting a name that\n  already exists on another screenshot in the same project returns a 422 error.\n- This endpoint does **not** accept a file upload. Replacing the image file (`filename`) is not\n  supported via the update operation; to change the image, delete the screenshot and create a\n  new one.\n- All body parameters are optional. Send only the fields you want to change; omitted fields are\n  left unchanged.\n- The Attachable Screenshots feature must be enabled on the account. Requests from accounts\n  without this feature receive a 403 response regardless of user permissions.\n- Only users with Manage permissions on the project may update screenshots. Users with only Read\n  access receive a 403 response.\n\nOn success, a `screenshots:update` event is dispatched to configured webhooks.\n\n**Error codes:** Phrase Strings does not return stable machine-readable error code strings beyond\nthe HTTP status code. Use the HTTP status to branch error handling; read the `message` field in\nthe response body for a human-readable explanation.\n\n| HTTP status | Condition |\n|-------------|-----------|\n| 400 | Malformed request body (unparseable JSON) or a parameter value is of an unexpected type. |\n| 401 | Missing or invalid authentication credentials, or invalid OTP code. |\n| 403 | Token lacks the `write` scope; caller lacks manage permission; or account plan does not include the Screenshots feature. |\n| 404 | The project or screenshot does not exist or is not accessible to the caller. |\n| 422 | Screenshot attributes failed model validation (for example, a blank or duplicate name). |\n| 429 | The caller has exceeded their per-minute request quota or concurrent-request limit. |\n",
         "operationId": "screenshot/update",
         "tags": [
           "Screenshots"
@@ -21331,16 +21331,38 @@
             "$ref": "#/components/parameters/id"
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/screenshot"
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "screenshot/update/parameters",
+                "description": "All properties are optional. Include only the fields you want to update.",
+                "properties": {
+                  "branch": {
+                    "description": "Name of the branch to operate on. When supplied, the request is scoped to that branch project rather than the main project. Omit to operate on the main project.",
+                    "type": "string",
+                    "example": "my-feature-branch"
+                  },
+                  "name": {
+                    "description": "New display name for the screenshot. Must be unique within the project (case-insensitive). If another screenshot in the project already uses this name, the request fails with 422.",
+                    "type": "string",
+                    "example": "Onboarding step 1 — updated"
+                  },
+                  "description": {
+                    "description": "Updated description of what the screenshot shows. Helps translators understand the UI context without opening the image.",
+                    "type": "string",
+                    "example": "First step of the onboarding flow after the redesign"
+                  }
                 }
               }
-            },
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The screenshot was updated successfully. Returns the full screenshot object.",
             "headers": {
               "X-Rate-Limit-Limit": {
                 "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -21351,73 +21373,73 @@
               "X-Rate-Limit-Reset": {
                 "$ref": "#/components/headers/X-Rate-Limit-Reset"
               }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/screenshot"
+                },
+                "example": {
+                  "id": "d2e056aa9e70b01121f41693e344f5ee",
+                  "name": "Onboarding step 1 — updated",
+                  "description": "First step of the onboarding flow after the redesign",
+                  "screenshot_url": "https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png",
+                  "created_at": "2024-03-15T10:22:31Z",
+                  "updated_at": "2024-06-10T09:15:44Z",
+                  "markers_count": 3
+                }
+              }
             }
           },
           "400": {
-            "$ref": "#/components/responses/400"
+            "$ref": "#/components/responses/400",
+            "description": "Bad request. Returned when the request body cannot be parsed (for example, malformed JSON) or a parameter value is of an unexpected type. Fix the request payload and retry."
           },
           "401": {
-            "$ref": "#/components/responses/401"
+            "$ref": "#/components/responses/401",
+            "description": "Unauthorized. The access token is missing, expired, or invalid. Provide a valid token in the `Authorization` header or via the `access_token` query parameter."
           },
           "403": {
             "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this screenshot, or when the account does not have the Attachable Screenshots feature."
+            "description": "Forbidden. Returned in three cases: (1) the access token lacks the `write` scope; (2) the authenticated user does not have Manage permissions on this project; or (3) the account does not have the Attachable Screenshots feature enabled. Check your token scopes, your project role, and your subscription plan."
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "$ref": "#/components/responses/404",
+            "description": "Not found. No screenshot with the given `id` exists in the specified project, or the `project_id` does not match a project accessible to the authenticated user. Verify both identifiers and retry."
           },
           "422": {
-            "$ref": "#/components/responses/422"
+            "$ref": "#/components/responses/422",
+            "description": "Unprocessable entity. The screenshot could not be saved due to a validation error — most commonly because another screenshot in the project already has the same name (case-insensitive). Read the `errors` array in the response body for the specific field and message, then adjust the request accordingly."
           },
           "429": {
-            "$ref": "#/components/responses/429"
+            "$ref": "#/components/responses/429",
+            "description": "Too many requests. Your account has exceeded the API rate limit. Wait until the time indicated in the `X-Rate-Limit-Reset` header before retrying."
           }
         },
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X PATCH \\\n  -F branch=my-feature-branch \\\n  -F name=A%20screenshot%20name \\\n  -F description=A%20screenshot%20description \\\n  -F filename=@/path/to/my/screenshot.png"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X PATCH \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"name\": \"Onboarding step 1 — updated\",\n    \"description\": \"First step of the onboarding flow after the redesign\"\n  }'\n\n# Expected response (200 OK):\n# {\n#   \"id\": \"d2e056aa9e70b01121f41693e344f5ee\",\n#   \"name\": \"Onboarding step 1 — updated\",\n#   \"description\": \"First step of the onboarding flow after the redesign\",\n#   \"screenshot_url\": \"https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png\",\n#   \"created_at\": \"2024-03-15T10:22:31Z\",\n#   \"updated_at\": \"2024-06-10T09:15:44Z\",\n#   \"markers_count\": 3\n# }"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase screenshots update \\\n--project_id <project_id> \\\n--id <id> \\\n--data '{\"branch\":\"my-feature-branch\", \"name\": \"A screenshot name\", \"description\": \"A screenshot description\", \"filename\":\"/path/to/my/screenshot.png\"}' \\\n--access_token <token>"
+            "source": "phrase screenshots update \\\n  --project_id :project_id \\\n  --id :id \\\n  --data '{\"name\":\"Onboarding step 1 — updated\",\"description\":\"First step of the onboarding flow after the redesign\"}' \\\n  --access_token <token>\n\n# Expected response (200 OK):\n# {\n#   \"id\": \"d2e056aa9e70b01121f41693e344f5ee\",\n#   \"name\": \"Onboarding step 1 — updated\",\n#   \"description\": \"First step of the onboarding flow after the redesign\",\n#   \"screenshot_url\": \"https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png\",\n#   \"created_at\": \"2024-03-15T10:22:31Z\",\n#   \"updated_at\": \"2024-06-10T09:15:44Z\",\n#   \"markers_count\": 3\n# }"
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "title": "screenshot/update/parameters",
-                "properties": {
-                  "branch": {
-                    "description": "specify the branch to use",
-                    "type": "string",
-                    "example": "my-feature-branch"
-                  },
-                  "name": {
-                    "description": "Name of the screenshot",
-                    "type": "string",
-                    "example": "A screenshot name"
-                  },
-                  "description": {
-                    "description": "Description of the screenshot",
-                    "type": "string",
-                    "example": "A screenshot description"
-                  },
-                  "filename": {
-                    "description": "Screenshot file",
-                    "type": "string",
-                    "format": "binary",
-                    "example": "/path/to/my/screenshot.png"
-                  }
-                }
-              }
-            }
+        "x-cli-version": "2.5",
+        "security": [
+          {
+            "Basic": []
+          },
+          {
+            "Token": []
+          },
+          {
+            "OAuthAccessToken": [
+              "write"
+            ]
           }
-        },
-        "x-cli-version": "2.5"
+        ]
       },
       "delete": {
         "summary": "Delete a screenshot",
