@@ -35,7 +35,7 @@ description: |
   | 404 | The project or screenshot does not exist or is not accessible to the caller. |
   | 422 | Screenshot attributes failed model validation (for example, a blank or duplicate name). |
   | 429 | The caller has exceeded their per-minute request quota or concurrent-request limit. |
-operationId: screenshots/update
+operationId: screenshot/update
 tags:
   - Screenshots
 parameters:
