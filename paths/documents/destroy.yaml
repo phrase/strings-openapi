@@ -1,6 +1,16 @@
 ---
 summary: Delete document
-description: Delete an existing document.
+description: |
+  Permanently removes a document and all its associated data from the specified project.
+
+  Use this endpoint to clean up source documents that are no longer needed — for example, after a campaign has ended or a deprecated content file has been superseded. The deletion is irreversible; ensure you have exported or archived any segment translations before proceeding.
+
+  The document is identified by its `id` (the document's code, not a numeric primary key). The token must have the `write` scope. Deletion is subject to the document policy (`DocumentPolicy#destroy?`), which requires manage permissions on the document.
+
+  Pitfalls:
+  - Deletion is permanent. There is no recycle bin or undo; once deleted, the document and its translations cannot be recovered.
+  - If the document cannot be destroyed (e.g., due to a model-level constraint), the endpoint returns 422 with a structured error body.
+  - Rate limits apply; requests exceeding the account limit return 429.
 operationId: document/delete
 tags:
 - Documents
@@ -13,13 +23,14 @@ responses:
     "$ref": "../../responses.yaml#/200"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '404':
-    "$ref": "../../responses.yaml#/404"
   '401':
     "$ref": "../../responses.yaml#/401"
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this document.
+    description: |
+      Forbidden. Returned when the access token lacks the `write` scope or when the requesting user does not have manage permissions on this document. Ensure the token has the `write` scope and the user has the Manager or Owner role in the project.
+  '404':
+    "$ref": "../../responses.yaml#/404"
   '422':
     "$ref": "../../responses.yaml#/422"
   '429':
@@ -31,6 +42,9 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE \
       -H 'Content-Type: application/json'
+
+    # A successful deletion returns HTTP 200 with an empty body.
+    # HTTP 200 OK
 - lang: CLI v2
   source: |-
     phrase documents delete \
