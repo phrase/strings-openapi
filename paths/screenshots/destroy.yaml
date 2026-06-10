@@ -1,6 +1,39 @@
 ---
 summary: Delete a screenshot
-description: Delete an existing screenshot.
+description: |
+  Permanently deletes a screenshot from a Phrase Strings project. A screenshot
+  is an image attached to one or more translation keys to provide visual context
+  for translators; it stores the filename, an optional name and description, and
+  zero or more markers that map key regions to on-screen coordinates.
+
+  Use this operation when a screenshot is no longer needed, has been superseded
+  by an updated image, or should be removed before archiving a project.
+
+  **Deletion is irreversible.** All screenshot markers (key associations) attached
+  to the screenshot are removed as a cascade side effect. Translators who relied
+  on this screenshot for visual context will no longer see it. A `screenshots:delete`
+  event is dispatched after a successful deletion, which may trigger any configured
+  webhook subscriptions.
+
+  **Pitfalls and constraints:**
+  - The `id` path parameter is the screenshot's string code (a 32-character hex
+    string such as `d2e056aa9e70b01121f41693e344f5ee`), not a numeric database ID.
+  - Requires the `write` OAuth scope. Calls with only a `read` scope receive 403.
+  - The requesting user must have Manage permission on the Screenshot resource in
+    the project. Project Translators and Reviewers without Manage permission
+    receive 403.
+  - The project must have the Attachable Screenshots feature enabled on the account
+    plan. Accounts without this feature receive 403.
+  - Deletion on a protected project is blocked; the policy enforces
+    `!project.protected?` before granting Manage access.
+  - If the screenshot code does not exist in the project, the loader raises
+    `ActiveRecord::RecordNotFound` and the endpoint returns 404.
+
+  **Error codes:** Phrase Strings uses HTTP status codes as its machine-readable
+  error identifiers. No additional string error codes are returned. All error
+  responses include a `message` field and, where applicable, a `documentation_url`
+  field. Validation failure responses (422) additionally include an `errors` array
+  with per-field `resource`, `field`, and `message` entries.
 operationId: screenshot/delete
 tags:
 - Screenshots
@@ -8,24 +41,48 @@ parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
 - "$ref": "../../parameters.yaml#/project_id"
 - "$ref": "../../parameters.yaml#/id"
-- description: specify the branch to use
+- description: >-
+    Name of the branch to operate on. When omitted, the operation targets the
+    project's main (default) branch.
   example: my-feature-branch
   name: branch
   in: query
+  required: false
   schema:
     type: string
 responses:
   '204':
-    "$ref": "../../responses.yaml#/204"
+    description: >-
+      Screenshot deleted successfully. No response body is returned. The
+      HTTP 204 No Content status confirms permanent removal.
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '404':
-    "$ref": "../../responses.yaml#/404"
   '401':
     "$ref": "../../responses.yaml#/401"
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this screenshot, or when the account does not have the Attachable Screenshots feature.
+    description: >-
+      Forbidden. Returned in three cases:
+      (1) The access token was issued with the `read` scope only — re-authorize
+      with the `write` scope.
+      (2) The requesting user does not have Manage permission on the Screenshot
+      resource in this project — contact a project Owner or Admin to grant the
+      required role.
+      (3) The account plan does not include the Attachable Screenshots feature —
+      upgrade the plan or contact Phrase support.
+  '404':
+    "$ref": "../../responses.yaml#/404"
+    description: >-
+      Not found. The `project_id` or screenshot `id` does not correspond to an
+      existing record accessible to the authenticated user. Verify both values
+      and retry.
   '422':
     "$ref": "../../responses.yaml#/422"
   '429':
@@ -35,14 +92,21 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/screenshots/:id" \
       -u USERNAME_OR_ACCESS_TOKEN \
-      -X DELETE \
-      -d '{"branch":"my-feature-branch"}' \
-      -H 'Content-Type: application/json'
+      -X DELETE
+
+    # With an optional branch query parameter:
+    curl "https://api.phrase.com/v2/projects/:project_id/screenshots/:id?branch=my-feature-branch" \
+      -u USERNAME_OR_ACCESS_TOKEN \
+      -X DELETE
+
+    # Expected response: HTTP 204 No Content (empty body)
 - lang: CLI v2
   source: |-
     phrase screenshots delete \
     --project_id <project_id> \
-    --id <id> \
+    --id d2e056aa9e70b01121f41693e344f5ee \
     --branch my-feature-branch \
     --access_token <token>
+
+    # Expected response: HTTP 204 No Content (empty body)
 x-cli-version: '2.5'
