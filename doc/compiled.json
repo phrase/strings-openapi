@@ -21237,7 +21237,7 @@
     "/projects/{project_id}/screenshots/{id}": {
       "get": {
         "summary": "Get a single screenshot",
-        "description": "Get details on a single screenshot for a given project.",
+        "description": "Returns the full metadata for one screenshot in a project, identified by its string code.\n\nA screenshot in Phrase is an image file uploaded to a project to give translators visual\ncontext. Each screenshot can be linked to one or more translation keys via rectangular\nmarker regions. This endpoint retrieves the screenshot's name, description, hosted image\nURL, and the count of markers currently attached to it.\n\nUse this endpoint when you have a screenshot's `id` (its string code) and need its current\nmetadata or image URL. To discover screenshot codes, first call the list endpoint\n(`screenshots/list`); to inspect the individual markers attached to a screenshot, call the\nscreenshot markers list endpoint.\n\n**Feature requirement:** All screenshot endpoints require the Attachable Screenshots feature\nto be enabled on the account. Requests made against an account without this feature return\n`403` immediately, before any permission checks run.\n\n**Access control:** The access token must carry the `read` OAuth scope. The authenticated\nuser must have at least read permission on the project and on the screenshot resource.\n\n**The `id` field is a string code, not a numeric primary key.** The value returned in the\nresponse `id` field is the screenshot's code (e.g., `d2e056aa9e70b01121f41693e344f5ee`).\nPass this value to other screenshot endpoints such as update or delete.\n\n**Branches:** Pass the `branch` query parameter to read from a branch project. Omit it to\nread from the default branch. An invalid or inaccessible branch causes a `404` response.\n",
         "operationId": "screenshot/show",
         "tags": [
           "Screenshots"
@@ -21269,6 +21269,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/screenshot"
+                },
+                "example": {
+                  "id": "d2e056aa9e70b01121f41693e344f5ee",
+                  "name": "Onboarding step 1",
+                  "description": "First step of the user onboarding flow showing the project selection screen",
+                  "screenshot_url": "https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png",
+                  "created_at": "2024-03-15T10:22:31Z",
+                  "updated_at": "2024-03-18T14:05:12Z",
+                  "markers_count": 3
                 }
               }
             },
@@ -21285,30 +21294,34 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/400"
+            "$ref": "#/components/responses/400",
+            "description": "Bad request. Returned when a query parameter is malformed or cannot be parsed. Check the request URL and query parameter syntax; refer to the error `message` field for the specific parsing problem."
           },
           "401": {
-            "$ref": "#/components/responses/401"
+            "$ref": "#/components/responses/401",
+            "description": "Unauthorized. The request did not include a valid access token, or the token has expired. Generate a new access token in Phrase account settings and pass it via HTTP Basic auth or the `Authorization: Bearer` header. When 2FA is enabled, supply the current OTP in `X-PhraseApp-OTP`."
           },
           "403": {
             "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this screenshot, or when the account does not have the Attachable Screenshots feature."
+            "description": "Forbidden. Returned in the following cases:\n\n| Cause | Remediation |\n|-------|-------------|\n| The Attachable Screenshots feature is not enabled on the account plan. | Upgrade the account plan or contact Phrase support to enable the Attachable Screenshots feature. |\n| The access token lacks the `read` OAuth scope. | Re-authorize the OAuth application with the `read` scope. |\n| The authenticated user does not have read permission on this project or screenshot. | Ask a project admin to grant at least Viewer access to this project. |\n"
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "$ref": "#/components/responses/404",
+            "description": "Not found. Returned when the project, screenshot, or the specified branch does not exist or is not accessible to the requesting user. Verify the `project_id`, `id`, and `branch` values. Use the screenshots list endpoint to retrieve valid screenshot codes for the project."
           },
           "429": {
-            "$ref": "#/components/responses/429"
+            "$ref": "#/components/responses/429",
+            "description": "Rate limit exceeded. The account has exceeded its API request quota for the current window. Reduce request frequency and implement exponential backoff. Check the `X-Rate-Limit-Reset` response header for the Unix timestamp when the quota resets."
           }
         },
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id?branch=my-feature-branch\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
+            "source": "curl \"https://api.phrase.com/v2/projects/3d7ce831a3e9e1b843dc16d36ee5b9f4/screenshots/d2e056aa9e70b01121f41693e344f5ee\" \\\n  -u USERNAME_OR_ACCESS_TOKEN\n\n# Expected response (HTTP 200):\n# {\n#   \"id\": \"d2e056aa9e70b01121f41693e344f5ee\",\n#   \"name\": \"Onboarding step 1\",\n#   \"description\": \"First step of the user onboarding flow showing the project selection screen\",\n#   \"screenshot_url\": \"https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png\",\n#   \"created_at\": \"2024-03-15T10:22:31Z\",\n#   \"updated_at\": \"2024-03-18T14:05:12Z\",\n#   \"markers_count\": 3\n# }"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase screenshots show \\\n--project_id <project_id> \\\n--id <id> \\\n--branch my-feature-branch \\\n--access_token <token>"
+            "source": "phrase screenshots show \\\n--project_id 3d7ce831a3e9e1b843dc16d36ee5b9f4 \\\n--id d2e056aa9e70b01121f41693e344f5ee \\\n--access_token 4a8e3f7c2b1d9e6a0c5f8b2d4e7a1c3f\n\n# Expected response (HTTP 200):\n# {\n#   \"id\": \"d2e056aa9e70b01121f41693e344f5ee\",\n#   \"name\": \"Onboarding step 1\",\n#   \"description\": \"First step of the user onboarding flow showing the project selection screen\",\n#   \"screenshot_url\": \"https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png\",\n#   \"created_at\": \"2024-03-15T10:22:31Z\",\n#   \"updated_at\": \"2024-03-18T14:05:12Z\",\n#   \"markers_count\": 3\n# }"
           }
         ],
         "x-cli-version": "2.5"

@@ -26,7 +26,7 @@ description: |
 
   **Branches:** Pass the `branch` query parameter to read from a branch project. Omit it to
   read from the default branch. An invalid or inaccessible branch causes a `404` response.
-operationId: screenshots/show
+operationId: screenshot/show
 tags:
 - Screenshots
 parameters:
