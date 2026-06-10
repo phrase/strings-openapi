@@ -14,6 +14,12 @@ description: |
   key). Pass this value as the `screenshot_id` path segment in subsequent marker or
   screenshot calls.
 
+  **Accepted formats:** JPG, JPEG, GIF, and PNG. The maximum file size is 10 MB by
+  default (configurable per deployment).
+
+  **Name uniqueness:** Screenshot names must be unique within the project
+  (case-insensitive). Attempting to create a duplicate name returns a 422 error.
+
   **File upload:** The request body must be sent as `multipart/form-data`. The `filename`
   field is required; omitting it or uploading a file that cannot be processed by the
   image pipeline will return a 422 with an error on the `filename` field.
@@ -61,8 +67,15 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
+    description: |
+      Bad request. Returned when the request is malformed, a required parameter is
+      missing, or the request body cannot be parsed. Verify that all required fields
+      are present and the multipart form data is correctly encoded.
   '401':
     "$ref": "../../responses.yaml#/401"
+    description: |
+      Unauthorized. The access token is missing, expired, or invalid. Provide a valid
+      token via the `Authorization` header or the `access_token` query parameter.
   '403':
     "$ref": "../../responses.yaml#/403"
     description: |
@@ -75,10 +88,25 @@ responses:
         feature is not enabled.
   '404':
     "$ref": "../../responses.yaml#/404"
+    description: |
+      Not found. The specified project does not exist or is not accessible with the
+      provided credentials. Verify the `project_id` path parameter.
   '422':
     "$ref": "../../responses.yaml#/422"
+    description: |
+      Unprocessable entity. Returned when validation fails. Common causes:
+      - `name` is blank or already taken by another screenshot in this project
+        (names must be unique within a project, case-insensitive).
+      - `filename` is missing or the uploaded file could not be processed.
+      - The uploaded file is not a supported image format (JPG, JPEG, GIF, or PNG).
+      - The uploaded file exceeds the maximum allowed size (10 MB by default).
+      The response body contains a `message` and an `errors` array identifying the
+      affected field and the reason.
   '429':
     "$ref": "../../responses.yaml#/429"
+    description: |
+      Too many requests. The rate limit for this endpoint has been exceeded. Wait until
+      the time indicated by the `X-Rate-Limit-Reset` response header before retrying.
 x-code-samples:
 - lang: Curl
   source: |-
@@ -107,13 +135,16 @@ requestBody:
         title: screenshot/create/parameters
         required:
         - filename
+        - name
         properties:
           branch:
             description: Branch to create the screenshot in. Omit to target the main branch.
             type: string
             example: my-feature-branch
           name:
-            description: Name of the screenshot shown in the Phrase dashboard and to translators.
+            description: |
+              Human-readable name for the screenshot shown in the Phrase dashboard and to
+              translators. Must be unique within the project (case-insensitive).
             type: string
             example: Onboarding step 1
           description:
@@ -121,7 +152,11 @@ requestBody:
             type: string
             example: First step of the user onboarding flow showing the project selection screen
           filename:
-            description: The screenshot image file to upload. Required. If the file cannot be processed, a 422 is returned with an error on the `filename` field.
+            description: |
+              The screenshot image file to upload. Accepted formats: JPG, JPEG, GIF, PNG.
+              Maximum file size is 10 MB. Pass the file using multipart form data
+              (e.g., `@/path/to/image.png` with curl). If the file is missing or cannot
+              be processed, a 422 is returned with an error on the `filename` field.
             type: string
             format: binary
 x-cli-version: '2.5'
