@@ -479,16 +479,16 @@
         "description": "Comparison result of a branch against its base branch. Top-level properties correspond to\nresource types. Each resource type lists changes made in the base branch (`base_changes`),\nchanges made in the feature branch (`head_changes`), and conflicting entries (`conflicts`).\n",
         "properties": {
           "translation_keys": {
-            "$ref": "#/components/schemas/branch_comparison_resource_diff"
+            "$ref": "#/components/schemas/branch_comparison_diff"
           },
           "translations": {
-            "$ref": "#/components/schemas/branch_comparison_resource_diff"
+            "$ref": "#/components/schemas/branch_comparison_diff"
           },
           "locales": {
-            "$ref": "#/components/schemas/branch_comparison_resource_diff"
+            "$ref": "#/components/schemas/branch_comparison_diff"
           },
           "tags": {
-            "$ref": "#/components/schemas/branch_comparison_resource_diff"
+            "$ref": "#/components/schemas/branch_comparison_diff"
           }
         },
         "example": {
@@ -556,9 +556,9 @@
           }
         }
       },
-      "branch_comparison_resource_diff": {
+      "branch_comparison_diff": {
         "type": "object",
-        "title": "branch_comparison_resource_diff",
+        "title": "branch_comparison_diff",
         "properties": {
           "base_changes": {
             "type": "array",

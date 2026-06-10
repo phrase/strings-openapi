@@ -8,13 +8,13 @@ branch_comparison:
     changes made in the feature branch (`head_changes`), and conflicting entries (`conflicts`).
   properties:
     translation_keys:
-      "$ref": "#/branch_comparison_resource_diff"
+      "$ref": "#/branch_comparison_diff"
     translations:
-      "$ref": "#/branch_comparison_resource_diff"
+      "$ref": "#/branch_comparison_diff"
     locales:
-      "$ref": "#/branch_comparison_resource_diff"
+      "$ref": "#/branch_comparison_diff"
     tags:
-      "$ref": "#/branch_comparison_resource_diff"
+      "$ref": "#/branch_comparison_diff"
   example:
     translation_keys:
       base_changes:
@@ -65,9 +65,9 @@ branch_comparison:
       head_changes: []
       conflicts: {}
 
-branch_comparison_resource_diff:
+branch_comparison_diff:
   type: object
-  title: branch_comparison_resource_diff
+  title: branch_comparison_diff
   properties:
     base_changes:
       type: array
