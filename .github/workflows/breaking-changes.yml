@@ -61,7 +61,7 @@ jobs:
           \`\`\`
           $CHANGELOG
           \`\`\`"
-          EXISTING=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+          EXISTING=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100" \
             --jq "[.[] | select(.body | startswith(\"$MARKER\"))][0].id // empty")
           if [ -n "$EXISTING" ]; then
             gh api --method PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${EXISTING}" -f body="$BODY" > /dev/null
