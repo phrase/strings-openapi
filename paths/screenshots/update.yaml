@@ -40,20 +40,8 @@ tags:
   - Screenshots
 parameters:
   - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
-    required: false
   - "$ref": "../../parameters.yaml#/project_id"
-    required: true
   - "$ref": "../../parameters.yaml#/id"
-    required: true
-  - name: branch
-    in: query
-    description: >-
-      Name of the branch to operate on. When supplied, the request is scoped to that
-      branch project rather than the main project. Omit to operate on the main project.
-    required: false
-    schema:
-      type: string
-      example: my-feature-branch
 requestBody:
   required: true
   content:
@@ -63,6 +51,12 @@ requestBody:
         title: screenshot/update/parameters
         description: All properties are optional. Include only the fields you want to update.
         properties:
+          branch:
+            description: >-
+              Name of the branch to operate on. When supplied, the request is scoped to that
+              branch project rather than the main project. Omit to operate on the main project.
+            type: string
+            example: my-feature-branch
           name:
             description: >-
               New display name for the screenshot. Must be unique within the project
@@ -75,22 +69,6 @@ requestBody:
               Updated description of what the screenshot shows. Helps translators understand the
               UI context without opening the image.
             type: string
-            example: First step of the onboarding flow after the redesign
-    multipart/form-data:
-      schema:
-        type: object
-        properties:
-          name:
-            type: string
-            description: >-
-              New display name for the screenshot. Must be unique within the project
-              (case-insensitive).
-            example: Onboarding step 1 — updated
-          description:
-            type: string
-            description: >-
-              Updated description of what the screenshot shows. Helps translators understand the
-              UI context without opening the image.
             example: First step of the onboarding flow after the redesign
 responses:
   '200':
