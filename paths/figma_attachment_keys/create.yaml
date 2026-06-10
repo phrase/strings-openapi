@@ -1,6 +1,15 @@
 ---
 summary: Attach the Figma attachment to a key
-description: Attach the Figma attachment to a key
+description: |
+  Associates a Figma attachment with a translation key in the specified project, linking the design asset to the key for visual context during translation.
+
+  Use this endpoint when you want to connect a Figma file — previously uploaded as a Figma attachment — to a specific translation key, so translators can see the design context for that string.
+
+  This operation is feature-gated: the `attachable_screenshots` feature must be enabled for the account. Attempting this call without the feature returns 403. The token must have the `write` scope, and the authenticated user must have manage permissions on both the Figma attachment and the key (`FigmaAttachmentsTranslationKey`). Attaching the same Figma attachment to a key more than once returns 422 ("Already attached").
+
+  Pitfalls:
+  - The `figma_attachment_id` must belong to the same project as `project_id`. Cross-project attachment is not supported and returns 404.
+  - Protected projects block this operation even for manage-level users; 403 is returned.
 operationId: figma_attachment/attach_to_key
 tags:
   - Key's Figma attachments
@@ -9,7 +18,7 @@ parameters:
   - "$ref": "../../parameters.yaml#/project_id"
   - "$ref": "../../parameters.yaml#/figma_attachment_id"
   - "$ref": "../../parameters.yaml#/id"
-  - description: specify the branch to use
+  - description: Branch name to scope the key lookup to. When omitted, the main branch is used.
     example: my-feature-branch
     name: branch
     in: query
@@ -20,8 +29,16 @@ responses:
     "$ref": "../../responses.yaml#/204"
   "400":
     "$ref": "../../responses.yaml#/400"
+  "401":
+    "$ref": "../../responses.yaml#/401"
+  "403":
+    "$ref": "../../responses.yaml#/403"
+    description: |
+      Forbidden. Returned when the access token lacks the `write` scope, the account does not have the `attachable_screenshots` feature enabled, the user lacks manage permissions on the Figma attachment or key, or the project is protected.
   "404":
     "$ref": "../../responses.yaml#/404"
+  "422":
+    "$ref": "../../responses.yaml#/422"
   "429":
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -30,9 +47,8 @@ x-code-samples:
       curl "https://api.phrase.com/v2/projects/:project_id/figma_attachments/:figma_attachment_id/keys" \
         -u USERNAME_OR_ACCESS_TOKEN \
         -X POST \
-        -F branch=my-feature-branch \
-        -F id=key_id \
-        -H 'Content-Type: application/json'
+        -H 'Content-Type: application/json' \
+        -d '{"branch":"my-feature-branch"}'
   - lang: CLI v2
     source: |-
       phrase figma_attachment attach_to_key \
