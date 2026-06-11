@@ -1841,7 +1841,7 @@
                 "type": "integer"
               },
               "translation_keys_unmentioned": {
-                "description": "The number of translation keys in the project that were not mentioned in the upload.\n\nNote: this field is not calculated (and shows 0) if the upload contains more than 10,000 keys.\n",
+                "description": "The number of translation keys in the project that were not mentioned in the upload.\n\nNote: this field is not calculated (and shows 0) if the upload contains more than 100,000 keys.\n",
                 "type": "integer"
               },
               "translations_created": {
