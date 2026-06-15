@@ -1,6 +1,13 @@
 ---
 summary: Create a screenshot
-description: Create a new screenshot.
+description: |
+  Creates a screenshot in a project to provide visual context for in-context translation. Attach translation keys to regions of the uploaded image so translators can see where each string appears in your UI.
+
+  This endpoint accepts a multipart/form-data request with a binary file upload, unlike most Phrase API endpoints that use JSON. Use a multipart form client or the -F flag in curl rather than a JSON body.
+
+  The screenshot name must be unique within the project (case-insensitive). When name is omitted, it is derived from the uploaded filename. The account must have the Screenshots feature enabled; requests to projects on accounts without it return 403.
+
+  Requires the write scope and manage permission on the project.
 operationId: screenshot/create
 tags:
 - Screenshots
@@ -14,6 +21,14 @@ responses:
       application/json:
         schema:
           "$ref": "../../schemas/screenshot.yaml#/screenshot"
+        example:
+          id: abcd1234abcd1234abcd1234abcd1234
+          name: home_screen
+          description: Main landing page hero section
+          screenshot_url: https://assets.phrase.com/screenshots/abcd1234abcd1234abcd1234abcd1234/screenshot.png
+          created_at: '2024-03-15T09:00:00Z'
+          updated_at: '2024-03-15T09:00:00Z'
+          markers_count: 0
     headers:
       X-Rate-Limit-Limit:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
@@ -23,17 +38,28 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '404':
-    "$ref": "../../responses.yaml#/404"
+    description: |
+      Returned when the request cannot be parsed. Cause: the multipart body is malformed or a parameter value is of the wrong type. Fix: verify the Content-Type is multipart/form-data and all parameter values match the expected types.
   '401':
     "$ref": "../../responses.yaml#/401"
+    description: |
+      Returned when authentication fails. Cause: the access token is missing, expired, or revoked. Fix: supply a valid access token via HTTP Basic auth (username or token as the username, password blank).
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create screenshots in this project, or when the account does not have the Attachable Screenshots feature.
+    description: |
+      Returned when the access token lacks the write scope, the requesting user does not have manage permission on the project, or the account does not have the Screenshots feature enabled. Fix: use a token with the write scope, ensure the user has a Manager or above role on the project, and verify the account has Screenshots enabled.
+  '404':
+    "$ref": "../../responses.yaml#/404"
+    description: |
+      Returned when the project does not exist or is not accessible to the authenticated user. Fix: verify the project_id is correct and the token has access to that project.
   '422':
     "$ref": "../../responses.yaml#/422"
+    description: |
+      Returned when validation fails. Common causes: the filename field is missing or the uploaded file has an unsupported format (only jpg, jpeg, gif, and png are accepted), the file exceeds the 10 MB size limit, or the screenshot name is already in use within the project (case-insensitive). Fix: supply a valid file in an accepted format within the size limit, and choose a unique name.
   '429':
     "$ref": "../../responses.yaml#/429"
+    description: |
+      Returned when the rate limit or concurrency limit is exceeded. Fix: reduce request frequency and retry after the interval indicated in the X-Rate-Limit-Reset response header.
 x-code-samples:
 - lang: Curl
   source: |-
@@ -41,15 +67,18 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X POST \
       -F branch=my-feature-branch \
-      -F name=A%20screenshot%20name \
-      -F description=A%20screenshot%20description \
-      -F filename=@/path/to/my/screenshot.png
+      -F name=home_screen \
+      -F description="Main landing page hero section" \
+      -F filename=@/path/to/home_screen.png
 - lang: CLI v2
   source: |-
     phrase screenshots create \
-    --project_id <project_id> \
-    --branch "my-feature-branch" --name "A screenshot name" --description "A screenshot description" --filename "/path/to/my/screenshot.png" \
-    --access_token <token>
+      --project_id <project_id> \
+      --branch "my-feature-branch" \
+      --name "home_screen" \
+      --description "Main landing page hero section" \
+      --filename "/path/to/home_screen.png" \
+      --access_token <token>
 requestBody:
   required: true
   content:
@@ -57,22 +86,29 @@ requestBody:
       schema:
         type: object
         title: screenshot/create/parameters
+        required:
+          - filename
         properties:
           branch:
-            description: specify the branch to use
+            description: Branch to use instead of the project default.
             type: string
             example: my-feature-branch
           name:
-            description: Name of the screenshot
+            description: Display name for the screenshot. Must be unique within the project (case-insensitive). When omitted, the name is derived from the uploaded filename.
             type: string
-            example: A screenshot name
+            example: home_screen
           description:
-            description: Description of the screenshot
+            description: Optional free-text description of the screenshot.
             type: string
-            example: A screenshot description
+            example: Main landing page hero section
           filename:
-            description: Screenshot file
+            description: Image file to upload. Accepted formats are JPEG (jpg/jpeg), GIF, and PNG. Maximum file size is 10 MB. Submitting an unsupported format or a file exceeding the size limit returns 422.
             type: string
             format: binary
-            example: "/path/to/my/screenshot.png"
+            x-accepted-formats:
+              - jpg
+              - jpeg
+              - gif
+              - png
+            x-max-size-mb: 10
 x-cli-version: '2.5'
