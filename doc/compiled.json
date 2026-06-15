@@ -6416,7 +6416,7 @@
     "/projects/{project_id}/figma_attachments/{figma_attachment_id}/keys/{id}": {
       "delete": {
         "summary": "Detach the Figma attachment from a key",
-        "description": "Removes the association between a Figma attachment and a translation key in the specified project.\n\nUse this endpoint when a design asset is no longer relevant to a translation key — for example, when a UI component has been redesigned and the old Figma frame no longer represents the string's context.\n\nThe token must have the `write` scope, and the authenticated user must have manage permissions on both the Figma attachment and the key (`FigmaAttachmentsTranslationKey`). The `attachable_screenshots` feature must be enabled for the account. Attempting to detach an attachment that is not currently linked to the key returns 422 (\"Already detached\").\n\nPitfalls:\n- Detaching a Figma attachment does not delete the attachment itself from the project — it only removes the link to this key. The attachment remains in the project and can be re-attached.\n- Protected projects block this operation even for manage-level users; 403 is returned.\n",
+        "description": "Removes the many-to-many association between a translation key and a Figma attachment. Neither the translation key nor the Figma attachment is deleted — only the link between them is removed. Use this when a key no longer corresponds to the design element represented by the Figma frame, or when cleaning up stale key associations after a design update.\n\nThis endpoint is only available on plans that include the Figma Screenshots feature. Accounts without this feature enabled receive 403. Callers must hold manage permission on both the translation key and the Figma attachment.\n\nReturns 422 when the key is not currently linked to the specified Figma attachment. Verify the attachment is listed under the key before calling this endpoint; if the association no longer exists, no further action is needed.\n\n**Errors**\n\n| Code | Status | Cause | Remediation |\n|---|---|---|---|\n| `KEY_NOT_ATTACHED` | 422 | The translation key is not currently linked to this Figma attachment. | Confirm the attachment exists for the key before calling detach. |\n| `FIGMA_INTEGRATION_REQUIRED` | 403 | The project account does not have the Figma Screenshots feature enabled. | Upgrade to a plan that includes Figma Screenshots or contact support. |\n| `INSUFFICIENT_SCOPE` | 403 | The access token lacks the write scope required for this operation. | Re-authenticate with the write scope. |\n| `UNAUTHORIZED` | 401 | No valid authentication credentials were provided. | Include a valid access token in the request. |\n| `NOT_FOUND` | 404 | The project, Figma attachment, or translation key does not exist. | Verify all IDs in the request path are correct. |\n| `RATE_LIMIT_EXCEEDED` | 429 | Too many requests in a short period. | Wait for the interval indicated in the X-Rate-Limit-Reset header before retrying. |\n",
         "operationId": "figma_attachment/detach_from_key",
         "tags": [
           "Key's Figma attachments"
@@ -6435,7 +6435,7 @@
             "$ref": "#/components/parameters/id"
           },
           {
-            "description": "Branch name to scope the key lookup to. When omitted, the main branch is used.",
+            "description": "specify the branch to use",
             "example": "my-feature-branch",
             "name": "branch",
             "in": "query",
@@ -6446,7 +6446,15 @@
         ],
         "responses": {
           "204": {
-            "$ref": "#/components/responses/204"
+            "description": "The key was successfully detached from the Figma attachment. No content is returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "figma_attachment_keys/destroy/response"
+                }
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -6455,8 +6463,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, the account does not have the `attachable_screenshots` feature enabled, the user lacks manage permissions on the Figma attachment or key, or the project is protected.\n"
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -6471,7 +6478,7 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/figma_attachments/:figma_attachment_id/keys/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/figma_attachments/:figma_attachment_id/keys/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE\n\n# Expected response: HTTP 204 No Content (empty body)"
           },
           {
             "lang": "CLI v2",
