@@ -5684,7 +5684,7 @@
     "/projects/{project_id}/documents/{id}": {
       "delete": {
         "summary": "Delete document",
-        "description": "Delete an existing document.",
+        "description": "Permanently deletes a document and all of its associated translation segments from the project. Use this when you want to remove a document that is no longer needed; the deletion cannot be reversed and all associated segments will be lost.\n\nRequires the write scope on the access token and manage permission on the document. Returns 403 when either condition is not met.\n",
         "operationId": "document/delete",
         "tags": [
           "Documents"
@@ -5702,36 +5702,42 @@
         ],
         "responses": {
           "200": {
+            "description": "The document was successfully deleted. The response body is empty.",
             "$ref": "#/components/responses/200"
           },
           "400": {
+            "description": "Bad request. The request was malformed or contained an invalid parameter. Correct the request and retry.",
             "$ref": "#/components/responses/400"
           },
           "401": {
+            "description": "Unauthorized. The access token is missing or invalid. Provide a valid token and retry.",
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this document."
+            "description": "Forbidden. The access token lacks the write scope or the authenticated user does not have manage permission on this document. Obtain a token with the write scope or request manage access from a project administrator.",
+            "$ref": "#/components/responses/403"
           },
           "404": {
+            "description": "Not Found. No document with the given ID exists in this project. Verify the document ID and project ID before retrying.",
             "$ref": "#/components/responses/404"
           },
           "422": {
+            "description": "Unprocessable entity. The document could not be deleted due to a validation error. Check the errors field in the response body for details.",
             "$ref": "#/components/responses/422"
           },
           "429": {
+            "description": "Rate limit exceeded. Too many requests in a short period. Wait until the time indicated by the X-Rate-Limit-Reset header before retrying.",
             "$ref": "#/components/responses/429"
           }
         },
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/documents/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -H 'Content-Type: application/json'"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/documents/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase documents delete \\\n--project_id <project_id> \\\n--id <id> \\\n--access_token <token>"
+            "source": "phrase documents delete \\\n--project_id my-project-xyz123 \\\n--id doc-abc456 \\\n--access_token USERNAME_OR_ACCESS_TOKEN"
           }
         ],
         "x-cli-version": "2.5"
