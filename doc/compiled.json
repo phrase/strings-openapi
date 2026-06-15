@@ -30804,7 +30804,7 @@
     "/projects/{project_id}/keys/{id}/key_links": {
       "delete": {
         "summary": "Batch unlink child keys from a parent key",
-        "description": "Unlinks multiple child keys from a given parent key in a single operation.",
+        "description": "Removes one or more child keys from a parent key's linked-key group, or dissolves the entire group by setting unlink_parent to true.\n\nUse this when you need to detach specific child keys from a shared translation source, or to fully break apart a linked-key group so each key manages its own translations independently. When child keys are unlinked, their translations are updated with a copy of the parent's current content (strategy keep_content, the default) or cleared (strategy remove_content).\n\nThis operation requires write permission on the linked-key resource and is only available on main projects; calling it against a branch project returns 403. Specifying a child key that is not currently linked to the given parent returns 422 with error code KEY_IS_NOT_LINKED. Error codes follow UPPER_SNAKE_CASE format throughout this API.\n",
         "operationId": "key_links/batch_destroy",
         "tags": [
           "Linked Keys"
@@ -30821,7 +30821,7 @@
           }
         ],
         "requestBody": {
-          "required": true,
+          "required": false,
           "content": {
             "application/json": {
               "schema": {
@@ -30832,20 +30832,30 @@
                 "title": "key_links/batch_destroy/parameters",
                 "properties": {
                   "child_key_ids": {
-                    "description": "The IDs of the child keys to unlink from the parent key.",
+                    "description": "Codes of the child keys to unlink. Required when unlink_parent is false or omitted. Ignored when unlink_parent is true.",
                     "type": "array",
                     "example": [
-                      "child_key_id1",
-                      "child_key_id2"
+                      "feature.subtitle",
+                      "nav.home"
                     ],
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "feature.subtitle"
                     }
                   },
                   "unlink_parent": {
-                    "description": "Whether to unlink the parent key as well and unmark it as linked-key.",
+                    "description": "When true, dissolves the entire linked-key group by unlinking all children and removing the group. The child_key_ids field is ignored when this is set to true.",
                     "type": "boolean",
                     "default": false
+                  },
+                  "strategy": {
+                    "type": "string",
+                    "description": "Controls what happens to child key translation content after unlinking. keep_content (default) copies the parent translation into each child; remove_content clears each child translation.",
+                    "enum": [
+                      "keep_content",
+                      "remove_content"
+                    ],
+                    "default": "keep_content"
                   }
                 }
               }
@@ -30854,28 +30864,291 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Updated linked-key group reference after the unlink operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "linked_keys_reference",
+                  "type": "object",
+                  "properties": {
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "When the linked-key group was created."
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "When the linked-key group was last modified."
+                    },
+                    "created_by": {
+                      "type": "object",
+                      "title": "linked_keys_reference/created_by",
+                      "description": "User who created the linked-key group.",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "User identifier (code)."
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "gravatar_uid": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "updated_by": {
+                      "type": "object",
+                      "title": "linked_keys_reference/updated_by",
+                      "description": "User who last modified the linked-key group.",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "User identifier (code)."
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "gravatar_uid": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "account": {
+                      "type": "object",
+                      "title": "linked_keys_reference/account",
+                      "description": "Account the linked-key group belongs to.",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "Account identifier (code)."
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "company": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "company_logo_url": {
+                          "type": "string",
+                          "format": "uri",
+                          "description": "URL of the account company logo image."
+                        }
+                      }
+                    },
+                    "parent": {
+                      "type": "object",
+                      "title": "linked_keys_reference/parent",
+                      "description": "The parent key that owns this linked-key group.",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "Key identifier (code)."
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "plural": {
+                          "type": "boolean",
+                          "description": "Whether the key is pluralized."
+                        },
+                        "use_ordinal_rules": {
+                          "type": "boolean"
+                        },
+                        "data_type": {
+                          "type": "string"
+                        },
+                        "tags": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "children": {
+                      "type": "array",
+                      "description": "Child keys remaining in the linked-key group after the operation. Empty when unlink_parent dissolves the group entirely.",
+                      "items": {
+                        "type": "object",
+                        "title": "linked_keys_reference/child",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Key identifier (code)."
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "plural": {
+                            "type": "boolean",
+                            "description": "Whether the key is pluralized."
+                          },
+                          "use_ordinal_rules": {
+                            "type": "boolean"
+                          },
+                          "data_type": {
+                            "type": "string"
+                          },
+                          "tags": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "created_at": "2024-03-15T10:30:00.000Z",
+                  "updated_at": "2024-03-15T12:45:00.000Z",
+                  "created_by": {
+                    "id": "abcd1234efgh5678",
+                    "username": "alice",
+                    "name": "Alice Smith",
+                    "gravatar_uid": "efgh5678abcd1234"
+                  },
+                  "updated_by": {
+                    "id": "ijkl9012mnop3456",
+                    "username": "bob",
+                    "name": "Bob Jones",
+                    "gravatar_uid": "mnop3456ijkl9012"
+                  },
+                  "account": {
+                    "id": "qrst7890uvwx1234",
+                    "name": "Acme Corp",
+                    "slug": "acme-corp",
+                    "company": "Acme Corporation",
+                    "created_at": "2023-01-01T00:00:00.000Z",
+                    "updated_at": "2024-03-15T12:45:00.000Z",
+                    "company_logo_url": "https://assets.phrase.com/accounts/acme-corp/logo.png"
+                  },
+                  "parent": {
+                    "id": "main.title",
+                    "name": "main.title",
+                    "plural": false,
+                    "use_ordinal_rules": false,
+                    "data_type": "string",
+                    "tags": [
+                      "ui",
+                      "homepage"
+                    ]
+                  },
+                  "children": [
+                    {
+                      "id": "feature.subtitle",
+                      "name": "feature.subtitle",
+                      "plural": false,
+                      "use_ordinal_rules": false,
+                      "data_type": "string",
+                      "tags": []
+                    }
+                  ]
+                }
+              }
+            }
           },
           "400": {
+            "description": "Returned when a request parameter cannot be parsed or is structurally invalid. Correct the request body or query parameters and retry.",
             "$ref": "#/components/responses/400"
           },
           "401": {
+            "description": "Returned when the access token is missing or invalid. Provide a valid token with the write scope and retry.",
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to unlink keys for this parent."
+            "description": "Returned when the caller lacks write permission on the linked-key resource, or when the target project is a branch rather than a main project. To resolve, verify that the access token carries the write scope and that the operation targets a main project.\n\nMachine-readable code: FORBIDDEN\n",
+            "$ref": "#/components/responses/403"
           },
           "404": {
+            "description": "Returned when no key matching the given id exists in the project. Verify the key code and project identifier and retry.",
             "$ref": "#/components/responses/404"
           },
           "422": {
-            "$ref": "#/components/responses/422"
+            "description": "Returned when validation fails. All error codes follow UPPER_SNAKE_CASE format.\n\nCommon codes:\n- KEY_IS_NOT_LINKED: a key in child_key_ids is not currently linked to the specified parent key. Verify the child key codes and the parent key before retrying.\n- CREATING_OR_UPDATING_TRANSLATION_ERROR: a translation update for an unlinked child key failed. Retry the request; if the error persists, verify that the child key's translations are not locked or in a state that prevents edits.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "key_links/batch_destroy/error",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Human-readable error summary."
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "title": "key_links/batch_destroy/error_item",
+                        "properties": {
+                          "resource": {
+                            "type": "string"
+                          },
+                          "field": {
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string",
+                            "description": "Machine-readable UPPER_SNAKE_CASE error code identifying the failure reason.",
+                            "enum": [
+                              "KEY_IS_NOT_LINKED",
+                              "CREATING_OR_UPDATING_TRANSLATION_ERROR"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Validation failed",
+                  "errors": [
+                    {
+                      "resource": "base",
+                      "field": "",
+                      "message": "Key feature.subtitle is not linked to main.title",
+                      "code": "KEY_IS_NOT_LINKED"
+                    }
+                  ]
+                }
+              }
+            }
           },
           "429": {
+            "description": "Returned when the rate limit is exceeded. Wait until the time indicated by the X-Rate-Limit-Reset header before retrying.",
             "$ref": "#/components/responses/429"
           }
-        }
+        },
+        "x-code-samples": [
+          {
+            "lang": "Curl",
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"child_key_ids\": [\"feature.subtitle\", \"nav.home\"], \"strategy\": \"keep_content\"}'\n\nResponse (HTTP 200):\n{\n  \"created_at\": \"2024-03-15T10:30:00.000Z\",\n  \"updated_at\": \"2024-03-15T12:45:00.000Z\",\n  \"created_by\": {\n    \"id\": \"abcd1234efgh5678\",\n    \"username\": \"alice\",\n    \"name\": \"Alice Smith\",\n    \"gravatar_uid\": \"efgh5678abcd1234\"\n  },\n  \"updated_by\": {\n    \"id\": \"ijkl9012mnop3456\",\n    \"username\": \"bob\",\n    \"name\": \"Bob Jones\",\n    \"gravatar_uid\": \"mnop3456ijkl9012\"\n  },\n  \"account\": {\n    \"id\": \"qrst7890uvwx1234\",\n    \"name\": \"Acme Corp\",\n    \"slug\": \"acme-corp\",\n    \"company\": \"Acme Corporation\",\n    \"created_at\": \"2023-01-01T00:00:00.000Z\",\n    \"updated_at\": \"2024-03-15T12:45:00.000Z\",\n    \"company_logo_url\": \"https://assets.phrase.com/accounts/acme-corp/logo.png\"\n  },\n  \"parent\": {\n    \"id\": \"main.title\",\n    \"name\": \"main.title\",\n    \"plural\": false,\n    \"use_ordinal_rules\": false,\n    \"data_type\": \"string\",\n    \"tags\": [\"ui\", \"homepage\"]\n  },\n  \"children\": [\n    {\n      \"id\": \"feature.subtitle\",\n      \"name\": \"feature.subtitle\",\n      \"plural\": false,\n      \"use_ordinal_rules\": false,\n      \"data_type\": \"string\",\n      \"tags\": []\n    }\n  ]\n}"
+          }
+        ]
       },
       "get": {
         "summary": "List child keys of a parent key",
