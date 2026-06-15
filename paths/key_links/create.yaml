@@ -1,6 +1,13 @@
 ---
 summary: Link child keys to a parent key
-description: Creates links between a given parent key and one or more child keys.
+description: |
+  Links one or more child translation keys to a given parent key, establishing a key-link relationship. Use this when you want translation content from the parent key to be automatically propagated to linked child keys across different projects or locales.
+
+  The parent key must belong to the main branch of its project. Each child key must also reside on its main branch, must not already be linked to another parent, must not be the same key as the parent, and must have a matching plural type: linking a plural child to a non-plural parent, or vice versa, returns 422.
+
+  After the links are created, the parent key's existing translations are copied to the matching locales of each child key as a background operation. This is a fire-and-forget enqueue — no job identifier is returned. To check whether translations have propagated, poll the child key's translations via GET /projects/:project_id/keys/:id/translations after a short interval. If links are submitted for keys that are already linked to the same parent, the operation is idempotent for those keys; duplicate-link attempts for a different parent return 422 with code CHILD_IS_ALREADY_LINKED.
+
+  When the operation succeeds, the response body reflects the full key-link reference as of the moment of creation, including any previously linked children. Machine-readable error codes in 422 responses follow the UPPER_SNAKE_CASE convention (for example, PARENT_IS_ON_BRANCH, CHILD_IS_ALREADY_LINKED).
 operationId: key_links/create
 tags:
 - Linked Keys
@@ -19,29 +26,88 @@ requestBody:
         title: key_links/create/parameters
         properties:
           child_key_ids:
-            description: The IDs of the child keys to link to the parent key. Can be left empty, to only mark the given translation-key as parent
+            description: The string codes of the child translation keys to link to the parent key. Each code must identify a key on the main branch of its project that is not already linked to a different parent.
             type: array
-            example: ["child_key_id1", "child_key_id2"]
+            example:
+            - "checkout.confirm.label"
+            - "cart.summary.total"
             items:
               type: string
 
 responses:
   '201':
-    description: Created
+    description: Created. Returns the full key-link reference for the parent key, including all currently linked children.
     content:
       application/json:
         schema:
           "$ref": "../../schemas/key_link.yaml#/key_link"
+        example:
+          created_at: "2024-03-15T10:22:00.000Z"
+          updated_at: "2024-03-15T10:22:00.000Z"
+          created_by:
+            id: "usr_a1b2c3d4e5f6"
+            username: "jane.doe"
+            name: "Jane Doe"
+            gravatar_uid: "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+          updated_by:
+            id: "usr_a1b2c3d4e5f6"
+            username: "jane.doe"
+            name: "Jane Doe"
+            gravatar_uid: "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+          account:
+            id: "acc_f1e2d3c4b5a6"
+            name: "Acme Corp"
+          parent:
+            id: "home.button.submit"
+            name: "home.button.submit"
+            plural: false
+            use_ordinal_rules: false
+            data_type: "string"
+            tags: []
+          children:
+          - id: "checkout.confirm.label"
+            name: "checkout.confirm.label"
+            plural: false
+            use_ordinal_rules: false
+            data_type: "string"
+            tags: []
+          - id: "cart.summary.total"
+            name: "cart.summary.total"
+            plural: false
+            use_ordinal_rules: false
+            data_type: "string"
+            tags: []
   '400':
+    description: Bad request. Returned when the request body cannot be parsed (malformed JSON), a required parameter is missing, or a query parameter value is invalid. Correct the request body structure and resubmit.
     "$ref": "../../responses.yaml#/400"
   '401':
+    description: Unauthorized. The access token is missing, invalid, or expired. Provide a valid token via the Authorization header or the access_token query parameter.
     "$ref": "../../responses.yaml#/401"
   '403':
+    description: Forbidden. Returned when the access token lacks the write scope, the authenticated user does not have write permission on the key-link resource, or the parent key belongs to a protected project. Ensure the token has the write scope and the user has the required permissions.
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to link this key.
   '404':
+    description: Not found. The parent key identified by the id path parameter does not exist within the specified project. Verify the project_id and id values and retry.
     "$ref": "../../responses.yaml#/404"
   '422':
+    description: |
+      Unprocessable entity. The response body contains a message string and an errors array; each error entry includes resource, field, message, and a machine-readable code in UPPER_SNAKE_CASE format. Common codes and remediation:
+
+      - PARENT_IS_ALREADY_CHILD: the key used as the parent is itself already linked as a child to another parent. Unlink it first using the batch destroy endpoint, then retry.
+      - PARENT_IS_ON_BRANCH: the parent key belongs to a feature branch. Key links require main-branch keys on both sides. Use the main-branch equivalent of the key instead.
+      - PARENT_IS_SAME_AS_CHILD: one of the child_key_ids values matches the parent key's code. Remove the duplicate entry from child_key_ids.
+      - CHILD_IS_ALREADY_LINKED: a child key is already linked to a different parent. Unlink it from its current parent first, then retry.
+      - CHILD_IS_ON_BRANCH: a child key belongs to a feature branch. Use the main-branch equivalent of the child key instead.
+      - PARENT_IS_NOT_PLURAL: a plural child key cannot be linked to a non-plural parent. Either convert the parent to a plural key or remove the mismatched child from child_key_ids.
+      - PARENT_IS_PLURAL: a non-plural child key cannot be linked to a plural parent. Either convert the child to a plural key or remove the mismatched child from child_key_ids.
     "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
+x-code-samples:
+- lang: Curl
+  source: |-
+    curl "https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links" \
+      -u USERNAME_OR_ACCESS_TOKEN \
+      -X POST \
+      -H "Content-Type: application/json" \
+      -d '{"child_key_ids":["checkout.confirm.label","cart.summary.total"]}'
