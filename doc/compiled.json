@@ -21237,7 +21237,7 @@
     "/projects/{project_id}/screenshots/{id}": {
       "get": {
         "summary": "Get a single screenshot",
-        "description": "Get details on a single screenshot for a given project.",
+        "description": "Returns a single screenshot belonging to the specified project. Use this to retrieve the screenshot's name, description, hosted image URL, and marker count after uploading, or before creating, updating, or inspecting its markers. The response is a synchronous, idempotent read — repeated calls return the same record without side effects.\n\nThe Attachable Screenshots feature must be enabled on the account. Users with project read access can retrieve any screenshot in that project.\n\n**Error reference**\n\n| HTTP status | Code | Cause | Remediation |\n|---|---|---|---|\n| 400 | BAD_REQUEST | Malformed request parameters | Check query parameter syntax and types |\n| 401 | UNAUTHORIZED | Missing or invalid access token | Provide a valid access token via the Authorization header or access_token query parameter |\n| 403 | FORBIDDEN | Access token lacks the read scope, the requesting user does not have read access to the project, or the Attachable Screenshots feature is not enabled on the account | Verify scope, project membership, and account feature availability |\n| 404 | NOT_FOUND | The project or screenshot does not exist under the given identifiers | Confirm the project_id and screenshot id are correct |\n| 429 | RATE_LIMIT_EXCEEDED | Too many requests in the current window | Wait for the reset time indicated by X-Rate-Limit-Reset before retrying |\n",
         "operationId": "screenshot/show",
         "tags": [
           "Screenshots"
@@ -21253,10 +21253,11 @@
             "$ref": "#/components/parameters/id"
           },
           {
-            "description": "specify the branch to use",
+            "description": "Name of the branch to read the screenshot from. Defaults to the project default branch when omitted.",
             "example": "my-feature-branch",
             "name": "branch",
             "in": "query",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -21291,8 +21292,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this screenshot, or when the account does not have the Attachable Screenshots feature."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -21304,11 +21304,11 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id?branch=my-feature-branch\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase screenshots show \\\n--project_id <project_id> \\\n--id <id> \\\n--branch my-feature-branch \\\n--access_token <token>"
+            "source": "phrase screenshots show \\\n--project_id <project_id> \\\n--id <id> \\\n--access_token <token>"
           }
         ],
         "x-cli-version": "2.5"
