@@ -30879,7 +30879,7 @@
       },
       "get": {
         "summary": "List child keys of a parent key",
-        "description": "Returns detailed information about a parent key, including its linked child keys.",
+        "description": "Returns the key link record for a parent key, including all child keys associated with it. Key linking lets translation keys share translations — a child key inherits content from its designated parent. Use this endpoint to inspect which keys are linked under a given parent before unlinking them or auditing translation consistency across related keys.\n\nThe key identified by {id} must be designated as a parent key (it must have at least one child key linked to it). Keys that have not been promoted to parent status return a 400 response with the error code key_not_a_parent. Error codes use lowercase snake_case format.\n\nRequires the translations:write scope and manage permission on translation key link references.\n",
         "operationId": "key_links/index",
         "tags": [
           "Linked Keys"
@@ -30895,6 +30895,12 @@
             "$ref": "#/components/parameters/key_id_as_id"
           }
         ],
+        "x-code-samples": [
+          {
+            "lang": "Curl",
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -30902,39 +30908,93 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/key_link"
+                },
+                "example": {
+                  "created_at": "2024-03-12T09:15:00.000Z",
+                  "updated_at": "2024-05-20T14:32:00.000Z",
+                  "created_by": {
+                    "id": "a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4",
+                    "username": "jane.doe",
+                    "name": "Jane Doe",
+                    "gravatar_uid": "abcdef1234567890"
+                  },
+                  "updated_by": {
+                    "id": "a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4",
+                    "username": "jane.doe",
+                    "name": "Jane Doe",
+                    "gravatar_uid": "abcdef1234567890"
+                  },
+                  "account": {
+                    "id": "abcd1234abcd1234abcd1234abcd1234",
+                    "name": "Acme Corp",
+                    "slug": "acme-corp",
+                    "company": "Acme Corporation",
+                    "created_at": "2023-01-10T08:00:00.000Z",
+                    "updated_at": "2024-01-10T08:00:00.000Z"
+                  },
+                  "parent": {
+                    "id": "f1e2d3c4f1e2d3c4f1e2d3c4f1e2d3c4",
+                    "name": "button.submit",
+                    "plural": false,
+                    "use_ordinal_rules": false
+                  },
+                  "children": [
+                    {
+                      "id": "9a8b7c6d9a8b7c6d9a8b7c6d9a8b7c6d",
+                      "name": "button.submit.mobile",
+                      "plural": false,
+                      "use_ordinal_rules": false
+                    },
+                    {
+                      "id": "1a2b3c4d1a2b3c4d1a2b3c4d1a2b3c4d",
+                      "name": "button.submit.web",
+                      "plural": false,
+                      "use_ordinal_rules": false
+                    }
+                  ]
                 }
               }
             }
           },
           "400": {
-            "description": "Bad Request",
+            "description": "Bad request. Returned when the key identified by {id} is not designated as a parent key. To resolve, promote the key to parent status by linking child keys to it first, or supply the code of an existing parent key.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "title": "key_links/index/bad_request",
                   "properties": {
                     "message": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "Human-readable description of the error."
+                    },
+                    "error": {
+                      "type": "string",
+                      "description": "Stable machine-readable error code in lowercase snake_case format (e.g. key_not_a_parent). Branch on this field rather than the message string."
                     }
-                  },
-                  "example": {
-                    "message": "Key <parent_key_code> is not a parent key"
                   }
+                },
+                "example": {
+                  "message": "Key button.submit is not a parent key",
+                  "error": "key_not_a_parent"
                 }
               }
             }
           },
           "401": {
+            "description": "Unauthorized. The access token is missing or invalid. Supply a valid access token in the Authorization header.",
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to read key links for this key."
+            "description": "Forbidden. The access token lacks the translations:write scope, or the account member does not have manage permission on translation key link references.",
+            "$ref": "#/components/responses/403"
           },
           "404": {
+            "description": "Not found. No key with the given code exists in this project. Verify the project_id and the key code before retrying.",
             "$ref": "#/components/responses/404"
           },
           "429": {
+            "description": "Too many requests. Wait for the interval indicated by the X-Rate-Limit-Reset header before retrying.",
             "$ref": "#/components/responses/429"
           }
         }
