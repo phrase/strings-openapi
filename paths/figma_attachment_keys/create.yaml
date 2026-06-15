@@ -1,6 +1,18 @@
 ---
 summary: Attach the Figma attachment to a key
-description: Attach the Figma attachment to a key
+description: |
+  Links a translation key to a Figma attachment, creating a visual context association between a specific Phrase key and a Figma design frame. Use this when you want translators to see the on-screen region where a key's translation appears inside a Figma file.
+
+  The key-to-attachment relationship is modeled as a many-to-many join: a single Figma attachment can be linked to multiple keys, and a key can be linked to multiple Figma attachments. Returns 422 when the key is already linked to this Figma attachment. This endpoint requires the Attachable Screenshots feature to be enabled on the account. The requesting user must hold manage permission on both the Figma attachment and the translation key.
+
+  Errors:
+
+  - 400 Bad Request: the request body is malformed or a required parameter is missing. Correct the request body and retry.
+  - 401 Unauthorized: the access token is missing or invalid. Supply a valid token with the write scope.
+  - 403 Forbidden: returned when the access token lacks the write scope, when the requesting user does not hold manage permission on the Figma attachment or on the translation key, or when the account does not have the Attachable Screenshots feature enabled. Check the token's scopes and the user's project permissions.
+  - 404 Not Found: the project, Figma attachment, or translation key does not exist under the given identifiers. Verify each ID in the request path and body.
+  - 422 Unprocessable Entity: the translation key is already linked to this Figma attachment. The response body contains a machine-readable message field ("Already attached") identifying the conflict. Remove the duplicate request or detach the key first if re-attachment is intended.
+  - 429 Too Many Requests: the rate limit has been reached. Wait until the X-Rate-Limit-Reset time indicated in the response headers before retrying.
 operationId: figma_attachment/attach_to_key
 tags:
   - Key's Figma attachments
@@ -8,20 +20,44 @@ parameters:
   - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
   - "$ref": "../../parameters.yaml#/project_id"
   - "$ref": "../../parameters.yaml#/figma_attachment_id"
-  - "$ref": "../../parameters.yaml#/id"
-  - description: specify the branch to use
-    example: my-feature-branch
-    name: branch
+  - name: branch
     in: query
+    description: Name of the branch to use. When omitted, the main (default) branch is used.
+    required: false
     schema:
       type: string
+    example: my-feature-branch
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        title: figma_attachment_keys/create/parameters
+        required:
+          - id
+        properties:
+          id:
+            description: ID of the translation key to attach to this Figma attachment.
+            type: string
+            example: abcd1234abcd1234abcd1234abcd1234
+          branch:
+            description: Name of the branch to use. When omitted, the main (default) branch is used.
+            type: string
+            example: my-feature-branch
 responses:
   "204":
     "$ref": "../../responses.yaml#/204"
   "400":
     "$ref": "../../responses.yaml#/400"
+  "401":
+    "$ref": "../../responses.yaml#/401"
+  "403":
+    "$ref": "../../responses.yaml#/403"
   "404":
     "$ref": "../../responses.yaml#/404"
+  "422":
+    "$ref": "../../responses.yaml#/422"
   "429":
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
@@ -30,15 +66,14 @@ x-code-samples:
       curl "https://api.phrase.com/v2/projects/:project_id/figma_attachments/:figma_attachment_id/keys" \
         -u USERNAME_OR_ACCESS_TOKEN \
         -X POST \
-        -F branch=my-feature-branch \
-        -F id=key_id \
-        -H 'Content-Type: application/json'
+        -d '{"id":"abcd1234abcd1234abcd1234abcd1234","branch":"my-feature-branch"}' \
+        -H 'Content-Type: application/json' \
+        -w "\nHTTP %{http_code}"
   - lang: CLI v2
     source: |-
       phrase figma_attachment attach_to_key \
       --project_id <project_id> \
       --figma_attachment_id <figma_attachment_id> \
-      --id <id> \
-      --branch my-feature-branch \
+      --data '{"id":"abcd1234abcd1234abcd1234abcd1234","branch":"my-feature-branch"}' \
       --access_token <token>
 x-cli-version: "2.13"
