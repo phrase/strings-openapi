@@ -3,17 +3,7 @@ summary: Get a single screenshot
 description: |
   Returns a single screenshot belonging to the specified project. Use this to retrieve the screenshot's name, description, hosted image URL, and marker count after uploading, or before creating, updating, or inspecting its markers. The response is a synchronous, idempotent read — repeated calls return the same record without side effects.
 
-  The Attachable Screenshots feature must be enabled on the account. Users with project read access can retrieve any screenshot in that project.
-
-  **Error reference**
-
-  | HTTP status | Code | Cause | Remediation |
-  |---|---|---|---|
-  | 400 | BAD_REQUEST | Malformed request parameters | Check query parameter syntax and types |
-  | 401 | UNAUTHORIZED | Missing or invalid access token | Provide a valid access token via the Authorization header or access_token query parameter |
-  | 403 | FORBIDDEN | Access token lacks the read scope, the requesting user does not have read access to the project, or the Attachable Screenshots feature is not enabled on the account | Verify scope, project membership, and account feature availability |
-  | 404 | NOT_FOUND | The project or screenshot does not exist under the given identifiers | Confirm the project_id and screenshot id are correct |
-  | 429 | RATE_LIMIT_EXCEEDED | Too many requests in the current window | Wait for the reset time indicated by X-Rate-Limit-Reset before retrying |
+  The Attachable Screenshots feature must be enabled on the account.
 operationId: screenshot/show
 tags:
 - Screenshots
@@ -21,7 +11,7 @@ parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
 - "$ref": "../../parameters.yaml#/project_id"
 - "$ref": "../../parameters.yaml#/id"
-- description: Name of the branch to read the screenshot from. Defaults to the project default branch when omitted.
+- description: specify the branch to use
   example: my-feature-branch
   name: branch
   in: query
@@ -44,14 +34,19 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
+    description: "BAD_REQUEST: malformed request parameters."
   '401':
     "$ref": "../../responses.yaml#/401"
+    description: "UNAUTHORIZED: missing or invalid access token."
   '403':
     "$ref": "../../responses.yaml#/403"
+    description: "FORBIDDEN: the access token lacks the read scope, the requesting user does not have read access to the project, or the Attachable Screenshots feature is not enabled on the account."
   '404':
     "$ref": "../../responses.yaml#/404"
+    description: "NOT_FOUND: the project or screenshot does not exist under the given identifiers."
   '429':
     "$ref": "../../responses.yaml#/429"
+    description: "RATE_LIMIT_EXCEEDED: too many requests. Wait for the reset time indicated by X-Rate-Limit-Reset before retrying."
 x-code-samples:
 - lang: Curl
   source: |-
