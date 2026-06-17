@@ -2,17 +2,6 @@
 summary: Delete a screenshot
 description: |
   Permanently removes a screenshot and all its associated markers from the project. Use this when you need to fully remove a screenshot that is no longer relevant — for example, after a UI redesign renders the captured screen obsolete. This is a hard delete: the screenshot record and every key-to-region marker linked to it are destroyed together and cannot be recovered.
-
-  Requires manage permission on the screenshot and the write scope on the access token. Returns 403 if the account plan does not include the screenshot feature or if the access token lacks the write scope. Returns 404 if the screenshot does not exist in the specified project.
-
-  Errors:
-
-  - screenshot_invalid_request (400): The request was malformed or a path parameter failed validation. Correct the parameter format and retry.
-  - screenshot_unauthorized (401): The access token is missing or invalid. Supply a valid access token.
-  - screenshot_forbidden (403): The access token lacks the write scope, the account plan does not include the screenshot feature, or the requesting user does not have manage permission on the screenshot. Upgrade your plan, add the write scope to your token, or request manage access.
-  - screenshot_not_found (404): No screenshot with this identifier exists in the project. Verify the project_id and id values.
-  - screenshot_unprocessable (422): The screenshot could not be deleted because the model reported validation errors. Inspect the errors array in the response body.
-  - screenshot_rate_limited (429): Too many requests have been made. Wait until the X-Rate-Limit-Reset time before retrying.
 operationId: screenshot/delete
 tags:
 - Screenshots
@@ -54,8 +43,6 @@ x-code-samples:
     curl "https://api.phrase.com/v2/projects/:project_id/screenshots/:id" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE
-
-    HTTP/1.1 204 No Content
 - lang: CLI v2
   source: |-
     phrase screenshots delete \
@@ -63,7 +50,3 @@ x-code-samples:
       --id <id> \
       --access_token <token>
 x-cli-version: '2.5'
-security:
-  - Token: []
-  - OAuth2:
-      - write
