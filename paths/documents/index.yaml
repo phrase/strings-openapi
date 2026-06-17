@@ -1,13 +1,11 @@
 ---
 summary: List documents
 description: |
-  Returns all documents in a project that the authenticated user has read access to. A Document is a source file — such as an HTML or YAML file — that has been uploaded to Phrase Strings and whose content is segmented into translation keys for localization.
+  Returns all documents in a project that the authenticated user has read access to. A Document is a source file — an HTML or DOCX file — that has been uploaded to Phrase Strings and whose content is segmented into translation keys for localization.
 
   Use this endpoint to enumerate documents before downloading, previewing, or triggering translation workflows for individual files.
 
   The q parameter performs a prefix match on the document name (case-insensitive). For example, passing q=invoice returns documents whose names begin with "invoice" but not documents containing "invoice" elsewhere in the name.
-
-  Requires the read OAuth scope. Returns 403 when the requesting user does not have read permission on documents in this project.
 operationId: documents/list
 tags:
 - Documents
@@ -41,7 +39,7 @@ responses:
                 created_at: '2015-01-28T09:52:53Z'
                 updated_at: '2015-03-04T11:22:30Z'
               - id: ef012345ef012345ef012345ef012345
-                name: invoice.yaml
+                name: invoice.docx
                 created_at: '2015-02-10T14:30:00Z'
                 updated_at: '2015-03-01T08:00:00Z'
     headers:
@@ -71,22 +69,6 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/documents" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: Response
-  source: |-
-    [
-      {
-        "id": "abcd1234cdef1234abcd1234cdef1234",
-        "name": "email.html",
-        "created_at": "2015-01-28T09:52:53Z",
-        "updated_at": "2015-03-04T11:22:30Z"
-      },
-      {
-        "id": "ef012345ef012345ef012345ef012345",
-        "name": "invoice.yaml",
-        "created_at": "2015-02-10T14:30:00Z",
-        "updated_at": "2015-03-01T08:00:00Z"
-      }
-    ]
 - lang: CLI v2
   source: |-
     phrase documents list \
