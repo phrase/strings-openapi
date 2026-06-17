@@ -20,7 +20,6 @@ requestBody:
       schema:
         type: object
         title: screenshot/update/parameters
-        required: []
         properties:
           branch:
             description: specify the branch to use
