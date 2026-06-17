@@ -5684,7 +5684,7 @@
     "/projects/{project_id}/documents/{id}": {
       "delete": {
         "summary": "Delete document",
-        "description": "Permanently deletes a document and all of its associated translation segments from the project. Use this when you want to remove a document that is no longer needed; the deletion cannot be reversed and all associated segments will be lost.\n\nRequires the write scope on the access token and manage permission on the document. Returns 403 when either condition is not met.\n",
+        "description": "Permanently deletes a document and all of its associated translation segments from the project. Use this when you want to remove a document that is no longer needed; the deletion cannot be reversed and all associated segments will be lost.\n",
         "operationId": "document/delete",
         "tags": [
           "Documents"
@@ -5737,7 +5737,7 @@
           },
           {
             "lang": "CLI v2",
-            "source": "phrase documents delete \\\n--project_id my-project-xyz123 \\\n--id doc-abc456 \\\n--access_token USERNAME_OR_ACCESS_TOKEN"
+            "source": "phrase documents delete \\\n--project_id <project_id> \\\n--id <id> \\\n--access_token <token>"
           }
         ],
         "x-cli-version": "2.5"

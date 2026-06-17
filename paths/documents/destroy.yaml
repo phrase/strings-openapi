@@ -2,8 +2,6 @@
 summary: Delete document
 description: |
   Permanently deletes a document and all of its associated translation segments from the project. Use this when you want to remove a document that is no longer needed; the deletion cannot be reversed and all associated segments will be lost.
-
-  Requires the write scope on the access token and manage permission on the document. Returns 403 when either condition is not met.
 operationId: document/delete
 tags:
 - Documents
@@ -42,7 +40,7 @@ x-code-samples:
 - lang: CLI v2
   source: |-
     phrase documents delete \
-    --project_id my-project-xyz123 \
-    --id doc-abc456 \
-    --access_token USERNAME_OR_ACCESS_TOKEN
+    --project_id <project_id> \
+    --id <id> \
+    --access_token <token>
 x-cli-version: '2.5'
