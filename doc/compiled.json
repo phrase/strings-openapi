@@ -21315,7 +21315,7 @@
       },
       "patch": {
         "summary": "Update a screenshot",
-        "description": "Updates the name or description of an existing screenshot. This endpoint follows the standard REST resource-update lifecycle: send only the fields you want to change and the server applies them to the existing resource.\n\nUse this when you need to rename a screenshot or revise its contextual description without replacing the image file. Updating screenshot markers is also possible through this endpoint by passing marker attributes. The image file itself cannot be changed; to replace it, delete the screenshot and create a new one.\n\nRequires the Screenshots feature to be enabled on the account and the write scope on the access token. The caller must have manage permission on the project.\n\nThe name must be unique within the project (case-insensitive). Submitting a blank name returns 422. Existing screenshot markers are unaffected unless marker attributes are explicitly passed.\n\n**Errors:** Returns 400 for malformed request parameters — verify parameter names and value types. Returns 401 when no valid access token is supplied — include a valid token and retry. Returns 403 when the Screenshots feature is not enabled on the account or the token lacks the write scope — upgrade the account plan or regenerate the token with the correct scope. Returns 404 when no screenshot with the given id exists in the project — confirm the id is correct for this project. Returns 422 when validation fails, most commonly because the name is blank or already used by another screenshot in the project — choose a non-empty, unique name. Returns 429 when the rate limit is exceeded — wait for the interval indicated in the X-Rate-Limit-Reset response header before retrying.\n",
+        "description": "Updates the name or description of an existing screenshot. This endpoint follows the standard REST resource-update lifecycle: send only the fields you want to change and the server applies them to the existing resource.\n\nUse this when you need to rename a screenshot or revise its contextual description without replacing the image file. Updating screenshot markers is also possible through this endpoint by passing marker attributes. The image file itself cannot be changed; to replace it, delete the screenshot and create a new one.\n\nThe name must be unique within the project (case-insensitive). Existing screenshot markers are unaffected unless marker attributes are explicitly passed.\n",
         "operationId": "screenshot/update",
         "tags": [
           "Screenshots"
@@ -21341,7 +21341,7 @@
                 "required": [],
                 "properties": {
                   "branch": {
-                    "description": "Branch to use for the operation. Omit to update the screenshot on the default branch.",
+                    "description": "specify the branch to use",
                     "type": "string",
                     "example": "my-feature-branch"
                   },
@@ -21399,34 +21399,38 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/400"
+            "$ref": "#/components/responses/400",
+            "description": "Returned for malformed request parameters; verify parameter names and value types."
           },
           "401": {
-            "$ref": "#/components/responses/401"
+            "$ref": "#/components/responses/401",
+            "description": "Returned when no valid access token is supplied."
           },
           "403": {
-            "$ref": "#/components/responses/403"
+            "$ref": "#/components/responses/403",
+            "description": "Returned when the Screenshots feature is not enabled on the account or the token lacks the write scope."
           },
           "404": {
-            "$ref": "#/components/responses/404"
+            "$ref": "#/components/responses/404",
+            "description": "Returned when no screenshot with the given id exists in the project."
           },
           "422": {
-            "$ref": "#/components/responses/422"
+            "$ref": "#/components/responses/422",
+            "description": "Returned when validation fails, most commonly because the name is blank or already used by another screenshot in the project."
           },
           "429": {
-            "$ref": "#/components/responses/429"
+            "$ref": "#/components/responses/429",
+            "description": "Returned when the rate limit is exceeded. Wait for the interval indicated in the X-Rate-Limit-Reset response header before retrying."
           }
         },
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X PATCH \\\n  -F \"branch=my-feature-branch\" \\\n  -F \"name=home_screen_v2\" \\\n  -F \"description=Updated landing page screenshot\"",
-            "response": "{\n  \"id\": \"d2e056aa9e70b01121f41693e344f5ee\",\n  \"name\": \"home_screen_v2\",\n  \"description\": \"Updated landing page screenshot\",\n  \"screenshot_url\": \"https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png\",\n  \"created_at\": \"2024-01-15T10:30:00Z\",\n  \"updated_at\": \"2024-06-14T09:15:00Z\",\n  \"markers_count\": 3\n}"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X PATCH \\\n  -F \"branch=my-feature-branch\" \\\n  -F \"name=home_screen_v2\" \\\n  -F \"description=Updated landing page screenshot\""
           },
           {
             "lang": "CLI v2",
-            "source": "phrase screenshots update \\\n--project_id abcd1234abcd1234abcd1234abcd1234 \\\n--id d2e056aa9e70b01121f41693e344f5ee \\\n--data '{\"branch\":\"my-feature-branch\",\"name\":\"home_screen_v2\",\"description\":\"Updated landing page screenshot\"}' \\\n--access_token YOUR_ACCESS_TOKEN",
-            "response": "{\n  \"id\": \"d2e056aa9e70b01121f41693e344f5ee\",\n  \"name\": \"home_screen_v2\",\n  \"description\": \"Updated landing page screenshot\",\n  \"screenshot_url\": \"https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png\",\n  \"created_at\": \"2024-01-15T10:30:00Z\",\n  \"updated_at\": \"2024-06-14T09:15:00Z\",\n  \"markers_count\": 3\n}"
+            "source": "phrase screenshots update \\\n--project_id <project_id> \\\n--id <id> \\\n--data '{\"branch\":\"my-feature-branch\",\"name\":\"home_screen_v2\",\"description\":\"Updated landing page screenshot\"}' \\\n--access_token <token>"
           }
         ],
         "x-cli-version": "2.5"
