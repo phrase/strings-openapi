@@ -1902,36 +1902,68 @@
       "format": {
         "type": "object",
         "title": "format",
+        "required": [
+          "name",
+          "api_name",
+          "description",
+          "extension",
+          "default_encoding",
+          "importable",
+          "exportable",
+          "default_file",
+          "renders_default_locale",
+          "includes_locale_information"
+        ],
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Human-readable display name of the format.",
+            "example": "Ruby/Rails YAML"
           },
           "api_name": {
-            "type": "string"
+            "type": "string",
+            "description": "Identifier used to reference this format in API requests, such as the file_format parameter on the uploads and downloads endpoints.",
+            "example": "yml"
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "description": "Human-readable summary of the format and its typical use case.",
+            "example": "YAML file format for use with Ruby/Rails applications"
           },
           "extension": {
-            "type": "string"
+            "type": "string",
+            "description": "Default file extension associated with this format.",
+            "example": "yml"
           },
           "default_encoding": {
-            "type": "string"
+            "type": "string",
+            "description": "Default character encoding used when reading or writing files in this format.",
+            "example": "UTF-8"
           },
           "importable": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether locale files can be imported using this format.",
+            "example": true
           },
           "exportable": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether locale files can be exported using this format.",
+            "example": true
           },
           "default_file": {
-            "type": "string"
+            "type": "string",
+            "description": "Conventional file path pattern for this format. Contains locale_name as a placeholder for the locale identifier.",
+            "example": "./config/locales/<locale_name>.yml"
           },
           "renders_default_locale": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "When true, exported files contain the default locale's content for any key that has no translation in the target locale.",
+            "example": false
           },
           "includes_locale_information": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "When true, files in this format embed locale information so Phrase can detect the locale automatically on import.",
+            "example": false
           }
         },
         "example": {
@@ -1944,7 +1976,7 @@
           "exportable": true,
           "default_file": "./config/locales/<locale_name>.yml",
           "renders_default_locale": false,
-          "includes_locale_information": true
+          "includes_locale_information": false
         }
       },
       "project": {
@@ -5530,7 +5562,7 @@
     "/formats": {
       "get": {
         "summary": "List formats",
-        "description": "Get a handy list of all localization file formats supported in Phrase.",
+        "description": "Returns all file formats that Phrase Strings supports. Use the api_name value\nfrom each format as the file_format parameter when uploading or downloading\nlocale files. Not every format supports both directions: check the importable\nand exportable fields before using a format in a workflow. This endpoint does\nnot require authentication and is not subject to rate limiting.\n",
         "operationId": "formats/list",
         "tags": [
           "Formats"
@@ -5545,7 +5577,48 @@
                   "items": {
                     "$ref": "#/components/schemas/format"
                   }
+                },
+                "examples": {
+                  "default": {
+                    "value": [
+                      {
+                        "name": "Ruby/Rails YAML",
+                        "api_name": "yml",
+                        "description": "YAML file format for use with Ruby/Rails applications",
+                        "extension": "yml",
+                        "default_encoding": "UTF-8",
+                        "importable": true,
+                        "exportable": true,
+                        "default_file": "./config/locales/<locale_name>.yml",
+                        "renders_default_locale": false,
+                        "includes_locale_information": false
+                      },
+                      {
+                        "name": "Simple JSON",
+                        "api_name": "simple_json",
+                        "description": "A flat key/value JSON format",
+                        "extension": "json",
+                        "default_encoding": "UTF-8",
+                        "importable": true,
+                        "exportable": true,
+                        "default_file": "./config/locales/<locale_name>.json",
+                        "renders_default_locale": false,
+                        "includes_locale_information": false
+                      }
+                    ]
+                  }
                 }
+              }
+            },
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
               }
             }
           },
@@ -5556,7 +5629,7 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/formats\""
+            "source": "curl \"https://api.phrase.com/v2/formats\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
           },
           {
             "lang": "CLI v2",
