@@ -3,9 +3,7 @@ summary: Unlink a child key from a parent key
 description: |
   Removes a single child key from a parent key's link group. A link group is the relationship model that keeps child keys synchronized with a parent: while linked, a child key's translations are derived from the parent's content. When you call this endpoint, the child key leaves the group and becomes independent — its existing translations are updated with the parent's current content and then marked unverified, signalling that reviewers should confirm the content is still appropriate for the child's context.
 
-  Use this endpoint when you need to detach one specific child key while keeping other children linked. To detach multiple children at once, use the batch unlink endpoint.
-
-  This operation requires write permission on translation key links and is restricted to main projects. Calling it on a branch returns 403. Returns 422 when the specified child key is not linked to this parent key.
+  Use this endpoint when you need to detach one specific child key while keeping other children linked. To detach multiple children at once, use the batch unlink endpoint. This operation is only available on main projects.
 
   When the operation fails, the response body includes an errors array. Each error object carries a code field using UPPER_SNAKE_CASE stable identifiers (for example, KEY_IS_NOT_LINKED) that you can match programmatically to distinguish error conditions.
 operationId: key_links/destroy
@@ -97,10 +95,3 @@ x-code-samples:
     curl -i "https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links/1234abcd1234cdef1234abcd1234cdef" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE
-
-    # Expected response on success:
-    # HTTP/2 200
-    # x-rate-limit-limit: 1000
-    # x-rate-limit-remaining: 999
-    # x-rate-limit-reset: 1705000000
-    # (empty body)
