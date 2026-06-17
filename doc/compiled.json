@@ -5430,102 +5430,59 @@
               "schema": {
                 "type": "object",
                 "title": "icu/skeleton/parameters",
+                "properties": {
+                  "content": {
+                    "description": "Source ICU message string to derive skeletons from. Mutually exclusive with `id`; exactly one of the two must be provided.\n",
+                    "type": "string",
+                    "example": "{count, plural, one {One item} other {# items}}"
+                  },
+                  "id": {
+                    "description": "Code of an existing translation to source content from. Mutually exclusive with `content`; exactly one of the two must be provided. Returns 404 when the translation does not exist.\n",
+                    "type": "string",
+                    "example": "abcd1234abcd1234abcd1234abcd1234"
+                  },
+                  "locale_codes": {
+                    "description": "Locale codes for which to generate skeletons. The pluralization rules of each locale determine which plural forms appear in the output.\n",
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "en"
+                    },
+                    "example": [
+                      "en",
+                      "de"
+                    ]
+                  },
+                  "keep_content": {
+                    "description": "When true, preserves the existing translation text in each plural form and adds any missing forms for the locale rather than stripping all literal content.",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "zero_form_enabled": {
+                    "description": "When true, includes the zero plural form in the generated skeleton for locales that support it.",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "cldr_version": {
+                    "description": "Pluralization rule set to apply when constructing skeletons. Accepted values are `legacy` and `cldr_41`. Defaults to `legacy` when omitted.",
+                    "type": "string",
+                    "enum": [
+                      "legacy",
+                      "cldr_41"
+                    ],
+                    "example": "cldr_41"
+                  }
+                },
                 "oneOf": [
                   {
                     "required": [
                       "content"
-                    ],
-                    "properties": {
-                      "content": {
-                        "description": "Source ICU message string to derive skeletons from. Mutually exclusive with `id`; exactly one of the two must be provided.\n",
-                        "type": "string",
-                        "example": "{count, plural, one {One item} other {# items}}"
-                      },
-                      "id": {
-                        "description": "Code of an existing translation to source content from. Mutually exclusive with `content`; exactly one of the two must be provided. Returns 404 when the translation does not exist.\n",
-                        "type": "string",
-                        "example": "abcd1234abcd1234abcd1234abcd1234"
-                      },
-                      "locale_codes": {
-                        "description": "Locale codes for which to generate skeletons. The pluralization rules of each locale determine which plural forms appear in the output.\n",
-                        "type": "array",
-                        "items": {
-                          "type": "string",
-                          "example": "en"
-                        },
-                        "example": [
-                          "en",
-                          "de"
-                        ]
-                      },
-                      "keep_content": {
-                        "description": "When true, preserves the existing translation text in each plural form and adds any missing forms for the locale rather than stripping all literal content.",
-                        "type": "boolean",
-                        "example": false
-                      },
-                      "zero_form_enabled": {
-                        "description": "When true, includes the zero plural form in the generated skeleton for locales that support it.",
-                        "type": "boolean",
-                        "example": false
-                      },
-                      "cldr_version": {
-                        "description": "Pluralization rule set to apply when constructing skeletons. Accepted values are `legacy` and `cldr_41`. Defaults to `legacy` when omitted.",
-                        "type": "string",
-                        "enum": [
-                          "legacy",
-                          "cldr_41"
-                        ],
-                        "example": "cldr_41"
-                      }
-                    }
+                    ]
                   },
                   {
                     "required": [
                       "id"
-                    ],
-                    "properties": {
-                      "content": {
-                        "description": "Source ICU message string to derive skeletons from. Mutually exclusive with `id`; exactly one of the two must be provided.\n",
-                        "type": "string",
-                        "example": "{count, plural, one {One item} other {# items}}"
-                      },
-                      "id": {
-                        "description": "Code of an existing translation to source content from. Mutually exclusive with `content`; exactly one of the two must be provided. Returns 404 when the translation does not exist.\n",
-                        "type": "string",
-                        "example": "abcd1234abcd1234abcd1234abcd1234"
-                      },
-                      "locale_codes": {
-                        "description": "Locale codes for which to generate skeletons. The pluralization rules of each locale determine which plural forms appear in the output.\n",
-                        "type": "array",
-                        "items": {
-                          "type": "string",
-                          "example": "en"
-                        },
-                        "example": [
-                          "en",
-                          "de"
-                        ]
-                      },
-                      "keep_content": {
-                        "description": "When true, preserves the existing translation text in each plural form and adds any missing forms for the locale rather than stripping all literal content.",
-                        "type": "boolean",
-                        "example": false
-                      },
-                      "zero_form_enabled": {
-                        "description": "When true, includes the zero plural form in the generated skeleton for locales that support it.",
-                        "type": "boolean",
-                        "example": false
-                      },
-                      "cldr_version": {
-                        "description": "Pluralization rule set to apply when constructing skeletons. Accepted values are `legacy` and `cldr_41`. Defaults to `legacy` when omitted.",
-                        "type": "string",
-                        "enum": [
-                          "legacy",
-                          "cldr_41"
-                        ],
-                        "example": "cldr_41"
-                      }
-                    }
+                    ]
                   }
                 ]
               }
@@ -5603,11 +5560,11 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/icu/skeleton\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"content\":\"{count, plural, one {One item} other {# items}}\",\"locale_codes\":[\"en\",\"de\"],\"zero_form_enabled\":false}'\n\nExample response:\n{\n  \"en\": \"{count, plural, offset:0 one {One item} other {# items}}\",\n  \"de\": \"{count, plural, offset:0 one {} other {}}\"\n}"
+            "source": "curl \"https://api.phrase.com/v2/icu/skeleton\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"content\":\"{count, plural, one {One item} other {# items}}\",\"locale_codes\":[\"en\",\"de\"],\"zero_form_enabled\":false}'"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase icu skeleton \\\n--data '{\"content\":\"{count, plural, one {One item} other {# items}}\",\"locale_codes\":[\"en\",\"de\"],\"zero_form_enabled\":false}' \\\n--access_token <token>\n\nExample response:\n{\n  \"en\": \"{count, plural, offset:0 one {One item} other {# items}}\",\n  \"de\": \"{count, plural, offset:0 one {} other {}}\"\n}"
+            "source": "phrase icu skeleton \\\n--data '{\"content\":\"{count, plural, one {One item} other {# items}}\",\"locale_codes\":[\"en\",\"de\"],\"zero_form_enabled\":false}' \\\n--access_token <token>"
           }
         ],
         "x-cli-version": "2.9"
