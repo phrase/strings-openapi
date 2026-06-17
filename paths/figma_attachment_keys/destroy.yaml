@@ -3,20 +3,7 @@ summary: Detach the Figma attachment from a key
 description: |
   Removes the many-to-many association between a translation key and a Figma attachment. Neither the translation key nor the Figma attachment is deleted — only the link between them is removed. Use this when a key no longer corresponds to the design element represented by the Figma frame, or when cleaning up stale key associations after a design update.
 
-  This endpoint is only available on plans that include the Figma Screenshots feature. Accounts without this feature enabled receive 403. Callers must hold manage permission on both the translation key and the Figma attachment.
-
-  Returns 422 when the key is not currently linked to the specified Figma attachment. Verify the attachment is listed under the key before calling this endpoint; if the association no longer exists, no further action is needed.
-
-  **Errors**
-
-  | Code | Status | Cause | Remediation |
-  |---|---|---|---|
-  | `KEY_NOT_ATTACHED` | 422 | The translation key is not currently linked to this Figma attachment. | Confirm the attachment exists for the key before calling detach. |
-  | `FIGMA_INTEGRATION_REQUIRED` | 403 | The project account does not have the Figma Screenshots feature enabled. | Upgrade to a plan that includes Figma Screenshots or contact support. |
-  | `INSUFFICIENT_SCOPE` | 403 | The access token lacks the write scope required for this operation. | Re-authenticate with the write scope. |
-  | `UNAUTHORIZED` | 401 | No valid authentication credentials were provided. | Include a valid access token in the request. |
-  | `NOT_FOUND` | 404 | The project, Figma attachment, or translation key does not exist. | Verify all IDs in the request path are correct. |
-  | `RATE_LIMIT_EXCEEDED` | 429 | Too many requests in a short period. | Wait for the interval indicated in the X-Rate-Limit-Reset header before retrying. |
+  This endpoint is only available on plans that include the Figma Screenshots feature.
 operationId: figma_attachment/detach_from_key
 tags:
   - Key's Figma attachments
@@ -43,22 +30,25 @@ responses:
     "$ref": "../../responses.yaml#/400"
   "401":
     "$ref": "../../responses.yaml#/401"
+    description: "UNAUTHORIZED: no valid authentication credentials were provided."
   "403":
     "$ref": "../../responses.yaml#/403"
+    description: "FIGMA_INTEGRATION_REQUIRED / INSUFFICIENT_SCOPE: the account does not have the Figma Screenshots feature enabled, the access token lacks the write scope, or the caller lacks manage permission on the key and the Figma attachment."
   "404":
     "$ref": "../../responses.yaml#/404"
+    description: "NOT_FOUND: the project, Figma attachment, or translation key does not exist."
   "422":
     "$ref": "../../responses.yaml#/422"
+    description: "KEY_NOT_ATTACHED: the translation key is not currently linked to this Figma attachment."
   "429":
     "$ref": "../../responses.yaml#/429"
+    description: "RATE_LIMIT_EXCEEDED: too many requests. Wait for the interval indicated in the X-Rate-Limit-Reset header before retrying."
 x-code-samples:
   - lang: Curl
     source: |-
       curl "https://api.phrase.com/v2/projects/:project_id/figma_attachments/:figma_attachment_id/keys/:id" \
         -u USERNAME_OR_ACCESS_TOKEN \
         -X DELETE
-
-      # Expected response: HTTP 204 No Content (empty body)
   - lang: CLI v2
     source: |-
       phrase figma_attachment detach_from_key \
