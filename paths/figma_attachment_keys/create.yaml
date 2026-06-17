@@ -3,16 +3,7 @@ summary: Attach the Figma attachment to a key
 description: |
   Links a translation key to a Figma attachment, creating a visual context association between a specific Phrase key and a Figma design frame. Use this when you want translators to see the on-screen region where a key's translation appears inside a Figma file.
 
-  The key-to-attachment relationship is modeled as a many-to-many join: a single Figma attachment can be linked to multiple keys, and a key can be linked to multiple Figma attachments. Returns 422 when the key is already linked to this Figma attachment. This endpoint requires the Attachable Screenshots feature to be enabled on the account. The requesting user must hold manage permission on both the Figma attachment and the translation key.
-
-  Errors:
-
-  - 400 Bad Request: the request body is malformed or a required parameter is missing. Correct the request body and retry.
-  - 401 Unauthorized: the access token is missing or invalid. Supply a valid token with the write scope.
-  - 403 Forbidden: returned when the access token lacks the write scope, when the requesting user does not hold manage permission on the Figma attachment or on the translation key, or when the account does not have the Attachable Screenshots feature enabled. Check the token's scopes and the user's project permissions.
-  - 404 Not Found: the project, Figma attachment, or translation key does not exist under the given identifiers. Verify each ID in the request path and body.
-  - 422 Unprocessable Entity: the translation key is already linked to this Figma attachment. The response body contains a machine-readable message field ("Already attached") identifying the conflict. Remove the duplicate request or detach the key first if re-attachment is intended.
-  - 429 Too Many Requests: the rate limit has been reached. Wait until the X-Rate-Limit-Reset time indicated in the response headers before retrying.
+  The key-to-attachment relationship is modeled as a many-to-many join: a single Figma attachment can be linked to multiple keys, and a key can be linked to multiple Figma attachments. This endpoint requires the Attachable Screenshots feature to be enabled on the account.
 operationId: figma_attachment/attach_to_key
 tags:
   - Key's Figma attachments
@@ -22,7 +13,7 @@ parameters:
   - "$ref": "../../parameters.yaml#/figma_attachment_id"
   - name: branch
     in: query
-    description: Name of the branch to use. When omitted, the main (default) branch is used.
+    description: specify the branch to use
     required: false
     schema:
       type: string
@@ -42,24 +33,31 @@ requestBody:
             type: string
             example: abcd1234abcd1234abcd1234abcd1234
           branch:
-            description: Name of the branch to use. When omitted, the main (default) branch is used.
+            description: specify the branch to use
             type: string
             example: my-feature-branch
 responses:
   "204":
     "$ref": "../../responses.yaml#/204"
+    description: The translation key was attached to the Figma attachment.
   "400":
     "$ref": "../../responses.yaml#/400"
+    description: "Bad request: the request body is malformed or a required parameter is missing."
   "401":
     "$ref": "../../responses.yaml#/401"
+    description: "Unauthorized: the access token is missing or invalid."
   "403":
     "$ref": "../../responses.yaml#/403"
+    description: "Forbidden: the access token lacks the write scope, the requesting user does not hold manage permission on the Figma attachment or the translation key, or the account does not have the Attachable Screenshots feature enabled."
   "404":
     "$ref": "../../responses.yaml#/404"
+    description: "Not found: the project, Figma attachment, or translation key does not exist under the given identifiers."
   "422":
     "$ref": "../../responses.yaml#/422"
+    description: "Unprocessable entity: the translation key is already linked to this Figma attachment."
   "429":
     "$ref": "../../responses.yaml#/429"
+    description: "Too many requests: the rate limit has been reached. Wait until the X-Rate-Limit-Reset time before retrying."
 x-code-samples:
   - lang: Curl
     source: |-
@@ -71,7 +69,7 @@ x-code-samples:
         -w "\nHTTP %{http_code}"
   - lang: CLI v2
     source: |-
-      phrase figma_attachment attach_to_key \
+      phrase figma_attachments create \
       --project_id <project_id> \
       --figma_attachment_id <figma_attachment_id> \
       --data '{"id":"abcd1234abcd1234abcd1234abcd1234","branch":"my-feature-branch"}' \
