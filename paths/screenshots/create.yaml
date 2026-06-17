@@ -6,8 +6,6 @@ description: |
   This endpoint accepts a multipart/form-data request with a binary file upload, unlike most Phrase API endpoints that use JSON. Use a multipart form client or the -F flag in curl rather than a JSON body.
 
   The screenshot name must be unique within the project (case-insensitive). When name is omitted, it is derived from the uploaded filename. The account must have the Screenshots feature enabled; requests to projects on accounts without it return 403.
-
-  Requires the write scope and manage permission on the project.
 operationId: screenshot/create
 tags:
 - Screenshots
@@ -90,7 +88,7 @@ requestBody:
           - filename
         properties:
           branch:
-            description: Branch to use instead of the project default.
+            description: specify the branch to use
             type: string
             example: my-feature-branch
           name:
