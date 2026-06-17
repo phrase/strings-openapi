@@ -4,7 +4,7 @@ description: |
 
   Use this when you need to detach specific child keys from a shared translation source, or to fully break apart a linked-key group so each key manages its own translations independently. When child keys are unlinked, their translations are updated with a copy of the parent's current content (strategy keep_content, the default) or cleared (strategy remove_content).
 
-  This operation requires write permission on the linked-key resource and is only available on main projects; calling it against a branch project returns 403. Specifying a child key that is not currently linked to the given parent returns 422 with error code KEY_IS_NOT_LINKED. Error codes follow UPPER_SNAKE_CASE format throughout this API.
+  This operation is only available on main projects. Error codes follow UPPER_SNAKE_CASE format throughout this API.
 operationId: key_links/batch_destroy
 tags:
 - Linked Keys
@@ -255,48 +255,3 @@ x-code-samples:
         -X DELETE \
         -H "Content-Type: application/json" \
         -d '{"child_key_ids": ["feature.subtitle", "nav.home"], "strategy": "keep_content"}'
-
-      Response (HTTP 200):
-      {
-        "created_at": "2024-03-15T10:30:00.000Z",
-        "updated_at": "2024-03-15T12:45:00.000Z",
-        "created_by": {
-          "id": "abcd1234efgh5678",
-          "username": "alice",
-          "name": "Alice Smith",
-          "gravatar_uid": "efgh5678abcd1234"
-        },
-        "updated_by": {
-          "id": "ijkl9012mnop3456",
-          "username": "bob",
-          "name": "Bob Jones",
-          "gravatar_uid": "mnop3456ijkl9012"
-        },
-        "account": {
-          "id": "qrst7890uvwx1234",
-          "name": "Acme Corp",
-          "slug": "acme-corp",
-          "company": "Acme Corporation",
-          "created_at": "2023-01-01T00:00:00.000Z",
-          "updated_at": "2024-03-15T12:45:00.000Z",
-          "company_logo_url": "https://assets.phrase.com/accounts/acme-corp/logo.png"
-        },
-        "parent": {
-          "id": "main.title",
-          "name": "main.title",
-          "plural": false,
-          "use_ordinal_rules": false,
-          "data_type": "string",
-          "tags": ["ui", "homepage"]
-        },
-        "children": [
-          {
-            "id": "feature.subtitle",
-            "name": "feature.subtitle",
-            "plural": false,
-            "use_ordinal_rules": false,
-            "data_type": "string",
-            "tags": []
-          }
-        ]
-      }
