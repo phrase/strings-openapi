@@ -1,0 +1,65 @@
+{
+  "event": "upload_batches:complete",
+  "message": "2 files uploaded by user john_doe in project My Project have been processed.",
+  "sent_at": "2024-01-15T10:30:00Z",
+  "status": "done",
+  "created_at": "2024-01-15T10:25:00Z",
+  "updated_at": "2024-01-15T10:30:00Z",
+  "delete_unmentioned_keys": true,
+  "uploads_count": 2,
+  "user": {
+    "id": "abc123",
+    "username": "john_doe",
+    "name": "John Doe",
+    "gravatar_uid": "d4c74594d841139328695756648b6bd6"
+  },
+  "project": {
+    "id": "proj456",
+    "name": "My Project",
+    "main_format": "json",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-15T10:25:00Z"
+  },
+  "uploads": [
+    {
+      "id": "upload789",
+      "filename": "en.json",
+      "format": "json",
+      "state": "success",
+      "tag": "v1.0",
+      "tags": ["v1.0", "production"],
+      "summary": {
+        "locales_created": 0,
+        "translation_keys_created": 5,
+        "translation_keys_updated": 3,
+        "translation_keys_unmentioned": 2,
+        "translations_created": 8,
+        "translations_updated": 5,
+        "tags_created": 1,
+        "translation_keys_ignored": 0
+      },
+      "created_at": "2024-01-15T10:25:00Z",
+      "updated_at": "2024-01-15T10:28:00Z"
+    },
+    {
+      "id": "upload790",
+      "filename": "de.json",
+      "format": "json",
+      "state": "success",
+      "tag": null,
+      "tags": [],
+      "summary": {
+        "locales_created": 1,
+        "translation_keys_created": 0,
+        "translation_keys_updated": 0,
+        "translation_keys_unmentioned": 0,
+        "translations_created": 5,
+        "translations_updated": 3,
+        "tags_created": 0,
+        "translation_keys_ignored": 1
+      },
+      "created_at": "2024-01-15T10:25:30Z",
+      "updated_at": "2024-01-15T10:30:00Z"
+    }
+  ]
+}
