@@ -4656,6 +4656,12 @@
           "id": {
             "type": "string"
           },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 100,
+            "description": "Optional custom display name for this repo sync. When null or blank, the sync is displayed using the associated project name.\n"
+          },
           "project": {
             "$ref": "#/components/schemas/project_short"
           },
@@ -4682,11 +4688,13 @@
           },
           "last_import_at": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "last_export_at": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           }
         },
         "example": {
@@ -24861,6 +24869,12 @@
                     "description": "ID of the project to connect the Repo Sync to.",
                     "type": "string",
                     "example": "abcd1234abcd1234abcd1234abcd1234"
+                  },
+                  "name": {
+                    "description": "Optional custom display name for this repo sync. Defaults to null; when null the project name is used as the display name.\n",
+                    "type": "string",
+                    "nullable": true,
+                    "maxLength": 100
                   },
                   "git_provider": {
                     "description": "The Git provider to use.",
