@@ -3263,6 +3263,13 @@
             "type": "string",
             "nullable": true,
             "description": "The ID of the job template this job was created from, or null if no template was used."
+          },
+          "review_due_date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "The review due date for this job. Returns `null` when the project does not have review workflow enabled.",
+            "example": "2015-03-25T11:43:52Z"
           }
         },
         "example": {
@@ -3387,6 +3394,13 @@
                 "type": "string",
                 "nullable": true,
                 "description": "The ID of the job template this job was created from, or null if no template was used."
+              },
+              "review_due_date": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true,
+                "description": "The review due date for this job. Returns `null` when the project does not have review workflow enabled.",
+                "example": "2015-03-25T11:43:52Z"
               }
             },
             "example": {

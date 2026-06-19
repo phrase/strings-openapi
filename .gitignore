@@ -69,3 +69,5 @@ tmp/
 node_modules/
 .DS_Store
 clients/cli/README.md
+
+.claude
