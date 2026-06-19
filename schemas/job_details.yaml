@@ -47,7 +47,7 @@ job_details:
           format: date-time
           nullable: true
           description: >-
-            The review due date for this job. Always present in the response; returns
+            The review due date for this job. Returns
             `null` when the project does not have review workflow enabled.
           example: "2015-03-25T11:43:52Z"
       example:
