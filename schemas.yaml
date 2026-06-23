@@ -6,6 +6,12 @@ schemas:
     "$ref": schemas/authorization_with_token.yaml#/authorization_with_token
   blacklisted_key:
     "$ref": schemas/blacklisted_key.yaml#/blacklisted_key
+  branch_comparison:
+    "$ref": schemas/branch_comparison.yaml#/branch_comparison
+  branch_comparison_diff:
+    "$ref": schemas/branch_comparison.yaml#/branch_comparison_diff
+  branch_comparison_change:
+    "$ref": schemas/branch_comparison.yaml#/branch_comparison_change
   comment:
     "$ref": schemas/comment.yaml#/comment
   comment_reaction:

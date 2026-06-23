@@ -473,6 +473,149 @@
           "updated_at": "2015-01-28T09:52:53Z"
         }
       },
+      "branch_comparison": {
+        "type": "object",
+        "title": "branch_comparison",
+        "description": "Comparison result of a branch against its base branch. Top-level properties correspond to\nresource types. Each resource type lists changes made in the base branch (`base_changes`),\nchanges made in the feature branch (`head_changes`), and conflicting entries (`conflicts`).\n",
+        "properties": {
+          "translation_keys": {
+            "$ref": "#/components/schemas/branch_comparison_diff"
+          },
+          "translations": {
+            "$ref": "#/components/schemas/branch_comparison_diff"
+          },
+          "locales": {
+            "$ref": "#/components/schemas/branch_comparison_diff"
+          },
+          "tags": {
+            "$ref": "#/components/schemas/branch_comparison_diff"
+          }
+        },
+        "example": {
+          "translation_keys": {
+            "base_changes": [
+              {
+                "from": {
+                  "name": "welcome.title",
+                  "description": null,
+                  "name_plural": null,
+                  "is_plural": false,
+                  "data_type": "string",
+                  "max_characters_allowed": null,
+                  "deleted_at": null,
+                  "locations": [],
+                  "options": {}
+                },
+                "to": {
+                  "name": "welcome.heading",
+                  "description": null,
+                  "name_plural": null,
+                  "is_plural": false,
+                  "data_type": "string",
+                  "max_characters_allowed": null,
+                  "deleted_at": null,
+                  "locations": [],
+                  "options": {}
+                }
+              }
+            ],
+            "head_changes": [],
+            "conflicts": {}
+          },
+          "translations": {
+            "base_changes": [],
+            "head_changes": [
+              {
+                "from": {
+                  "state": "unverified",
+                  "content": "Hello",
+                  "changed_in_main_locale": false,
+                  "excluded_from_export": false,
+                  "plural_suffix": null
+                },
+                "to": {
+                  "state": "translated",
+                  "content": "Hello World",
+                  "changed_in_main_locale": false,
+                  "excluded_from_export": false,
+                  "plural_suffix": null
+                }
+              }
+            ],
+            "conflicts": {}
+          },
+          "locales": {
+            "base_changes": [],
+            "head_changes": [],
+            "conflicts": {}
+          },
+          "tags": {
+            "base_changes": [],
+            "head_changes": [],
+            "conflicts": {}
+          }
+        }
+      },
+      "branch_comparison_diff": {
+        "type": "object",
+        "title": "branch_comparison_diff",
+        "properties": {
+          "base_changes": {
+            "type": "array",
+            "description": "Changes made to this resource type in the base branch since the branch was created.",
+            "items": {
+              "$ref": "#/components/schemas/branch_comparison_change"
+            }
+          },
+          "head_changes": {
+            "type": "array",
+            "description": "Changes made to this resource type in the feature branch.",
+            "items": {
+              "$ref": "#/components/schemas/branch_comparison_change"
+            }
+          },
+          "conflicts": {
+            "type": "object",
+            "description": "Conflicting changes present in both branches, keyed by conflict type.\nPossible conflict type keys: `changed_in_head_changed_in_base`,\n`added_in_head_added_in_base`, `changed_in_head_deleted_in_base`,\n`deleted_in_head_changed_in_base`. Each value contains `base` and `head`\narrays of changed attribute objects.\n",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "base": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                },
+                "head": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "branch_comparison_change": {
+        "type": "object",
+        "title": "branch_comparison_change",
+        "description": "A single resource change. `from` holds the state before the change (null when the resource\nwas added). `to` holds the state after (null when the resource was deleted).\nFields depend on the resource type.\n",
+        "properties": {
+          "from": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true
+          },
+          "to": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true
+          }
+        }
+      },
       "comment": {
         "type": "object",
         "title": "comment",
@@ -20372,6 +20515,13 @@
               },
               "X-Rate-Limit-Reset": {
                 "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/branch_comparison"
+                }
               }
             }
           },
