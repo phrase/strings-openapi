@@ -34,19 +34,14 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
-    description: "BAD_REQUEST: malformed request parameters."
   '401':
     "$ref": "../../responses.yaml#/401"
-    description: "UNAUTHORIZED: missing or invalid access token."
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: "FORBIDDEN: the access token lacks the read scope, the requesting user does not have read access to the project, or the Attachable Screenshots feature is not enabled on the account."
   '404':
     "$ref": "../../responses.yaml#/404"
-    description: "NOT_FOUND: the project or screenshot does not exist under the given identifiers."
   '429':
     "$ref": "../../responses.yaml#/429"
-    description: "RATE_LIMIT_EXCEEDED: too many requests. Wait for the reset time indicated by X-Rate-Limit-Reset before retrying."
 x-code-samples:
 - lang: Curl
   source: |-

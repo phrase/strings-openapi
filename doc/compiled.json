@@ -21286,24 +21286,19 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/400",
-            "description": "BAD_REQUEST: malformed request parameters."
+            "$ref": "#/components/responses/400"
           },
           "401": {
-            "$ref": "#/components/responses/401",
-            "description": "UNAUTHORIZED: missing or invalid access token."
+            "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "FORBIDDEN: the access token lacks the read scope, the requesting user does not have read access to the project, or the Attachable Screenshots feature is not enabled on the account."
+            "$ref": "#/components/responses/403"
           },
           "404": {
-            "$ref": "#/components/responses/404",
-            "description": "NOT_FOUND: the project or screenshot does not exist under the given identifiers."
+            "$ref": "#/components/responses/404"
           },
           "429": {
-            "$ref": "#/components/responses/429",
-            "description": "RATE_LIMIT_EXCEEDED: too many requests. Wait for the reset time indicated by X-Rate-Limit-Reset before retrying."
+            "$ref": "#/components/responses/429"
           }
         },
         "x-code-samples": [
