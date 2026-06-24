@@ -473,6 +473,149 @@
           "updated_at": "2015-01-28T09:52:53Z"
         }
       },
+      "branch_comparison": {
+        "type": "object",
+        "title": "branch_comparison",
+        "description": "Comparison result of a branch against its base branch. Top-level properties correspond to\nresource types. Each resource type lists changes made in the base branch (`base_changes`),\nchanges made in the feature branch (`head_changes`), and conflicting entries (`conflicts`).\n",
+        "properties": {
+          "translation_keys": {
+            "$ref": "#/components/schemas/branch_comparison_diff"
+          },
+          "translations": {
+            "$ref": "#/components/schemas/branch_comparison_diff"
+          },
+          "locales": {
+            "$ref": "#/components/schemas/branch_comparison_diff"
+          },
+          "tags": {
+            "$ref": "#/components/schemas/branch_comparison_diff"
+          }
+        },
+        "example": {
+          "translation_keys": {
+            "base_changes": [
+              {
+                "from": {
+                  "name": "welcome.title",
+                  "description": null,
+                  "name_plural": null,
+                  "is_plural": false,
+                  "data_type": "string",
+                  "max_characters_allowed": null,
+                  "deleted_at": null,
+                  "locations": [],
+                  "options": {}
+                },
+                "to": {
+                  "name": "welcome.heading",
+                  "description": null,
+                  "name_plural": null,
+                  "is_plural": false,
+                  "data_type": "string",
+                  "max_characters_allowed": null,
+                  "deleted_at": null,
+                  "locations": [],
+                  "options": {}
+                }
+              }
+            ],
+            "head_changes": [],
+            "conflicts": {}
+          },
+          "translations": {
+            "base_changes": [],
+            "head_changes": [
+              {
+                "from": {
+                  "state": "unverified",
+                  "content": "Hello",
+                  "changed_in_main_locale": false,
+                  "excluded_from_export": false,
+                  "plural_suffix": null
+                },
+                "to": {
+                  "state": "translated",
+                  "content": "Hello World",
+                  "changed_in_main_locale": false,
+                  "excluded_from_export": false,
+                  "plural_suffix": null
+                }
+              }
+            ],
+            "conflicts": {}
+          },
+          "locales": {
+            "base_changes": [],
+            "head_changes": [],
+            "conflicts": {}
+          },
+          "tags": {
+            "base_changes": [],
+            "head_changes": [],
+            "conflicts": {}
+          }
+        }
+      },
+      "branch_comparison_diff": {
+        "type": "object",
+        "title": "branch_comparison_diff",
+        "properties": {
+          "base_changes": {
+            "type": "array",
+            "description": "Changes made to this resource type in the base branch since the branch was created.",
+            "items": {
+              "$ref": "#/components/schemas/branch_comparison_change"
+            }
+          },
+          "head_changes": {
+            "type": "array",
+            "description": "Changes made to this resource type in the feature branch.",
+            "items": {
+              "$ref": "#/components/schemas/branch_comparison_change"
+            }
+          },
+          "conflicts": {
+            "type": "object",
+            "description": "Conflicting changes present in both branches, keyed by conflict type.\nPossible conflict type keys: `changed_in_head_changed_in_base`,\n`added_in_head_added_in_base`, `changed_in_head_deleted_in_base`,\n`deleted_in_head_changed_in_base`. Each value contains `base` and `head`\narrays of changed attribute objects.\n",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "base": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                },
+                "head": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "branch_comparison_change": {
+        "type": "object",
+        "title": "branch_comparison_change",
+        "description": "A single resource change. `from` holds the state before the change (null when the resource\nwas added). `to` holds the state after (null when the resource was deleted).\nFields depend on the resource type.\n",
+        "properties": {
+          "from": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true
+          },
+          "to": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true
+          }
+        }
+      },
       "comment": {
         "type": "object",
         "title": "comment",
@@ -1902,36 +2045,68 @@
       "format": {
         "type": "object",
         "title": "format",
+        "required": [
+          "name",
+          "api_name",
+          "description",
+          "extension",
+          "default_encoding",
+          "importable",
+          "exportable",
+          "default_file",
+          "renders_default_locale",
+          "includes_locale_information"
+        ],
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Human-readable display name of the format.",
+            "example": "Ruby/Rails YAML"
           },
           "api_name": {
-            "type": "string"
+            "type": "string",
+            "description": "Identifier used to reference this format in API requests, such as the file_format parameter on the uploads and downloads endpoints.",
+            "example": "yml"
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "description": "Human-readable summary of the format and its typical use case.",
+            "example": "YAML file format for use with Ruby/Rails applications"
           },
           "extension": {
-            "type": "string"
+            "type": "string",
+            "description": "Default file extension associated with this format.",
+            "example": "yml"
           },
           "default_encoding": {
-            "type": "string"
+            "type": "string",
+            "description": "Default character encoding used when reading or writing files in this format.",
+            "example": "UTF-8"
           },
           "importable": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether locale files can be imported using this format.",
+            "example": true
           },
           "exportable": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether locale files can be exported using this format.",
+            "example": true
           },
           "default_file": {
-            "type": "string"
+            "type": "string",
+            "description": "Conventional file path pattern for this format. Contains locale_name as a placeholder for the locale identifier.",
+            "example": "./config/locales/<locale_name>.yml"
           },
           "renders_default_locale": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "When true, exported files contain the default locale's content for any key that has no translation in the target locale.",
+            "example": false
           },
           "includes_locale_information": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "When true, files in this format embed locale information so Phrase can detect the locale automatically on import.",
+            "example": false
           }
         },
         "example": {
@@ -1944,7 +2119,7 @@
           "exportable": true,
           "default_file": "./config/locales/<locale_name>.yml",
           "renders_default_locale": false,
-          "includes_locale_information": true
+          "includes_locale_information": false
         }
       },
       "project": {
@@ -3231,6 +3406,13 @@
             "type": "string",
             "nullable": true,
             "description": "The ID of the job template this job was created from, or null if no template was used."
+          },
+          "review_due_date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "The review due date for this job. Returns `null` when the project does not have review workflow enabled.",
+            "example": "2015-03-25T11:43:52Z"
           }
         },
         "example": {
@@ -3355,6 +3537,13 @@
                 "type": "string",
                 "nullable": true,
                 "description": "The ID of the job template this job was created from, or null if no template was used."
+              },
+              "review_due_date": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true,
+                "description": "The review due date for this job. Returns `null` when the project does not have review workflow enabled.",
+                "example": "2015-03-25T11:43:52Z"
               }
             },
             "example": {
@@ -4624,6 +4813,12 @@
           "id": {
             "type": "string"
           },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 100,
+            "description": "Optional custom display name for this repo sync. When null or blank, the sync is displayed using the associated project name.\n"
+          },
           "project": {
             "$ref": "#/components/schemas/project_short"
           },
@@ -4650,11 +4845,13 @@
           },
           "last_import_at": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "last_export_at": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           }
         },
         "example": {
@@ -5276,7 +5473,7 @@
         }
       },
       "400": {
-        "description": "Bad request",
+        "description": "Bad request. The request could not be parsed or a parameter failed validation. Verify the request body, the content type, and the parameter types, then retry.",
         "headers": {
           "X-Rate-Limit-Limit": {
             "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -5290,10 +5487,10 @@
         }
       },
       "401": {
-        "description": "Unauthorized"
+        "description": "Unauthorized. Authentication failed because the access token is missing, expired, or invalid. Supply a valid access token and retry."
       },
       "403": {
-        "description": "Forbidden",
+        "description": "Forbidden. The credentials are valid but not permitted for this request: the access token may lack the required scope, the user may lack permission on the resource, or the account plan may not include the feature. Use a token with the required scope on an account and user that hold the necessary permissions.",
         "headers": {
           "X-Rate-Limit-Limit": {
             "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -5307,7 +5504,7 @@
         }
       },
       "404": {
-        "description": "Not Found",
+        "description": "Not found. The requested resource does not exist or is not visible to the authenticated user. Verify the identifiers in the request path and that the token has access to them, then retry.",
         "headers": {
           "X-Rate-Limit-Limit": {
             "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -5321,7 +5518,7 @@
         }
       },
       "409": {
-        "description": "Conflict",
+        "description": "Conflict. The request conflicts with the current state of the resource. Reconcile the conflicting state and retry.",
         "headers": {
           "X-Rate-Limit-Limit": {
             "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -5335,7 +5532,7 @@
         }
       },
       "422": {
-        "description": "Unprocessable entity",
+        "description": "Unprocessable entity. The request was well-formed but failed validation. The response body lists each offending field in the `errors` array, with its resource, field, and a human-readable message. Correct the listed fields and retry.",
         "content": {
           "application/json": {
             "schema": {
@@ -5388,7 +5585,7 @@
         }
       },
       "429": {
-        "description": "Rate Limiting",
+        "description": "Too many requests. The rate limit has been exceeded. Wait until the time indicated by the `X-Rate-Limit-Reset` response header before retrying.",
         "headers": {
           "X-Rate-Limit-Limit": {
             "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -5530,7 +5727,7 @@
     "/formats": {
       "get": {
         "summary": "List formats",
-        "description": "Get a handy list of all localization file formats supported in Phrase.",
+        "description": "Returns all file formats that Phrase Strings supports. Use the api_name value\nfrom each format as the file_format parameter when uploading or downloading\nlocale files. Not every format supports both directions: check the importable\nand exportable fields before using a format in a workflow. This endpoint does\nnot require authentication and is not subject to rate limiting.\n",
         "operationId": "formats/list",
         "tags": [
           "Formats"
@@ -5545,7 +5742,48 @@
                   "items": {
                     "$ref": "#/components/schemas/format"
                   }
+                },
+                "examples": {
+                  "default": {
+                    "value": [
+                      {
+                        "name": "Ruby/Rails YAML",
+                        "api_name": "yml",
+                        "description": "YAML file format for use with Ruby/Rails applications",
+                        "extension": "yml",
+                        "default_encoding": "UTF-8",
+                        "importable": true,
+                        "exportable": true,
+                        "default_file": "./config/locales/<locale_name>.yml",
+                        "renders_default_locale": false,
+                        "includes_locale_information": false
+                      },
+                      {
+                        "name": "Simple JSON",
+                        "api_name": "simple_json",
+                        "description": "A flat key/value JSON format",
+                        "extension": "json",
+                        "default_encoding": "UTF-8",
+                        "importable": true,
+                        "exportable": true,
+                        "default_file": "./config/locales/<locale_name>.json",
+                        "renders_default_locale": false,
+                        "includes_locale_information": false
+                      }
+                    ]
+                  }
                 }
+              }
+            },
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
               }
             }
           },
@@ -5556,7 +5794,7 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/formats\""
+            "source": "curl \"https://api.phrase.com/v2/formats\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
           },
           {
             "lang": "CLI v2",
@@ -20278,6 +20516,13 @@
               "X-Rate-Limit-Reset": {
                 "$ref": "#/components/headers/X-Rate-Limit-Reset"
               }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/branch_comparison"
+                }
+              }
             }
           },
           "400": {
@@ -21132,7 +21377,7 @@
       },
       "post": {
         "summary": "Create a screenshot",
-        "description": "Create a new screenshot.",
+        "description": "Creates a screenshot in a project to provide visual context for in-context translation. Attach translation keys to regions of the uploaded image so translators can see where each string appears in your UI.\n\nThis endpoint accepts a multipart/form-data request with a binary file upload, unlike most Phrase API endpoints that use JSON. Use a multipart form client or the -F flag in curl rather than a JSON body.\n\nThe screenshot name must be unique within the project (case-insensitive). When name is omitted, it is derived from the uploaded filename. The account must have the Screenshots feature enabled; requests to projects on accounts without it return 403. Creating a screenshot requires a token with the write scope and manage access to the project.\n",
         "operationId": "screenshot/create",
         "tags": [
           "Screenshots"
@@ -21152,6 +21397,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/screenshot"
+                },
+                "example": {
+                  "id": "abcd1234abcd1234abcd1234abcd1234",
+                  "name": "home_screen",
+                  "description": "Main landing page hero section",
+                  "screenshot_url": "https://assets.phrase.com/screenshots/abcd1234abcd1234abcd1234abcd1234/screenshot.png",
+                  "created_at": "2024-03-15T09:00:00Z",
+                  "updated_at": "2024-03-15T09:00:00Z",
+                  "markers_count": 0
                 }
               }
             },
@@ -21174,8 +21428,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create screenshots in this project, or when the account does not have the Attachable Screenshots feature."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -21190,11 +21443,11 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -F branch=my-feature-branch \\\n  -F name=A%20screenshot%20name \\\n  -F description=A%20screenshot%20description \\\n  -F filename=@/path/to/my/screenshot.png"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -F branch=my-feature-branch \\\n  -F name=home_screen \\\n  -F description=\"Main landing page hero section\" \\\n  -F filename=@/path/to/home_screen.png"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase screenshots create \\\n--project_id <project_id> \\\n--branch \"my-feature-branch\" --name \"A screenshot name\" --description \"A screenshot description\" --filename \"/path/to/my/screenshot.png\" \\\n--access_token <token>"
+            "source": "phrase screenshots create \\\n  --project_id <project_id> \\\n  --branch \"my-feature-branch\" \\\n  --name \"home_screen\" \\\n  --description \"Main landing page hero section\" \\\n  --filename \"/path/to/home_screen.png\" \\\n  --access_token <token>"
           }
         ],
         "requestBody": {
@@ -21204,6 +21457,9 @@
               "schema": {
                 "type": "object",
                 "title": "screenshot/create/parameters",
+                "required": [
+                  "filename"
+                ],
                 "properties": {
                   "branch": {
                     "description": "specify the branch to use",
@@ -21211,20 +21467,26 @@
                     "example": "my-feature-branch"
                   },
                   "name": {
-                    "description": "Name of the screenshot",
+                    "description": "Display name for the screenshot. Must be unique within the project (case-insensitive). When omitted, the name is derived from the uploaded filename.",
                     "type": "string",
-                    "example": "A screenshot name"
+                    "example": "home_screen"
                   },
                   "description": {
-                    "description": "Description of the screenshot",
+                    "description": "Optional free-text description of the screenshot.",
                     "type": "string",
-                    "example": "A screenshot description"
+                    "example": "Main landing page hero section"
                   },
                   "filename": {
-                    "description": "Screenshot file",
+                    "description": "Image file to upload. Accepted formats are JPEG (jpg/jpeg), GIF, and PNG. Maximum file size is 10 MB. Submitting an unsupported format or a file exceeding the size limit returns 422.",
                     "type": "string",
                     "format": "binary",
-                    "example": "/path/to/my/screenshot.png"
+                    "x-accepted-formats": [
+                      "jpg",
+                      "jpeg",
+                      "gif",
+                      "png"
+                    ],
+                    "x-max-size-mb": 10
                   }
                 }
               }
@@ -24787,6 +25049,12 @@
                     "description": "ID of the project to connect the Repo Sync to.",
                     "type": "string",
                     "example": "abcd1234abcd1234abcd1234abcd1234"
+                  },
+                  "name": {
+                    "description": "Optional custom display name for this repo sync. Defaults to null; when null the project name is used as the display name.\n",
+                    "type": "string",
+                    "nullable": true,
+                    "maxLength": 100
                   },
                   "git_provider": {
                     "description": "The Git provider to use.",
