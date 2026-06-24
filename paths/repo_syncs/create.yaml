@@ -71,6 +71,13 @@ requestBody:
             description: ID of the project to connect the Repo Sync to.
             type: string
             example: abcd1234abcd1234abcd1234abcd1234
+          name:
+            description: >
+              Optional custom display name for this repo sync. Defaults to
+              null; when null the project name is used as the display name.
+            type: string
+            nullable: true
+            maxLength: 100
           git_provider:
             description: The Git provider to use.
             default: github
