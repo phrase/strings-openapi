@@ -5473,7 +5473,7 @@
         }
       },
       "400": {
-        "description": "Bad request",
+        "description": "Bad request. The request could not be parsed or a parameter failed validation. Verify the request body, the content type, and the parameter types, then retry.",
         "headers": {
           "X-Rate-Limit-Limit": {
             "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -5487,10 +5487,10 @@
         }
       },
       "401": {
-        "description": "Unauthorized"
+        "description": "Unauthorized. Authentication failed because the access token is missing, expired, or invalid. Supply a valid access token and retry."
       },
       "403": {
-        "description": "Forbidden",
+        "description": "Forbidden. The credentials are valid but not permitted for this request: the access token may lack the required scope, the user may lack permission on the resource, or the account plan may not include the feature. Use a token with the required scope on an account and user that hold the necessary permissions.",
         "headers": {
           "X-Rate-Limit-Limit": {
             "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -5504,7 +5504,7 @@
         }
       },
       "404": {
-        "description": "Not Found",
+        "description": "Not found. The requested resource does not exist or is not visible to the authenticated user. Verify the identifiers in the request path and that the token has access to them, then retry.",
         "headers": {
           "X-Rate-Limit-Limit": {
             "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -5518,7 +5518,7 @@
         }
       },
       "409": {
-        "description": "Conflict",
+        "description": "Conflict. The request conflicts with the current state of the resource. Reconcile the conflicting state and retry.",
         "headers": {
           "X-Rate-Limit-Limit": {
             "$ref": "#/components/headers/X-Rate-Limit-Limit"
@@ -5532,7 +5532,7 @@
         }
       },
       "422": {
-        "description": "Unprocessable entity",
+        "description": "Unprocessable entity. The request was well-formed but failed validation. The response body lists each offending field in the `errors` array, with its resource, field, and a human-readable message. Correct the listed fields and retry.",
         "content": {
           "application/json": {
             "schema": {
@@ -5585,7 +5585,7 @@
         }
       },
       "429": {
-        "description": "Rate Limiting",
+        "description": "Too many requests. The rate limit has been exceeded. Wait until the time indicated by the `X-Rate-Limit-Reset` response header before retrying.",
         "headers": {
           "X-Rate-Limit-Limit": {
             "$ref": "#/components/headers/X-Rate-Limit-Limit"
