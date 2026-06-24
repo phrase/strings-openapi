@@ -21132,7 +21132,7 @@
       },
       "post": {
         "summary": "Create a screenshot",
-        "description": "Creates a screenshot in a project to provide visual context for in-context translation. Attach translation keys to regions of the uploaded image so translators can see where each string appears in your UI.\n\nThis endpoint accepts a multipart/form-data request with a binary file upload, unlike most Phrase API endpoints that use JSON. Use a multipart form client or the -F flag in curl rather than a JSON body.\n\nThe screenshot name must be unique within the project (case-insensitive). When name is omitted, it is derived from the uploaded filename. The account must have the Screenshots feature enabled; requests to projects on accounts without it return 403.\n",
+        "description": "Creates a screenshot in a project to provide visual context for in-context translation. Attach translation keys to regions of the uploaded image so translators can see where each string appears in your UI.\n\nThis endpoint accepts a multipart/form-data request with a binary file upload, unlike most Phrase API endpoints that use JSON. Use a multipart form client or the -F flag in curl rather than a JSON body.\n\nThe screenshot name must be unique within the project (case-insensitive). When name is omitted, it is derived from the uploaded filename. The account must have the Screenshots feature enabled; requests to projects on accounts without it return 403. Creating a screenshot requires a token with the write scope and manage access to the project.\n",
         "operationId": "screenshot/create",
         "tags": [
           "Screenshots"
@@ -21177,28 +21177,22 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/400",
-            "description": "Returned when the request cannot be parsed. Cause: the multipart body is malformed or a parameter value is of the wrong type. Fix: verify the Content-Type is multipart/form-data and all parameter values match the expected types.\n"
+            "$ref": "#/components/responses/400"
           },
           "401": {
-            "$ref": "#/components/responses/401",
-            "description": "Returned when authentication fails. Cause: the access token is missing, expired, or revoked. Fix: supply a valid access token via HTTP Basic auth (username or token as the username, password blank).\n"
+            "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Returned when the access token lacks the write scope, the requesting user does not have manage permission on the project, or the account does not have the Screenshots feature enabled. Fix: use a token with the write scope, ensure the user has a Manager or above role on the project, and verify the account has Screenshots enabled.\n"
+            "$ref": "#/components/responses/403"
           },
           "404": {
-            "$ref": "#/components/responses/404",
-            "description": "Returned when the project does not exist or is not accessible to the authenticated user. Fix: verify the project_id is correct and the token has access to that project.\n"
+            "$ref": "#/components/responses/404"
           },
           "422": {
-            "$ref": "#/components/responses/422",
-            "description": "Returned when validation fails. Common causes: the filename field is missing or the uploaded file has an unsupported format (only jpg, jpeg, gif, and png are accepted), the file exceeds the 10 MB size limit, or the screenshot name is already in use within the project (case-insensitive). Fix: supply a valid file in an accepted format within the size limit, and choose a unique name.\n"
+            "$ref": "#/components/responses/422"
           },
           "429": {
-            "$ref": "#/components/responses/429",
-            "description": "Returned when the rate limit or concurrency limit is exceeded. Fix: reduce request frequency and retry after the interval indicated in the X-Rate-Limit-Reset response header.\n"
+            "$ref": "#/components/responses/429"
           }
         },
         "x-code-samples": [
