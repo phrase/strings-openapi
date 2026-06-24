@@ -1,6 +1,11 @@
 ---
 summary: List formats
-description: Get a handy list of all localization file formats supported in Phrase.
+description: |
+  Returns all file formats that Phrase Strings supports. Use the api_name value
+  from each format as the file_format parameter when uploading or downloading
+  locale files. Not every format supports both directions: check the importable
+  and exportable fields before using a format in a workflow. This endpoint does
+  not require authentication and is not subject to rate limiting.
 operationId: formats/list
 tags:
 - Formats
@@ -13,11 +18,43 @@ responses:
           type: array
           items:
             "$ref": "../../schemas/format.yaml#/format"
+        examples:
+          default:
+            value:
+              - name: Ruby/Rails YAML
+                api_name: yml
+                description: YAML file format for use with Ruby/Rails applications
+                extension: yml
+                default_encoding: UTF-8
+                importable: true
+                exportable: true
+                default_file: "./config/locales/<locale_name>.yml"
+                renders_default_locale: false
+                includes_locale_information: false
+              - name: Simple JSON
+                api_name: simple_json
+                description: A flat key/value JSON format
+                extension: json
+                default_encoding: UTF-8
+                importable: true
+                exportable: true
+                default_file: "./config/locales/<locale_name>.json"
+                renders_default_locale: false
+                includes_locale_information: false
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
 x-code-samples:
 - lang: Curl
-  source: curl "https://api.phrase.com/v2/formats"
+  source: |-
+    curl "https://api.phrase.com/v2/formats" \
+      -u USERNAME_OR_ACCESS_TOKEN
 - lang: CLI v2
   source: |-
     phrase formats list \

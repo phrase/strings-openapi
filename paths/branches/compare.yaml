@@ -27,6 +27,10 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
       X-Rate-Limit-Reset:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+    content:
+      application/json:
+        schema:
+          "$ref": "../../schemas/branch_comparison.yaml#/branch_comparison"
   '400':
     "$ref": "../../responses.yaml#/400"
   '404':
