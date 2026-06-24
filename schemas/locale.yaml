@@ -33,6 +33,8 @@ locale:
     updated_at:
       type: string
       format: date-time
+    language_ai_profile:
+      type: string
   example:
     id: abcd1234cdef1234abcd1234cdef1234
     name: de
