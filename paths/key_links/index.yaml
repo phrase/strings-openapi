@@ -11,11 +11,6 @@ parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
 - "$ref": "../../parameters.yaml#/project_id"
 - "$ref": "../../parameters.yaml#/key_id_as_id"
-x-code-samples:
-- lang: Curl
-  source: |-
-    curl "https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links" \
-      -u USERNAME_OR_ACCESS_TOKEN
 responses:
   '200':
     description: OK
