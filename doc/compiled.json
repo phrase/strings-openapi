@@ -6460,24 +6460,19 @@
             "$ref": "#/components/responses/400"
           },
           "401": {
-            "$ref": "#/components/responses/401",
-            "description": "UNAUTHORIZED: no valid authentication credentials were provided."
+            "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "FIGMA_INTEGRATION_REQUIRED / INSUFFICIENT_SCOPE: the account does not have the Figma Screenshots feature enabled, the access token lacks the write scope, or the caller lacks manage permission on the key and the Figma attachment."
+            "$ref": "#/components/responses/403"
           },
           "404": {
-            "$ref": "#/components/responses/404",
-            "description": "NOT_FOUND: the project, Figma attachment, or translation key does not exist."
+            "$ref": "#/components/responses/404"
           },
           "422": {
-            "$ref": "#/components/responses/422",
-            "description": "KEY_NOT_ATTACHED: the translation key is not currently linked to this Figma attachment."
+            "$ref": "#/components/responses/422"
           },
           "429": {
-            "$ref": "#/components/responses/429",
-            "description": "RATE_LIMIT_EXCEEDED: too many requests. Wait for the interval indicated in the X-Rate-Limit-Reset header before retrying."
+            "$ref": "#/components/responses/429"
           }
         },
         "x-code-samples": [

@@ -30,19 +30,14 @@ responses:
     "$ref": "../../responses.yaml#/400"
   "401":
     "$ref": "../../responses.yaml#/401"
-    description: "UNAUTHORIZED: no valid authentication credentials were provided."
   "403":
     "$ref": "../../responses.yaml#/403"
-    description: "FIGMA_INTEGRATION_REQUIRED / INSUFFICIENT_SCOPE: the account does not have the Figma Screenshots feature enabled, the access token lacks the write scope, or the caller lacks manage permission on the key and the Figma attachment."
   "404":
     "$ref": "../../responses.yaml#/404"
-    description: "NOT_FOUND: the project, Figma attachment, or translation key does not exist."
   "422":
     "$ref": "../../responses.yaml#/422"
-    description: "KEY_NOT_ATTACHED: the translation key is not currently linked to this Figma attachment."
   "429":
     "$ref": "../../responses.yaml#/429"
-    description: "RATE_LIMIT_EXCEEDED: too many requests. Wait for the interval indicated in the X-Rate-Limit-Reset header before retrying."
 x-code-samples:
   - lang: Curl
     source: |-
