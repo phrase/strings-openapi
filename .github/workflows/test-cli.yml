@@ -5,7 +5,9 @@ on:
   pull_request:
     paths:
       - 'paths/**'
+      - 'paths.yaml'
       - 'schemas/**'
+      - 'schemas.yaml'
       - 'parameters.yaml'
       - 'responses.yaml'
       - 'headers.yaml'
