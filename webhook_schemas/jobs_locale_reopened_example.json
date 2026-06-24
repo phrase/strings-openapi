@@ -41,8 +41,14 @@
   "job": {
     "id": "ad39faf87fb5af9aa9d9ab44a6c29899",
     "name": "Translation job for feature 1",
+    "owner": {
+      "id": "24b9a53ad72e198ca332fba91bb95f57",
+      "username": "john.smith",
+      "name": "John Smith"
+    },
     "briefing": "Please translate everything!",
     "due_date": "2025-02-07 16:18:13 UTC",
+    "review_due_date": null,
     "state": "draft",
     "ticket_url": "",
     "created_at": "2025-02-07 16:18:13 UTC",

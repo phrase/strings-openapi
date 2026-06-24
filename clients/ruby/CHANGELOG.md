@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.24.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.23.0...ruby-v4.24.0) (2026-06-11)
+
+
+### Features
+
+* **API:** add fallback_for_unverified_translations param to locale d… ([#1148](https://github.com/phrase/strings-openapi/issues/1148)) ([9ef6248](https://github.com/phrase/strings-openapi/commit/9ef6248aae14d9bd65eee9ea3554f03c6f9331cb))
+
 ## [4.23.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.22.0...ruby-v4.23.0) (2026-06-04)
 
 
