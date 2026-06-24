@@ -1,6 +1,11 @@
 ---
 summary: Create a screenshot
-description: Create a new screenshot.
+description: |
+  Creates a screenshot in a project to provide visual context for in-context translation. Attach translation keys to regions of the uploaded image so translators can see where each string appears in your UI.
+
+  This endpoint accepts a multipart/form-data request with a binary file upload, unlike most Phrase API endpoints that use JSON. Use a multipart form client or the -F flag in curl rather than a JSON body.
+
+  The screenshot name must be unique within the project (case-insensitive). When name is omitted, it is derived from the uploaded filename. The account must have the Screenshots feature enabled; requests to projects on accounts without it return 403. Creating a screenshot requires a token with the write scope and manage access to the project.
 operationId: screenshot/create
 tags:
 - Screenshots
@@ -14,6 +19,14 @@ responses:
       application/json:
         schema:
           "$ref": "../../schemas/screenshot.yaml#/screenshot"
+        example:
+          id: abcd1234abcd1234abcd1234abcd1234
+          name: home_screen
+          description: Main landing page hero section
+          screenshot_url: https://assets.phrase.com/screenshots/abcd1234abcd1234abcd1234abcd1234/screenshot.png
+          created_at: '2024-03-15T09:00:00Z'
+          updated_at: '2024-03-15T09:00:00Z'
+          markers_count: 0
     headers:
       X-Rate-Limit-Limit:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
@@ -23,13 +36,12 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '404':
-    "$ref": "../../responses.yaml#/404"
   '401':
     "$ref": "../../responses.yaml#/401"
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create screenshots in this project, or when the account does not have the Attachable Screenshots feature.
+  '404':
+    "$ref": "../../responses.yaml#/404"
   '422':
     "$ref": "../../responses.yaml#/422"
   '429':
@@ -41,15 +53,18 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X POST \
       -F branch=my-feature-branch \
-      -F name=A%20screenshot%20name \
-      -F description=A%20screenshot%20description \
-      -F filename=@/path/to/my/screenshot.png
+      -F name=home_screen \
+      -F description="Main landing page hero section" \
+      -F filename=@/path/to/home_screen.png
 - lang: CLI v2
   source: |-
     phrase screenshots create \
-    --project_id <project_id> \
-    --branch "my-feature-branch" --name "A screenshot name" --description "A screenshot description" --filename "/path/to/my/screenshot.png" \
-    --access_token <token>
+      --project_id <project_id> \
+      --branch "my-feature-branch" \
+      --name "home_screen" \
+      --description "Main landing page hero section" \
+      --filename "/path/to/home_screen.png" \
+      --access_token <token>
 requestBody:
   required: true
   content:
@@ -57,22 +72,29 @@ requestBody:
       schema:
         type: object
         title: screenshot/create/parameters
+        required:
+          - filename
         properties:
           branch:
             description: specify the branch to use
             type: string
             example: my-feature-branch
           name:
-            description: Name of the screenshot
+            description: Display name for the screenshot. Must be unique within the project (case-insensitive). When omitted, the name is derived from the uploaded filename.
             type: string
-            example: A screenshot name
+            example: home_screen
           description:
-            description: Description of the screenshot
+            description: Optional free-text description of the screenshot.
             type: string
-            example: A screenshot description
+            example: Main landing page hero section
           filename:
-            description: Screenshot file
+            description: Image file to upload. Accepted formats are JPEG (jpg/jpeg), GIF, and PNG. Maximum file size is 10 MB. Submitting an unsupported format or a file exceeding the size limit returns 422.
             type: string
             format: binary
-            example: "/path/to/my/screenshot.png"
+            x-accepted-formats:
+              - jpg
+              - jpeg
+              - gif
+              - png
+            x-max-size-mb: 10
 x-cli-version: '2.5'
