@@ -31020,7 +31020,7 @@
     "/projects/{project_id}/keys/{id}/key_links/{child_key_id}": {
       "delete": {
         "summary": "Unlink a child key from a parent key",
-        "description": "Removes a single child key from a parent key's link group. A link group is the relationship model that keeps child keys synchronized with a parent: while linked, a child key's translations are derived from the parent's content. When you call this endpoint, the child key leaves the group and becomes independent — its existing translations are updated with the parent's current content and then marked unverified, signalling that reviewers should confirm the content is still appropriate for the child's context.\n\nUse this endpoint when you need to detach one specific child key while keeping other children linked. To detach multiple children at once, use the batch unlink endpoint. This operation is only available on main projects.\n\nWhen the operation fails, the response body includes an errors array. Each error object carries a code field using UPPER_SNAKE_CASE stable identifiers (for example, KEY_IS_NOT_LINKED) that you can match programmatically to distinguish error conditions.\n",
+        "description": "Removes a single child key from a parent key's link group. A link group is the relationship model that keeps child keys synchronized with a parent: while linked, a child key's translations are derived from the parent's content. When you call this endpoint, the child key leaves the group and becomes independent — its existing translations are updated with the parent's current content and then marked unverified, signalling that reviewers should confirm the content is still appropriate for the child's context.\n\nUse this endpoint when you need to detach one specific child key while keeping other children linked. To detach multiple children at once, use the batch unlink endpoint. This operation is only available on main projects.\n\nIt returns 422 when the child key is not currently linked to the specified parent key, or when a translation update fails during the unlink process.\n",
         "operationId": "key_links/destroy",
         "tags": [
           "Linked Keys"
@@ -31075,58 +31075,7 @@
             "$ref": "#/components/responses/404"
           },
           "422": {
-            "description": "Unprocessable entity. Returned when the child key is not currently linked to the specified parent key, or when a translation update fails during the unlink process. The errors array contains a code field with a stable UPPER_SNAKE_CASE identifier — KEY_IS_NOT_LINKED indicates the child is not in this key link group. Verify the child_key_id is linked to this parent before retrying.\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "title": "key_links/destroy/error",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "description": "A human-readable description of the error."
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "title": "key_links/destroy/error/item",
-                        "properties": {
-                          "resource": {
-                            "type": "string",
-                            "description": "The resource type the error applies to."
-                          },
-                          "field": {
-                            "type": "string",
-                            "description": "The field the error applies to."
-                          },
-                          "message": {
-                            "type": "string",
-                            "description": "A human-readable description of the validation error."
-                          },
-                          "code": {
-                            "type": "string",
-                            "description": "A stable UPPER_SNAKE_CASE machine-readable code identifying this error condition.",
-                            "example": "KEY_IS_NOT_LINKED"
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "example": {
-                  "message": "Child key 1234abcd1234cdef1234abcd1234cdef is not linked to this parent key.",
-                  "errors": [
-                    {
-                      "resource": "base",
-                      "field": "base",
-                      "message": "Child key 1234abcd1234cdef1234abcd1234cdef is not linked to this parent key.",
-                      "code": "KEY_IS_NOT_LINKED"
-                    }
-                  ]
-                }
-              }
-            }
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"

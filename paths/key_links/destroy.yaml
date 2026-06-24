@@ -5,7 +5,7 @@ description: |
 
   Use this endpoint when you need to detach one specific child key while keeping other children linked. To detach multiple children at once, use the batch unlink endpoint. This operation is only available on main projects.
 
-  When the operation fails, the response body includes an errors array. Each error object carries a code field using UPPER_SNAKE_CASE stable identifiers (for example, KEY_IS_NOT_LINKED) that you can match programmatically to distinguish error conditions.
+  It returns 422 when the child key is not currently linked to the specified parent key, or when a translation update fails during the unlink process.
 operationId: key_links/destroy
 tags:
 - Linked Keys
@@ -40,43 +40,7 @@ responses:
   '404':
     "$ref": "../../responses.yaml#/404"
   '422':
-    description: |
-      Unprocessable entity. Returned when the child key is not currently linked to the specified parent key, or when a translation update fails during the unlink process. The errors array contains a code field with a stable UPPER_SNAKE_CASE identifier — KEY_IS_NOT_LINKED indicates the child is not in this key link group. Verify the child_key_id is linked to this parent before retrying.
-    content:
-      application/json:
-        schema:
-          type: object
-          title: key_links/destroy/error
-          properties:
-            message:
-              type: string
-              description: A human-readable description of the error.
-            errors:
-              type: array
-              items:
-                type: object
-                title: key_links/destroy/error/item
-                properties:
-                  resource:
-                    type: string
-                    description: The resource type the error applies to.
-                  field:
-                    type: string
-                    description: The field the error applies to.
-                  message:
-                    type: string
-                    description: A human-readable description of the validation error.
-                  code:
-                    type: string
-                    description: A stable UPPER_SNAKE_CASE machine-readable code identifying this error condition.
-                    example: KEY_IS_NOT_LINKED
-        example:
-          message: Child key 1234abcd1234cdef1234abcd1234cdef is not linked to this parent key.
-          errors:
-            - resource: base
-              field: base
-              message: Child key 1234abcd1234cdef1234abcd1234cdef is not linked to this parent key.
-              code: KEY_IS_NOT_LINKED
+    "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
