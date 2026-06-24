@@ -21377,7 +21377,7 @@
       },
       "post": {
         "summary": "Create a screenshot",
-        "description": "Create a new screenshot.",
+        "description": "Creates a screenshot in a project to provide visual context for in-context translation. Attach translation keys to regions of the uploaded image so translators can see where each string appears in your UI.\n\nThis endpoint accepts a multipart/form-data request with a binary file upload, unlike most Phrase API endpoints that use JSON. Use a multipart form client or the -F flag in curl rather than a JSON body.\n\nThe screenshot name must be unique within the project (case-insensitive). When name is omitted, it is derived from the uploaded filename. The account must have the Screenshots feature enabled; requests to projects on accounts without it return 403. Creating a screenshot requires a token with the write scope and manage access to the project.\n",
         "operationId": "screenshot/create",
         "tags": [
           "Screenshots"
@@ -21397,6 +21397,15 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/screenshot"
+                },
+                "example": {
+                  "id": "abcd1234abcd1234abcd1234abcd1234",
+                  "name": "home_screen",
+                  "description": "Main landing page hero section",
+                  "screenshot_url": "https://assets.phrase.com/screenshots/abcd1234abcd1234abcd1234abcd1234/screenshot.png",
+                  "created_at": "2024-03-15T09:00:00Z",
+                  "updated_at": "2024-03-15T09:00:00Z",
+                  "markers_count": 0
                 }
               }
             },
@@ -21419,8 +21428,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to create screenshots in this project, or when the account does not have the Attachable Screenshots feature."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -21435,11 +21443,11 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -F branch=my-feature-branch \\\n  -F name=A%20screenshot%20name \\\n  -F description=A%20screenshot%20description \\\n  -F filename=@/path/to/my/screenshot.png"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -F branch=my-feature-branch \\\n  -F name=home_screen \\\n  -F description=\"Main landing page hero section\" \\\n  -F filename=@/path/to/home_screen.png"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase screenshots create \\\n--project_id <project_id> \\\n--branch \"my-feature-branch\" --name \"A screenshot name\" --description \"A screenshot description\" --filename \"/path/to/my/screenshot.png\" \\\n--access_token <token>"
+            "source": "phrase screenshots create \\\n  --project_id <project_id> \\\n  --branch \"my-feature-branch\" \\\n  --name \"home_screen\" \\\n  --description \"Main landing page hero section\" \\\n  --filename \"/path/to/home_screen.png\" \\\n  --access_token <token>"
           }
         ],
         "requestBody": {
@@ -21449,6 +21457,9 @@
               "schema": {
                 "type": "object",
                 "title": "screenshot/create/parameters",
+                "required": [
+                  "filename"
+                ],
                 "properties": {
                   "branch": {
                     "description": "specify the branch to use",
@@ -21456,20 +21467,26 @@
                     "example": "my-feature-branch"
                   },
                   "name": {
-                    "description": "Name of the screenshot",
+                    "description": "Display name for the screenshot. Must be unique within the project (case-insensitive). When omitted, the name is derived from the uploaded filename.",
                     "type": "string",
-                    "example": "A screenshot name"
+                    "example": "home_screen"
                   },
                   "description": {
-                    "description": "Description of the screenshot",
+                    "description": "Optional free-text description of the screenshot.",
                     "type": "string",
-                    "example": "A screenshot description"
+                    "example": "Main landing page hero section"
                   },
                   "filename": {
-                    "description": "Screenshot file",
+                    "description": "Image file to upload. Accepted formats are JPEG (jpg/jpeg), GIF, and PNG. Maximum file size is 10 MB. Submitting an unsupported format or a file exceeding the size limit returns 422.",
                     "type": "string",
                     "format": "binary",
-                    "example": "/path/to/my/screenshot.png"
+                    "x-accepted-formats": [
+                      "jpg",
+                      "jpeg",
+                      "gif",
+                      "png"
+                    ],
+                    "x-max-size-mb": 10
                   }
                 }
               }
