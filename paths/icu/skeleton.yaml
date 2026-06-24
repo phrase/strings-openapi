@@ -92,32 +92,12 @@ responses:
       Link:
         "$ref": "../../headers.yaml#/Link"
   '400':
-    description: >-
-      Bad request. Returned when both `content` and `id` are provided, when
-      neither is provided, or when a parameter value cannot be parsed (for
-      example, a non-boolean value for `keep_content`). Correct the request
-      body so that exactly one of `content` or `id` is present with valid
-      parameter types and retry.
     "$ref": "../../responses.yaml#/400"
   '401':
-    description: >-
-      Unauthorized. Returned when the request carries no valid access token or
-      when a two-factor authentication code is required but absent or invalid.
-      Provide a valid access token via the Authorization header or
-      X-PhraseApp-OTP header and retry.
     "$ref": "../../responses.yaml#/401"
   '403':
-    description: >-
-      Forbidden. Returned when the access token lacks the `read` scope, or
-      when the translation referenced by `id` is not visible to the
-      authenticated user. Ensure the token has the `read` scope and that
-      the authenticated user has access to the translation.
     "$ref": "../../responses.yaml#/403"
   '404':
-    description: >-
-      Not found. Returned when the `id` parameter references a translation
-      that does not exist. Verify the translation code and retry with a valid
-      `id`, or switch to providing the source string directly via `content`.
     "$ref": "../../responses.yaml#/404"
   '422':
     description: >-
@@ -136,10 +116,6 @@ responses:
               description: Human-readable description of the ICU message format parse failure.
               example: "Expected \"#\" but \"x\" found."
   '429':
-    description: >-
-      Too many requests. Returned when the account's request rate limit or
-      concurrency limit is exceeded. Wait until the time indicated by the
-      `X-Rate-Limit-Reset` header before retrying.
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
 - lang: Curl
