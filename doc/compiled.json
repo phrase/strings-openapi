@@ -5723,16 +5723,6 @@
             "$ref": "#/components/responses/429"
           }
         },
-        "x-code-samples": [
-          {
-            "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/documents/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE"
-          },
-          {
-            "lang": "CLI v2",
-            "source": "phrase documents delete \\\n--project_id <project_id> \\\n--id <id> \\\n--access_token <token>"
-          }
-        ],
         "x-cli-version": "2.5"
       }
     },
