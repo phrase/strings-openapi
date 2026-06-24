@@ -5552,16 +5552,6 @@
             "$ref": "#/components/responses/429"
           }
         },
-        "x-code-samples": [
-          {
-            "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/icu/skeleton\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"content\":\"{count, plural, one {One item} other {# items}}\",\"locale_codes\":[\"en\",\"de\"],\"zero_form_enabled\":false}'"
-          },
-          {
-            "lang": "CLI v2",
-            "source": "phrase icu skeleton \\\n--data '{\"content\":\"{count, plural, one {One item} other {# items}}\",\"locale_codes\":[\"en\",\"de\"],\"zero_form_enabled\":false}' \\\n--access_token <token>"
-          }
-        ],
         "x-cli-version": "2.9"
       }
     },

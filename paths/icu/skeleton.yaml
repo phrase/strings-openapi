@@ -117,17 +117,4 @@ responses:
               example: "Expected \"#\" but \"x\" found."
   '429':
     "$ref": "../../responses.yaml#/429"
-x-code-samples:
-- lang: Curl
-  source: |-
-    curl "https://api.phrase.com/v2/icu/skeleton" \
-      -u USERNAME_OR_ACCESS_TOKEN \
-      -X POST \
-      -H "Content-Type: application/json" \
-      -d '{"content":"{count, plural, one {One item} other {# items}}","locale_codes":["en","de"],"zero_form_enabled":false}'
-- lang: CLI v2
-  source: |-
-    phrase icu skeleton \
-    --data '{"content":"{count, plural, one {One item} other {# items}}","locale_codes":["en","de"],"zero_form_enabled":false}' \
-    --access_token <token>
 x-cli-version: '2.9'
