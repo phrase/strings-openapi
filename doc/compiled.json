@@ -1675,6 +1675,9 @@
           "fallback_locale": {
             "$ref": "#/components/schemas/locale_preview"
           },
+          "language_ai_profile": {
+            "type": "string"
+          },
           "created_at": {
             "type": "string",
             "format": "date-time"
@@ -1682,9 +1685,6 @@
           "updated_at": {
             "type": "string",
             "format": "date-time"
-          },
-          "language_ai_profile": {
-            "type": "string"
           }
         },
         "example": {
@@ -1713,6 +1713,7 @@
             "name": "en",
             "code": "en-GB"
           },
+          "language_ai_profile": "abcd1234abcd1234abcd1234abcd1234",
           "created_at": "2015-01-28T09:52:53Z",
           "updated_at": "2015-01-28T09:52:53Z"
         }
