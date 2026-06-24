@@ -5702,31 +5702,24 @@
         ],
         "responses": {
           "200": {
-            "description": "The document was successfully deleted. The response body is empty.",
             "$ref": "#/components/responses/200"
           },
           "400": {
-            "description": "Bad request. The request was malformed or contained an invalid parameter. Correct the request and retry.",
             "$ref": "#/components/responses/400"
           },
           "401": {
-            "description": "Unauthorized. The access token is missing or invalid. Provide a valid token and retry.",
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "description": "Forbidden. The access token lacks the write scope or the authenticated user does not have manage permission on this document. Obtain a token with the write scope or request manage access from a project administrator.",
             "$ref": "#/components/responses/403"
           },
           "404": {
-            "description": "Not Found. No document with the given ID exists in this project. Verify the document ID and project ID before retrying.",
             "$ref": "#/components/responses/404"
           },
           "422": {
-            "description": "Unprocessable entity. The document could not be deleted due to a validation error. Check the errors field in the response body for details.",
             "$ref": "#/components/responses/422"
           },
           "429": {
-            "description": "Rate limit exceeded. Too many requests in a short period. Wait until the time indicated by the X-Rate-Limit-Reset header before retrying.",
             "$ref": "#/components/responses/429"
           }
         },
