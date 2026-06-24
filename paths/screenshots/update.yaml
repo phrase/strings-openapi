@@ -63,22 +63,16 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
-    description: Returned for malformed request parameters; verify parameter names and value types.
   '401':
     "$ref": "../../responses.yaml#/401"
-    description: Returned when no valid access token is supplied.
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Returned when the Screenshots feature is not enabled on the account or the token lacks the write scope.
   '404':
     "$ref": "../../responses.yaml#/404"
-    description: Returned when no screenshot with the given id exists in the project.
   '422':
     "$ref": "../../responses.yaml#/422"
-    description: Returned when validation fails, most commonly because the name is blank or already used by another screenshot in the project.
   '429':
     "$ref": "../../responses.yaml#/429"
-    description: Returned when the rate limit is exceeded. Wait for the interval indicated in the X-Rate-Limit-Reset response header before retrying.
 x-code-samples:
 - lang: Curl
   source: |-
