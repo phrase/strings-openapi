@@ -97,6 +97,28 @@
             "null"
           ]
         },
+        "owner": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            },
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "username",
+            "name"
+          ]
+        },
         "briefing": {
           "type": [
             "string",
@@ -104,6 +126,13 @@
           ]
         },
         "due_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "review_due_date": {
           "type": [
             "string",
             "null"
@@ -134,6 +163,7 @@
       "required": [
         "id",
         "name",
+        "owner",
         "briefing",
         "due_date",
         "state",

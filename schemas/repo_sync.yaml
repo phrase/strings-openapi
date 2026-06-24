@@ -5,6 +5,13 @@ repo_sync:
   properties:
     id:
       type: string
+    name:
+      type: string
+      nullable: true
+      maxLength: 100
+      description: >
+        Optional custom display name for this repo sync. When null or blank,
+        the sync is displayed using the associated project name.
     project:
       "$ref": "./project_short.yaml#/project_short"
     provider:
@@ -26,9 +33,11 @@ repo_sync:
     last_import_at:
       type: string
       format: date-time
+      nullable: true
     last_export_at:
       type: string
       format: date-time
+      nullable: true
   example:
     id: abcd1234cdef1234abcd1234cdef1234
     project:
