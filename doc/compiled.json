@@ -31062,28 +31062,22 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/400",
-            "description": "key_links_bad_request: The request body is malformed or a required parameter is missing."
+            "$ref": "#/components/responses/400"
           },
           "401": {
-            "$ref": "#/components/responses/401",
-            "description": "key_links_unauthorized: The access token is missing or invalid."
+            "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "key_links_forbidden: The access token lacks the write scope, the user does not have write permission on key links, or the parent key belongs to a branch project."
+            "$ref": "#/components/responses/403"
           },
           "404": {
-            "$ref": "#/components/responses/404",
-            "description": "key_links_not_found: The parent key does not exist in the specified project."
+            "$ref": "#/components/responses/404"
           },
           "422": {
-            "$ref": "#/components/responses/422",
-            "description": "key_links_unprocessable: The link could not be created. See the errors array for a specific code: PARENT_IS_ALREADY_CHILD, PARENT_IS_SAME_AS_CHILD, CHILD_IS_ALREADY_LINKED, CHILD_IS_ON_BRANCH, PARENT_IS_NOT_PLURAL, PARENT_IS_PLURAL."
+            "$ref": "#/components/responses/422"
           },
           "429": {
-            "$ref": "#/components/responses/429",
-            "description": "key_links_rate_limited: Too many requests. Wait until X-Rate-Limit-Reset before retrying."
+            "$ref": "#/components/responses/429"
           }
         },
         "x-code-samples": [
