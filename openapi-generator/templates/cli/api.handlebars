@@ -54,14 +54,14 @@ func init{{{nickname}}}() {
 			{{#allParams~}}
 				{{#required~}}
 					{{#isPrimitiveType~}}
-						{{#if (eq paramName "file")~}}
+						{{#isFile~}}
 							{{paramName}}, err := os.Open(params.GetString(helpers.ToSnakeCase("{{paramName}}")))
 							if err != nil {
 							HandleError(err)
 							}
 						{{else~}}
 							{{paramName}} := params.Get{{{capitalizeFirst dataType}}}(helpers.ToSnakeCase("{{{vendorExtensions.x-export-param-name}}}"))
-						{{/if}}
+						{{/isFile}}
 					{{else~}}
 						var {{paramName}} api.{{{dataType}}}
 						if err := json.Unmarshal([]byte(params.GetString("data")), &{{paramName}}); err != nil {
@@ -72,7 +72,7 @@ func init{{{nickname}}}() {
 						}
 					{{/isPrimitiveType~}}
 				{{else~}}
-					{{#if (or (eq paramName "file") (eq paramName "filename"))~}}
+					{{#isFile~}}
 						if params.IsSet(helpers.ToSnakeCase("{{paramName}}")) {
 							file, err := os.Open(params.GetString(helpers.ToSnakeCase("{{paramName}}")))
 							localVarOptionals.{{{vendorExtensions.x-export-param-name}}} = optional.NewInterface(file)
@@ -111,7 +111,7 @@ func init{{{nickname}}}() {
 								localVarOptionals.{{{vendorExtensions.x-export-param-name}}} = {{#if (eq dataType "[]string")}}{{paramName}}{{else}}optional.NewInterface({{paramName}}){{/if}}
 							}
 						{{/isModel}}{{/isPrimitiveType}}
-					{{/if}}
+					{{/isFile}}
 				{{/required~}}
 			{{/allParams~}}
 
