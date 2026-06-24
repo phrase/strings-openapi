@@ -30982,19 +30982,15 @@
             }
           },
           "401": {
-            "description": "Unauthorized. The access token is missing or invalid. Supply a valid access token in the Authorization header.",
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "description": "Forbidden. The access token lacks the translations:write scope, or the account member does not have manage permission on translation key link references.",
             "$ref": "#/components/responses/403"
           },
           "404": {
-            "description": "Not found. No key with the given code exists in this project. Verify the project_id and the key code before retrying.",
             "$ref": "#/components/responses/404"
           },
           "429": {
-            "description": "Too many requests. Wait for the interval indicated by the X-Rate-Limit-Reset header before retrying.",
             "$ref": "#/components/responses/429"
           }
         }
