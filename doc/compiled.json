@@ -31069,19 +31069,15 @@
             }
           },
           "400": {
-            "description": "Returned when a request parameter cannot be parsed or is structurally invalid. Correct the request body or query parameters and retry.",
             "$ref": "#/components/responses/400"
           },
           "401": {
-            "description": "Returned when the access token is missing or invalid. Provide a valid token with the write scope and retry.",
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "description": "Returned when the caller lacks write permission on the linked-key resource, or when the target project is a branch rather than a main project. To resolve, verify that the access token carries the write scope and that the operation targets a main project.\n\nMachine-readable code: FORBIDDEN\n",
             "$ref": "#/components/responses/403"
           },
           "404": {
-            "description": "Returned when no key matching the given id exists in the project. Verify the key code and project identifier and retry.",
             "$ref": "#/components/responses/404"
           },
           "422": {
@@ -31139,7 +31135,6 @@
             }
           },
           "429": {
-            "description": "Returned when the rate limit is exceeded. Wait until the time indicated by the X-Rate-Limit-Reset header before retrying.",
             "$ref": "#/components/responses/429"
           }
         },

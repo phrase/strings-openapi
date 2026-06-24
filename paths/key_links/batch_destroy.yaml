@@ -189,19 +189,12 @@ responses:
               data_type: "string"
               tags: []
   '400':
-    description: Returned when a request parameter cannot be parsed or is structurally invalid. Correct the request body or query parameters and retry.
     "$ref": "../../responses.yaml#/400"
   '401':
-    description: Returned when the access token is missing or invalid. Provide a valid token with the write scope and retry.
     "$ref": "../../responses.yaml#/401"
   '403':
-    description: |
-      Returned when the caller lacks write permission on the linked-key resource, or when the target project is a branch rather than a main project. To resolve, verify that the access token carries the write scope and that the operation targets a main project.
-
-      Machine-readable code: FORBIDDEN
     "$ref": "../../responses.yaml#/403"
   '404':
-    description: Returned when no key matching the given id exists in the project. Verify the key code and project identifier and retry.
     "$ref": "../../responses.yaml#/404"
   '422':
     description: |
@@ -245,7 +238,6 @@ responses:
               message: "Key feature.subtitle is not linked to main.title"
               code: "KEY_IS_NOT_LINKED"
   '429':
-    description: Returned when the rate limit is exceeded. Wait until the time indicated by the X-Rate-Limit-Reset header before retrying.
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
   - lang: Curl
