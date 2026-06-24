@@ -18,25 +18,18 @@ parameters:
 responses:
   '204':
     "$ref": "../../responses.yaml#/204"
-    description: The screenshot and all its markers were deleted successfully.
   '400':
     "$ref": "../../responses.yaml#/400"
-    description: "screenshot_invalid_request: The request was malformed or a path parameter failed validation."
   '401':
     "$ref": "../../responses.yaml#/401"
-    description: "screenshot_unauthorized: The access token is missing or invalid."
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: "screenshot_forbidden: The access token lacks the write scope, the account plan does not include the screenshot feature, or the user does not have manage permission on the screenshot."
   '404':
     "$ref": "../../responses.yaml#/404"
-    description: "screenshot_not_found: No screenshot with this identifier exists in the specified project."
   '422':
     "$ref": "../../responses.yaml#/422"
-    description: "screenshot_unprocessable: The screenshot could not be deleted due to validation errors. Inspect the errors array in the response body."
   '429':
     "$ref": "../../responses.yaml#/429"
-    description: "screenshot_rate_limited: The request was rate-limited. Wait until X-Rate-Limit-Reset before retrying."
 x-code-samples:
 - lang: Curl
   source: |-
