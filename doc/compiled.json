@@ -6412,32 +6412,25 @@
         },
         "responses": {
           "204": {
-            "$ref": "#/components/responses/204",
-            "description": "The translation key was attached to the Figma attachment."
+            "$ref": "#/components/responses/204"
           },
           "400": {
-            "$ref": "#/components/responses/400",
-            "description": "Bad request: the request body is malformed or a required parameter is missing."
+            "$ref": "#/components/responses/400"
           },
           "401": {
-            "$ref": "#/components/responses/401",
-            "description": "Unauthorized: the access token is missing or invalid."
+            "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden: the access token lacks the write scope, the requesting user does not hold manage permission on the Figma attachment or the translation key, or the account does not have the Attachable Screenshots feature enabled."
+            "$ref": "#/components/responses/403"
           },
           "404": {
-            "$ref": "#/components/responses/404",
-            "description": "Not found: the project, Figma attachment, or translation key does not exist under the given identifiers."
+            "$ref": "#/components/responses/404"
           },
           "422": {
-            "$ref": "#/components/responses/422",
-            "description": "Unprocessable entity: the translation key is already linked to this Figma attachment."
+            "$ref": "#/components/responses/422"
           },
           "429": {
-            "$ref": "#/components/responses/429",
-            "description": "Too many requests: the rate limit has been reached. Wait until the X-Rate-Limit-Reset time before retrying."
+            "$ref": "#/components/responses/429"
           }
         },
         "x-code-samples": [

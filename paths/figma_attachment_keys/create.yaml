@@ -39,25 +39,18 @@ requestBody:
 responses:
   "204":
     "$ref": "../../responses.yaml#/204"
-    description: The translation key was attached to the Figma attachment.
   "400":
     "$ref": "../../responses.yaml#/400"
-    description: "Bad request: the request body is malformed or a required parameter is missing."
   "401":
     "$ref": "../../responses.yaml#/401"
-    description: "Unauthorized: the access token is missing or invalid."
   "403":
     "$ref": "../../responses.yaml#/403"
-    description: "Forbidden: the access token lacks the write scope, the requesting user does not hold manage permission on the Figma attachment or the translation key, or the account does not have the Attachable Screenshots feature enabled."
   "404":
     "$ref": "../../responses.yaml#/404"
-    description: "Not found: the project, Figma attachment, or translation key does not exist under the given identifiers."
   "422":
     "$ref": "../../responses.yaml#/422"
-    description: "Unprocessable entity: the translation key is already linked to this Figma attachment."
   "429":
     "$ref": "../../responses.yaml#/429"
-    description: "Too many requests: the rate limit has been reached. Wait until the X-Rate-Limit-Reset time before retrying."
 x-code-samples:
   - lang: Curl
     source: |-
