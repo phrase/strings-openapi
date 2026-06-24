@@ -2,27 +2,67 @@
 format:
   type: object
   title: format
+  required:
+    - name
+    - api_name
+    - description
+    - extension
+    - default_encoding
+    - importable
+    - exportable
+    - default_file
+    - renders_default_locale
+    - includes_locale_information
   properties:
     name:
       type: string
+      description: Human-readable display name of the format.
+      example: Ruby/Rails YAML
     api_name:
       type: string
+      description: >-
+        Identifier used to reference this format in API requests,
+        such as the file_format parameter on the uploads and
+        downloads endpoints.
+      example: yml
     description:
       type: string
+      description: Human-readable summary of the format and its typical use case.
+      example: YAML file format for use with Ruby/Rails applications
     extension:
       type: string
+      description: Default file extension associated with this format.
+      example: yml
     default_encoding:
       type: string
+      description: Default character encoding used when reading or writing files in this format.
+      example: UTF-8
     importable:
       type: boolean
+      description: Whether locale files can be imported using this format.
+      example: true
     exportable:
       type: boolean
+      description: Whether locale files can be exported using this format.
+      example: true
     default_file:
       type: string
+      description: >-
+        Conventional file path pattern for this format. Contains
+        locale_name as a placeholder for the locale identifier.
+      example: "./config/locales/<locale_name>.yml"
     renders_default_locale:
       type: boolean
+      description: >-
+        When true, exported files contain the default locale's content
+        for any key that has no translation in the target locale.
+      example: false
     includes_locale_information:
       type: boolean
+      description: >-
+        When true, files in this format embed locale information so
+        Phrase can detect the locale automatically on import.
+      example: false
   example:
     name: Ruby/Rails YAML
     api_name: yml
@@ -33,4 +73,4 @@ format:
     exportable: true
     default_file: "./config/locales/<locale_name>.yml"
     renders_default_locale: false
-    includes_locale_information: true
+    includes_locale_information: false
