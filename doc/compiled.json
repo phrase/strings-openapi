@@ -30804,7 +30804,7 @@
     "/projects/{project_id}/keys/{id}/key_links": {
       "delete": {
         "summary": "Batch unlink child keys from a parent key",
-        "description": "Removes one or more child keys from a parent key's linked-key group, or dissolves the entire group by setting unlink_parent to true.\n\nUse this when you need to detach specific child keys from a shared translation source, or to fully break apart a linked-key group so each key manages its own translations independently. When child keys are unlinked, their translations are updated with a copy of the parent's current content (strategy keep_content, the default) or cleared (strategy remove_content).\n\nThis operation is only available on main projects. Error codes follow UPPER_SNAKE_CASE format throughout this API.\n",
+        "description": "Removes one or more child keys from a parent key's linked-key group, or dissolves the entire group by setting unlink_parent to true.\n\nUse this when you need to detach specific child keys from a shared translation source, or to fully break apart a linked-key group so each key manages its own translations independently. When child keys are unlinked, their translations are updated with a copy of the parent's current content (strategy keep_content, the default) or cleared (strategy remove_content).\n\nThis operation is only available on main projects. It returns 422 when a child key in `child_key_ids` is not currently linked to the parent, or when a translation update fails while unlinking.\n",
         "operationId": "key_links/batch_destroy",
         "tags": [
           "Linked Keys"
@@ -31081,58 +31081,7 @@
             "$ref": "#/components/responses/404"
           },
           "422": {
-            "description": "Returned when validation fails. All error codes follow UPPER_SNAKE_CASE format.\n\nCommon codes:\n- KEY_IS_NOT_LINKED: a key in child_key_ids is not currently linked to the specified parent key. Verify the child key codes and the parent key before retrying.\n- CREATING_OR_UPDATING_TRANSLATION_ERROR: a translation update for an unlinked child key failed. Retry the request; if the error persists, verify that the child key's translations are not locked or in a state that prevents edits.\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "title": "key_links/batch_destroy/error",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "description": "Human-readable error summary."
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "title": "key_links/batch_destroy/error_item",
-                        "properties": {
-                          "resource": {
-                            "type": "string"
-                          },
-                          "field": {
-                            "type": "string"
-                          },
-                          "message": {
-                            "type": "string"
-                          },
-                          "code": {
-                            "type": "string",
-                            "description": "Machine-readable UPPER_SNAKE_CASE error code identifying the failure reason.",
-                            "enum": [
-                              "KEY_IS_NOT_LINKED",
-                              "CREATING_OR_UPDATING_TRANSLATION_ERROR"
-                            ]
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "example": {
-                  "message": "Validation failed",
-                  "errors": [
-                    {
-                      "resource": "base",
-                      "field": "",
-                      "message": "Key feature.subtitle is not linked to main.title",
-                      "code": "KEY_IS_NOT_LINKED"
-                    }
-                  ]
-                }
-              }
-            }
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
