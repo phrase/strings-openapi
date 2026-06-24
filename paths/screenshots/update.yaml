@@ -73,20 +73,4 @@ responses:
     "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
-x-code-samples:
-- lang: Curl
-  source: |-
-    curl "https://api.phrase.com/v2/projects/:project_id/screenshots/:id" \
-      -u USERNAME_OR_ACCESS_TOKEN \
-      -X PATCH \
-      -F "branch=my-feature-branch" \
-      -F "name=home_screen_v2" \
-      -F "description=Updated landing page screenshot"
-- lang: CLI v2
-  source: |-
-    phrase screenshots update \
-    --project_id <project_id> \
-    --id <id> \
-    --data '{"branch":"my-feature-branch","name":"home_screen_v2","description":"Updated landing page screenshot"}' \
-    --access_token <token>
 x-cli-version: '2.5'
