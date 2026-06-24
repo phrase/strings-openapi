@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.28.0](https://github.com/phrase/strings-openapi/compare/go-v4.27.0...go-v4.28.0) (2026-06-11)
+
+
+### Features
+
+* **API:** add fallback_for_unverified_translations param to locale d… ([#1148](https://github.com/phrase/strings-openapi/issues/1148)) ([9ef6248](https://github.com/phrase/strings-openapi/commit/9ef6248aae14d9bd65eee9ea3554f03c6f9331cb))
+
 ## [4.27.0](https://github.com/phrase/strings-openapi/compare/go-v4.26.0...go-v4.27.0) (2026-06-04)
 
 

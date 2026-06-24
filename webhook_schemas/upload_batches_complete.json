@@ -1,0 +1,194 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "event": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "sent_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "delete_unmentioned_keys": {
+      "type": "boolean"
+    },
+    "uploads_count": {
+      "type": "integer"
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "gravatar_uid": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "name",
+        "gravatar_uid"
+      ]
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "main_format": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "main_format",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "uploads": {
+      "type": "array",
+      "items":
+      {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          },
+          "state": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "tag": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "tags": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "summary": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "locales_created": {
+                "type": "integer"
+              },
+              "translation_keys_created": {
+                "type": "integer"
+              },
+              "translation_keys_updated": {
+                "type": "integer"
+              },
+              "translation_keys_unmentioned": {
+                "type": "integer"
+              },
+              "translations_created": {
+                "type": "integer"
+              },
+              "translations_updated": {
+                "type": "integer"
+              },
+              "tags_created": {
+                "type": "integer"
+              },
+              "translation_keys_ignored": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "filename",
+        "format",
+        "state",
+        "tag",
+        "summary",
+        "created_at",
+        "updated_at"
+      ]
+    }
+  },
+  "required": [
+    "event",
+    "message",
+    "status",
+    "created_at",
+    "updated_at",
+    "delete_unmentioned_keys",
+    "uploads_count",
+    "user",
+    "project",
+    "uploads"
+  ]
+}
