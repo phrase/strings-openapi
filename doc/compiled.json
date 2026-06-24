@@ -31063,19 +31063,15 @@
             "content": {}
           },
           "400": {
-            "description": "Bad request. Returned when the request is malformed, such as unparseable JSON in the request body. Fix the request format and retry.\n",
             "$ref": "#/components/responses/400"
           },
           "401": {
-            "description": "Unauthorized. The access token is missing or invalid. Provide a valid token with the write scope and retry.\n",
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "description": "Forbidden. Returned when the access token lacks the write scope, when the requester does not have write permission on translation key links, or when the project is a branch rather than a main project. Verify scope and project type before retrying.\n",
             "$ref": "#/components/responses/403"
           },
           "404": {
-            "description": "Not found. Returned when the parent key does not exist in the project. Check that the project_id and id path parameters reference existing resources.\n",
             "$ref": "#/components/responses/404"
           },
           "422": {
@@ -31133,7 +31129,6 @@
             }
           },
           "429": {
-            "description": "Too many requests. You have exceeded the rate limit. Wait until the time indicated in X-Rate-Limit-Reset before retrying.\n",
             "$ref": "#/components/responses/429"
           }
         },

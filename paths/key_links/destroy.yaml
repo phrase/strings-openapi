@@ -32,20 +32,12 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
     content: {}
   '400':
-    description: |
-      Bad request. Returned when the request is malformed, such as unparseable JSON in the request body. Fix the request format and retry.
     "$ref": "../../responses.yaml#/400"
   '401':
-    description: |
-      Unauthorized. The access token is missing or invalid. Provide a valid token with the write scope and retry.
     "$ref": "../../responses.yaml#/401"
   '403':
-    description: |
-      Forbidden. Returned when the access token lacks the write scope, when the requester does not have write permission on translation key links, or when the project is a branch rather than a main project. Verify scope and project type before retrying.
     "$ref": "../../responses.yaml#/403"
   '404':
-    description: |
-      Not found. Returned when the parent key does not exist in the project. Check that the project_id and id path parameters reference existing resources.
     "$ref": "../../responses.yaml#/404"
   '422':
     description: |
@@ -86,8 +78,6 @@ responses:
               message: Child key 1234abcd1234cdef1234abcd1234cdef is not linked to this parent key.
               code: KEY_IS_NOT_LINKED
   '429':
-    description: |
-      Too many requests. You have exceeded the rate limit. Wait until the time indicated in X-Rate-Limit-Reset before retrying.
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
 - lang: Curl
