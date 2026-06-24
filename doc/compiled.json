@@ -5678,8 +5678,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `read` OAuth scope, when the account email is unconfirmed, or when the requesting user does not have read permission on documents in this project."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"

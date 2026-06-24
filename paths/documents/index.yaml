@@ -61,7 +61,6 @@ responses:
     "$ref": "../../responses.yaml#/401"
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `read` OAuth scope, when the account email is unconfirmed, or when the requesting user does not have read permission on documents in this project.
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
