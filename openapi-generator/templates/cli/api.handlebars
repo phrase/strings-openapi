@@ -55,7 +55,7 @@ func init{{{nickname}}}() {
 				{{#required~}}
 					{{#isPrimitiveType~}}
 						{{#isFile~}}
-							{{paramName}}, err := os.Open(params.GetString(helpers.ToSnakeCase("{{paramName}}")))
+							{{paramName}}, err := os.Open(params.GetString(helpers.ToSnakeCase("{{{vendorExtensions.x-export-param-name}}}")))
 							if err != nil {
 							HandleError(err)
 							}
@@ -73,8 +73,8 @@ func init{{{nickname}}}() {
 					{{/isPrimitiveType~}}
 				{{else~}}
 					{{#isFile~}}
-						if params.IsSet(helpers.ToSnakeCase("{{paramName}}")) {
-							file, err := os.Open(params.GetString(helpers.ToSnakeCase("{{paramName}}")))
+						if params.IsSet(helpers.ToSnakeCase("{{{vendorExtensions.x-export-param-name}}}")) {
+							file, err := os.Open(params.GetString(helpers.ToSnakeCase("{{{vendorExtensions.x-export-param-name}}}")))
 							localVarOptionals.{{{vendorExtensions.x-export-param-name}}} = optional.NewInterface(file)
 							if err != nil {
 								HandleError(err)
