@@ -1675,6 +1675,9 @@
           "fallback_locale": {
             "$ref": "#/components/schemas/locale_preview"
           },
+          "language_ai_profile": {
+            "type": "string"
+          },
           "created_at": {
             "type": "string",
             "format": "date-time"
@@ -1710,6 +1713,7 @@
             "name": "en",
             "code": "en-GB"
           },
+          "language_ai_profile": "abcd1234abcd1234abcd1234abcd1234",
           "created_at": "2015-01-28T09:52:53Z",
           "updated_at": "2015-01-28T09:52:53Z"
         }
@@ -9168,6 +9172,11 @@
                     "description": "If set, translations for this locale will be fetched automatically, right after creation.",
                     "type": "boolean",
                     "example": null
+                  },
+                  "language_ai_profile": {
+                    "description": "Identifier of the Language AI profile to use for this locale.",
+                    "type": "string",
+                    "example": "abcd1234abcd1234abcd1234abcd1234"
                   }
                 }
               }
@@ -9388,6 +9397,11 @@
                     "description": "If set, translations for this locale will be fetched automatically, right after creation.",
                     "type": "boolean",
                     "example": null
+                  },
+                  "language_ai_profile": {
+                    "description": "Identifier of the Language AI profile to use for this locale.",
+                    "type": "string",
+                    "example": "abcd1234abcd1234abcd1234abcd1234"
                   }
                 }
               }
@@ -9663,7 +9677,7 @@
             }
           },
           {
-            "description": "Only download translation keys containing the specified prefix, and remove the prefix from the generated file.",
+            "description": "Only download translation keys containing the prefix specified by `translation_key_prefix`, and remove that prefix from the generated file. Requires `translation_key_prefix` to be set.",
             "example": null,
             "name": "filter_by_prefix",
             "in": "query",
@@ -9884,6 +9898,15 @@
                     "description": "Custom metadata filters. Provide the name of the metadata field and the value to filter by. Only keys with matching metadata will be included in the download.\n",
                     "type": "object",
                     "properties": {}
+                  },
+                  "translation_key_prefix": {
+                    "description": "Download all translation keys, and remove the specified prefix where possible. Warning: this may create duplicate key names if other keys share the same name after the prefix is removed.",
+                    "example": "prefix_",
+                    "type": "string"
+                  },
+                  "filter_by_prefix": {
+                    "description": "Only download translation keys containing the prefix specified by `translation_key_prefix`, and remove that prefix from the generated file. Requires `translation_key_prefix` to be set.",
+                    "type": "boolean"
                   },
                   "updated_since": {
                     "description": "Only include translations and keys that have been updated since the given date. The date must be in ISO 8601 format (e.g., `2023-01-01T00:00:00Z`).\n",
