@@ -1,6 +1,11 @@
 ---
 summary: Unlink a child key from a parent key
-description: Unlinks a single child key from a given parent key.
+description: |
+  Removes a single child key from a parent key's link group. A link group is the relationship model that keeps child keys synchronized with a parent: while linked, a child key's translations are derived from the parent's content. When you call this endpoint, the child key leaves the group and becomes independent — its existing translations are updated with the parent's current content and then marked unverified, signalling that reviewers should confirm the content is still appropriate for the child's context.
+
+  Use this endpoint when you need to detach one specific child key while keeping other children linked. To detach multiple children at once, use the batch unlink endpoint. This operation is only available on main projects.
+
+  It returns 422 when the child key is not currently linked to the specified parent key, or when a translation update fails during the unlink process.
 operationId: key_links/destroy
 tags:
 - Linked Keys
@@ -10,24 +15,37 @@ parameters:
 - "$ref": "../../parameters.yaml#/key_id_as_id"
 - in: path
   name: child_key_id
+  description: The ID of the child translation key to unlink from the parent.
   required: true
-  description: The ID of the child key to unlink.
   schema:
     type: string
-
+    example: 1234abcd1234cdef1234abcd1234cdef
 responses:
   '200':
-    description: OK
+    description: The child key was successfully unlinked from the parent key. The response body is empty.
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+    content: {}
   '400':
     "$ref": "../../responses.yaml#/400"
   '401':
     "$ref": "../../responses.yaml#/401"
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to unlink this key.
   '404':
     "$ref": "../../responses.yaml#/404"
   '422':
     "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
+x-code-samples:
+- lang: Curl
+  source: |-
+    curl -i "https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links/1234abcd1234cdef1234abcd1234cdef" \
+      -u USERNAME_OR_ACCESS_TOKEN \
+      -X DELETE

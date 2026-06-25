@@ -31311,7 +31311,7 @@
     "/projects/{project_id}/keys/{id}/key_links/{child_key_id}": {
       "delete": {
         "summary": "Unlink a child key from a parent key",
-        "description": "Unlinks a single child key from a given parent key.",
+        "description": "Removes a single child key from a parent key's link group. A link group is the relationship model that keeps child keys synchronized with a parent: while linked, a child key's translations are derived from the parent's content. When you call this endpoint, the child key leaves the group and becomes independent — its existing translations are updated with the parent's current content and then marked unverified, signalling that reviewers should confirm the content is still appropriate for the child's context.\n\nUse this endpoint when you need to detach one specific child key while keeping other children linked. To detach multiple children at once, use the batch unlink endpoint. This operation is only available on main projects.\n\nIt returns 422 when the child key is not currently linked to the specified parent key, or when a translation update fails during the unlink process.\n",
         "operationId": "key_links/destroy",
         "tags": [
           "Linked Keys"
@@ -31329,16 +31329,29 @@
           {
             "in": "path",
             "name": "child_key_id",
+            "description": "The ID of the child translation key to unlink from the parent.",
             "required": true,
-            "description": "The ID of the child key to unlink.",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "1234abcd1234cdef1234abcd1234cdef"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "The child key was successfully unlinked from the parent key. The response body is empty.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            },
+            "content": {}
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -31347,8 +31360,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to unlink this key."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -31359,7 +31371,13 @@
           "429": {
             "$ref": "#/components/responses/429"
           }
-        }
+        },
+        "x-code-samples": [
+          {
+            "lang": "Curl",
+            "source": "curl -i \"https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links/1234abcd1234cdef1234abcd1234cdef\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE"
+          }
+        ]
       }
     },
     "/accounts/{account_id}/automations": {
