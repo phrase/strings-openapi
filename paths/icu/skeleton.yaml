@@ -79,9 +79,6 @@ responses:
       application/json:
         schema:
           "$ref": "../../schemas/icu.yaml#/skeleton"
-        example:
-          en: '{count, plural, offset:0 one {One item} other {# items}}'
-          de: '{count, plural, offset:0 one {} other {}}'
     headers:
       X-Rate-Limit-Limit:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
