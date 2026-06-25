@@ -47,41 +47,6 @@ responses:
       application/json:
         schema:
           "$ref": "../../schemas/key_link.yaml#/key_link"
-        example:
-          created_at: "2024-03-15T10:30:00.000Z"
-          updated_at: "2024-03-15T12:45:00.000Z"
-          created_by:
-            id: "abcd1234efgh5678"
-            username: "alice"
-            name: "Alice Smith"
-            gravatar_uid: "efgh5678abcd1234"
-          updated_by:
-            id: "ijkl9012mnop3456"
-            username: "bob"
-            name: "Bob Jones"
-            gravatar_uid: "mnop3456ijkl9012"
-          account:
-            id: "qrst7890uvwx1234"
-            name: "Acme Corp"
-            slug: "acme-corp"
-            company: "Acme Corporation"
-            created_at: "2023-01-01T00:00:00.000Z"
-            updated_at: "2024-03-15T12:45:00.000Z"
-            company_logo_url: "https://assets.phrase.com/accounts/acme-corp/logo.png"
-          parent:
-            id: "main.title"
-            name: "main.title"
-            plural: false
-            use_ordinal_rules: false
-            data_type: "string"
-            tags: ["ui", "homepage"]
-          children:
-            - id: "feature.subtitle"
-              name: "feature.subtitle"
-              plural: false
-              use_ordinal_rules: false
-              data_type: "string"
-              tags: []
   '400':
     "$ref": "../../responses.yaml#/400"
   '401':
