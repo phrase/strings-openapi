@@ -4808,6 +4808,66 @@
             },
             "description": "The child translation keys linked to the parent."
           }
+        },
+        "example": {
+          "created_at": "2024-03-15T10:22:00Z",
+          "updated_at": "2024-03-15T10:22:00Z",
+          "created_by": {
+            "id": "usr1a2b3c4d5e6f7a8b9c",
+            "username": "jane.doe",
+            "name": "Jane Doe",
+            "gravatar_uid": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+          },
+          "updated_by": {
+            "id": "usr1a2b3c4d5e6f7a8b9c",
+            "username": "jane.doe",
+            "name": "Jane Doe",
+            "gravatar_uid": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+          },
+          "account": {
+            "id": "acct9z8y7x6w5v4u3t2s",
+            "name": "Acme Translations",
+            "slug": "acme-translations",
+            "company": "Acme Corp",
+            "created_at": "2023-01-10T08:00:00Z",
+            "updated_at": "2023-06-01T12:00:00Z",
+            "company_logo_url": "https://example.com/logos/acme.png"
+          },
+          "parent": {
+            "id": "ijkl9012mnop3456ijkl9012",
+            "name": "home.hero.title",
+            "plural": false,
+            "use_ordinal_rules": false,
+            "data_type": "string",
+            "tags": [
+              "ui",
+              "homepage"
+            ]
+          },
+          "children": [
+            {
+              "id": "ijkl9012mnop3456ijkl9012mnop3456",
+              "name": "home.hero.title_short",
+              "plural": false,
+              "use_ordinal_rules": false,
+              "data_type": "string",
+              "tags": [
+                "ui",
+                "homepage"
+              ]
+            },
+            {
+              "id": "abcd1234efgh5678abcd1234efgh5678",
+              "name": "home.hero.title_long",
+              "plural": false,
+              "use_ordinal_rules": false,
+              "data_type": "string",
+              "tags": [
+                "ui",
+                "homepage"
+              ]
+            }
+          ]
         }
       },
       "repo_sync": {
@@ -31193,50 +31253,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/key_link"
-                },
-                "example": {
-                  "created_at": "2024-03-12T09:15:00.000Z",
-                  "updated_at": "2024-05-20T14:32:00.000Z",
-                  "created_by": {
-                    "id": "a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4",
-                    "username": "jane.doe",
-                    "name": "Jane Doe",
-                    "gravatar_uid": "abcdef1234567890"
-                  },
-                  "updated_by": {
-                    "id": "a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4",
-                    "username": "jane.doe",
-                    "name": "Jane Doe",
-                    "gravatar_uid": "abcdef1234567890"
-                  },
-                  "account": {
-                    "id": "abcd1234abcd1234abcd1234abcd1234",
-                    "name": "Acme Corp",
-                    "slug": "acme-corp",
-                    "company": "Acme Corporation",
-                    "created_at": "2023-01-10T08:00:00.000Z",
-                    "updated_at": "2024-01-10T08:00:00.000Z"
-                  },
-                  "parent": {
-                    "id": "f1e2d3c4f1e2d3c4f1e2d3c4f1e2d3c4",
-                    "name": "button.submit",
-                    "plural": false,
-                    "use_ordinal_rules": false
-                  },
-                  "children": [
-                    {
-                      "id": "9a8b7c6d9a8b7c6d9a8b7c6d9a8b7c6d",
-                      "name": "button.submit.mobile",
-                      "plural": false,
-                      "use_ordinal_rules": false
-                    },
-                    {
-                      "id": "1a2b3c4d1a2b3c4d1a2b3c4d1a2b3c4d",
-                      "name": "button.submit.web",
-                      "plural": false,
-                      "use_ordinal_rules": false
-                    }
-                  ]
                 }
               }
             }
