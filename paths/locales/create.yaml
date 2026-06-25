@@ -103,4 +103,8 @@ requestBody:
             description: If set, translations for this locale will be fetched automatically, right after creation.
             type: boolean
             example:
+          language_ai_profile:
+            description: Identifier of the Language AI profile to use for this locale.
+            type: string
+            example: abcd1234abcd1234abcd1234abcd1234
 x-cli-version: '2.5'
