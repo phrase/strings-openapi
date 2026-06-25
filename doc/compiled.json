@@ -4808,6 +4808,66 @@
             },
             "description": "The child translation keys linked to the parent."
           }
+        },
+        "example": {
+          "created_at": "2024-03-15T10:22:00Z",
+          "updated_at": "2024-03-15T10:22:00Z",
+          "created_by": {
+            "id": "usr1a2b3c4d5e6f7a8b9c",
+            "username": "jane.doe",
+            "name": "Jane Doe",
+            "gravatar_uid": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+          },
+          "updated_by": {
+            "id": "usr1a2b3c4d5e6f7a8b9c",
+            "username": "jane.doe",
+            "name": "Jane Doe",
+            "gravatar_uid": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+          },
+          "account": {
+            "id": "acct9z8y7x6w5v4u3t2s",
+            "name": "Acme Translations",
+            "slug": "acme-translations",
+            "company": "Acme Corp",
+            "created_at": "2023-01-10T08:00:00Z",
+            "updated_at": "2023-06-01T12:00:00Z",
+            "company_logo_url": "https://example.com/logos/acme.png"
+          },
+          "parent": {
+            "id": "ijkl9012mnop3456ijkl9012",
+            "name": "home.hero.title",
+            "plural": false,
+            "use_ordinal_rules": false,
+            "data_type": "string",
+            "tags": [
+              "ui",
+              "homepage"
+            ]
+          },
+          "children": [
+            {
+              "id": "ijkl9012mnop3456ijkl9012mnop3456",
+              "name": "home.hero.title_short",
+              "plural": false,
+              "use_ordinal_rules": false,
+              "data_type": "string",
+              "tags": [
+                "ui",
+                "homepage"
+              ]
+            },
+            {
+              "id": "abcd1234efgh5678abcd1234efgh5678",
+              "name": "home.hero.title_long",
+              "plural": false,
+              "use_ordinal_rules": false,
+              "data_type": "string",
+              "tags": [
+                "ui",
+                "homepage"
+              ]
+            }
+          ]
         }
       },
       "repo_sync": {
@@ -31095,7 +31155,7 @@
     "/projects/{project_id}/keys/{id}/key_links": {
       "delete": {
         "summary": "Batch unlink child keys from a parent key",
-        "description": "Unlinks multiple child keys from a given parent key in a single operation.",
+        "description": "Removes one or more child keys from a parent key's linked-key group, or dissolves the entire group by setting unlink_parent to true.\n\nUse this when you need to detach specific child keys from a shared translation source, or to fully break apart a linked-key group so each key manages its own translations independently. When child keys are unlinked, their translations are updated with a copy of the parent's current content (strategy keep_content, the default) or cleared (strategy remove_content).\n\nThis operation is only available on main projects. It returns 422 when a child key in `child_key_ids` is not currently linked to the parent, or when a translation update fails while unlinking.\n",
         "operationId": "key_links/batch_destroy",
         "tags": [
           "Linked Keys"
@@ -31112,7 +31172,7 @@
           }
         ],
         "requestBody": {
-          "required": true,
+          "required": false,
           "content": {
             "application/json": {
               "schema": {
@@ -31123,20 +31183,30 @@
                 "title": "key_links/batch_destroy/parameters",
                 "properties": {
                   "child_key_ids": {
-                    "description": "The IDs of the child keys to unlink from the parent key.",
+                    "description": "Codes of the child keys to unlink. Required when unlink_parent is false or omitted. Ignored when unlink_parent is true.",
                     "type": "array",
                     "example": [
-                      "child_key_id1",
-                      "child_key_id2"
+                      "feature.subtitle",
+                      "nav.home"
                     ],
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "feature.subtitle"
                     }
                   },
                   "unlink_parent": {
-                    "description": "Whether to unlink the parent key as well and unmark it as linked-key.",
+                    "description": "When true, dissolves the entire linked-key group by unlinking all children and removing the group. The child_key_ids field is ignored when this is set to true.",
                     "type": "boolean",
                     "default": false
+                  },
+                  "strategy": {
+                    "type": "string",
+                    "description": "Controls what happens to child key translation content after unlinking. keep_content (default) copies the parent translation into each child; remove_content clears each child translation.",
+                    "enum": [
+                      "keep_content",
+                      "remove_content"
+                    ],
+                    "default": "keep_content"
                   }
                 }
               }
@@ -31145,7 +31215,14 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Updated linked-key group reference after the unlink operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/key_link"
+                }
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -31154,8 +31231,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to unlink keys for this parent."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -31166,7 +31242,13 @@
           "429": {
             "$ref": "#/components/responses/429"
           }
-        }
+        },
+        "x-code-samples": [
+          {
+            "lang": "Curl",
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"child_key_ids\": [\"feature.subtitle\", \"nav.home\"], \"strategy\": \"keep_content\"}'"
+          }
+        ]
       },
       "get": {
         "summary": "List child keys of a parent key",
