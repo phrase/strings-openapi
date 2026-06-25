@@ -2,11 +2,20 @@
 # Once we add tests, we should add a step here to run them
 name: Run CLI Tests
 on:
-  push:
+  pull_request:
     paths:
-      - .github/workflows/test-cli.yml
+      - 'paths/**'
+      - 'paths.yaml'
+      - 'schemas/**'
+      - 'schemas.yaml'
+      - 'parameters.yaml'
+      - 'responses.yaml'
+      - 'headers.yaml'
+      - 'main.yaml'
+      - 'openapi-generator/templates/cli/**'
       - openapi-generator/cli_lang.yaml
       - 'clients/cli/**'
+      - .github/workflows/test-cli.yml
 jobs:
   test:
     runs-on: ubuntu-latest
