@@ -21658,15 +21658,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/screenshot"
-                },
-                "example": {
-                  "id": "d2e056aa9e70b01121f41693e344f5ee",
-                  "name": "home_screen_v2",
-                  "description": "Updated landing page screenshot",
-                  "screenshot_url": "https://assets.phrase.com/screenshots/d2e056aa9e70b01121f41693e344f5ee.png",
-                  "created_at": "2024-01-15T10:30:00Z",
-                  "updated_at": "2024-06-14T09:15:00Z",
-                  "markers_count": 3
                 }
               }
             },
