@@ -59,7 +59,12 @@ jobs:
           GOPRIVATE: github.com/phrase/phrase-go
         run: |
           npm install
+          npm run generate.go
           npm run generate.cli
+          # Verify the generated CLI compiles before publishing it. Build against
+          # the freshly generated go client so this does not depend on a released
+          # phrase-go version that may lag behind the spec.
+          (cd ./clients/cli && go mod edit -replace github.com/phrase/phrase-go/v4=../go && go build . && go mod edit -dropreplace github.com/phrase/phrase-go/v4)
           git clone https://$API_TOKEN_GITHUB@github.com/phrase/phrase-cli.git clones/cli &> /dev/null
           rsync -avI --delete --exclude='.git/' clients/cli/ clones/cli
           cd clones/cli
