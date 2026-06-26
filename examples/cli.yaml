@@ -1213,8 +1213,8 @@ locale_download/create:
     phrase locale_downloads create \
       --project_id <project_id> \
       --locale_id <locale_id> \
-      --If-Modified-Since "ifModifiedSince_example" \
-      --If-None-Match "ifNoneMatch_example" \
+      --if_modified_since "ifModifiedSince_example" \
+      --if_none_match "ifNoneMatch_example" \
       --data '{ "file_format": "yml", "branch": "my-feature-branch", "tags": "feature1,feature2", "include_empty_translations": true, "exclude_empty_zero_forms": true, "include_translated_keys": true, "keep_notranslate_tags": true, "format_options": {"format_options":{"foo":"bar"}}, "encoding": "UTF-8", "include_unverified_translations": true, "use_last_reviewed_version": null, "locale_ids": ["de","en"], "fallback_locale_id": "abcd1234abcd1234abcd1234abcd1234", "use_locale_fallback": false, "fallback_for_unverified_translations": false, "source_locale_id": "abcd1234abcd1234abcd1234abcd1234", "custom_metadata_filters": null, "translation_key_prefix": "prefix_", "filter_by_prefix": null, "updated_since": "2023-01-01T00:00:00Z" }' \
       --access_token <token>
 locale_download/show:
@@ -1224,8 +1224,8 @@ locale_download/show:
       --project_id <project_id> \
       --locale_id <locale_id> \
       --id <id> \
-      --If-Modified-Since "ifModifiedSince_example" \
-      --If-None-Match "ifNoneMatch_example" \
+      --if_modified_since "ifModifiedSince_example" \
+      --if_none_match "ifNoneMatch_example" \
       --access_token <token>
 account/locales:
   lang: CLI v2
@@ -1256,8 +1256,8 @@ locale/download:
     phrase locales download \
       --project_id <project_id> \
       --id <id> \
-      --If-Modified-Since "ifModifiedSince_example" \
-      --If-None-Match "ifNoneMatch_example" \
+      --if_modified_since "ifModifiedSince_example" \
+      --if_none_match "ifNoneMatch_example" \
       --branch "my-feature-branch" \
       --file_format "yml" \
       --tags "feature1,feature2" \
@@ -2151,8 +2151,8 @@ translations/list:
   source: |-
     phrase translations list \
       --project_id <project_id> \
-      --If-Modified-Since "ifModifiedSince_example" \
-      --If-None-Match "ifNoneMatch_example" \
+      --if_modified_since "ifModifiedSince_example" \
+      --if_none_match "ifNoneMatch_example" \
       --page "1" \
       --per_page "25" \
       --branch "my-feature-branch" \
