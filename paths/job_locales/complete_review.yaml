@@ -37,7 +37,6 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/JobLocaleCompleteReview"
 requestBody:
   required: true
   content:

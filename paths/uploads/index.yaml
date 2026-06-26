@@ -51,6 +51,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/uploads?branch=my-feature-branch" \
       -u USERNAME_OR_ACCESS_TOKEN
-- "$ref": "../../examples/cli.yaml#/UploadsList"
 x-cli-command: uploads list
 x-cli-version: '2.5'

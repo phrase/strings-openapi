@@ -43,7 +43,6 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","content":"My translation"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/TranslationUpdate"
 requestBody:
   required: true
   content:

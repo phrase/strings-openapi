@@ -43,6 +43,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs"\
       -u USERNAME_OR_ACCESS_TOKEN
-- "$ref": "../../examples/cli.yaml#/RepoSyncList"
 x-cli-command: repo_syncs list
 x-cli-version: '2.24'

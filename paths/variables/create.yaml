@@ -42,7 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"name":"MY_VARIABLE","value":"Hello World"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/VariableCreate"
 requestBody:
   required: true
   content:

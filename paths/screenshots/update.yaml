@@ -45,7 +45,6 @@ x-code-samples:
       -F name=A%20screenshot%20name \
       -F description=A%20screenshot%20description \
       -F filename=@/path/to/my/screenshot.png
-- "$ref": "../../examples/cli.yaml#/ScreenshotUpdate"
 requestBody:
   required: true
   content:

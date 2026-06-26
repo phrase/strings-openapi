@@ -35,6 +35,5 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/ReplyMarkAsRead"
 x-cli-command: comment_replies mark_as_read
 x-cli-version: '2.10'

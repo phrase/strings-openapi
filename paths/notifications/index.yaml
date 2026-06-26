@@ -57,6 +57,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/notifications" \
       -u USERNAME_OR_ACCESS_TOKEN
-- "$ref": "../../examples/cli.yaml#/NotificationsList"
 x-cli-command: notifications list
 x-cli-version: '2.5'

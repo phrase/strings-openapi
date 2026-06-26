@@ -42,7 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"callback_url":"http://example.com/hooks/phraseapp-notifications","description":"My webhook for chat notifications","events":"locales:create,translations:update"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/WebhookCreate"
 requestBody:
   required: true
   content:

@@ -37,6 +37,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/accounts/:id" \
       -u USERNAME_OR_ACCESS_TOKEN
-- "$ref": "../../examples/cli.yaml#/AccountShow"
 x-cli-command: accounts show
 x-cli-version: '2.5'

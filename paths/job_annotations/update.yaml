@@ -42,7 +42,6 @@ x-code-samples:
       -X PATCH \
       -d '{"value":"Some value..."}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/JobAnnotationUpdate"
 requestBody:
   required: true
   content:

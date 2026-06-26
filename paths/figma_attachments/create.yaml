@@ -48,7 +48,6 @@ x-code-samples:
         -X POST \
         -F branch=my-feature-branch \
         -F url=https://figma.com/file/xxxxx/sample \
-  - "$ref": "../../examples/cli.yaml#/FigmaAttachmentCreate"
 requestBody:
   required: true
   content:

@@ -46,7 +46,6 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch","sort":"updated_at","order":"desc","q":"PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/TranslationsSearch"
 requestBody:
   required: true
   content:

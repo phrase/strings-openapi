@@ -35,6 +35,5 @@ x-code-samples:
       -X DELETE \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/ReplyDelete"
 x-cli-command: comment_replies delete
 x-cli-version: '2.10'

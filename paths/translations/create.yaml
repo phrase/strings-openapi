@@ -42,7 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch","locale_id":"abcd1234cdef1234abcd1234cdef1234","key_id":"abcd1234cdef1234abcd1234cdef1234","content":"My translation"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/TranslationCreate"
 requestBody:
   required: true
   content:

@@ -42,7 +42,6 @@ x-code-samples:
       -X PATCH \
       -d '{"role":"Invitiation role","project_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235","locale_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235","space_ids":["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"],"team_ids":["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"],"default_locale_codes":["de","en"],"permissions":{"create_upload":true}}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/InvitationUpdate"
 requestBody:
   required: true
   content:

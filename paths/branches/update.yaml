@@ -46,7 +46,6 @@ x-code-samples:
       -X PATCH \
       -d '{"name":"my-branch"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/BranchUpdate"
 requestBody:
   required: true
   content:

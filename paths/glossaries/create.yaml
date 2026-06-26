@@ -42,7 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"name":"My term base","project_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235","space_ids":["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"]}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/GlossaryCreate"
 requestBody:
   required: true
   content:

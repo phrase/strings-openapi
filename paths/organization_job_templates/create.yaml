@@ -42,7 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"name":"template","briefing":"text"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/OrganizationJobTemplateCreate"
 requestBody:
   required: true
   content:

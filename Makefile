@@ -14,8 +14,16 @@ lint:
 	make bundle
 	bash ./lint.sh
 bundle:
+	npx swagger-cli bundle -t yaml -w 300 main.yaml > tmp/compiled.yaml
+	make examples
 	npx swagger-cli bundle -t json -w 300 main.yaml > doc/compiled.json
 	npx swagger-cli bundle -t yaml -w 300 main.yaml > tmp/compiled.yaml
+	node scripts/inject-cli-examples.js doc/compiled.json tmp/compiled.yaml
+
+# Regenerate examples/cli.yaml from the bundled spec (examples-only, no client build).
+# Requires tmp/compiled.yaml to exist (produced by `make bundle`).
+examples:
+	openapi-generator-cli generate -i tmp/compiled.yaml -g go -o tmp/cli-examples -c ./openapi-generator/cli_examples_lang.yaml -e handlebars
 watch_bundle:
 	make lint
 	npx swagger-cli bundle -t json -w 300 main.yaml > doc/compiled.json

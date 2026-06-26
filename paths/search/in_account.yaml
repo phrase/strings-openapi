@@ -47,7 +47,6 @@ x-code-samples:
       -F locale_code=localecode \
       -F page=1 \
       -F per_page=25 \
-- "$ref": "../../examples/cli.yaml#/SearchInAccount"
 requestBody:
   required: true
   content:

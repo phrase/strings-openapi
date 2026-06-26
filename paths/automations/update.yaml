@@ -111,5 +111,4 @@ x-code-samples:
       -X PATCH \
       -d '{"name":"Schedule Automation - Weekly","tag_ids":["5","6"],time_zone:"UTC"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/AutomationUpdate"
 x-cli-command: automations update

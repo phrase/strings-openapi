@@ -42,7 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"title":"Web application style guide","audience":"customer-facing","target_audience":"teenager","grammatical_person":"first_person_singular","vocabulary_type":"technical","business":"We are a travel site that helps customers find the best hotels and flights.","company_branding":"ACME Inc. should never be translated.","formatting":"Never use capital letters","glossary_terms":"Apartment, cabin, loft","grammar_consistency":"Use informal pronouns and consistent present-tense conjugation","literal_translation":"Neutral","overall_tone":"Tone should be fun and light","samples":"http://www.myexample.com/my/document/path/to/samples.pdf"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/StyleguideCreate"
 requestBody:
   required: true
   content:

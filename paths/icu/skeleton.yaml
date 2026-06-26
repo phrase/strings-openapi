@@ -41,7 +41,6 @@ x-code-samples:
       -X POST \
       -d '{"content":"{number, plural, one {One} other {%{n}}}","locale_codes":["en"],"zero_form_enabled": true}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/IcuSkeleton"
 requestBody:
   required: true
   content:

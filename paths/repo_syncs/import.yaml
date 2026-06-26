@@ -63,5 +63,4 @@ x-code-samples:
       -X POST \
       -d '{"repository_branch":"my-feature-branch", "branch":"my-strings-branch"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/RepoSyncImport"
 x-cli-command: repo_syncs import

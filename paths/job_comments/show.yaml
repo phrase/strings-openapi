@@ -35,6 +35,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/jobs/:job_id/comments/:id?branch=my-feature-branch" \
       -u USERNAME_OR_ACCESS_TOKEN
-- "$ref": "../../examples/cli.yaml#/JobCommentShow"
 x-cli-command: job_comments show
 x-cli-version: '2.5'

@@ -42,7 +42,6 @@ x-code-samples:
       -X PATCH \
       -d '{"project_role":"Developer","locale_ids":["fff565db236400772368235db2c6117e","fff565db236400772368235db2c6117f"]}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/InvitationUpdateSettings"
 requestBody:
   required: true
   content:

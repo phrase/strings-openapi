@@ -38,6 +38,5 @@ x-code-samples:
     curl "https://api.phrase.com/v2/projects/:project_id/branches/:name" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE
-- "$ref": "../../examples/cli.yaml#/BranchDelete"
 x-cli-command: branches delete
 x-cli-version: '2.5'

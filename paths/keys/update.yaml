@@ -50,7 +50,6 @@ x-code-samples:
       -F max_characters_allowed=140 \
       -F screenshot=@/path/to/my/screenshot.png \
       -F custom_metadata[property]=value
-- "$ref": "../../examples/cli.yaml#/KeyUpdate"
 requestBody:
   required: true
   content:

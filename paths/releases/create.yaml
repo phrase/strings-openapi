@@ -43,7 +43,6 @@ x-code-samples:
         -X POST \
         -d '{"description":"My first Release","platforms":["android","ios"],"branch":"my-feature-branch"}' \
         -H 'Content-Type: application/json'
-  - "$ref": "../../examples/cli.yaml#/ReleaseCreate"
 requestBody:
   required: true
   content:

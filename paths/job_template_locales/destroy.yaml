@@ -32,6 +32,5 @@ x-code-samples:
       -X DELETE \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/JobTemplateLocaleDelete"
 x-cli-command: job_template_locales delete
 x-cli-version: '2.5'

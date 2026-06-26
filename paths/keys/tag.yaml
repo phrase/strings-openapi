@@ -42,7 +42,6 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","q":"mykey* translated:true","locale_id":"abcd1234abcd1234abcd1234abcd1234","tags":"landing-page,release-1.2"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/KeysTag"
 requestBody:
   required: true
   content:

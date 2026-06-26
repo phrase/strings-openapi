@@ -31526,6 +31526,10 @@
           {
             "lang": "Curl",
             "source": "curl \"https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"child_key_ids\": [\"feature.subtitle\", \"nav.home\"], \"strategy\": \"keep_content\"}'"
+          },
+          {
+            "lang": "CLI v2",
+            "source": "phrase linked_keys batch_destroy \\\n  --project_id <project_id> \\\n  --id <id> \\\n  --data '{ \"child_key_ids\": [\"feature.subtitle\",\"nav.home\"], \"unlink_parent\": null, \"strategy\": \"null\" }' \\\n  --access_token <token>"
           }
         ],
         "x-cli-command": "linked_keys batch_destroy"
@@ -31591,7 +31595,13 @@
             "$ref": "#/components/responses/429"
           }
         },
-        "x-cli-command": "linked_keys index"
+        "x-cli-command": "linked_keys index",
+        "x-code-samples": [
+          {
+            "lang": "CLI v2",
+            "source": "phrase linked_keys index \\\n  --project_id <project_id> \\\n  --id <id> \\\n  --access_token <token>"
+          }
+        ]
       },
       "post": {
         "summary": "Link child keys to a parent key",
@@ -31669,7 +31679,13 @@
             "$ref": "#/components/responses/429"
           }
         },
-        "x-cli-command": "linked_keys create"
+        "x-cli-command": "linked_keys create",
+        "x-code-samples": [
+          {
+            "lang": "CLI v2",
+            "source": "phrase linked_keys create \\\n  --project_id <project_id> \\\n  --id <id> \\\n  --data '{ \"child_key_ids\": [\"child_key_id1\",\"child_key_id2\"] }' \\\n  --access_token <token>"
+          }
+        ]
       }
     },
     "/projects/{project_id}/keys/{id}/key_links/{child_key_id}": {
@@ -31740,6 +31756,10 @@
           {
             "lang": "Curl",
             "source": "curl -i \"https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links/1234abcd1234cdef1234abcd1234cdef\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE"
+          },
+          {
+            "lang": "CLI v2",
+            "source": "phrase linked_keys destroy \\\n  --project_id <project_id> \\\n  --id <id> \\\n  --child_key_id <child_key_id> \\\n  --access_token <token>"
           }
         ],
         "x-cli-command": "linked_keys destroy"
@@ -32473,4 +32493,3 @@
     }
   }
 }
-

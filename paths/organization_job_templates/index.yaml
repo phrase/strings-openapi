@@ -45,6 +45,5 @@ x-code-samples:
     source: |-
       curl "https://api.phrase.com/v2/accounts/:account_id/job_templates" \
         -u USERNAME_OR_ACCESS_TOKEN
-  - "$ref": "../../examples/cli.yaml#/OrganizationJobTemplatesList"
 x-cli-command: organization_job_templates list
 x-cli-version: "2.7.0"

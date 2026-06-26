@@ -44,7 +44,6 @@ x-code-samples:
       -X POST \
       -d '{"locale_code":"en-US","content":"My translated term"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/GlossaryTermTranslationCreate"
 requestBody:
   required: true
   content:

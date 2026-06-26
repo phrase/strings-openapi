@@ -42,7 +42,6 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","q":"PhraseApp*%20unverified:true%20tags:feature,center"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/TranslationsVerifyCollection"
 requestBody:
   required: true
   content:

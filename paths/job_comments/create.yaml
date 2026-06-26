@@ -36,7 +36,6 @@ x-code-samples:
       -X POST \
       -d '{"message":"Some message..."}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/JobCommentCreate"
 requestBody:
   required: true
   content:

@@ -44,6 +44,5 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X POST \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/RepoSyncDeactivate"
 x-cli-command: repo_syncs deactivate
 x-cli-version: '2.24'

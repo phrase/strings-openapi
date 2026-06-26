@@ -5,7 +5,3 @@ packageName: phrase
 packageVersion: 2.66.0
 templateDir: openapi-generator/templates/cli
 apiNameSuffix: Api
-files:
-  cli_examples.handlebars:
-    destinationFilename: ../../examples/cli.yaml
-    templateType: SupportingFiles

@@ -29,7 +29,6 @@ x-code-samples:
       -X POST \
       -d '{"direction":"merge"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/BranchComparisonCreate"
 requestBody:
   required: true
   content:

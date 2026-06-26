@@ -63,5 +63,4 @@ x-code-samples:
       -X POST \
       -H 'Content-Type: application/json' \
       -d '{"pr_branch":"my-feature-branch", "branch":"my-strings-branch"}'
-- "$ref": "../../examples/cli.yaml#/RepoSyncExport"
 x-cli-command: repo_syncs export

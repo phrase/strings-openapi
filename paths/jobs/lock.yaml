@@ -49,6 +49,5 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch"' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/JobLock"
 x-cli-command: jobs lock
 x-cli-version: '2.5'

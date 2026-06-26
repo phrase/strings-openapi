@@ -46,7 +46,6 @@ x-code-samples:
       -X PATCH \
       -d '{"strategy":"use_main"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/BranchSync"
 requestBody:
   required: true
   content:

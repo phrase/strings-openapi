@@ -32,7 +32,6 @@ x-code-samples:
       -X POST \
       -d '{"id":"a4b3c2d1"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/TeamsUsersCreate"
 requestBody:
   required: true
   content:

@@ -43,7 +43,6 @@ x-code-samples:
       -X PATCH \
       -d '{"name":"date.formats.*"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/BlacklistedKeyUpdate"
 requestBody:
   required: true
   content:

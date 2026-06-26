@@ -1,0 +1,11 @@
+'!include': shared.yaml
+generatorName: go
+outputDir: tmp/cli-examples
+packageName: phrase
+templateDir: openapi-generator/templates/cli
+apiNameSuffix: Api
+# Only emit the CLI examples data file; skip the actual client code/docs.
+files:
+  cli_examples.handlebars:
+    destinationFilename: ../../examples/cli.yaml
+    templateType: SupportingFiles

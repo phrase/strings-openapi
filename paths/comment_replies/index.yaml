@@ -71,6 +71,5 @@ x-code-samples:
         -u USERNAME_OR_ACCESS_TOKEN \
         -X GET \
         -H 'Content-Type: application/json'
-  - "$ref": "../../examples/cli.yaml#/RepliesList"
 x-cli-command: comment_replies list
 x-cli-version: '2.10'

@@ -32,5 +32,4 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/AutomationDelete"
 x-cli-command: automations delete

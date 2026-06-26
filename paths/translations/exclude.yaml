@@ -43,7 +43,6 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/TranslationExclude"
 requestBody:
   required: true
   content:

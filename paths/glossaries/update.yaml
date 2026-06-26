@@ -43,7 +43,6 @@ x-code-samples:
       -X PATCH \
       -d '{"name":"My glossary","project_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235","space_ids":["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"]}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/GlossaryUpdate"
 requestBody:
   required: true
   content:

@@ -1,91 +1,91 @@
-AccountShow:
+account/show:
   lang: CLI v2
   source: |-
     phrase accounts show \
       --id <id> \
       --access_token <token>
-AccountsList:
+accounts/list:
   lang: CLI v2
   source: |-
     phrase accounts list \
       --page "1" \
       --per_page "25" \
       --access_token <token>
-AuthorizationCreate:
+authorization/create:
   lang: CLI v2
   source: |-
     phrase authorizations create \
       --data '{ "note": "My Deploy Script", "scopes": ["read","write"], "expires_at": "2015-03-30T09:52:53Z" }' \
       --access_token <token>
-AuthorizationDelete:
+authorization/delete:
   lang: CLI v2
   source: |-
     phrase authorizations delete \
       --id <id> \
       --access_token <token>
-AuthorizationShow:
+authorization/show:
   lang: CLI v2
   source: |-
     phrase authorizations show \
       --id <id> \
       --access_token <token>
-AuthorizationUpdate:
+authorization/update:
   lang: CLI v2
   source: |-
     phrase authorizations update \
       --id <id> \
       --data '{ "note": "My Deploy Script", "scopes": ["read","write"], "expires_at": "2015-03-30T09:52:53Z" }' \
       --access_token <token>
-AuthorizationsList:
+authorizations/list:
   lang: CLI v2
   source: |-
     phrase authorizations list \
       --page "1" \
       --per_page "25" \
       --access_token <token>
-AutomationActivate:
+automation/activate:
   lang: CLI v2
   source: |-
     phrase automations activate \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-AutomationCreate:
+automation/create:
   lang: CLI v2
   source: |-
     phrase automations create \
       --account_id <account_id> \
       --data '{ "name": "Scheduled Job Automation - Hourly", "trigger": "null", "project_ids": ["abcd1234cdef1234abcd1234cdef1234"], "job_template_id": "abcd1234cdef1234abcd1234cdef1234", "status_filters": null, "tags": ["myTag"], "cron_schedule": "00 13 * * 1,2", "time_zone": "GMT", "job_owner_id": "abcd1234abcd1234abcd1234abcd1234", "include_only_updated_locales": false }' \
       --access_token <token>
-AutomationDeactivate:
+automation/deactivate:
   lang: CLI v2
   source: |-
     phrase automations deactivate \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-AutomationDelete:
+automation/delete:
   lang: CLI v2
   source: |-
     phrase automations delete \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-AutomationShow:
+automation/show:
   lang: CLI v2
   source: |-
     phrase automations show \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-AutomationTrigger:
+automation/trigger:
   lang: CLI v2
   source: |-
     phrase automations trigger \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-AutomationUpdate:
+automation/update:
   lang: CLI v2
   source: |-
     phrase automations update \
@@ -93,7 +93,7 @@ AutomationUpdate:
       --id <id> \
       --data '{ "name": "Scheduled Job Automation - Hourly", "trigger": "null", "project_ids": ["abcd1234cdef1234abcd1234cdef1234"], "job_template_id": "abcd1234cdef1234abcd1234cdef1234", "status_filters": null, "tags": ["myTag"], "cron_schedule": "00 13 * * 1,2", "time_zone": "GMT", "job_owner_id": "abcd1234abcd1234abcd1234abcd1234", "include_only_updated_locales": false }' \
       --access_token <token>
-AutomationsList:
+automations/list:
   lang: CLI v2
   source: |-
     phrase automations list \
@@ -101,28 +101,28 @@ AutomationsList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-BlacklistedKeyCreate:
+blacklisted_key/create:
   lang: CLI v2
   source: |-
     phrase blacklisted_keys create \
       --project_id <project_id> \
       --data '{ "name": "date.formats.*" }' \
       --access_token <token>
-BlacklistedKeyDelete:
+blacklisted_key/delete:
   lang: CLI v2
   source: |-
     phrase blacklisted_keys delete \
       --project_id <project_id> \
       --id <id> \
       --access_token <token>
-BlacklistedKeyShow:
+blacklisted_key/show:
   lang: CLI v2
   source: |-
     phrase blacklisted_keys show \
       --project_id <project_id> \
       --id <id> \
       --access_token <token>
-BlacklistedKeyUpdate:
+blacklisted_key/update:
   lang: CLI v2
   source: |-
     phrase blacklisted_keys update \
@@ -130,7 +130,7 @@ BlacklistedKeyUpdate:
       --id <id> \
       --data '{ "name": "date.formats.*" }' \
       --access_token <token>
-BlacklistedKeysList:
+blacklisted_keys/list:
   lang: CLI v2
   source: |-
     phrase blacklisted_keys list \
@@ -139,14 +139,14 @@ BlacklistedKeysList:
       --per_page "25" \
       --branch "my-feature-branch" \
       --access_token <token>
-BranchCompare:
+branch/compare:
   lang: CLI v2
   source: |-
     phrase branches compare \
       --project_id <project_id> \
       --name <name> \
       --access_token <token>
-BranchComparisonCreate:
+branch/comparison/create:
   lang: CLI v2
   source: |-
     phrase branches comparison_create \
@@ -154,21 +154,21 @@ BranchComparisonCreate:
       --name <name> \
       --data '{ "direction": "merge" }' \
       --access_token <token>
-BranchCreate:
+branch/create:
   lang: CLI v2
   source: |-
     phrase branches create \
       --project_id <project_id> \
       --data '{ "name": "my-branch", "base": "parent-branch" }' \
       --access_token <token>
-BranchDelete:
+branch/delete:
   lang: CLI v2
   source: |-
     phrase branches delete \
       --project_id <project_id> \
       --name <name> \
       --access_token <token>
-BranchMerge:
+branch/merge:
   lang: CLI v2
   source: |-
     phrase branches merge \
@@ -176,14 +176,14 @@ BranchMerge:
       --name <name> \
       --data '{ "strategy": "use_main" }' \
       --access_token <token>
-BranchShow:
+branch/show:
   lang: CLI v2
   source: |-
     phrase branches show \
       --project_id <project_id> \
       --name <name> \
       --access_token <token>
-BranchSync:
+branch/sync:
   lang: CLI v2
   source: |-
     phrase branches sync \
@@ -191,7 +191,7 @@ BranchSync:
       --name <name> \
       --data '{ "strategy": "use_main" }' \
       --access_token <token>
-BranchUpdate:
+branch/update:
   lang: CLI v2
   source: |-
     phrase branches update \
@@ -199,7 +199,7 @@ BranchUpdate:
       --name <name> \
       --data '{ "name": "my-branch" }' \
       --access_token <token>
-BranchesList:
+branches/list:
   lang: CLI v2
   source: |-
     phrase branches list \
@@ -207,7 +207,7 @@ BranchesList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-ReactionCreate:
+reaction/create:
   lang: CLI v2
   source: |-
     phrase comment_reactions create \
@@ -217,7 +217,7 @@ ReactionCreate:
       --branch "my-feature-branch" \
       --emoji "👍" \
       --access_token <token>
-ReactionDelete:
+reaction/delete:
   lang: CLI v2
   source: |-
     phrase comment_reactions delete \
@@ -227,7 +227,7 @@ ReactionDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-ReactionShow:
+reaction/show:
   lang: CLI v2
   source: |-
     phrase comment_reactions show \
@@ -237,7 +237,7 @@ ReactionShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-ReactionsList:
+reactions/list:
   lang: CLI v2
   source: |-
     phrase comment_reactions list \
@@ -248,7 +248,7 @@ ReactionsList:
       --per_page "25" \
       --branch "my-feature-branch" \
       --access_token <token>
-RepliesList:
+replies/list:
   lang: CLI v2
   source: |-
     phrase comment_replies list \
@@ -262,7 +262,7 @@ RepliesList:
       --filters "["read","unread"]" \
       --order "desc" \
       --access_token <token>
-ReplyCreate:
+reply/create:
   lang: CLI v2
   source: |-
     phrase comment_replies create \
@@ -271,7 +271,7 @@ ReplyCreate:
       --comment_id <comment_id> \
       --data '{ "message": "Some message...", "branch": "my-feature-branch" }' \
       --access_token <token>
-ReplyDelete:
+reply/delete:
   lang: CLI v2
   source: |-
     phrase comment_replies delete \
@@ -281,7 +281,7 @@ ReplyDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-ReplyMarkAsRead:
+reply/mark_as_read:
   lang: CLI v2
   source: |-
     phrase comment_replies mark_as_read \
@@ -291,7 +291,7 @@ ReplyMarkAsRead:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-ReplyMarkAsUnread:
+reply/mark_as_unread:
   lang: CLI v2
   source: |-
     phrase comment_replies mark_as_unread \
@@ -301,7 +301,7 @@ ReplyMarkAsUnread:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-ReplyShow:
+reply/show:
   lang: CLI v2
   source: |-
     phrase comment_replies show \
@@ -311,7 +311,7 @@ ReplyShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-CommentCreate:
+comment/create:
   lang: CLI v2
   source: |-
     phrase comments create \
@@ -319,7 +319,7 @@ CommentCreate:
       --key_id <key_id> \
       --data '{ "message": "Some message...", "branch": "my-feature-branch", "locale_ids": ["someId","someOtherId"] }' \
       --access_token <token>
-CommentDelete:
+comment/delete:
   lang: CLI v2
   source: |-
     phrase comments delete \
@@ -328,7 +328,7 @@ CommentDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-CommentMarkCheck:
+comment/mark/check:
   lang: CLI v2
   source: |-
     phrase comments mark_check \
@@ -337,7 +337,7 @@ CommentMarkCheck:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-CommentMarkRead:
+comment/mark/read:
   lang: CLI v2
   source: |-
     phrase comments mark_read \
@@ -346,7 +346,7 @@ CommentMarkRead:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-CommentMarkUnread:
+comment/mark/unread:
   lang: CLI v2
   source: |-
     phrase comments mark_unread \
@@ -355,7 +355,7 @@ CommentMarkUnread:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-CommentShow:
+comment/show:
   lang: CLI v2
   source: |-
     phrase comments show \
@@ -364,7 +364,7 @@ CommentShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-CommentUpdate:
+comment/update:
   lang: CLI v2
   source: |-
     phrase comments update \
@@ -373,7 +373,7 @@ CommentUpdate:
       --id <id> \
       --data '{ "branch": "my-feature-branch", "message": "Some message..." }' \
       --access_token <token>
-CommentsList:
+comments/list:
   lang: CLI v2
   source: |-
     phrase comments list \
@@ -387,14 +387,14 @@ CommentsList:
       --filters "["read","unread"]" \
       --order "desc" \
       --access_token <token>
-CustomMetadataPropertiesDelete:
+custom_metadata_properties/delete:
   lang: CLI v2
   source: |-
     phrase custom_metadata delete \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-CustomMetadataPropertiesList:
+custom_metadata_properties/list:
   lang: CLI v2
   source: |-
     phrase custom_metadata list \
@@ -407,21 +407,21 @@ CustomMetadataPropertiesList:
       --sort "updated_at" \
       --order "desc" \
       --access_token <token>
-CustomMetadataPropertyCreate:
+custom_metadata_property/create:
   lang: CLI v2
   source: |-
     phrase custom_metadata create \
       --account_id <account_id> \
       --data '{ "name": "Fruit", "data_type": "null", "project_ids": ["abcd1234cdef1234abcd1234cdef1234","abcd1234cdef1234abcd1234cdef4321"], "description": "A healthy snack for all ages", "value_options": ["Apple","Banana","Coconut"] }' \
       --access_token <token>
-CustomMetadataPropertyShow:
+custom_metadata_property/show:
   lang: CLI v2
   source: |-
     phrase custom_metadata show \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-CustomMetadataPropertyUpdate:
+custom_metadata_property/update:
   lang: CLI v2
   source: |-
     phrase custom_metadata update \
@@ -429,28 +429,28 @@ CustomMetadataPropertyUpdate:
       --id <id> \
       --data '{ "name": "Fruit", "project_ids": ["abcd1234cdef1234abcd1234cdef1234","abcd1234cdef1234abcd1234cdef4321"], "description": "A healthy snack for all ages", "value_options": ["Apple","Banana","Coconut"] }' \
       --access_token <token>
-DistributionCreate:
+distribution/create:
   lang: CLI v2
   source: |-
     phrase distributions create \
       --account_id <account_id> \
       --data '{ "name": "My Android Distribution", "project_id": "abcd1234abcd1234abcd1234", "platforms": ["android","ios"], "locale_ids": ["abcd1234cdef1234abcd1234cdef1234","fff565db236400772368235db2c6117e"], "format_options": {"enclose_in_cdata":"1"}, "fallback_locales_enabled": true, "fallback_to_non_regional_locale": true, "fallback_to_default_locale": true, "use_last_reviewed_version": true }' \
       --access_token <token>
-DistributionDelete:
+distribution/delete:
   lang: CLI v2
   source: |-
     phrase distributions delete \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-DistributionShow:
+distribution/show:
   lang: CLI v2
   source: |-
     phrase distributions show \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-DistributionUpdate:
+distribution/update:
   lang: CLI v2
   source: |-
     phrase distributions update \
@@ -458,7 +458,7 @@ DistributionUpdate:
       --id <id> \
       --data '{ "name": "My Android Distribution", "project_id": "abcd1234abcd1234abcd1234", "platforms": ["android","ios"], "locale_ids": ["abcd1234cdef1234abcd1234cdef1234","fff565db236400772368235db2c6117e"], "format_options": {"enclose_in_cdata":"1"}, "fallback_locales_enabled": true, "fallback_to_non_regional_locale": true, "fallback_to_default_locale": true, "use_last_reviewed_version": true }' \
       --access_token <token>
-DistributionsList:
+distributions/list:
   lang: CLI v2
   source: |-
     phrase distributions list \
@@ -466,14 +466,14 @@ DistributionsList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-DocumentDelete:
+document/delete:
   lang: CLI v2
   source: |-
     phrase documents delete \
       --project_id <project_id> \
       --id <id> \
       --access_token <token>
-DocumentsList:
+documents/list:
   lang: CLI v2
   source: |-
     phrase documents list \
@@ -482,7 +482,7 @@ DocumentsList:
       --per_page "25" \
       --q "invoice" \
       --access_token <token>
-FigmaAttachmentCreate:
+figma_attachment/create:
   lang: CLI v2
   source: |-
     phrase figma_attachments create \
@@ -490,7 +490,7 @@ FigmaAttachmentCreate:
       --branch "my-feature-branch" \
       --data '{ "branch": "my-feature-branch", "url": "https://figma.com/file/xxxxx/sample" }' \
       --access_token <token>
-FigmaAttachmentDelete:
+figma_attachment/delete:
   lang: CLI v2
   source: |-
     phrase figma_attachments delete \
@@ -498,7 +498,7 @@ FigmaAttachmentDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-FigmaAttachmentShow:
+figma_attachment/show:
   lang: CLI v2
   source: |-
     phrase figma_attachments show \
@@ -506,7 +506,7 @@ FigmaAttachmentShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-FigmaAttachmentUpdate:
+figma_attachment/update:
   lang: CLI v2
   source: |-
     phrase figma_attachments update \
@@ -515,7 +515,7 @@ FigmaAttachmentUpdate:
       --branch "my-feature-branch" \
       --data '{ "branch": "my-feature-branch", "url": "https://figma.com/file/xxxxx/sample" }' \
       --access_token <token>
-FigmaAttachmentsList:
+figma_attachments/list:
   lang: CLI v2
   source: |-
     phrase figma_attachments list \
@@ -524,12 +524,12 @@ FigmaAttachmentsList:
       --per_page "25" \
       --branch "my-feature-branch" \
       --access_token <token>
-FormatsList:
+formats/list:
   lang: CLI v2
   source: |-
     phrase formats list \
       --access_token <token>
-GlossariesList:
+glossaries/list:
   lang: CLI v2
   source: |-
     phrase glossaries list \
@@ -537,28 +537,28 @@ GlossariesList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-GlossaryCreate:
+glossary/create:
   lang: CLI v2
   source: |-
     phrase glossaries create \
       --account_id <account_id> \
       --data '{ "name": "My glossary", "project_ids": "abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235", "space_ids": ["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"] }' \
       --access_token <token>
-GlossaryDelete:
+glossary/delete:
   lang: CLI v2
   source: |-
     phrase glossaries delete \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-GlossaryShow:
+glossary/show:
   lang: CLI v2
   source: |-
     phrase glossaries show \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-GlossaryUpdate:
+glossary/update:
   lang: CLI v2
   source: |-
     phrase glossaries update \
@@ -566,7 +566,7 @@ GlossaryUpdate:
       --id <id> \
       --data '{ "name": "My glossary", "project_ids": "abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235", "space_ids": ["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"] }' \
       --access_token <token>
-GlossaryTermTranslationCreate:
+glossary_term_translation/create:
   lang: CLI v2
   source: |-
     phrase glossary_term_translations create \
@@ -575,7 +575,7 @@ GlossaryTermTranslationCreate:
       --term_id <term_id> \
       --data '{ "locale_code": "en-US", "content": "My translated term" }' \
       --access_token <token>
-GlossaryTermTranslationDelete:
+glossary_term_translation/delete:
   lang: CLI v2
   source: |-
     phrase glossary_term_translations delete \
@@ -584,7 +584,7 @@ GlossaryTermTranslationDelete:
       --term_id <term_id> \
       --id <id> \
       --access_token <token>
-GlossaryTermTranslationUpdate:
+glossary_term_translation/update:
   lang: CLI v2
   source: |-
     phrase glossary_term_translations update \
@@ -594,7 +594,7 @@ GlossaryTermTranslationUpdate:
       --id <id> \
       --data '{ "locale_code": "en-US", "content": "My translated term" }' \
       --access_token <token>
-GlossaryTermCreate:
+glossary_term/create:
   lang: CLI v2
   source: |-
     phrase glossary_terms create \
@@ -602,7 +602,7 @@ GlossaryTermCreate:
       --glossary_id <glossary_id> \
       --data '{ "term": "MyCompany", "description": "Use this when refering to our company", "translatable": true, "case_sensitive": true }' \
       --access_token <token>
-GlossaryTermDelete:
+glossary_term/delete:
   lang: CLI v2
   source: |-
     phrase glossary_terms delete \
@@ -610,7 +610,7 @@ GlossaryTermDelete:
       --glossary_id <glossary_id> \
       --id <id> \
       --access_token <token>
-GlossaryTermShow:
+glossary_term/show:
   lang: CLI v2
   source: |-
     phrase glossary_terms show \
@@ -618,7 +618,7 @@ GlossaryTermShow:
       --glossary_id <glossary_id> \
       --id <id> \
       --access_token <token>
-GlossaryTermUpdate:
+glossary_term/update:
   lang: CLI v2
   source: |-
     phrase glossary_terms update \
@@ -627,7 +627,7 @@ GlossaryTermUpdate:
       --id <id> \
       --data '{ "term": "MyCompany", "description": "Use this when refering to our company", "translatable": true, "case_sensitive": true }' \
       --access_token <token>
-GlossaryTermsList:
+glossary_terms/list:
   lang: CLI v2
   source: |-
     phrase glossary_terms list \
@@ -636,41 +636,41 @@ GlossaryTermsList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-IcuSkeleton:
+icu/skeleton:
   lang: CLI v2
   source: |-
     phrase icu skeleton \
       --data '{ "content": "{number, plural, one {One} other {%{n}}}", "id": "abcd1234abcd1234abcd1234abcd1234", "locale_codes": ["en"], "keep_content": null, "zero_form_enabled": null, "cldr_version": "cldr_41" }' \
       --access_token <token>
-InvitationCreate:
+invitation/create:
   lang: CLI v2
   source: |-
     phrase invitations create \
       --account_id <account_id> \
       --data '{ "email": "example@mail.com", "role": "Developer", "project_ids": "abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235", "locale_ids": "abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235", "space_ids": ["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"], "team_ids": ["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"], "default_locale_codes": ["en","de"], "permissions": {"create_upload":true,"review_translations":true} }' \
       --access_token <token>
-InvitationDelete:
+invitation/delete:
   lang: CLI v2
   source: |-
     phrase invitations delete \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-InvitationResend:
+invitation/resend:
   lang: CLI v2
   source: |-
     phrase invitations resend \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-InvitationShow:
+invitation/show:
   lang: CLI v2
   source: |-
     phrase invitations show \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-InvitationUpdate:
+invitation/update:
   lang: CLI v2
   source: |-
     phrase invitations update \
@@ -678,7 +678,7 @@ InvitationUpdate:
       --id <id> \
       --data '{ "role": "Invitiation role", "project_ids": "abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235", "locale_ids": "abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235", "space_ids": ["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"], "team_ids": ["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"], "default_locale_codes": ["en","de"], "permissions": {"create_upload":true} }' \
       --access_token <token>
-InvitationUpdateSettings:
+invitation/update_settings:
   lang: CLI v2
   source: |-
     phrase invitations update_settings \
@@ -686,7 +686,7 @@ InvitationUpdateSettings:
       --id <id> \
       --data '{ "project_role": "Developer", "locale_ids": ["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"] }' \
       --access_token <token>
-InvitationsList:
+invitations/list:
   lang: CLI v2
   source: |-
     phrase invitations list \
@@ -694,7 +694,7 @@ InvitationsList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-JobAnnotationDelete:
+job_annotation/delete:
   lang: CLI v2
   source: |-
     phrase job_annotations delete \
@@ -703,7 +703,7 @@ JobAnnotationDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobAnnotationUpdate:
+job_annotation/update:
   lang: CLI v2
   source: |-
     phrase job_annotations update \
@@ -712,7 +712,7 @@ JobAnnotationUpdate:
       --id <id> \
       --data '{ "value": "Some value...", "branch": "my-feature-branch" }' \
       --access_token <token>
-JobAnnotationsList:
+job_annotations/list:
   lang: CLI v2
   source: |-
     phrase job_annotations list \
@@ -720,7 +720,7 @@ JobAnnotationsList:
       --job_id <job_id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobLocaleAnnotationDelete:
+job_locale_annotation/delete:
   lang: CLI v2
   source: |-
     phrase job_annotations delete \
@@ -730,7 +730,7 @@ JobLocaleAnnotationDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobLocaleAnnotationUpdate:
+job_locale_annotation/update:
   lang: CLI v2
   source: |-
     phrase job_annotations update \
@@ -740,7 +740,7 @@ JobLocaleAnnotationUpdate:
       --id <id> \
       --data '{ "value": "Some value...", "branch": "my-feature-branch" }' \
       --access_token <token>
-JobLocaleAnnotationsList:
+job_locale_annotations/list:
   lang: CLI v2
   source: |-
     phrase job_annotations list \
@@ -749,7 +749,7 @@ JobLocaleAnnotationsList:
       --job_locale_id <job_locale_id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobCommentCreate:
+job_comment/create:
   lang: CLI v2
   source: |-
     phrase job_comments create \
@@ -757,7 +757,7 @@ JobCommentCreate:
       --job_id <job_id> \
       --data '{ "message": "Some message...", "branch": "my-feature-branch" }' \
       --access_token <token>
-JobCommentDelete:
+job_comment/delete:
   lang: CLI v2
   source: |-
     phrase job_comments delete \
@@ -766,7 +766,7 @@ JobCommentDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobCommentShow:
+job_comment/show:
   lang: CLI v2
   source: |-
     phrase job_comments show \
@@ -775,7 +775,7 @@ JobCommentShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobCommentUpdate:
+job_comment/update:
   lang: CLI v2
   source: |-
     phrase job_comments update \
@@ -784,7 +784,7 @@ JobCommentUpdate:
       --id <id> \
       --data '{ "message": "Some message...", "branch": "my-feature-branch" }' \
       --access_token <token>
-JobCommentsList:
+job_comments/list:
   lang: CLI v2
   source: |-
     phrase job_comments list \
@@ -793,7 +793,7 @@ JobCommentsList:
       --branch "my-feature-branch" \
       --order "desc" \
       --access_token <token>
-JobLocaleComplete:
+job_locale/complete:
   lang: CLI v2
   source: |-
     phrase job_locales complete \
@@ -802,7 +802,7 @@ JobLocaleComplete:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-JobLocaleCompleteReview:
+job_locale/complete_review:
   lang: CLI v2
   source: |-
     phrase job_locales complete_review \
@@ -811,7 +811,7 @@ JobLocaleCompleteReview:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-JobLocaleDelete:
+job_locale/delete:
   lang: CLI v2
   source: |-
     phrase job_locales delete \
@@ -820,7 +820,7 @@ JobLocaleDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobLocaleReopen:
+job_locale/reopen:
   lang: CLI v2
   source: |-
     phrase job_locales reopen \
@@ -829,7 +829,7 @@ JobLocaleReopen:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-JobLocaleShow:
+job_locale/show:
   lang: CLI v2
   source: |-
     phrase job_locales show \
@@ -839,7 +839,7 @@ JobLocaleShow:
       --branch "my-feature-branch" \
       --include_annotations true \
       --access_token <token>
-JobLocaleUpdate:
+job_locale/update:
   lang: CLI v2
   source: |-
     phrase job_locales update \
@@ -848,7 +848,7 @@ JobLocaleUpdate:
       --id <id> \
       --data '{ "branch": "my-feature-branch", "locale_id": "abcd1234cdef1234abcd1234cdef1234", "user_ids": ["abcd1234cdef1234abcd1234cdef1234"], "reviewer_ids": ["abcd1234cdef1234abcd1234cdef1234"], "translator_team_ids": ["abcd1234cdef1234abcd1234cdef1234"], "reviewer_team_ids": ["abcd1234cdef1234abcd1234cdef1234"] }' \
       --access_token <token>
-JobLocalesCreate:
+job_locales/create:
   lang: CLI v2
   source: |-
     phrase job_locales create \
@@ -856,7 +856,7 @@ JobLocalesCreate:
       --job_id <job_id> \
       --data '{ "branch": "my-feature-branch", "locale_id": "abcd1234cdef1234abcd1234cdef1234", "user_ids": ["abcd1234cdef1234abcd1234cdef1234"], "reviewer_ids": ["abcd1234cdef1234abcd1234cdef1234"], "translator_team_ids": ["abcd1234cdef1234abcd1234cdef1234"], "reviewer_team_ids": ["abcd1234cdef1234abcd1234cdef1234"] }' \
       --access_token <token>
-JobLocalesList:
+job_locales/list:
   lang: CLI v2
   source: |-
     phrase job_locales list \
@@ -867,7 +867,7 @@ JobLocalesList:
       --branch "my-feature-branch" \
       --include_annotations true \
       --access_token <token>
-JobTemplateLocaleDelete:
+job_template_locale/delete:
   lang: CLI v2
   source: |-
     phrase job_template_locales delete \
@@ -876,7 +876,7 @@ JobTemplateLocaleDelete:
       --job_template_locale_id <job_template_locale_id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobTemplateLocaleShow:
+job_template_locale/show:
   lang: CLI v2
   source: |-
     phrase job_template_locales show \
@@ -885,7 +885,7 @@ JobTemplateLocaleShow:
       --job_template_locale_id <job_template_locale_id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobTemplateLocaleUpdate:
+job_template_locale/update:
   lang: CLI v2
   source: |-
     phrase job_template_locales update \
@@ -894,7 +894,7 @@ JobTemplateLocaleUpdate:
       --job_template_locale_id <job_template_locale_id> \
       --data '{ "branch": "my-feature-branch", "locale_id": "abcd1234cdef1234abcd1234cdef1234", "user_ids": ["abcd1234cdef1234abcd1234cdef1234"], "reviewer_ids": ["abcd1234cdef1234abcd1234cdef1234"], "translator_team_ids": ["abcd1234cdef1234abcd1234cdef1234"], "reviewer_team_ids": ["abcd1234cdef1234abcd1234cdef1234"] }' \
       --access_token <token>
-JobTemplateLocalesCreate:
+job_template_locales/create:
   lang: CLI v2
   source: |-
     phrase job_template_locales create \
@@ -902,7 +902,7 @@ JobTemplateLocalesCreate:
       --job_template_id <job_template_id> \
       --data '{ "branch": "my-feature-branch", "locale_id": "abcd1234cdef1234abcd1234cdef1234", "user_ids": ["abcd1234cdef1234abcd1234cdef1234"], "reviewer_ids": ["abcd1234cdef1234abcd1234cdef1234"], "translator_team_ids": ["abcd1234cdef1234abcd1234cdef1234"], "reviewer_team_ids": ["abcd1234cdef1234abcd1234cdef1234"] }' \
       --access_token <token>
-JobTemplateLocalesList:
+job_template_locales/list:
   lang: CLI v2
   source: |-
     phrase job_template_locales list \
@@ -912,14 +912,14 @@ JobTemplateLocalesList:
       --per_page "25" \
       --branch "my-feature-branch" \
       --access_token <token>
-JobTemplateCreate:
+job_template/create:
   lang: CLI v2
   source: |-
     phrase job_templates create \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "name": "template", "briefing": "text", "autotranslate": true, "source_locale_id": "abcd1234cdef1234abcd1234cdef1234" }' \
       --access_token <token>
-JobTemplateDelete:
+job_template/delete:
   lang: CLI v2
   source: |-
     phrase job_templates delete \
@@ -927,7 +927,7 @@ JobTemplateDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobTemplateUpdate:
+job_template/update:
   lang: CLI v2
   source: |-
     phrase job_templates update \
@@ -935,7 +935,7 @@ JobTemplateUpdate:
       --id <id> \
       --data '{ "branch": "my-feature-branch", "name": "template", "briefing": "text", "autotranslate": true, "source_locale_id": "abcd1234cdef1234abcd1234cdef1234" }' \
       --access_token <token>
-JobTemplatesList:
+job_templates/list:
   lang: CLI v2
   source: |-
     phrase job_templates list \
@@ -944,7 +944,7 @@ JobTemplatesList:
       --per_page "25" \
       --branch "my-feature-branch" \
       --access_token <token>
-JobTemplatesShow:
+job_templates/show:
   lang: CLI v2
   source: |-
     phrase job_templates show \
@@ -952,7 +952,7 @@ JobTemplatesShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobComplete:
+job/complete:
   lang: CLI v2
   source: |-
     phrase jobs complete \
@@ -960,14 +960,14 @@ JobComplete:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-JobCreate:
+job/create:
   lang: CLI v2
   source: |-
     phrase jobs create \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "name": "de", "source_locale_id": "abcd1234cdef1234abcd1234cdef1234", "briefing": "de-DE", "due_date": "null", "ticket_url": "https://example.atlassian.net/browse/FOO", "tags": ["myUploadTag"], "translation_key_ids": ["abcd1234cdef1234abcd1234cdef1234"], "target_locale_ids": ["abcd1234cdef1234abcd1234cdef1234"], "job_template_id": "abcd1234cdef1234abcd1234cdef1234", "autotranslate": true }' \
       --access_token <token>
-JobDelete:
+job/delete:
   lang: CLI v2
   source: |-
     phrase jobs delete \
@@ -975,7 +975,7 @@ JobDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobKeysCreate:
+job/keys/create:
   lang: CLI v2
   source: |-
     phrase jobs keys_create \
@@ -983,7 +983,7 @@ JobKeysCreate:
       --id <id> \
       --data '{ "branch": "my-feature-branch", "translation_key_ids": ["abcd1234cdef1234abcd1234cdef1234"] }' \
       --access_token <token>
-JobKeysDelete:
+job/keys/delete:
   lang: CLI v2
   source: |-
     phrase jobs keys_delete \
@@ -991,7 +991,7 @@ JobKeysDelete:
       --id <id> \
       --data '{ "branch": "my-feature-branch", "translation_key_ids": ["abcd1234cdef1234abcd1234cdef1234"] }' \
       --access_token <token>
-JobLock:
+job/lock:
   lang: CLI v2
   source: |-
     phrase jobs lock \
@@ -999,7 +999,7 @@ JobLock:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobReopen:
+job/reopen:
   lang: CLI v2
   source: |-
     phrase jobs reopen \
@@ -1007,7 +1007,7 @@ JobReopen:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-JobShow:
+job/show:
   lang: CLI v2
   source: |-
     phrase jobs show \
@@ -1017,7 +1017,7 @@ JobShow:
       --include_annotations true \
       --omit_translation_keys true \
       --access_token <token>
-JobStart:
+job/start:
   lang: CLI v2
   source: |-
     phrase jobs start \
@@ -1025,7 +1025,7 @@ JobStart:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-JobUnlock:
+job/unlock:
   lang: CLI v2
   source: |-
     phrase jobs unlock \
@@ -1033,7 +1033,7 @@ JobUnlock:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-JobUpdate:
+job/update:
   lang: CLI v2
   source: |-
     phrase jobs update \
@@ -1041,7 +1041,7 @@ JobUpdate:
       --id <id> \
       --data '{ "branch": "my-feature-branch", "name": "de", "briefing": "de-DE", "due_date": "null", "ticket_url": "https://example.atlassian.net/browse/FOO", "target_locale_ids": ["abcd1234cdef1234abcd1234cdef1234"], "autotranslate": true }' \
       --access_token <token>
-JobsByAccount:
+jobs/by_account:
   lang: CLI v2
   source: |-
     phrase jobs by_account \
@@ -1053,7 +1053,7 @@ JobsByAccount:
       --state "completed" \
       --updated_since "2013-02-21T00:00:00.000Z" \
       --access_token <token>
-JobsList:
+jobs/list:
   lang: CLI v2
   source: |-
     phrase jobs list \
@@ -1068,14 +1068,14 @@ JobsList:
       --key_id "abcd1234cdef1234abcd1234cdef1234" \
       --updated_since "2013-02-21T00:00:00.000Z" \
       --access_token <token>
-KeyCreate:
+key/create:
   lang: CLI v2
   source: |-
     phrase keys create \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "name": "home.index.headline", "description": "Some description worth knowing...", "plural": null, "use_ordinal_rules": null, "name_plural": "home.index.headlines", "data_type": "number", "tags": "awesome-feature,needs-proofreading", "max_characters_allowed": 140, "screenshot": "<screenshot>", "remove_screenshot": null, "unformatted": null, "default_translation_content": "Default translation content", "autotranslate": null, "xml_space_preserve": null, "original_file": "null", "localized_format_string": "null", "localized_format_key": "null", "custom_metadata": {"fruit":"Apple","vegetable":"Tomato"}, "excluded_in_locales": ["de","fr"], "format_value_type": "string" }' \
       --access_token <token>
-KeyDelete:
+key/delete:
   lang: CLI v2
   source: |-
     phrase keys delete \
@@ -1083,7 +1083,7 @@ KeyDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-KeyShow:
+key/show:
   lang: CLI v2
   source: |-
     phrase keys show \
@@ -1091,7 +1091,7 @@ KeyShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-KeyUpdate:
+key/update:
   lang: CLI v2
   source: |-
     phrase keys update \
@@ -1099,7 +1099,7 @@ KeyUpdate:
       --id <id> \
       --data '{ "branch": "my-feature-branch", "name": "home.index.headline", "description": "Some description worth knowing...", "plural": null, "use_ordinal_rules": null, "name_plural": "home.index.headlines", "data_type": "number", "tags": "awesome-feature,needs-proofreading", "max_characters_allowed": 140, "screenshot": "<screenshot>", "remove_screenshot": null, "unformatted": null, "xml_space_preserve": null, "original_file": "null", "localized_format_string": "null", "localized_format_key": "null", "custom_metadata": {"fruit":"Apple","vegetable":"Tomato"}, "excluded_in_locales": ["de","fr"], "format_value_type": "string" }' \
       --access_token <token>
-KeysDeleteCollection:
+keys/delete-collection:
   lang: CLI v2
   source: |-
     phrase keys delete-collection \
@@ -1108,21 +1108,21 @@ KeysDeleteCollection:
       --q "mykey* translated:true" \
       --locale_id "abcd1234abcd1234abcd1234abcd1234" \
       --access_token <token>
-KeysExclude:
+keys/exclude:
   lang: CLI v2
   source: |-
     phrase keys exclude \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "q": "mykey* translated:true", "target_locale_id": "abcd1234abcd1234abcd1234abcd1234", "tags": "landing-page,release-1.2" }' \
       --access_token <token>
-KeysInclude:
+keys/include:
   lang: CLI v2
   source: |-
     phrase keys include \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "q": "mykey* translated:true", "target_locale_id": "abcd1234abcd1234abcd1234abcd1234", "tags": "landing-page,release-1.2" }' \
       --access_token <token>
-KeysList:
+keys/list:
   lang: CLI v2
   source: |-
     phrase keys list \
@@ -1135,7 +1135,7 @@ KeysList:
       --q "mykey* translated:true" \
       --locale_id "abcd1234abcd1234abcd1234abcd1234" \
       --access_token <token>
-KeysSearch:
+keys/search:
   lang: CLI v2
   source: |-
     phrase keys search \
@@ -1144,21 +1144,21 @@ KeysSearch:
       --per_page "25" \
       --data '{ "branch": "my-feature-branch", "sort": "updated_at", "order": "desc", "q": "mykey* translated:true", "locale_id": "abcd1234abcd1234abcd1234abcd1234" }' \
       --access_token <token>
-KeysTag:
+keys/tag:
   lang: CLI v2
   source: |-
     phrase keys tag \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "q": "mykey* translated:true", "locale_id": "abcd1234abcd1234abcd1234abcd1234", "tags": "landing-page,release-1.2" }' \
       --access_token <token>
-KeysUntag:
+keys/untag:
   lang: CLI v2
   source: |-
     phrase keys untag \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "q": "mykey* translated:true", "locale_id": "abcd1234abcd1234abcd1234abcd1234", "tags": "landing-page,release-1.2" }' \
       --access_token <token>
-FigmaAttachmentAttachToKey:
+figma_attachment/attach_to_key:
   lang: CLI v2
   source: |-
     phrase keys_figma_attachments attach_to_key \
@@ -1167,7 +1167,7 @@ FigmaAttachmentAttachToKey:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-FigmaAttachmentDetachFromKey:
+figma_attachment/detach_from_key:
   lang: CLI v2
   source: |-
     phrase keys_figma_attachments detach_from_key \
@@ -1176,7 +1176,7 @@ FigmaAttachmentDetachFromKey:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-KeyLinksBatchDestroy:
+key_links/batch_destroy:
   lang: CLI v2
   source: |-
     phrase linked_keys batch_destroy \
@@ -1184,7 +1184,7 @@ KeyLinksBatchDestroy:
       --id <id> \
       --data '{ "child_key_ids": ["feature.subtitle","nav.home"], "unlink_parent": null, "strategy": "null" }' \
       --access_token <token>
-KeyLinksCreate:
+key_links/create:
   lang: CLI v2
   source: |-
     phrase linked_keys create \
@@ -1192,7 +1192,7 @@ KeyLinksCreate:
       --id <id> \
       --data '{ "child_key_ids": ["child_key_id1","child_key_id2"] }' \
       --access_token <token>
-KeyLinksDestroy:
+key_links/destroy:
   lang: CLI v2
   source: |-
     phrase linked_keys destroy \
@@ -1200,14 +1200,14 @@ KeyLinksDestroy:
       --id <id> \
       --child_key_id <child_key_id> \
       --access_token <token>
-KeyLinksIndex:
+key_links/index:
   lang: CLI v2
   source: |-
     phrase linked_keys index \
       --project_id <project_id> \
       --id <id> \
       --access_token <token>
-LocaleDownloadCreate:
+locale_download/create:
   lang: CLI v2
   source: |-
     phrase locale_downloads create \
@@ -1217,7 +1217,7 @@ LocaleDownloadCreate:
       --If-None-Match "ifNoneMatch_example" \
       --data '{ "file_format": "yml", "branch": "my-feature-branch", "tags": "feature1,feature2", "include_empty_translations": true, "exclude_empty_zero_forms": true, "include_translated_keys": true, "keep_notranslate_tags": true, "format_options": {"format_options":{"foo":"bar"}}, "encoding": "UTF-8", "include_unverified_translations": true, "use_last_reviewed_version": null, "locale_ids": ["de","en"], "fallback_locale_id": "abcd1234abcd1234abcd1234abcd1234", "use_locale_fallback": false, "fallback_for_unverified_translations": false, "source_locale_id": "abcd1234abcd1234abcd1234abcd1234", "custom_metadata_filters": null, "translation_key_prefix": "prefix_", "filter_by_prefix": null, "updated_since": "2023-01-01T00:00:00Z" }' \
       --access_token <token>
-LocaleDownloadShow:
+locale_download/show:
   lang: CLI v2
   source: |-
     phrase locale_downloads show \
@@ -1227,7 +1227,7 @@ LocaleDownloadShow:
       --If-Modified-Since "ifModifiedSince_example" \
       --If-None-Match "ifNoneMatch_example" \
       --access_token <token>
-AccountLocales:
+account/locales:
   lang: CLI v2
   source: |-
     phrase locales locales \
@@ -1235,14 +1235,14 @@ AccountLocales:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-LocaleCreate:
+locale/create:
   lang: CLI v2
   source: |-
     phrase locales create \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "name": "de", "code": "de-DE", "default": null, "main": null, "rtl": null, "source_locale_id": "abcd1234abcd1234abcd1234abcd1234", "fallback_locale_id": "abcd1234abcd1234abcd1234abcd1234", "unverify_new_translations": null, "unverify_updated_translations": null, "autotranslate": null, "language_ai_profile": "abcd1234abcd1234abcd1234abcd1234" }' \
       --access_token <token>
-LocaleDelete:
+locale/delete:
   lang: CLI v2
   source: |-
     phrase locales delete \
@@ -1250,7 +1250,7 @@ LocaleDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-LocaleDownload:
+locale/download:
   lang: CLI v2
   source: |-
     phrase locales download \
@@ -1282,7 +1282,7 @@ LocaleDownload:
       --locale_ids "["de","en"]" \
       --updated_since "2023-01-01T00:00:00Z" \
       --access_token <token>
-LocaleShow:
+locale/show:
   lang: CLI v2
   source: |-
     phrase locales show \
@@ -1290,7 +1290,7 @@ LocaleShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-LocaleUpdate:
+locale/update:
   lang: CLI v2
   source: |-
     phrase locales update \
@@ -1298,7 +1298,7 @@ LocaleUpdate:
       --id <id> \
       --data '{ "branch": "my-feature-branch", "name": "de", "code": "de-DE", "default": null, "main": null, "rtl": null, "source_locale_id": "abcd1234abcd1234abcd1234abcd1234", "fallback_locale_id": "abcd1234abcd1234abcd1234abcd1234", "unverify_new_translations": null, "unverify_updated_translations": null, "autotranslate": null, "language_ai_profile": "abcd1234abcd1234abcd1234abcd1234" }' \
       --access_token <token>
-LocalesList:
+locales/list:
   lang: CLI v2
   source: |-
     phrase locales list \
@@ -1309,21 +1309,21 @@ LocalesList:
       --branch "my-feature-branch" \
       --q "name:en" \
       --access_token <token>
-MemberDelete:
+member/delete:
   lang: CLI v2
   source: |-
     phrase members delete \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-MemberShow:
+member/show:
   lang: CLI v2
   source: |-
     phrase members show \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-MemberUpdate:
+member/update:
   lang: CLI v2
   source: |-
     phrase members update \
@@ -1331,7 +1331,7 @@ MemberUpdate:
       --id <id> \
       --data '{ "strategy": "set", "role": "Developer", "project_ids": "abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235", "locale_ids": "abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235", "default_locale_codes": ["en","fi"], "space_ids": ["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"], "permissions": {"create_upload":true,"review_translations":true} }' \
       --access_token <token>
-MemberUpdateSettings:
+member/update_settings:
   lang: CLI v2
   source: |-
     phrase members update_settings \
@@ -1339,7 +1339,7 @@ MemberUpdateSettings:
       --id <id> \
       --data '{ "project_role": "Developer", "locale_ids": ["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"] }' \
       --access_token <token>
-MembersList:
+members/list:
   lang: CLI v2
   source: |-
     phrase members list \
@@ -1347,25 +1347,25 @@ MembersList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-NotificationGroupsList:
+notification_groups/list:
   lang: CLI v2
   source: |-
     phrase notification_groups list \
       --page "1" \
       --per_page "25" \
       --access_token <token>
-NotificationGroupsMarkAllAsRead:
+notification_groups/mark_all_as_read:
   lang: CLI v2
   source: |-
     phrase notification_groups mark_all_as_read \
       --access_token <token>
-NotificationGroupsMarkAsRead:
+notification_groups/mark_as_read:
   lang: CLI v2
   source: |-
     phrase notification_groups mark_as_read \
       --id <id> \
       --access_token <token>
-NotificationsList:
+notifications/list:
   lang: CLI v2
   source: |-
     phrase notifications list \
@@ -1374,18 +1374,18 @@ NotificationsList:
       --unseen true \
       --last_days "7" \
       --access_token <token>
-NotificationsMarkAllAsRead:
+notifications/mark_all_as_read:
   lang: CLI v2
   source: |-
     phrase notifications mark_all_as_read \
       --access_token <token>
-NotificationsShow:
+notifications/show:
   lang: CLI v2
   source: |-
     phrase notifications show \
       --id <id> \
       --access_token <token>
-OrderConfirm:
+order/confirm:
   lang: CLI v2
   source: |-
     phrase orders confirm \
@@ -1393,14 +1393,14 @@ OrderConfirm:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-OrderCreate:
+order/create:
   lang: CLI v2
   source: |-
     phrase orders create \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "name": "Welcome message translations", "lsp": "textmaster", "source_locale_id": "abcd1234abcd1234abcd1234abcd1234", "target_locale_ids": ["1234abcd1234abcd1234abcd1234abcd","abcd1234abcd1234abcd1234abcd1234"], "translation_type": "premium", "tag": "my-awesome-feature", "message": "Please make everything sound really nice :)", "styleguide_id": "1234abcd1234abcd1234abcd1234abcd", "unverify_translations_upon_delivery": null, "include_untranslated_keys": null, "include_unverified_translations": null, "category": "C021", "quality": null, "priority": null }' \
       --access_token <token>
-OrderDelete:
+order/delete:
   lang: CLI v2
   source: |-
     phrase orders delete \
@@ -1408,7 +1408,7 @@ OrderDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-OrderShow:
+order/show:
   lang: CLI v2
   source: |-
     phrase orders show \
@@ -1416,7 +1416,7 @@ OrderShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-OrdersList:
+orders/list:
   lang: CLI v2
   source: |-
     phrase orders list \
@@ -1426,7 +1426,7 @@ OrdersList:
       --branch "my-feature-branch" \
       --translation_id "abcd1234cdef1234abcd1234cdef1234" \
       --access_token <token>
-OrganizationJobTemplateLocaleDelete:
+organization_job_template_locale/delete:
   lang: CLI v2
   source: |-
     phrase organization_job_template_locales delete \
@@ -1434,7 +1434,7 @@ OrganizationJobTemplateLocaleDelete:
       --job_template_id <job_template_id> \
       --job_template_locale_id <job_template_locale_id> \
       --access_token <token>
-OrganizationJobTemplateLocaleShow:
+organization_job_template_locale/show:
   lang: CLI v2
   source: |-
     phrase organization_job_template_locales show \
@@ -1442,7 +1442,7 @@ OrganizationJobTemplateLocaleShow:
       --job_template_id <job_template_id> \
       --job_template_locale_id <job_template_locale_id> \
       --access_token <token>
-OrganizationJobTemplateLocaleUpdate:
+organization_job_template_locale/update:
   lang: CLI v2
   source: |-
     phrase organization_job_template_locales update \
@@ -1451,7 +1451,7 @@ OrganizationJobTemplateLocaleUpdate:
       --job_template_locale_id <job_template_locale_id> \
       --data '{ "locale_name": "de-1", "locale_code": "de-DE", "user_ids": ["abcd1234cdef1234abcd1234cdef1234"], "reviewer_ids": ["abcd1234cdef1234abcd1234cdef1234"], "translator_team_ids": ["abcd1234cdef1234abcd1234cdef1234"], "reviewer_team_ids": ["abcd1234cdef1234abcd1234cdef1234"] }' \
       --access_token <token>
-OrganizationJobTemplateLocalesCreate:
+organization_job_template_locales/create:
   lang: CLI v2
   source: |-
     phrase organization_job_template_locales create \
@@ -1459,7 +1459,7 @@ OrganizationJobTemplateLocalesCreate:
       --job_template_id <job_template_id> \
       --data '{ "locale_name": "de-1", "locale_code": "de-DE", "user_ids": ["abcd1234cdef1234abcd1234cdef1234"], "reviewer_ids": ["abcd1234cdef1234abcd1234cdef1234"], "translator_team_ids": ["abcd1234cdef1234abcd1234cdef1234"], "reviewer_team_ids": ["abcd1234cdef1234abcd1234cdef1234"] }' \
       --access_token <token>
-OrganizationJobTemplateLocalesList:
+organization_job_template_locales/list:
   lang: CLI v2
   source: |-
     phrase organization_job_template_locales list \
@@ -1468,21 +1468,21 @@ OrganizationJobTemplateLocalesList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-OrganizationJobTemplateCreate:
+organization_job_template/create:
   lang: CLI v2
   source: |-
     phrase organization_job_templates create \
       --account_id <account_id> \
       --data '{ "name": "template", "briefing": "text", "autotranslate": true }' \
       --access_token <token>
-OrganizationJobTemplateDelete:
+organization_job_template/delete:
   lang: CLI v2
   source: |-
     phrase organization_job_templates delete \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-OrganizationJobTemplateUpdate:
+organization_job_template/update:
   lang: CLI v2
   source: |-
     phrase organization_job_templates update \
@@ -1490,7 +1490,7 @@ OrganizationJobTemplateUpdate:
       --id <id> \
       --data '{ "name": "template", "briefing": "text", "autotranslate": true }' \
       --access_token <token>
-OrganizationJobTemplatesList:
+organization_job_templates/list:
   lang: CLI v2
   source: |-
     phrase organization_job_templates list \
@@ -1498,39 +1498,39 @@ OrganizationJobTemplatesList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-OrganizationJobTemplatesShow:
+organization_job_templates/show:
   lang: CLI v2
   source: |-
     phrase organization_job_templates show \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-ProjectCreate:
+project/create:
   lang: CLI v2
   source: |-
     phrase projects create \
       --data '{ "name": "My Android Project", "main_format": "yml", "media": "Python", "shares_translation_memory": true, "project_image": "<project_image>", "remove_project_image": null, "account_id": "abcd1234", "point_of_contact": "abcd1234", "source_project_id": "abcd1234", "workflow": "review", "machine_translation_enabled": true, "enable_branching": true, "protect_master_branch": true, "enable_all_data_type_translation_keys_for_translators": true, "enable_icu_message_format": true, "zero_plural_form_enabled": true, "autotranslate_enabled": true, "autotranslate_check_new_translation_keys": true, "autotranslate_check_new_uploads": true, "autotranslate_check_new_locales": true, "autotranslate_mark_as_unverified": true, "autotranslate_use_machine_translation": true, "autotranslate_use_translation_memory": true, "autotranslate_overwrite_unverified_translations": true, "autocomplete_job_enabled": false, "job_locking_enabled": false, "smart_suggest_enabled": true, "smart_suggest_use_glossary": true, "smart_suggest_use_machine_translation": true, "translation_keys_sort_collation": "unicode_ci", "default_encoding": "UTF-8", "cldr_version": "cldr48", "placeholder_styles": ["angular","iOS"] }' \
       --access_token <token>
-ProjectDelete:
+project/delete:
   lang: CLI v2
   source: |-
     phrase projects delete \
       --id <id> \
       --access_token <token>
-ProjectShow:
+project/show:
   lang: CLI v2
   source: |-
     phrase projects show \
       --id <id> \
       --access_token <token>
-ProjectUpdate:
+project/update:
   lang: CLI v2
   source: |-
     phrase projects update \
       --id <id> \
       --data '{ "account_id": "abcd1234", "name": "My Android Project", "point_of_contact": "abcd1234", "main_format": "yml", "media": "Python", "shares_translation_memory": true, "project_image": "<project_image>", "remove_project_image": false, "workflow": "review", "machine_translation_enabled": true, "enable_branching": true, "protect_master_branch": true, "enable_all_data_type_translation_keys_for_translators": true, "enable_icu_message_format": true, "zero_plural_form_enabled": true, "autotranslate_enabled": true, "autotranslate_check_new_translation_keys": true, "autotranslate_check_new_uploads": true, "autotranslate_check_new_locales": true, "autotranslate_mark_as_unverified": true, "autotranslate_use_machine_translation": true, "autotranslate_use_translation_memory": true, "autotranslate_overwrite_unverified_translations": true, "default_encoding": "UTF-8", "placeholder_styles": ["angular","iOS"], "autocomplete_job_enabled": false, "job_locking_enabled": false, "smart_suggest_enabled": true, "smart_suggest_use_glossary": true, "smart_suggest_use_machine_translation": true, "translation_keys_sort_collation": "unicode_ci", "cldr_version": "legacy" }' \
       --access_token <token>
-ProjectsList:
+projects/list:
   lang: CLI v2
   source: |-
     phrase projects list \
@@ -1541,14 +1541,14 @@ ProjectsList:
       --filters "favorites" \
       --q "name:android" \
       --access_token <token>
-QualityPerformanceScoreList:
+quality_performance_score/list:
   lang: CLI v2
   source: |-
     phrase quality_performance_score list \
       --project_id <project_id> \
       --data '{ "translation_ids": null }' \
       --access_token <token>
-ReleaseTriggersCreate:
+release_triggers/create:
   lang: CLI v2
   source: |-
     phrase release_triggers create \
@@ -1556,7 +1556,7 @@ ReleaseTriggersCreate:
       --distribution_id <distribution_id> \
       --data '{ "cron_schedule": "15 18 * * 1,3", "time_zone": "Europe/Berlin", "locale_ids": ["abcd1234cdef1234abcd1234cdef1234","fff565db236400772368235db2c6117e"], "tags": ["android","feature1"], "branch": "my-feature-branch", "app_min_version": "1.0.0", "app_max_version": "2.0.0" }' \
       --access_token <token>
-ReleaseTriggersDestroy:
+release_triggers/destroy:
   lang: CLI v2
   source: |-
     phrase release_triggers destroy \
@@ -1564,14 +1564,14 @@ ReleaseTriggersDestroy:
       --distribution_id <distribution_id> \
       --id <id> \
       --access_token <token>
-ReleaseTriggersList:
+release_triggers/list:
   lang: CLI v2
   source: |-
     phrase release_triggers list \
       --account_id <account_id> \
       --distribution_id <distribution_id> \
       --access_token <token>
-ReleaseTriggersShow:
+release_triggers/show:
   lang: CLI v2
   source: |-
     phrase release_triggers show \
@@ -1579,7 +1579,7 @@ ReleaseTriggersShow:
       --distribution_id <distribution_id> \
       --id <id> \
       --access_token <token>
-ReleaseTriggersUpdate:
+release_triggers/update:
   lang: CLI v2
   source: |-
     phrase release_triggers update \
@@ -1588,7 +1588,7 @@ ReleaseTriggersUpdate:
       --id <id> \
       --data '{ "cron_schedule": "15 18 * * 1,3", "time_zone": "Europe/Berlin", "locale_ids": ["abcd1234cdef1234abcd1234cdef1234","fff565db236400772368235db2c6117e"], "tags": ["android","feature1"], "branch": "my-feature-branch", "app_min_version": "1.0.0", "app_max_version": "2.0.0" }' \
       --access_token <token>
-ReleaseCreate:
+release/create:
   lang: CLI v2
   source: |-
     phrase releases create \
@@ -1596,7 +1596,7 @@ ReleaseCreate:
       --distribution_id <distribution_id> \
       --data '{ "description": "My first Release", "platforms": ["android","ios"], "locale_ids": ["abcd1234cdef1234abcd1234cdef1234","fff565db236400772368235db2c6117e"], "tags": ["android","feature1"], "app_min_version": "2.5.0", "app_max_version": "3.0.0", "branch": "my-feature-branch" }' \
       --access_token <token>
-ReleaseDelete:
+release/delete:
   lang: CLI v2
   source: |-
     phrase releases delete \
@@ -1604,7 +1604,7 @@ ReleaseDelete:
       --distribution_id <distribution_id> \
       --id <id> \
       --access_token <token>
-ReleasePublish:
+release/publish:
   lang: CLI v2
   source: |-
     phrase releases publish \
@@ -1612,7 +1612,7 @@ ReleasePublish:
       --distribution_id <distribution_id> \
       --id <id> \
       --access_token <token>
-ReleaseShow:
+release/show:
   lang: CLI v2
   source: |-
     phrase releases show \
@@ -1620,7 +1620,7 @@ ReleaseShow:
       --distribution_id <distribution_id> \
       --id <id> \
       --access_token <token>
-ReleaseUpdate:
+release/update:
   lang: CLI v2
   source: |-
     phrase releases update \
@@ -1629,7 +1629,7 @@ ReleaseUpdate:
       --id <id> \
       --data '{ "description": "My first Release", "platforms": ["android","ios"], "app_min_version": "2.5.0", "app_max_version": "3.0.0", "branch": "my-feature-branch" }' \
       --access_token <token>
-ReleasesList:
+releases/list:
   lang: CLI v2
   source: |-
     phrase releases list \
@@ -1638,14 +1638,14 @@ ReleasesList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-RepoSyncEventList:
+repo_sync_event/list:
   lang: CLI v2
   source: |-
     phrase repo_sync_events list \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-RepoSyncEventShow:
+repo_sync_event/show:
   lang: CLI v2
   source: |-
     phrase repo_sync_events show \
@@ -1653,28 +1653,28 @@ RepoSyncEventShow:
       --repo_sync_id <repo_sync_id> \
       --id <id> \
       --access_token <token>
-RepoSyncActivate:
+repo_sync/activate:
   lang: CLI v2
   source: |-
     phrase repo_syncs activate \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-RepoSyncCreate:
+repo_sync/create:
   lang: CLI v2
   source: |-
     phrase repo_syncs create \
       --account_id <account_id> \
       --data '{ "project_id": "abcd1234abcd1234abcd1234abcd1234", "name": "null", "git_provider": "github", "connection_type": "github_app", "repo_name": "my-org/my-repo", "base_branch": "main", "pr_branch": "phrase-translations", "auto_import": false, "access_token": "ghp_xxxxxxxxxxxxxxxxxxxx", "custom_api_endpoint": "https://git.example.com/api/v4" }' \
       --access_token <token>
-RepoSyncDeactivate:
+repo_sync/deactivate:
   lang: CLI v2
   source: |-
     phrase repo_syncs deactivate \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-RepoSyncExport:
+repo_sync/export:
   lang: CLI v2
   source: |-
     phrase repo_syncs export \
@@ -1682,7 +1682,7 @@ RepoSyncExport:
       --id <id> \
       --data '{ "pr_branch": "my-feature-branch", "branch": "my-strings-branch" }' \
       --access_token <token>
-RepoSyncImport:
+repo_sync/import:
   lang: CLI v2
   source: |-
     phrase repo_syncs import \
@@ -1690,20 +1690,20 @@ RepoSyncImport:
       --id <id> \
       --data '{ "repository_branch": "my-feature-branch", "branch": "my-strings-branch" }' \
       --access_token <token>
-RepoSyncList:
+repo_sync/list:
   lang: CLI v2
   source: |-
     phrase repo_syncs list \
       --account_id <account_id> \
       --access_token <token>
-RepoSyncShow:
+repo_sync/show:
   lang: CLI v2
   source: |-
     phrase repo_syncs show \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-ReportLocalesList:
+report/locales/list:
   lang: CLI v2
   source: |-
     phrase reports locales_list \
@@ -1714,14 +1714,14 @@ ReportLocalesList:
       --tag "tag_example" \
       --branch "my-feature-branch" \
       --access_token <token>
-ReportShow:
+report/show:
   lang: CLI v2
   source: |-
     phrase reports show \
       --project_id <project_id> \
       --branch "my-feature-branch" \
       --access_token <token>
-ScreenshotMarkerCreate:
+screenshot_marker/create:
   lang: CLI v2
   source: |-
     phrase screenshot_markers create \
@@ -1729,7 +1729,7 @@ ScreenshotMarkerCreate:
       --screenshot_id <screenshot_id> \
       --data '{ "branch": "my-feature-branch", "key_id": "abcd1234abcd1234abcd1234abcd1234", "presentation": "{ \"x\": 100, \"y\": 100, \"w\": 100, \"h\": 100 }" }' \
       --access_token <token>
-ScreenshotMarkerDelete:
+screenshot_marker/delete:
   lang: CLI v2
   source: |-
     phrase screenshot_markers delete \
@@ -1737,7 +1737,7 @@ ScreenshotMarkerDelete:
       --screenshot_id <screenshot_id> \
       --branch "my-feature-branch" \
       --access_token <token>
-ScreenshotMarkerShow:
+screenshot_marker/show:
   lang: CLI v2
   source: |-
     phrase screenshot_markers show \
@@ -1746,7 +1746,7 @@ ScreenshotMarkerShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-ScreenshotMarkerUpdate:
+screenshot_marker/update:
   lang: CLI v2
   source: |-
     phrase screenshot_markers update \
@@ -1754,7 +1754,7 @@ ScreenshotMarkerUpdate:
       --screenshot_id <screenshot_id> \
       --data '{ "branch": "my-feature-branch", "key_id": "abcd1234abcd1234abcd1234abcd1234", "presentation": "{ \"x\": 100, \"y\": 100, \"w\": 100, \"h\": 100 }" }' \
       --access_token <token>
-ScreenshotMarkersList:
+screenshot_markers/list:
   lang: CLI v2
   source: |-
     phrase screenshot_markers list \
@@ -1764,7 +1764,7 @@ ScreenshotMarkersList:
       --per_page "25" \
       --branch "my-feature-branch" \
       --access_token <token>
-ScreenshotCreate:
+screenshot/create:
   lang: CLI v2
   source: |-
     phrase screenshots create \
@@ -1774,7 +1774,7 @@ ScreenshotCreate:
       --name "name_example" \
       --description "description_example" \
       --access_token <token>
-ScreenshotDelete:
+screenshot/delete:
   lang: CLI v2
   source: |-
     phrase screenshots delete \
@@ -1782,7 +1782,13 @@ ScreenshotDelete:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-ScreenshotShow:
+screenshot/ping:
+  lang: CLI v2
+  source: |-
+    phrase screenshots ping \
+      --project_id <project_id> \
+      --access_token <token>
+screenshot/show:
   lang: CLI v2
   source: |-
     phrase screenshots show \
@@ -1790,7 +1796,7 @@ ScreenshotShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-ScreenshotUpdate:
+screenshot/update:
   lang: CLI v2
   source: |-
     phrase screenshots update \
@@ -1798,7 +1804,7 @@ ScreenshotUpdate:
       --id <id> \
       --data '{ "branch": "my-feature-branch", "name": "A screenshot name", "description": "A screenshot description", "filename": "<filename>" }' \
       --access_token <token>
-ScreenshotsList:
+screenshots/list:
   lang: CLI v2
   source: |-
     phrase screenshots list \
@@ -1808,35 +1814,35 @@ ScreenshotsList:
       --branch "my-feature-branch" \
       --key_id "abcd1234cdef1234abcd1234cdef1234" \
       --access_token <token>
-SearchInAccount:
+search/in_account:
   lang: CLI v2
   source: |-
     phrase search in_account \
       --account_id <account_id> \
       --data '{ "query": "keyword", "locale_code": "de_DE", "page": 1, "per_page": 25, "project_ids": ["abcd1234abcd1234abcd1234abcd1234"] }' \
       --access_token <token>
-SpaceCreate:
+space/create:
   lang: CLI v2
   source: |-
     phrase spaces create \
       --account_id <account_id> \
       --data '{ "name": "My Android Projects" }' \
       --access_token <token>
-SpaceDelete:
+space/delete:
   lang: CLI v2
   source: |-
     phrase spaces delete \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-SpaceShow:
+space/show:
   lang: CLI v2
   source: |-
     phrase spaces show \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-SpaceUpdate:
+space/update:
   lang: CLI v2
   source: |-
     phrase spaces update \
@@ -1844,7 +1850,7 @@ SpaceUpdate:
       --id <id> \
       --data '{ "name": "My Android Projects" }' \
       --access_token <token>
-SpacesList:
+spaces/list:
   lang: CLI v2
   source: |-
     phrase spaces list \
@@ -1852,7 +1858,7 @@ SpacesList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-SpacesProjectsCreate:
+spaces/projects/create:
   lang: CLI v2
   source: |-
     phrase spaces projects_create \
@@ -1860,7 +1866,7 @@ SpacesProjectsCreate:
       --space_id <space_id> \
       --data '{ "id": "a4b3c2d1" }' \
       --access_token <token>
-SpacesProjectsDelete:
+spaces/projects/delete:
   lang: CLI v2
   source: |-
     phrase spaces projects_delete \
@@ -1868,7 +1874,7 @@ SpacesProjectsDelete:
       --space_id <space_id> \
       --id <id> \
       --access_token <token>
-SpacesProjectsList:
+spaces/projects/list:
   lang: CLI v2
   source: |-
     phrase spaces projects_list \
@@ -1877,28 +1883,28 @@ SpacesProjectsList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-StyleguideCreate:
+styleguide/create:
   lang: CLI v2
   source: |-
     phrase style_guides create \
       --project_id <project_id> \
       --data '{ "title": "Web application style guide", "audience": "customer-facing", "target_audience": "teenager", "grammatical_person": "first_person_singular", "vocabulary_type": "technical", "business": "We are a travel site that helps customers find the best hotels and flights.", "company_branding": "ACME Inc. should never be translated.", "formatting": "Never use capital letters", "glossary_terms": "Apartment, cabin, loft", "grammar_consistency": "Use informal pronouns and consistent present-tense conjugation", "literal_translation": "Neutral", "overall_tone": "Tone should be fun and light", "samples": "http://www.myexample.com/my/document/path/to/samples.pdf" }' \
       --access_token <token>
-StyleguideDelete:
+styleguide/delete:
   lang: CLI v2
   source: |-
     phrase style_guides delete \
       --project_id <project_id> \
       --id <id> \
       --access_token <token>
-StyleguideShow:
+styleguide/show:
   lang: CLI v2
   source: |-
     phrase style_guides show \
       --project_id <project_id> \
       --id <id> \
       --access_token <token>
-StyleguideUpdate:
+styleguide/update:
   lang: CLI v2
   source: |-
     phrase style_guides update \
@@ -1906,7 +1912,7 @@ StyleguideUpdate:
       --id <id> \
       --data '{ "title": "Web application style guide", "audience": "customer-facing", "target_audience": "teenager", "grammatical_person": "first_person_singular", "vocabulary_type": "technical", "business": "We are a travel site that helps customers find the best hotels and flights.", "company_branding": "ACME Inc. should never be translated.", "formatting": "Never use capital letters", "glossary_terms": "Apartment, cabin, loft", "grammar_consistency": "Use informal pronouns and consistent present-tense conjugation", "literal_translation": "Neutral", "overall_tone": "Tone should be fun and light", "samples": "http://www.myexample.com/my/document/path/to/samples.pdf" }' \
       --access_token <token>
-StyleguidesList:
+styleguides/list:
   lang: CLI v2
   source: |-
     phrase style_guides list \
@@ -1914,14 +1920,14 @@ StyleguidesList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-TagCreate:
+tag/create:
   lang: CLI v2
   source: |-
     phrase tags create \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "name": "my-feature" }' \
       --access_token <token>
-TagDelete:
+tag/delete:
   lang: CLI v2
   source: |-
     phrase tags delete \
@@ -1929,7 +1935,7 @@ TagDelete:
       --name <name> \
       --branch "my-feature-branch" \
       --access_token <token>
-TagShow:
+tag/show:
   lang: CLI v2
   source: |-
     phrase tags show \
@@ -1938,7 +1944,7 @@ TagShow:
       --omit_statistics true \
       --branch "my-feature-branch" \
       --access_token <token>
-TagsList:
+tags/list:
   lang: CLI v2
   source: |-
     phrase tags list \
@@ -1950,28 +1956,28 @@ TagsList:
       --branch "my-feature-branch" \
       --q "feature" \
       --access_token <token>
-TeamCreate:
+team/create:
   lang: CLI v2
   source: |-
     phrase teams create \
       --account_id <account_id> \
       --data '{ "name": "German Translators" }' \
       --access_token <token>
-TeamDelete:
+team/delete:
   lang: CLI v2
   source: |-
     phrase teams delete \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-TeamShow:
+team/show:
   lang: CLI v2
   source: |-
     phrase teams show \
       --account_id <account_id> \
       --id <id> \
       --access_token <token>
-TeamUpdate:
+team/update:
   lang: CLI v2
   source: |-
     phrase teams update \
@@ -1979,7 +1985,7 @@ TeamUpdate:
       --id <id> \
       --data '{ "name": "German Translators" }' \
       --access_token <token>
-TeamsList:
+teams/list:
   lang: CLI v2
   source: |-
     phrase teams list \
@@ -1987,7 +1993,7 @@ TeamsList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-TeamsProjectsCreate:
+teams/projects/create:
   lang: CLI v2
   source: |-
     phrase teams projects_create \
@@ -1995,7 +2001,7 @@ TeamsProjectsCreate:
       --team_id <team_id> \
       --data '{ "id": "a4b3c2d1" }' \
       --access_token <token>
-TeamsProjectsDelete:
+teams/projects/delete:
   lang: CLI v2
   source: |-
     phrase teams projects_delete \
@@ -2003,7 +2009,7 @@ TeamsProjectsDelete:
       --team_id <team_id> \
       --id <id> \
       --access_token <token>
-TeamsSpacesCreate:
+teams/spaces/create:
   lang: CLI v2
   source: |-
     phrase teams spaces_create \
@@ -2011,7 +2017,7 @@ TeamsSpacesCreate:
       --team_id <team_id> \
       --data '{ "id": "a4b3c2d1" }' \
       --access_token <token>
-TeamsSpacesDelete:
+teams/spaces/delete:
   lang: CLI v2
   source: |-
     phrase teams spaces_delete \
@@ -2019,7 +2025,7 @@ TeamsSpacesDelete:
       --team_id <team_id> \
       --id <id> \
       --access_token <token>
-TeamsUsersCreate:
+teams/users/create:
   lang: CLI v2
   source: |-
     phrase teams users_create \
@@ -2027,7 +2033,7 @@ TeamsUsersCreate:
       --team_id <team_id> \
       --data '{ "id": "a4b3c2d1" }' \
       --access_token <token>
-TeamsUsersDelete:
+teams/users/delete:
   lang: CLI v2
   source: |-
     phrase teams users_delete \
@@ -2035,14 +2041,14 @@ TeamsUsersDelete:
       --team_id <team_id> \
       --id <id> \
       --access_token <token>
-TranslationCreate:
+translation/create:
   lang: CLI v2
   source: |-
     phrase translations create \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "locale_id": "abcd1234cdef1234abcd1234cdef1234", "key_id": "abcd1234cdef1234abcd1234cdef1234", "content": "My translation", "plural_suffix": "null", "unverified": null, "excluded": null, "autotranslate": null, "minor_change": false, "reviewed": false }' \
       --access_token <token>
-TranslationExclude:
+translation/exclude:
   lang: CLI v2
   source: |-
     phrase translations exclude \
@@ -2050,7 +2056,7 @@ TranslationExclude:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-TranslationInclude:
+translation/include:
   lang: CLI v2
   source: |-
     phrase translations include \
@@ -2058,7 +2064,7 @@ TranslationInclude:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-TranslationReview:
+translation/review:
   lang: CLI v2
   source: |-
     phrase translations review \
@@ -2066,7 +2072,7 @@ TranslationReview:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-TranslationShow:
+translation/show:
   lang: CLI v2
   source: |-
     phrase translations show \
@@ -2074,7 +2080,7 @@ TranslationShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-TranslationUnreview:
+translation/unreview:
   lang: CLI v2
   source: |-
     phrase translations unreview \
@@ -2082,7 +2088,7 @@ TranslationUnreview:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-TranslationUnverify:
+translation/unverify:
   lang: CLI v2
   source: |-
     phrase translations unverify \
@@ -2090,7 +2096,7 @@ TranslationUnverify:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-TranslationUpdate:
+translation/update:
   lang: CLI v2
   source: |-
     phrase translations update \
@@ -2098,7 +2104,7 @@ TranslationUpdate:
       --id <id> \
       --data '{ "branch": "my-feature-branch", "content": "My translation", "plural_suffix": "null", "unverified": null, "excluded": null, "autotranslate": null, "reviewed": true, "minor_change": false }' \
       --access_token <token>
-TranslationVerify:
+translation/verify:
   lang: CLI v2
   source: |-
     phrase translations verify \
@@ -2106,7 +2112,7 @@ TranslationVerify:
       --id <id> \
       --data '{ "branch": "my-feature-branch" }' \
       --access_token <token>
-TranslationsByKey:
+translations/by_key:
   lang: CLI v2
   source: |-
     phrase translations by_key \
@@ -2119,7 +2125,7 @@ TranslationsByKey:
       --order "desc" \
       --q "PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center" \
       --access_token <token>
-TranslationsByLocale:
+translations/by_locale:
   lang: CLI v2
   source: |-
     phrase translations by_locale \
@@ -2132,21 +2138,21 @@ TranslationsByLocale:
       --order "desc" \
       --q "PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center" \
       --access_token <token>
-TranslationsExcludeCollection:
+translations/exclude-collection:
   lang: CLI v2
   source: |-
     phrase translations exclude-collection \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "q": "PhraseApp*%20verified:true%20tags:feature,center", "sort": "updated_at", "order": "desc" }' \
       --access_token <token>
-TranslationsIncludeCollection:
+translations/include-collection:
   lang: CLI v2
   source: |-
     phrase translations include-collection \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "q": "PhraseApp*%20verified:true%20tags:feature,center", "sort": "updated_at", "order": "desc" }' \
       --access_token <token>
-TranslationsList:
+translations/list:
   lang: CLI v2
   source: |-
     phrase translations list \
@@ -2162,14 +2168,14 @@ TranslationsList:
       --order "desc" \
       --q "PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center" \
       --access_token <token>
-TranslationsReviewCollection:
+translations/review-collection:
   lang: CLI v2
   source: |-
     phrase translations review-collection \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "q": "PhraseApp*%reviewed:false%20tags:feature,center" }' \
       --access_token <token>
-TranslationsSearch:
+translations/search:
   lang: CLI v2
   source: |-
     phrase translations search \
@@ -2178,35 +2184,35 @@ TranslationsSearch:
       --per_page "25" \
       --data '{ "branch": "my-feature-branch", "sort": "updated_at", "order": "desc", "q": "PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center" }' \
       --access_token <token>
-TranslationsUnreviewCollection:
+translations/unreview-collection:
   lang: CLI v2
   source: |-
     phrase translations unreview-collection \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "q": "PhraseApp*%reviewed:true%20tags:feature,center" }' \
       --access_token <token>
-TranslationsUnverifyCollection:
+translations/unverify-collection:
   lang: CLI v2
   source: |-
     phrase translations unverify-collection \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "q": "PhraseApp*%20verified:true%20tags:feature,center", "sort": "updated_at", "order": "desc" }' \
       --access_token <token>
-TranslationsVerifyCollection:
+translations/verify-collection:
   lang: CLI v2
   source: |-
     phrase translations verify-collection \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "locale_id": "fc2f11dd6a658fa9652f6f0a9ebee688", "q": "PhraseApp*%20unverified:true%20tags:feature,center" }' \
       --access_token <token>
-UploadBatchesCreate:
+upload_batches/create:
   lang: CLI v2
   source: |-
     phrase upload_batches create \
       --project_id <project_id> \
       --data '{ "branch": "my-feature-branch", "delete_unmentioned_keys": true, "upload_ids": ["abcd1234cdef1234abcd1234cdef1234","bcde2345defg2345bcde2345defg2345"] }' \
       --access_token <token>
-UploadCreate:
+upload/create:
   lang: CLI v2
   source: |-
     phrase uploads create \
@@ -2235,7 +2241,7 @@ UploadCreate:
       --translation_key_prefix "translationKeyPrefix_example" \
       --skip_automated_job_creation true \
       --access_token <token>
-UploadShow:
+upload/show:
   lang: CLI v2
   source: |-
     phrase uploads show \
@@ -2243,7 +2249,7 @@ UploadShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-UploadsList:
+uploads/list:
   lang: CLI v2
   source: |-
     phrase uploads list \
@@ -2252,33 +2258,33 @@ UploadsList:
       --per_page "25" \
       --branch "my-feature-branch" \
       --access_token <token>
-ShowUser:
+show/user:
   lang: CLI v2
   source: |-
     phrase users user \
       --access_token <token>
-VariableCreate:
+variable/create:
   lang: CLI v2
   source: |-
     phrase variables create \
       --project_id <project_id> \
       --data '{ "name": "MY_VARIABLE", "value": "Hello World" }' \
       --access_token <token>
-VariableDelete:
+variable/delete:
   lang: CLI v2
   source: |-
     phrase variables delete \
       --project_id <project_id> \
       --name <name> \
       --access_token <token>
-VariableShow:
+variable/show:
   lang: CLI v2
   source: |-
     phrase variables show \
       --project_id <project_id> \
       --name <name> \
       --access_token <token>
-VariableUpdate:
+variable/update:
   lang: CLI v2
   source: |-
     phrase variables update \
@@ -2286,7 +2292,7 @@ VariableUpdate:
       --name <name> \
       --data '{ "name": "MY_VARIABLE", "value": "Hello World" }' \
       --access_token <token>
-VariablesList:
+variables/list:
   lang: CLI v2
   source: |-
     phrase variables list \
@@ -2294,7 +2300,7 @@ VariablesList:
       --page "1" \
       --per_page "25" \
       --access_token <token>
-VersionShow:
+version/show:
   lang: CLI v2
   source: |-
     phrase versions_history show \
@@ -2303,7 +2309,7 @@ VersionShow:
       --id <id> \
       --branch "my-feature-branch" \
       --access_token <token>
-VersionsList:
+versions/list:
   lang: CLI v2
   source: |-
     phrase versions_history list \
@@ -2314,7 +2320,7 @@ VersionsList:
       --branch "my-feature-branch" \
       --only_content_updates true \
       --access_token <token>
-WebhookDeliveriesList:
+webhook_deliveries/list:
   lang: CLI v2
   source: |-
     phrase webhook_deliveries list \
@@ -2322,7 +2328,7 @@ WebhookDeliveriesList:
       --webhook_id <webhook_id> \
       --response_status_codes "responseStatusCodes_example" \
       --access_token <token>
-WebhookDeliveriesRedeliver:
+webhook_deliveries/redeliver:
   lang: CLI v2
   source: |-
     phrase webhook_deliveries redeliver \
@@ -2330,7 +2336,7 @@ WebhookDeliveriesRedeliver:
       --webhook_id <webhook_id> \
       --id <id> \
       --access_token <token>
-WebhookDeliveriesShow:
+webhook_deliveries/show:
   lang: CLI v2
   source: |-
     phrase webhook_deliveries show \
@@ -2338,35 +2344,35 @@ WebhookDeliveriesShow:
       --webhook_id <webhook_id> \
       --id <id> \
       --access_token <token>
-WebhookCreate:
+webhook/create:
   lang: CLI v2
   source: |-
     phrase webhooks create \
       --project_id <project_id> \
       --data '{ "callback_url": "http://example.com/hooks/phraseapp-notifications", "secret": "secr3t", "description": "My webhook for chat notifications", "events": "locales:create,translations:update", "active": null, "include_branches": null }' \
       --access_token <token>
-WebhookDelete:
+webhook/delete:
   lang: CLI v2
   source: |-
     phrase webhooks delete \
       --project_id <project_id> \
       --id <id> \
       --access_token <token>
-WebhookShow:
+webhook/show:
   lang: CLI v2
   source: |-
     phrase webhooks show \
       --project_id <project_id> \
       --id <id> \
       --access_token <token>
-WebhookTest:
+webhook/test:
   lang: CLI v2
   source: |-
     phrase webhooks test \
       --project_id <project_id> \
       --id <id> \
       --access_token <token>
-WebhookUpdate:
+webhook/update:
   lang: CLI v2
   source: |-
     phrase webhooks update \
@@ -2374,7 +2380,7 @@ WebhookUpdate:
       --id <id> \
       --data '{ "callback_url": "http://example.com/hooks/phraseapp-notifications", "secret": "secr3t", "description": "My webhook for chat notifications", "events": "locales:create,translations:update", "active": null, "include_branches": null }' \
       --access_token <token>
-WebhooksList:
+webhooks/list:
   lang: CLI v2
   source: |-
     phrase webhooks list \

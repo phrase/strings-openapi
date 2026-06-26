@@ -44,7 +44,6 @@ x-code-samples:
       -X PATCH \
       -d '{"term":"MyCompany","description":"Use this when refering to our company","translatable":true,"case_sensitive":true}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/GlossaryTermUpdate"
 requestBody:
   required: true
   content:

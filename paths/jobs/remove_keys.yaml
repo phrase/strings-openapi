@@ -25,7 +25,6 @@ x-code-samples:
       -X DELETE \
       -d '{"branch":"my-feature-branch","translation_key_ids":["abcd1234cdef1234abcd1234cdef1234"]}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/JobKeysDelete"
 requestBody:
   required: true
   content:

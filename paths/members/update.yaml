@@ -42,7 +42,6 @@ x-code-samples:
       -X PATCH \
       -d '{"role":"Developer","strategy":"set","project_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235","locale_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235","default_locale_codes":["de","en"],"space_ids":["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"],"permissions":{"create_upload":true,"review_translations":true}}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/MemberUpdate"
 requestBody:
   required: true
   content:

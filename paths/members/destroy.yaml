@@ -29,6 +29,5 @@ x-code-samples:
     curl "https://api.phrase.com/v2/accounts/:account_id/members/:id" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE
-- "$ref": "../../examples/cli.yaml#/MemberDelete"
 x-cli-command: members delete
 x-cli-version: '2.5'

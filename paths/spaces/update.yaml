@@ -36,7 +36,6 @@ x-code-samples:
       -X PATCH \
       -d '{"name":"My Android Projects"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/SpaceUpdate"
 requestBody:
   required: true
   content:

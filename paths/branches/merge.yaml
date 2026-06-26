@@ -51,7 +51,6 @@ x-code-samples:
       -X PATCH \
       -d '{"strategy":"use_main"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/BranchMerge"
 requestBody:
   required: true
   content:

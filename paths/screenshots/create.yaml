@@ -56,7 +56,6 @@ x-code-samples:
       -F name=home_screen \
       -F description="Main landing page hero section" \
       -F filename=@/path/to/home_screen.png
-- "$ref": "../../examples/cli.yaml#/ScreenshotCreate"
 requestBody:
   required: true
   content:

@@ -43,7 +43,6 @@ x-code-samples:
         -F name=My%20Android%20Project \
         -F main_format=yml \
         -F shares_translation_memory=true
-  - "$ref": "../../examples/cli.yaml#/ProjectUpdate"
 requestBody:
   required: true
   content:

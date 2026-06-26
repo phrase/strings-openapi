@@ -44,6 +44,5 @@ x-code-samples:
     source: |-
       curl "https://api.phrase.com/v2/projects/:project_id/locales/:locale_id/downloads/:id" \
         -u USERNAME_OR_ACCESS_TOKEN
-  - "$ref": "../../examples/cli.yaml#/LocaleDownloadShow"
 x-cli-command: locale_downloads show
 x-cli-version: "2.29.0"

@@ -41,7 +41,6 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -d '{"translation_ids":["translation_id_1", "translation_id_2"]}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/QualityPerformanceScoreList"
 requestBody:
   required: true
   content:

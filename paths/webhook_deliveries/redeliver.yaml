@@ -38,6 +38,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/webhooks/:webhook_id/deliveries/:id/redeliver" \
       -u USERNAME_OR_ACCESS_TOKEN
-- "$ref": "../../examples/cli.yaml#/WebhookDeliveriesRedeliver"
 x-cli-command: webhook_deliveries redeliver
 x-cli-version: '2.5'

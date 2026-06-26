@@ -32,5 +32,4 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X POST \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/AutomationTrigger"
 x-cli-command: automations trigger

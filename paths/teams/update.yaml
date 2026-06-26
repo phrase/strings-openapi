@@ -36,7 +36,6 @@ x-code-samples:
       -X PATCH \
       -d '{"name":"German Translators"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/TeamUpdate"
 requestBody:
   required: true
   content:

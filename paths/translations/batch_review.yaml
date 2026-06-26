@@ -42,7 +42,6 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","q":"PhraseApp*%reviewed:false%20tags:feature,center"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/TranslationsReviewCollection"
 requestBody:
   required: true
   content:

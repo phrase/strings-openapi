@@ -43,7 +43,6 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch", "message":"Some message...", "locale_ids": ["someId"]}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/CommentCreate"
 requestBody:
   required: true
   content:

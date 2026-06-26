@@ -42,7 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch","name":"my-feature"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/TagCreate"
 requestBody:
   required: true
   content:

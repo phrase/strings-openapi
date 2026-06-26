@@ -40,6 +40,5 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X POST \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/NotificationsMarkAllAsRead"
 x-cli-command: notifications mark_all_as_read
 x-cli-version: '2.5'

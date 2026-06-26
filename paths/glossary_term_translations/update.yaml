@@ -45,7 +45,6 @@ x-code-samples:
       -X PATCH \
       -d '{"locale_code":"en-US","content":"My translated term"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/GlossaryTermTranslationUpdate"
 requestBody:
   required: true
   content:

@@ -49,7 +49,6 @@ x-code-samples:
       -X POST \
       -d '{"name":"my-branch"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/BranchCreate"
 requestBody:
   required: true
   content:

@@ -37,7 +37,6 @@ x-code-samples:
       -X PATCH \
       -d '{"message":"Some message..."}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/JobCommentUpdate"
 requestBody:
   required: true
   content:

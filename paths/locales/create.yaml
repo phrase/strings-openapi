@@ -42,7 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch","name":"de","code":"de-DE","source_locale_id":"abcd1234abcd1234abcd1234abcd1234", "fallback_locale_id":"abcd1234abcd1234abcd1234abcd1234"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/LocaleCreate"
 requestBody:
   required: true
   content:

@@ -49,7 +49,6 @@ x-code-samples:
         -X PATCH \
         -F branch=my-feature-branch \
         -F url=https://figma.com/file/xxxxx/sample \
-  - "$ref": "../../examples/cli.yaml#/FigmaAttachmentUpdate"
 requestBody:
   required: true
   content:

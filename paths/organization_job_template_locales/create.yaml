@@ -36,7 +36,6 @@ x-code-samples:
       -X POST \
       -d '{"locale_name":"de-1","locale_code:"de-DE",user_ids":["abcd1234cdef1234abcd1234cdef1234"],"reviewer_ids":["abcd1234cdef1234abcd1234cdef1234"],"translator_team_ids":["abcd1234cdef1234abcd1234cdef1234"]}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/OrganizationJobTemplateLocalesCreate"
 requestBody:
   required: true
   content:

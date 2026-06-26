@@ -42,7 +42,6 @@ x-code-samples:
         -X PATCH \
         -d '{"branch":"my-feature-branch"}' \
         -H 'Content-Type: application/json'
-  - "$ref": "../../examples/cli.yaml#/TranslationUnreview"
 requestBody:
   required: true
   content:

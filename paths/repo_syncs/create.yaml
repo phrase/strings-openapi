@@ -49,7 +49,6 @@ x-code-samples:
         "repo_name": "my-org/my-repo",
         "base_branch": "main"
       }'
-- "$ref": "../../examples/cli.yaml#/RepoSyncCreate"
 requestBody:
   required: true
   content:

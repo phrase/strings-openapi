@@ -51,6 +51,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/blacklisted_keys" \
       -u USERNAME_OR_ACCESS_TOKEN
-- "$ref": "../../examples/cli.yaml#/BlacklistedKeysList"
 x-cli-command: blacklisted_keys list
 x-cli-version: '2.5'

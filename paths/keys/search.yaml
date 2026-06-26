@@ -46,7 +46,6 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch","sort":"updated_at","order":"desc","q":"mykey* translated:true","locale_id":"abcd1234abcd1234abcd1234abcd1234"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/KeysSearch"
 requestBody:
   required: true
   content:

@@ -42,7 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch","name":"template","briefing":"text"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/JobTemplateCreate"
 requestBody:
   required: true
   content:

@@ -113,5 +113,4 @@ x-code-samples:
       -X POST \
       -d '{"name":"Schedule Automation - Hourly","trigger":"schedule","project_ids":["1"],"job_template_id":"2","status_filters":["untranslated"],"tag_ids":["3","4"],"cron_schedule":"00 13 * * 1,2","time_zone":"GMT"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/AutomationCreate"
 x-cli-command: automations create

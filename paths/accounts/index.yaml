@@ -44,6 +44,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/accounts" \
       -u USERNAME_OR_ACCESS_TOKEN
-- "$ref": "../../examples/cli.yaml#/AccountsList"
 x-cli-command: accounts list
 x-cli-version: '2.5'

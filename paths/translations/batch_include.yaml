@@ -40,7 +40,6 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","q":"PhraseApp*%20verified:true%20tags:feature,center","sort":"updated_at","order":"desc"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/TranslationsIncludeCollection"
 requestBody:
   required: true
   content:

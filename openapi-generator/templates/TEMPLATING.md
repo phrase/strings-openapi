@@ -127,36 +127,34 @@ data file that iterates *all* operations across *all* tags:
 
 1. Write a template that iterates
    `{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}...`.
-2. Register it as a supporting file via the config's `files:` key:
+2. Register it as a supporting file via a dedicated generator config's `files:`
+   key (`openapi-generator/cli_examples_lang.yaml`):
    ```yaml
    files:
      cli_examples.handlebars:
        destinationFilename: ../../examples/cli.yaml   # relative to outputDir
        templateType: SupportingFiles
    ```
-   NB: `destinationFilename` is relative to the generator's `-o` outputDir. The
-   `cli` Makefile target uses `-o tmp/cli`, so `../../examples/cli.yaml` lands at
-   repo root. Verify the path for whichever target runs it.
-3. The generator can only write **one file per template invocation** — there is no
-   per-operation file output. Emit one combined file keyed by `operationId`
-   (PascalCase, e.g. `ScreenshotShow`).
+   `destinationFilename` is relative to the generator's `-o` outputDir. The
+   `examples` Makefile target uses `-o tmp/cli-examples`, so `../../examples/cli.yaml`
+   lands at repo root.
+3. The generator writes **one file per template invocation** — no per-operation
+   output. Emit one combined file keyed by **`operationIdOriginal`** (slash form,
+   e.g. `screenshot/show`), which matches the compiled bundle's `operationId`
+   (the bundle keeps the slash form, not the PascalCase `nickname`).
 
-### Referencing generated samples back into the spec
+### Getting generated samples into the compiled bundle
 
-`x-code-samples[].source` is a plain string — a `$ref` there is ignored. But a
-`$ref` as a **whole array element** resolves (the bundler expands any `$ref` it
-finds, regardless of OpenAPI schema position). Both forms work and bundle +
-validate cleanly:
+Path files carry only the hand-written Curl entry in `x-code-samples`; the CLI
+sample is **not** in the source files. `scripts/inject-cli-examples.js` runs after
+bundling, walks the compiled JSON/YAML, and appends each operation's CLI sample
+from `examples/cli.yaml`, matched on `operationId`. A missing example is a no-op
+(no CLI sample for that op), never an error.
 
-```yaml
-x-code-samples:
-- lang: Curl
-  source: |- ...
-- "$ref": "../../examples/cli.yaml#/ScreenshotShow"   # JSON-pointer into combined file
-```
-
-The relative depth must match the path file's nesting (`paths/a/b.yaml` →
-`../../`, `paths/a/b/c.yaml` → `../../../`).
+Build wiring (`make bundle`): bundle YAML → `make examples` (regenerates
+`examples/cli.yaml`) → bundle JSON+YAML → inject into both. The generator ignores
+`x-code-samples`, so the injected samples in `tmp/compiled.yaml` do not affect a
+subsequent `make examples`.
 
 ## When the template genuinely can't compute something
 

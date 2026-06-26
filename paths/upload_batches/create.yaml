@@ -76,5 +76,4 @@ x-code-samples:
         ]
       }' \
       -u <token>:
-  - "$ref": "../../examples/cli.yaml#/UploadBatchesCreate"
 x-cli-command: upload_batches create

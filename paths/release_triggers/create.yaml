@@ -81,6 +81,5 @@ x-code-samples:
         -X POST \
         -d '{"cron_schedule":"15 18 * * 1,3","time_zone":"Europe/Berlin","locale_ids":["abcd1234cdef1234abcd1234cdef1234","fff565db236400772368235db2c6117e"],"tags":["android","feature1"],"branch":"my-feature-branch","app_min_version":"1.0.0","app_max_version":"2.0.0"}' \
         -H 'Content-Type: application/json'
-  - "$ref": "../../examples/cli.yaml#/ReleaseTriggersCreate"
 x-cli-command: release_triggers create
 x-cli-version: "2.28"

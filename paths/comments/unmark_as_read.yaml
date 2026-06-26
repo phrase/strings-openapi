@@ -39,6 +39,5 @@ x-code-samples:
       -X DELETE \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/CommentMarkUnread"
 x-cli-command: comments mark_unread
 x-cli-version: '2.5'

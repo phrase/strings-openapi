@@ -33,6 +33,5 @@ x-code-samples:
         -F branch=my-feature-branch \
         -F id=key_id \
         -H 'Content-Type: application/json'
-  - "$ref": "../../examples/cli.yaml#/FigmaAttachmentAttachToKey"
 x-cli-command: keys_figma_attachments attach_to_key
 x-cli-version: "2.13"

@@ -46,6 +46,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/accounts/:account_id/glossaries/:glossary_id/terms" \
       -u USERNAME_OR_ACCESS_TOKEN
-- "$ref": "../../examples/cli.yaml#/GlossaryTermsList"
 x-cli-command: glossary_terms list
 x-cli-version: '2.5'

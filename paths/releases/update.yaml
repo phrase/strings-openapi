@@ -44,7 +44,6 @@ x-code-samples:
       -X PATCH \
       -d '{"description":"My first Release","platforms":["android","ios"],"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- "$ref": "../../examples/cli.yaml#/ReleaseUpdate"
 requestBody:
   required: true
   content:
