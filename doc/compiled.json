@@ -9862,7 +9862,7 @@
           },
           {
             "lang": "CLI v2",
-            "source": "phrase locales download \\\n  --project_id <project_id> \\\n  --id <id> \\\n  --If-Modified-Since \"ifModifiedSince_example\" \\\n  --If-None-Match \"ifNoneMatch_example\" \\\n  --branch \"my-feature-branch\" \\\n  --file_format \"yml\" \\\n  --tags \"feature1,feature2\" \\\n  --tag \"feature\" \\\n  --include_empty_translations true \\\n  --exclude_empty_zero_forms true \\\n  --include_translated_keys true \\\n  --keep_notranslate_tags true \\\n  --convert_emoji true \\\n  --format_options '{ }' \\\n  --encoding \"encoding_example\" \\\n  --skip_unverified_translations true \\\n  --include_unverified_translations true \\\n  --use_last_reviewed_version true \\\n  --fallback_locale_id \"fallbackLocaleId_example\" \\\n  --use_locale_fallback true \\\n  --fallback_for_unverified_translations true \\\n  --source_locale_id \"sourceLocaleId_example\" \\\n  --translation_key_prefix \"prefix_\" \\\n  --filter_by_prefix true \\\n  --custom_metadata_filters '{ }' \\\n  --locale_ids \"[\"de\",\"en\"]\" \\\n  --updated_since \"2023-01-01T00:00:00Z\" \\\n  --access_token <token>"
+            "source": "phrase locales download \\\n  --project_id <project_id> \\\n  --id <id> \\\n  --If-Modified-Since \"ifModifiedSince_example\" \\\n  --If-None-Match \"ifNoneMatch_example\" \\\n  --branch \"my-feature-branch\" \\\n  --file_format \"yml\" \\\n  --tags \"feature1,feature2\" \\\n  --tag \"feature\" \\\n  --include_empty_translations true \\\n  --exclude_empty_zero_forms true \\\n  --include_translated_keys true \\\n  --keep_notranslate_tags true \\\n  --convert_emoji true \\\n  --format_options '{ }' \\\n  --encoding \"encoding_example\" \\\n  --skip_unverified_translations true \\\n  --include_unverified_translations true \\\n  --use_last_reviewed_version true \\\n  --fallback_locale_id \"fallbackLocaleId_example\" \\\n  --use_locale_fallback true \\\n  --fallback_for_unverified_translations true \\\n  --source_locale_id \"sourceLocaleId_example\" \\\n  --translation_key_prefix \"prefix_\" \\\n  --filter_by_prefix true \\\n  --custom_metadata_filters '{ }' \\\n  --locale_ids '[\"de\",\"en\"]' \\\n  --updated_since \"2023-01-01T00:00:00Z\" \\\n  --access_token <token>"
           }
         ],
         "x-cli-command": "locales download",
@@ -11774,7 +11774,7 @@
           },
           {
             "lang": "CLI v2",
-            "source": "phrase jobs list \\\n  --project_id <project_id> \\\n  --page \"1\" \\\n  --per_page \"25\" \\\n  --branch \"my-feature-branch\" \\\n  --owned_by \"abcd1234cdef1234abcd1234cdef1234\" \\\n  --assigned_to \"abcd1234cdef1234abcd1234cdef1234\" \\\n  --state \"completed\" \\\n  --states \"[\"in_progress\",\"completed\"]\" \\\n  --key_id \"abcd1234cdef1234abcd1234cdef1234\" \\\n  --updated_since \"2013-02-21T00:00:00.000Z\" \\\n  --access_token <token>"
+            "source": "phrase jobs list \\\n  --project_id <project_id> \\\n  --page \"1\" \\\n  --per_page \"25\" \\\n  --branch \"my-feature-branch\" \\\n  --owned_by \"abcd1234cdef1234abcd1234cdef1234\" \\\n  --assigned_to \"abcd1234cdef1234abcd1234cdef1234\" \\\n  --state \"completed\" \\\n  --states '[\"in_progress\",\"completed\"]' \\\n  --key_id \"abcd1234cdef1234abcd1234cdef1234\" \\\n  --updated_since \"2013-02-21T00:00:00.000Z\" \\\n  --access_token <token>"
           }
         ],
         "x-cli-command": "jobs list",
@@ -14379,7 +14379,7 @@
           },
           {
             "lang": "CLI v2",
-            "source": "phrase comments list \\\n  --project_id <project_id> \\\n  --key_id <key_id> \\\n  --page \"1\" \\\n  --per_page \"25\" \\\n  --branch \"my-feature-branch\" \\\n  --query \"Some comment content\" \\\n  --locale_ids \"[\"someId\"]\" \\\n  --filters \"[\"read\",\"unread\"]\" \\\n  --order \"desc\" \\\n  --access_token <token>"
+            "source": "phrase comments list \\\n  --project_id <project_id> \\\n  --key_id <key_id> \\\n  --page \"1\" \\\n  --per_page \"25\" \\\n  --branch \"my-feature-branch\" \\\n  --query \"Some comment content\" \\\n  --locale_ids '[\"someId\"]' \\\n  --filters '[\"read\",\"unread\"]' \\\n  --order \"desc\" \\\n  --access_token <token>"
           }
         ],
         "x-cli-command": "comments list",
@@ -15404,7 +15404,7 @@
           },
           {
             "lang": "CLI v2",
-            "source": "phrase comment_replies list \\\n  --project_id <project_id> \\\n  --key_id <key_id> \\\n  --comment_id <comment_id> \\\n  --page \"1\" \\\n  --per_page \"25\" \\\n  --branch \"my-feature-branch\" \\\n  --query \"Some comment content\" \\\n  --filters \"[\"read\",\"unread\"]\" \\\n  --order \"desc\" \\\n  --access_token <token>"
+            "source": "phrase comment_replies list \\\n  --project_id <project_id> \\\n  --key_id <key_id> \\\n  --comment_id <comment_id> \\\n  --page \"1\" \\\n  --per_page \"25\" \\\n  --branch \"my-feature-branch\" \\\n  --query \"Some comment content\" \\\n  --filters '[\"read\",\"unread\"]' \\\n  --order \"desc\" \\\n  --access_token <token>"
           }
         ],
         "x-cli-command": "comment_replies list",
@@ -17414,7 +17414,7 @@
           },
           {
             "lang": "CLI v2",
-            "source": "phrase projects list \\\n  --page \"1\" \\\n  --per_page \"25\" \\\n  --account_id \"accountId_example\" \\\n  --sort_by \"sortBy_example\" \\\n  --filters \"favorites\" \\\n  --q \"name:android\" \\\n  --access_token <token>"
+            "source": "phrase projects list \\\n  --page \"1\" \\\n  --per_page \"25\" \\\n  --account_id \"accountId_example\" \\\n  --sort_by \"sortBy_example\" \\\n  --filters 'favorites' \\\n  --q \"name:android\" \\\n  --access_token <token>"
           }
         ],
         "x-cli-command": "projects list",
@@ -31691,7 +31691,7 @@
           },
           {
             "lang": "CLI v2",
-            "source": "phrase linked_keys create \\\n  --project_id <project_id> \\\n  --id <id> \\\n  --data '{ \"child_key_ids\": [\"child_key_id1\",\"child_key_id2\"] }' \\\n  --access_token <token>"
+            "source": "phrase linked_keys create \\\n  --project_id <project_id> \\\n  --id <id> \\\n  --data '{ \"child_key_ids\": [\"ijkl9012mnop3456ijkl9012mnop3456\",\"abcd1234efgh5678abcd1234efgh5678\"] }' \\\n  --access_token <token>"
           }
         ],
         "x-cli-command": "linked_keys create"

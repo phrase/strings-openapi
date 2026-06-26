@@ -259,7 +259,7 @@ replies/list:
       --per_page "25" \
       --branch "my-feature-branch" \
       --query "Some comment content" \
-      --filters "["read","unread"]" \
+      --filters '["read","unread"]' \
       --order "desc" \
       --access_token <token>
 reply/create:
@@ -383,8 +383,8 @@ comments/list:
       --per_page "25" \
       --branch "my-feature-branch" \
       --query "Some comment content" \
-      --locale_ids "["someId"]" \
-      --filters "["read","unread"]" \
+      --locale_ids '["someId"]' \
+      --filters '["read","unread"]' \
       --order "desc" \
       --access_token <token>
 custom_metadata_properties/delete:
@@ -1064,7 +1064,7 @@ jobs/list:
       --owned_by "abcd1234cdef1234abcd1234cdef1234" \
       --assigned_to "abcd1234cdef1234abcd1234cdef1234" \
       --state "completed" \
-      --states "["in_progress","completed"]" \
+      --states '["in_progress","completed"]' \
       --key_id "abcd1234cdef1234abcd1234cdef1234" \
       --updated_since "2013-02-21T00:00:00.000Z" \
       --access_token <token>
@@ -1190,7 +1190,7 @@ key_links/create:
     phrase linked_keys create \
       --project_id <project_id> \
       --id <id> \
-      --data '{ "child_key_ids": ["child_key_id1","child_key_id2"] }' \
+      --data '{ "child_key_ids": ["ijkl9012mnop3456ijkl9012mnop3456","abcd1234efgh5678abcd1234efgh5678"] }' \
       --access_token <token>
 key_links/destroy:
   lang: CLI v2
@@ -1279,7 +1279,7 @@ locale/download:
       --translation_key_prefix "prefix_" \
       --filter_by_prefix true \
       --custom_metadata_filters '{ }' \
-      --locale_ids "["de","en"]" \
+      --locale_ids '["de","en"]' \
       --updated_since "2023-01-01T00:00:00Z" \
       --access_token <token>
 locale/show:
@@ -1538,7 +1538,7 @@ projects/list:
       --per_page "25" \
       --account_id "accountId_example" \
       --sort_by "sortBy_example" \
-      --filters "favorites" \
+      --filters 'favorites' \
       --q "name:android" \
       --access_token <token>
 quality_performance_score/list:
@@ -1781,12 +1781,6 @@ screenshot/delete:
       --project_id <project_id> \
       --id <id> \
       --branch "my-feature-branch" \
-      --access_token <token>
-screenshot/ping:
-  lang: CLI v2
-  source: |-
-    phrase screenshots ping \
-      --project_id <project_id> \
       --access_token <token>
 screenshot/show:
   lang: CLI v2
