@@ -1,3 +1,5 @@
+.PHONY: run lint bundle examples watch_bundle ruby go typescript python java php cli
+
 run:
 	make lint
 	make bundle
@@ -24,7 +26,7 @@ bundle:
 # x-cli-command, then re-run `make bundle` to inject the refreshed examples.
 # Requires tmp/compiled.yaml to exist (produced by `make bundle`).
 examples:
-	openapi-generator-cli generate -i tmp/compiled.yaml -g go -o tmp/cli-examples -c ./openapi-generator/cli_examples_lang.yaml -e handlebars
+	npx openapi-generator-cli generate -i tmp/compiled.yaml -g go -o tmp/cli-examples -c ./openapi-generator/cli_examples_lang.yaml -e handlebars
 watch_bundle:
 	make lint
 	npx swagger-cli bundle -t json -w 300 main.yaml > doc/compiled.json
