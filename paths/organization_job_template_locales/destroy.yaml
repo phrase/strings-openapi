@@ -25,11 +25,6 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase organization_job_template_locales delete \
-    --account_id <account_id> \
-    --job_template_id <job_template_id> \
-    --job_template_locale_id <job_template_locale_id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/OrganizationJobTemplateLocaleDelete"
+x-cli-command: organization_job_template_locales delete
 x-cli-version: "2.7.0"

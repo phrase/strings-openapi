@@ -43,13 +43,7 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","name":"de","briefing":"de-DE","due_date":"2017-08-15","ticket_url":"https://example.atlassian.net/browse/FOO"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase jobs update \
-    --project_id <project_id> \
-    --id <id> \
-    --data '{"branch":"my-feature-branch", "name":"de", "briefing":"de-DE", "due_date":"2017-08-15", "ticket_url":"https://example.atlassian.net/browse/FOO"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/JobUpdate"
 requestBody:
   required: true
   content:
@@ -91,4 +85,5 @@ requestBody:
             description: Automatically translate the job using machine translation
             type: boolean
             example: true
+x-cli-command: jobs update
 x-cli-version: '2.5'

@@ -30,10 +30,6 @@ x-code-samples:
     curl "https://api.phrase.com/v2/projects/:project_id/styleguides/:id" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE
-- lang: CLI v2
-  source: |-
-    phrase styleguides delete \
-    --project_id <project_id> \
-    --id <id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/StyleguideDelete"
+x-cli-command: style_guides delete
 x-cli-version: '2.5'

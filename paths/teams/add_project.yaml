@@ -32,13 +32,7 @@ x-code-samples:
       -X POST \
       -d '{"id":"a4b3c2d1"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase teams projects_create \
-    --account_id <account_id> \
-    --team_id <team_id> \
-    --data '{"id":"a4b3c2d1"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/TeamsProjectsCreate"
 requestBody:
   required: true
   content:
@@ -53,4 +47,5 @@ requestBody:
             description: Project ID to add to the Team
             type: string
             example: a4b3c2d1
+x-cli-command: teams projects_create
 x-cli-version: '2.5'

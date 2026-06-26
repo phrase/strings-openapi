@@ -59,12 +59,6 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/translations/:translation_id/versions?branch=my-feature-branch&only_content_updates=true" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase versions list \
-    --project_id <project_id> \
-    --translation_id <translation_id> \
-    --branch my-feature-branch \
-    --only_content_updates true \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/VersionsList"
+x-cli-command: versions_history list
 x-cli-version: '2.5'

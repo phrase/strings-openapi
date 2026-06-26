@@ -42,12 +42,7 @@ x-code-samples:
       -X POST \
       -d '{"name":"MY_VARIABLE","value":"Hello World"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase variables create \
-    --project_id <project_id> \
-    --data '{"name":"MY_VARIABLE", "value":"Hello World"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/VariableCreate"
 requestBody:
   required: true
   content:
@@ -66,4 +61,5 @@ requestBody:
             description: Value of the variable
             type: string
             example: Hello World
+x-cli-command: variables create
 x-cli-version: '2.5'

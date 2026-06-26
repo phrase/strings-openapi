@@ -37,14 +37,7 @@ x-code-samples:
       -X PATCH \
       -d '{"message":"Some message..."}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase job_comments update \
-    --project_id <project_id> \
-    --job_id <job_id> \
-    --id <id> \
-    --data '{"message": "Some message..."}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/JobCommentUpdate"
 requestBody:
   required: true
   content:
@@ -61,4 +54,5 @@ requestBody:
             description: Branch name for the job
             type: string
             example: my-feature-branch
+x-cli-command: job_comments update
 x-cli-version: '2.5'

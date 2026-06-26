@@ -41,10 +41,6 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/accounts/:account_id/job_templates/:job_template_id/locales" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase organization_job_template_locales list \
-    --account_id <account_id> \
-    --job_template_id <job_template_id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/OrganizationJobTemplateLocalesList"
+x-cli-command: organization_job_template_locales list
 x-cli-version: "2.7.0"

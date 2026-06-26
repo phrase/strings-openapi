@@ -35,13 +35,6 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase replies mark_as_unread \
-    --project_id <project_id> \
-    --key_id <key_id> \
-    --comment_id <comment_id> \
-    --id <id> \
-    --data '{"branch":"my-feature-branch"]}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/ReplyMarkAsUnread"
+x-cli-command: comment_replies mark_as_unread
 x-cli-version: '2.10'

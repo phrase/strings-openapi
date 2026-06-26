@@ -45,9 +45,5 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X POST \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase automations activate \
-    --account_id <account_id> \
-    --id <id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/AutomationActivate"
+x-cli-command: automations activate

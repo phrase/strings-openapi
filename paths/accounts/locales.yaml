@@ -45,9 +45,6 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/accounts/:id/locales" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase accounts locales \
-    --id <id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/AccountLocales"
+x-cli-command: locales locales
 x-cli-version: '2.5'

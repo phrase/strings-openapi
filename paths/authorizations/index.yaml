@@ -44,6 +44,6 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/authorizations" \
       -u USERNAME
-- lang: CLI v2
-  source: phrase authorizations list
+- "$ref": "../../examples/cli.yaml#/AuthorizationsList"
+x-cli-command: authorizations list
 x-cli-version: '2.5'

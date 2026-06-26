@@ -32,11 +32,6 @@ x-code-samples:
     curl "https://api.phrase.com/v2/projects/:project_id/jobs/:job_id/locales/:job_locale_id/annotations" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X GET
-- lang: CLI v2
-  source: |-
-    phrase job_locale_annotations list \
-    --project_id <project_id> \
-    --job_id <job_id> \
-    --job_locale_id <job_locale_id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/JobLocaleAnnotationsList"
+x-cli-command: job_annotations list
 x-cli-version: '2.43'

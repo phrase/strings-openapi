@@ -198,14 +198,6 @@ x-code-samples:
     source: |-
       curl "https://api.phrase.com/v2/projects/:project_id/locales/:id/download?branch=my-feature-branch&file_format=yml&tags=feature1,feature2&tag=feature&custom_metadata_filters[tone]=friendly" \
         -u USERNAME_OR_ACCESS_TOKEN
-  - lang: CLI v2
-    source: |-
-      phrase locales download \
-      --project_id <project_id> \
-      --id <id> \
-      --branch my-feature-branch \
-      --file_format yml \
-      --tags feature1,feature2 \
-      --tag feature \
-      --access_token <token>
+  - "$ref": "../../examples/cli.yaml#/LocaleDownload"
+x-cli-command: locales download
 x-cli-version: "2.6.4"

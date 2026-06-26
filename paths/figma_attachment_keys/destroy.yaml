@@ -32,12 +32,6 @@ x-code-samples:
         -X DELETE \
         -F branch=my-feature-branch \
         -H 'Content-Type: application/json'
-  - lang: CLI v2
-    source: |-
-      phrase figma_attachment detach_from_key \
-      --project_id <project_id> \
-      --figma_attachment_id <figma_attachment_id> \
-      --id <id> \
-      --branch my-feature-branch \
-      --access_token <token>
+  - "$ref": "../../examples/cli.yaml#/FigmaAttachmentDetachFromKey"
+x-cli-command: keys_figma_attachments detach_from_key
 x-cli-version: "2.13"

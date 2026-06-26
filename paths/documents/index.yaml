@@ -52,9 +52,6 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/documents?project_id=asdf" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase documents list \
-    --project_id <project_id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/DocumentsList"
+x-cli-command: documents list
 x-cli-version: '2.5'

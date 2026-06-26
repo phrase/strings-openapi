@@ -45,3 +45,5 @@ responses:
     "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
+
+x-cli-command: linked_keys create

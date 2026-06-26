@@ -31,10 +31,6 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase documents delete \
-    --project_id <project_id> \
-    --id <id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/DocumentDelete"
+x-cli-command: documents delete
 x-cli-version: '2.5'

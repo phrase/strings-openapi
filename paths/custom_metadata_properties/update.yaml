@@ -70,11 +70,6 @@ x-code-samples:
       -X PATCH \
       -d '{"name":"Fruit","description":"A healthy snack for all ages","project_ids":["1","2","3"],"value_options":["apple","banana","coconut"]}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase custom_metadata_properties update \
-    --account_id <account_id> \
-    --id <id> \
-    --data '{"name":"Fruit","description":"A healthy snack for all ages","project_ids":["1","2","3"],"value_options":["apple","banana","coconut"]}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/CustomMetadataPropertyUpdate"
+x-cli-command: custom_metadata update
 x-cli-version: '2.9'

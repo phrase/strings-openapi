@@ -33,14 +33,7 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase comments mark \
-    --project_id <project_id> \
-    --key_id <key_id> \
-    --id <id> \
-    --data '{"branch":"my-feature-branch"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/CommentMarkRead"
 requestBody:
   required: true
   content:
@@ -53,4 +46,5 @@ requestBody:
             description: specify the branch to use
             type: string
             example: my-feature-branch
+x-cli-command: comments mark_read
 x-cli-version: '2.5'

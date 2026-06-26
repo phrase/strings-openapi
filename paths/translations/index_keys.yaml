@@ -81,14 +81,6 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/keys/:key_id/translations?branch=my-feature-branch&sort=updated_at&order=desc&q=PhraseApp*%2520unverified:true%2520excluded:true%2520tags:feature,center" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase translations by_key \
-    --project_id <project_id> \
-    --key_id <key_id> \
-    --branch my-feature-branch \
-    --sort updated_at \
-    --order desc \
-    --query 'PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/TranslationsByKey"
+x-cli-command: translations by_key
 x-cli-version: '2.5'

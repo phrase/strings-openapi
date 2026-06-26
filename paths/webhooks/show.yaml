@@ -38,10 +38,6 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/webhooks/:id" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase webhooks show \
-    --project_id <project_id> \
-    --id <id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/WebhookShow"
+x-cli-command: webhooks show
 x-cli-version: '2.5'

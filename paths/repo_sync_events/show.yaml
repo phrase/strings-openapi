@@ -34,11 +34,6 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs/56ef78/events/78dfgj"\
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase repo_sync_events show \
-    --id <id> \
-    --repo_sync_id <repo_sync_id> \
-    --account_id abcd1234 \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/RepoSyncEventShow"
+x-cli-command: repo_sync_events show
 x-cli-version: '2.24'

@@ -49,13 +49,7 @@ x-code-samples:
         -X PATCH \
         -F branch=my-feature-branch \
         -F url=https://figma.com/file/xxxxx/sample \
-  - lang: CLI v2
-    source: |-
-      phrase figma_attachment update \
-      --project_id <project_id> \
-      --id <id> \
-      --data '{"branch":"my-feature-branch", "url":"https://figma.com/file/xxxxx/sample" }' \
-      --access_token <token>
+  - "$ref": "../../examples/cli.yaml#/FigmaAttachmentUpdate"
 requestBody:
   required: true
   content:
@@ -72,4 +66,5 @@ requestBody:
             description: Figma file url
             type: string
             example: https://figma.com/file/xxxxx/sample
+x-cli-command: figma_attachments update
 x-cli-version: "2.13"

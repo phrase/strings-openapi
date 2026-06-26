@@ -47,12 +47,7 @@ x-code-samples:
       -F locale_code=localecode \
       -F page=1 \
       -F per_page=25 \
-- lang: CLI v2
-  source: |-
-    phrase search in_account \
-    --account_id <account_id> \
-    --data '{"q":"keyword","locale_code": "de","page": 1,"per_page": 25}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/SearchInAccount"
 requestBody:
   required: true
   content:
@@ -85,4 +80,5 @@ requestBody:
               type: string
             example:
               - abcd1234abcd1234abcd1234abcd1234
+x-cli-command: search in_account
 x-cli-version: '2.5'

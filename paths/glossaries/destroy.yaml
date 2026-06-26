@@ -30,10 +30,6 @@ x-code-samples:
     curl "https://api.phrase.com/v2/accounts/:account_id/glossaries/:id" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE
-- lang: CLI v2
-  source: |-
-    phrase glossaries delete \
-    --account_id <account_id> \
-    --id <id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/GlossaryDelete"
+x-cli-command: glossaries delete
 x-cli-version: '2.5'

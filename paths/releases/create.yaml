@@ -43,13 +43,7 @@ x-code-samples:
         -X POST \
         -d '{"description":"My first Release","platforms":["android","ios"],"branch":"my-feature-branch"}' \
         -H 'Content-Type: application/json'
-  - lang: CLI v2
-    source: |-
-      phrase releases create \
-      --account_id <account_id> \
-      --distribution_id <distribution_id> \
-      --data '{"description": "My first Release", "platforms": ["android", "ios"], "branch":"my-feature-branch"}' \
-      --access_token <token>
+  - "$ref": "../../examples/cli.yaml#/ReleaseCreate"
 requestBody:
   required: true
   content:
@@ -98,4 +92,5 @@ requestBody:
             description: Branch used for release
             type: string
             example: my-feature-branch
+x-cli-command: releases create
 x-cli-version: "2.8"

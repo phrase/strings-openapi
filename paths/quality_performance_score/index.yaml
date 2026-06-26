@@ -41,12 +41,7 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -d '{"translation_ids":["translation_id_1", "translation_id_2"]}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase quality_performance_score list \
-    --project_id <project_id> \
-    --data '{"translation_ids":["translation_id_1", "translation_id_2"]}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/QualityPerformanceScoreList"
 requestBody:
   required: true
   content:
@@ -60,4 +55,5 @@ requestBody:
             items:
               type: string
               example: translation_id_1
+x-cli-command: quality_performance_score list
 x-cli-version: '2.20'

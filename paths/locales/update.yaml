@@ -43,13 +43,7 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","name":"de","code":"de-DE","source_locale_id":"abcd1234abcd1234abcd1234abcd1234"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase locales update \
-    --project_id <project_id> \
-    --id <id> \
-    --data '{"branch":"my-feature-branch", "name":"de", "code":"de-DE", "source_locale_id":"abcd1234abcd1234abcd1234abcd1234"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/LocaleUpdate"
 requestBody:
   required: true
   content:
@@ -106,4 +100,5 @@ requestBody:
             description: Identifier of the Language AI profile to use for this locale.
             type: string
             example: abcd1234abcd1234abcd1234abcd1234
+x-cli-command: locales update
 x-cli-version: '2.5'

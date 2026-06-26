@@ -41,10 +41,7 @@ x-code-samples:
       -X POST \
       -d '{"note":"My Deploy Script","scopes":["read","write"],"expires_at":"2015-03-30T09:52:53Z"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase authorizations create \
-    --data '{"note": "My Deploy Script", "scopes": "read,write", "expires_at": "2015-03-30T09:52:53Z"}'
+- "$ref": "../../examples/cli.yaml#/AuthorizationCreate"
 requestBody:
   required: true
   content:
@@ -77,4 +74,5 @@ requestBody:
             type: string
             format: date-time
             example: '2015-03-30T09:52:53Z'
+x-cli-command: authorizations create
 x-cli-version: '2.5'

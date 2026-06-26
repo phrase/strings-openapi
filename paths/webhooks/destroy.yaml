@@ -30,10 +30,6 @@ x-code-samples:
     curl "https://api.phrase.com/v2/projects/:project_id/webhooks/:id" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE
-- lang: CLI v2
-  source: |-
-    phrase webhooks delete \
-    --project_id <project_id> \
-    --id <id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/WebhookDelete"
+x-cli-command: webhooks delete
 x-cli-version: '2.5'

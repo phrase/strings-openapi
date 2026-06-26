@@ -52,10 +52,6 @@ x-code-samples:
       curl "https://api.phrase.com/v2/projects/:project_id/figma_attachments?branch=my-feature-branch" \
         -X GET \
         -u USERNAME_OR_ACCESS_TOKEN
-  - lang: CLI v2
-    source: |-
-      phrase figma_attachments list \
-      --project_id <project_id> \
-      --branch my-feature-branch \
-      --access_token <token>
+  - "$ref": "../../examples/cli.yaml#/FigmaAttachmentsList"
+x-cli-command: figma_attachments list
 x-cli-version: "2.13"

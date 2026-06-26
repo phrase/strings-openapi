@@ -43,13 +43,7 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch", "message":"Some message...", "locale_ids": ["someId"]}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase comments create \
-    --project_id <project_id> \
-    --key_id <key_id> \
-    --data '{"branch":"my-feature-branch", "message": "Some message...", "locale_ids": ["someId"]}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/CommentCreate"
 requestBody:
   required: true
   content:
@@ -76,4 +70,5 @@ requestBody:
             example:
               - someId
               - someOtherId
+x-cli-command: comments create
 x-cli-version: '2.5'

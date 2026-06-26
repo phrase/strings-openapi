@@ -41,9 +41,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/accounts/:account_id/automations/:id" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase automations show \
-    --account_id <account_id> \
-    --id <id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/AutomationShow"
+x-cli-command: automations show

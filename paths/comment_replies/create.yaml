@@ -57,12 +57,6 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch", "message":"Some message..."}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase replies create \
-    --project_id <project_id> \
-    --key_id <key_id> \
-    --comment_id <comment_id> \
-    --data '{"branch":"my-feature-branch", "message": "Some message..."]}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/ReplyCreate"
+x-cli-command: comment_replies create
 x-cli-version: '2.10'

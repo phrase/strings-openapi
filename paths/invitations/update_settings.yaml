@@ -42,13 +42,7 @@ x-code-samples:
       -X PATCH \
       -d '{"project_role":"Developer","locale_ids":["fff565db236400772368235db2c6117e","fff565db236400772368235db2c6117f"]}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase invitations update_settings \
-    --project_id <project_id> \
-    --id <id> \
-    --data '{"project_role":"Developer","locale_ids":["fff565db236400772368235db2c6117e","fff565db236400772368235db2c6117f"]}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/InvitationUpdateSettings"
 requestBody:
   required: true
   content:
@@ -69,4 +63,5 @@ requestBody:
             example:
             - abcd1234abcd1234abcd1234
             - abcd1234abcd1234abcd1235
+x-cli-command: invitations update_settings
 x-cli-version: '2.5'

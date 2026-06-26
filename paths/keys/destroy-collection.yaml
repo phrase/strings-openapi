@@ -53,12 +53,6 @@ x-code-samples:
       -X DELETE \
       -d '{"branch":"my-feature-branch","q":"mykey* translated:true","locale_id":"abcd1234abcd1234abcd1234abcd1234"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase keys delete-collection \
-    --project_id <project_id> \
-    --branch my-feature-branch \
-    --query 'mykey* translated:true' \
-    --locale_id abcd1234abcd1234abcd1234abcd1234 \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/KeysDeleteCollection"
+x-cli-command: keys delete-collection
 x-cli-version: '2.5'

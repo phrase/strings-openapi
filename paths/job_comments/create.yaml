@@ -36,13 +36,7 @@ x-code-samples:
       -X POST \
       -d '{"message":"Some message..."}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase job_comments create \
-    --project_id <project_id> \
-    --job_id <job_id> \
-    --data '{"message": "Some message..."}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/JobCommentCreate"
 requestBody:
   required: true
   content:
@@ -59,4 +53,5 @@ requestBody:
             description: Branch name for the job
             type: string
             example: my-feature-branch
+x-cli-command: job_comments create
 x-cli-version: '2.5'

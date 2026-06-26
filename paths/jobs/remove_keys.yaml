@@ -25,14 +25,7 @@ x-code-samples:
       -X DELETE \
       -d '{"branch":"my-feature-branch","translation_key_ids":["abcd1234cdef1234abcd1234cdef1234"]}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase jobs keys_delete \
-    --project_id <project_id> \
-    --id <id> \
-    --branch my-feature-branch \
-    --data '{"branch": "my-feature-branch", "translation_key_ids": ["abcd1234cdef1234abcd1234cdef1234"]}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/JobKeysDelete"
 requestBody:
   required: true
   content:
@@ -54,3 +47,5 @@ requestBody:
               type: string
             example:
             - abcd1234cdef1234abcd1234cdef1234
+
+x-cli-command: jobs keys_delete

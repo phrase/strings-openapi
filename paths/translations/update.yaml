@@ -43,13 +43,7 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","content":"My translation"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase translations update \
-    --project_id <project_id> \
-    --id <id> \
-    --data '{"branch":"my-feature-branch", "content": "My translation"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/TranslationUpdate"
 requestBody:
   required: true
   content:
@@ -91,4 +85,5 @@ requestBody:
               When `true`, the update is treated as a minor edit and does not trigger downstream re-verification on the linked locales' translations.
             type: boolean
             example: false
+x-cli-command: translations update
 x-cli-version: '2.5'

@@ -51,10 +51,6 @@ x-code-samples:
     source: |-
       curl "https://api.phrase.com/v2/projects/:project_id/job_templates?branch=my-feature-branch" \
         -u USERNAME_OR_ACCESS_TOKEN
-  - lang: CLI v2
-    source: |-
-      phrase job_templates list \
-      --project_id <project_id> \
-      --branch my-feature-branch \
-      --access_token <token>
+  - "$ref": "../../examples/cli.yaml#/JobTemplatesList"
+x-cli-command: job_templates list
 x-cli-version: "2.5"

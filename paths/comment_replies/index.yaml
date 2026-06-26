@@ -71,15 +71,6 @@ x-code-samples:
         -u USERNAME_OR_ACCESS_TOKEN \
         -X GET \
         -H 'Content-Type: application/json'
-  - lang: CLI v2
-    source: |-
-      phrase replies list \
-      --project_id <project_id> \
-      --key_id <key_id> \
-      --comment_id <comment_id> \
-      --branch "my-feature-branch" \
-      --filters unread \
-      --order desc \
-      --query "Some comment content" \
-      --access_token <token>
+  - "$ref": "../../examples/cli.yaml#/RepliesList"
+x-cli-command: comment_replies list
 x-cli-version: '2.10'

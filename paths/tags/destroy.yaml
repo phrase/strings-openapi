@@ -38,11 +38,6 @@ x-code-samples:
       -X DELETE \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase tags delete \
-    --project_id <project_id> \
-    --name <name> \
-    --branch my-feature-branch \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/TagDelete"
+x-cli-command: tags delete
 x-cli-version: '2.5'

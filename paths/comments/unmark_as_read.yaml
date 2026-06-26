@@ -39,12 +39,6 @@ x-code-samples:
       -X DELETE \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase comments mark \
-    --project_id <project_id> \
-    --key_id <key_id> \
-    --id <id> \
-    --branch my-feature-branch \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/CommentMarkUnread"
+x-cli-command: comments mark_unread
 x-cli-version: '2.5'

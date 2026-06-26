@@ -43,13 +43,7 @@ x-code-samples:
       -X PATCH \
       -d '{"name":"My glossary","project_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235","space_ids":["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"]}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase glossaries update \
-    --account_id <account_id> \
-    --id <id> \
-    --data '{"name": "My glossary", "project_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235", "space_ids": "abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/GlossaryUpdate"
 requestBody:
   required: true
   content:
@@ -74,4 +68,5 @@ requestBody:
             example:
             - abcd1234abcd1234abcd1234
             - abcd1234abcd1234abcd1235
+x-cli-command: glossaries update
 x-cli-version: '2.5'

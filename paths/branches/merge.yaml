@@ -51,13 +51,7 @@ x-code-samples:
       -X PATCH \
       -d '{"strategy":"use_main"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase branches merge \
-    --project_id <project_id> \
-    --name <name> \
-    --data '{"strategy":"use_main"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/BranchMerge"
 requestBody:
   required: true
   content:
@@ -74,3 +68,5 @@ requestBody:
               - use_main
               - use_branch
             example: use_main
+
+x-cli-command: branches merge

@@ -52,11 +52,6 @@ x-code-samples:
       curl "https://api.phrase.com/v2/projects/:project_id/report/locales?locale_codes[]=de&locale_codes[]=en&branch=my-feature-branch" \
         -X GET \
         -u USERNAME_OR_ACCESS_TOKEN
-  - lang: CLI v2
-    source: |-
-      phrase report locales list \
-      --project_id <project_id> \
-      --branch my-feature-branch \
-      --locale_codes de \
-      --access_token <token>
+  - "$ref": "../../../examples/cli.yaml#/ReportLocalesList"
+x-cli-command: reports locales_list
 x-cli-version: "2.13"

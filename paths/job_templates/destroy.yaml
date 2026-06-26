@@ -38,11 +38,6 @@ x-code-samples:
       -X DELETE \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase job_templates delete \
-    --project_id <project_id> \
-    --id <id> \
-    --branch my-feature-branch \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/JobTemplateDelete"
+x-cli-command: job_templates delete
 x-cli-version: '2.5'

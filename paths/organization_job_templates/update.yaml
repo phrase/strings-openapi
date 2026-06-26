@@ -42,12 +42,7 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X PATCH \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase organization_job_templates update \
-    --account_id <account_id> \
-    --id <id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/OrganizationJobTemplateUpdate"
 requestBody:
   required: true
   content:
@@ -70,4 +65,5 @@ requestBody:
             example: true
         required:
         - name
+x-cli-command: organization_job_templates update
 x-cli-version: "2.7.0"

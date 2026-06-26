@@ -49,12 +49,6 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/accounts/:account_id/jobs?owned_by=abcd1234cdef1234abcd1234cdef1234&assigned_to=abcd1234cdef1234abcd1234cdef1234&state=completed" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase jobs by_account \
-    --account_id <account_id> \
-    --owned_by abcd1234cdef1234abcd1234cdef1234 \
-    --assigned_to abcd1234cdef1234abcd1234cdef1234 \
-    --state completed \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/JobsByAccount"
+x-cli-command: jobs by_account
 x-cli-version: '2.5'

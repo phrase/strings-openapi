@@ -42,13 +42,7 @@ x-code-samples:
         -X PATCH \
         -d '{"branch":"my-feature-branch"}' \
         -H 'Content-Type: application/json'
-  - lang: CLI v2
-    source: |-
-      phrase translations unreview \
-      --project_id <project_id> \
-      --id <id> \
-      --data '{"branch":"my-feature-branch"}' \
-      --access_token <token>
+  - "$ref": "../../examples/cli.yaml#/TranslationUnreview"
 requestBody:
   required: true
   content:
@@ -61,4 +55,5 @@ requestBody:
             description: specify the branch to use
             type: string
             example: my-feature-branch
+x-cli-command: translations unreview
 x-cli-version: '2.41'

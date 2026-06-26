@@ -45,11 +45,6 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/branches/:name/compare?name=my-branch" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase branches compare \
-    --project_id <project_id> \
-    --name <name> \
-    --name my-branch \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/BranchCompare"
+x-cli-command: branches compare
 x-cli-version: '2.5'

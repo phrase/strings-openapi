@@ -46,12 +46,6 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/jobs/:job_id/comments?branch=my-feature-branch&order=desc" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase job_comments list \
-    --project_id <project_id> \
-    --job_id <key_id> \
-    --branch my-feature-branch \
-    --order desc \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/JobCommentsList"
+x-cli-command: job_comments list
 x-cli-version: '2.5'

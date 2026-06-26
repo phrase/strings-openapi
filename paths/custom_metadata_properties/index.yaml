@@ -68,15 +68,6 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/accounts/:account_id/custom_metadata/properties?data_type=boolean&project_id=1&page=1&per_page=10&sort=created_at&order=desc" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase custom_metadata_properties list \
-    --account_id <account_id> \
-    --data_type boolean \
-    --project_id 1 \
-    --page 1 \
-    --per_page 10 \
-    --sort created_at \
-    --order desc \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/CustomMetadataPropertiesList"
+x-cli-command: custom_metadata list
 x-cli-version: '2.9'

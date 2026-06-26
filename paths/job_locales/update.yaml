@@ -37,14 +37,7 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","locale_id":"abcd1234cdef1234abcd1234cdef1234","user_ids":["abcd1234cdef1234abcd1234cdef1234"], "team_ids":["abcd1234cdef1234abcd1234cdef1234"], "translator_team_ids":["abcd1234cdef1234abcd1234cdef1234"]}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase job_locales update \
-    --project_id <project_id> \
-    --job_id <job_id> \
-    --id <id> \
-    --data '{"branch":"my-feature-branch", "locale_id":"abcd1234cdef1234abcd1234cdef1234", "user_ids": "abcd1234cdef1234abcd1234cdef1234", "team_ids": "abcd1234cdef1234abcd1234cdef1234", "translator_team_ids": "abcd1234cdef1234abcd1234cdef1234"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/JobLocaleUpdate"
 requestBody:
   required: true
   content:
@@ -89,4 +82,5 @@ requestBody:
               type: string
             example:
             - abcd1234cdef1234abcd1234cdef1234
+x-cli-command: job_locales update
 x-cli-version: '2.6.8'

@@ -43,13 +43,7 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch", "key_id":"abcd1234abcd1234abcd1234abcd1234","presentation":"{ \"x\": 100, \"y\": 100, \"w\": 100, \"h\": 100 }"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase screenshot_markers create \
-    --project_id <project_id> \
-    --screenshot_id <screenshot_id> \
-    --data '{"branch":"my-feature-branch", "key_id":"abcd1234abcd1234abcd1234abcd1234", "presentation": "{ "x": 100, "y": 100, "w": 100, "h": 100 }"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/ScreenshotMarkerCreate"
 requestBody:
   required: true
   content:
@@ -75,4 +69,5 @@ requestBody:
               Each Screenshot Marker is represented as a rectangular shaped highlight box with the name of the specified Key attached. You can specify the marker position on the screenshot (`x`-axis and `y`-axis in pixels) from the top left corner of the screenshot and the dimensions of the marker itself (`w` and `h` in pixels).
             type: string
             example: '{ "x": 100, "y": 100, "w": 100, "h": 100 }'
+x-cli-command: screenshot_markers create
 x-cli-version: '2.5'

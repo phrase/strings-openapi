@@ -42,12 +42,7 @@ x-code-samples:
       -X POST \
       -d '{"callback_url":"http://example.com/hooks/phraseapp-notifications","description":"My webhook for chat notifications","events":"locales:create,translations:update"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase webhooks create \
-    --project_id <project_id> \
-    --data '{"callback_url": "http://example.com/hooks/phraseapp-notifications", "description": "My webhook for chat notifications", "events": "locales:create,translations:update"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/WebhookCreate"
 requestBody:
   required: true
   content:
@@ -82,4 +77,5 @@ requestBody:
             description: If enabled, webhook will also be triggered for events from branches of the project specified.
             type: boolean
             example:
+x-cli-command: webhooks create
 x-cli-version: '2.5'

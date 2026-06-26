@@ -44,14 +44,7 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","message":"Some message..."}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase comments update \
-    --project_id <project_id> \
-    --key_id <key_id> \
-    --id <id> \
-    --data '{"branch":"my-feature-branch", "message": "Some message..."}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/CommentUpdate"
 requestBody:
   required: true
   content:
@@ -68,4 +61,5 @@ requestBody:
             description: Comment message
             type: string
             example: Some message...
+x-cli-command: comments update
 x-cli-version: '2.5'

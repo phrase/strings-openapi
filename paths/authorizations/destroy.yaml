@@ -29,8 +29,6 @@ x-code-samples:
     curl "https://api.phrase.com/v2/authorizations/:id" \
       -u USERNAME \
       -X DELETE
-- lang: CLI v2
-  source: |-
-    phrase authorizations delete \
-    --id <id>
+- "$ref": "../../examples/cli.yaml#/AuthorizationDelete"
+x-cli-command: authorizations delete
 x-cli-version: '2.5'

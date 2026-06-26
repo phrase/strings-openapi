@@ -56,15 +56,7 @@ x-code-samples:
       -F name=home_screen \
       -F description="Main landing page hero section" \
       -F filename=@/path/to/home_screen.png
-- lang: CLI v2
-  source: |-
-    phrase screenshots create \
-      --project_id <project_id> \
-      --branch "my-feature-branch" \
-      --name "home_screen" \
-      --description "Main landing page hero section" \
-      --filename "/path/to/home_screen.png" \
-      --access_token <token>
+- "$ref": "../../examples/cli.yaml#/ScreenshotCreate"
 requestBody:
   required: true
   content:
@@ -97,4 +89,5 @@ requestBody:
               - gif
               - png
             x-max-size-mb: 10
+x-cli-command: screenshots create
 x-cli-version: '2.5'

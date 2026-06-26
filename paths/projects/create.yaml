@@ -47,11 +47,7 @@ x-code-samples:
         -F name=My%20Android%20Project \
         -F main_format=yml \
         -F shares_translation_memory=true
-  - lang: CLI v2
-    source: |-
-      phrase projects create \
-      --data '{"name": "My Android Project", "main_format":"yml", "shares_translation_memory":true}' \
-      --access_token <token>
+  - "$ref": "../../examples/cli.yaml#/ProjectCreate"
 requestBody:
   required: true
   content:
@@ -207,4 +203,5 @@ requestBody:
             example:
               - "angular"
               - "iOS"
+x-cli-command: projects create
 x-cli-version: "2.6.3"

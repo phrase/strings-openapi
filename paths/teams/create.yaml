@@ -35,12 +35,7 @@ x-code-samples:
       -X POST \
       -d '{"name":"German Translators"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase teams create \
-    --account_id <account_id> \
-    --data '{"name": "German Translators"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/TeamCreate"
 requestBody:
   required: true
   content:
@@ -55,4 +50,5 @@ requestBody:
             description: Name of the team
             type: string
             example: German Translators
+x-cli-command: teams create
 x-cli-version: '2.5'

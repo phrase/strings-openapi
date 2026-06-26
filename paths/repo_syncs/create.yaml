@@ -49,12 +49,7 @@ x-code-samples:
         "repo_name": "my-org/my-repo",
         "base_branch": "main"
       }'
-- lang: CLI v2
-  source: |-
-    phrase repo_syncs create \
-    --account_id abcd1234 \
-    --data '{"project_id":"abcd1234abcd1234abcd1234abcd1234","git_provider":"github","connection_type":"github_app","repo_name":"my-org/my-repo","base_branch":"main"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/RepoSyncCreate"
 requestBody:
   required: true
   content:
@@ -126,4 +121,5 @@ requestBody:
             description: Custom API endpoint URL for self-hosted Git instances. Required when `connection_type` is `self_hosted`.
             type: string
             example: https://git.example.com/api/v4
+x-cli-command: repo_syncs create
 x-cli-version: '2.60'

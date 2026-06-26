@@ -42,12 +42,7 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch","name":"Welcome message translations","lsp":"textmaster","source_locale_id":"abcd1234abcd1234abcd1234abcd1234","target_locale_ids":["1234abcd1234abcd1234abcd1234abcd","abcd1234abcd1234abcd1234abcd1234"],"translation_type":"premium","tag":"my-awesome-feature","message":"Please make everything sound really nice :)","styleguide_id":"1234abcd1234abcd1234abcd1234abcd","category":"C021"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase orders create \
-    --project_id <project_id> \
-    --data '{"branch":"my-feature-branch", "name":"Welcome message translations", "lsp":"textmaster", "source_locale_id":"abcd1234abcd1234abcd1234abcd1234", "target_locale_ids": "1234abcd1234abcd1234abcd1234abcd,abcd1234abcd1234abcd1234abcd1234", "translation_type":"premium", "tag":"my-awesome-feature", "message": "Please make everything sound really nice :)", "styleguide_id":"1234abcd1234abcd1234abcd1234abcd", "category":"C021"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/OrderCreate"
 requestBody:
   required: true
   content:
@@ -123,4 +118,5 @@ requestBody:
             description: Indicates whether the priority option should be ordered which decreases turnaround time by 30%. Available only for orders processed by TextMaster.
             type: boolean
             example:
+x-cli-command: orders create
 x-cli-version: '2.5'

@@ -46,12 +46,7 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch","sort":"updated_at","order":"desc","q":"mykey* translated:true","locale_id":"abcd1234abcd1234abcd1234abcd1234"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase keys search \
-    --project_id <project_id> \
-    --data '{"branch":"my-feature-branch", "sort":"updated_at", "order":"desc", "q":"'mykey* translated:true'", "locale_id":"abcd1234abcd1234abcd1234abcd1234"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/KeysSearch"
 requestBody:
   required: true
   content:
@@ -95,4 +90,5 @@ requestBody:
             description: Locale used to determine the translation state of a key when filtering for untranslated or translated keys.
             type: string
             example: abcd1234abcd1234abcd1234abcd1234
+x-cli-command: keys search
 x-cli-version: '2.5'

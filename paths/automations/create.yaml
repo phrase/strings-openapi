@@ -113,9 +113,5 @@ x-code-samples:
       -X POST \
       -d '{"name":"Schedule Automation - Hourly","trigger":"schedule","project_ids":["1"],"job_template_id":"2","status_filters":["untranslated"],"tag_ids":["3","4"],"cron_schedule":"00 13 * * 1,2","time_zone":"GMT"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase automations create \
-    --account_id <account_id> \
-    --data '{"name":"Schedule Automation - Hourly","trigger":"schedule","project_ids":["1"],"job_template_id":"2","status_filters":["untranslated"],"tag_ids":["3","4"],"cron_schedule":"00 13 * * 1,2","time_zone":"GMT"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/AutomationCreate"
+x-cli-command: automations create

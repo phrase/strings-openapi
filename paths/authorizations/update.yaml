@@ -42,11 +42,7 @@ x-code-samples:
       -X PATCH \
       -d '{"note":"My Deploy Script","scopes":["read","write"],"expires_at":"2015-03-30T09:52:53Z"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase authorizations update \
-    --id <id> \
-    --data '{"note": "My Deploy Script", "scopes": "read,write", "expires_at": "2015-03-30T09:52:53Z"}'
+- "$ref": "../../examples/cli.yaml#/AuthorizationUpdate"
 requestBody:
   required: true
   content:
@@ -77,4 +73,5 @@ requestBody:
             type: string
             format: date-time
             example: '2015-03-30T09:52:53Z'
+x-cli-command: authorizations update
 x-cli-version: '2.5'

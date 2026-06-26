@@ -40,12 +40,7 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","q":"PhraseApp*%20verified:true%20tags:feature,center","sort":"updated_at","order":"desc"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase translations include-collection \
-    --project_id <project_id> \
-    --data '{"branch":"my-feature-branch", "q":"'PhraseApp*%20verified:true%20tags:feature,center'", "sort":"updated_at", "order":"desc"}' \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/TranslationsIncludeCollection"
 requestBody:
   required: true
   content:
@@ -82,4 +77,5 @@ requestBody:
             description: 'Order direction. Can be one of: asc, desc.'
             type: string
             example: desc
+x-cli-command: translations include-collection
 x-cli-version: '2.5'

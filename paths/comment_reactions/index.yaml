@@ -53,12 +53,6 @@ x-code-samples:
       -X GET \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase reactions list \
-    --project_id <project_id> \
-    --key_id <key_id> \
-    --comment_id <comment_id> \
-    --branch my-feature-branch \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/ReactionsList"
+x-cli-command: comment_reactions list
 x-cli-version: '2.9'

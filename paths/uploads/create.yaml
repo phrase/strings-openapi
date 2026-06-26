@@ -49,18 +49,7 @@ x-code-samples:
         -F tags=awesome-feature,needs-proofreading \
         -F locale_mapping[en]=2 \
         -F format_options[foo]=bar
-  - lang: CLI v2
-    source: |-
-      phrase uploads create \
-      --project_id <project_id> \
-      --branch my-feature-branch \
-      --file /path/to/my/file.json \
-      --file_format json \
-      --locale_id abcd1234cdef1234abcd1234cdef1234 \
-      --tags awesome-feature,needs-proofreading \
-      --locale_mapping '{"en": "2"}' \
-      --format_options '{"foo": "bar"}' \
-      --access_token <token>
+  - "$ref": "../../examples/cli.yaml#/UploadCreate"
 requestBody:
   required: true
   content:
@@ -176,4 +165,5 @@ requestBody:
             type: boolean
             default: false
             example: false
+x-cli-command: uploads create
 x-cli-version: '2.12'

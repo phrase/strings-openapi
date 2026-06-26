@@ -76,15 +76,5 @@ x-code-samples:
         ]
       }' \
       -u <token>:
-  - lang: CLI v2
-    source: |-
-      phrase upload_batches create --project-id :project_id \
-      --data '{
-        "branch": "my-feature-branch",
-        "delete_unmentioned_keys": true,
-        "upload_ids": [
-          "abcd1234cdef1234abcd1234cdef1234",
-          "bcde2345defg2345bcde2345defg2345"
-        ]
-      }' \
-      --access_token <token>
+  - "$ref": "../../examples/cli.yaml#/UploadBatchesCreate"
+x-cli-command: upload_batches create

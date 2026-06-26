@@ -29,12 +29,7 @@ x-code-samples:
       -X POST \
       -d '{"direction":"merge"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase branches create_comparison \
-    --project_id <project_id> \
-    --name <name> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/BranchComparisonCreate"
 requestBody:
   required: true
   content:
@@ -48,3 +43,5 @@ requestBody:
             type: string
             example: merge
             default: merge
+
+x-cli-command: branches comparison_create

@@ -38,12 +38,6 @@ x-code-samples:
     curl "https://api.phrase.com/v2/projects/:project_id/jobs/:job_id/locales/:job_locale_id/annotations/:id" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE
-- lang: CLI v2
-  source: |-
-    phrase job_locale_annotations delete \
-    --project_id <project_id> \
-    --job_id <job_id> \
-    --job_locale_id <job_locale_id> \
-    --id <id> \
-    --access_token <token>
+- "$ref": "../../examples/cli.yaml#/JobLocaleAnnotationDelete"
+x-cli-command: job_annotations delete
 x-cli-version: '2.43'
