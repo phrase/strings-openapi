@@ -21660,7 +21660,7 @@
       },
       "patch": {
         "summary": "Update a screenshot",
-        "description": "Update an existing screenshot.",
+        "description": "Updates the name or description of an existing screenshot. This endpoint follows the standard REST resource-update lifecycle: send only the fields you want to change and the server applies them to the existing resource.\n\nUse this when you need to rename a screenshot or revise its contextual description without replacing the image file. Updating screenshot markers is also possible through this endpoint by passing marker attributes. The image file itself cannot be changed; to replace it, delete the screenshot and create a new one.\n\nThe name must be unique within the project (case-insensitive). Existing screenshot markers are unaffected unless marker attributes are explicitly passed.\n",
         "operationId": "screenshot/update",
         "tags": [
           "Screenshots"
@@ -21676,6 +21676,41 @@
             "$ref": "#/components/parameters/id"
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "title": "screenshot/update/parameters",
+                "properties": {
+                  "branch": {
+                    "description": "specify the branch to use",
+                    "type": "string",
+                    "example": "my-feature-branch"
+                  },
+                  "name": {
+                    "description": "New display name for the screenshot. Must be non-empty and unique within the project (case-insensitive). Omit to leave the current name unchanged.",
+                    "type": "string",
+                    "minLength": 1,
+                    "example": "home_screen_v2"
+                  },
+                  "description": {
+                    "description": "Updated description for the screenshot. Omit to leave the current description unchanged.",
+                    "type": "string",
+                    "example": "Updated landing page screenshot"
+                  },
+                  "filename": {
+                    "description": "Screenshot file",
+                    "type": "string",
+                    "format": "binary",
+                    "example": "/path/to/my/screenshot.png"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -21705,8 +21740,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to update this screenshot, or when the account does not have the Attachable Screenshots feature."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -21716,50 +21750,6 @@
           },
           "429": {
             "$ref": "#/components/responses/429"
-          }
-        },
-        "x-code-samples": [
-          {
-            "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X PATCH \\\n  -F branch=my-feature-branch \\\n  -F name=A%20screenshot%20name \\\n  -F description=A%20screenshot%20description \\\n  -F filename=@/path/to/my/screenshot.png"
-          },
-          {
-            "lang": "CLI v2",
-            "source": "phrase screenshots update \\\n--project_id <project_id> \\\n--id <id> \\\n--data '{\"branch\":\"my-feature-branch\", \"name\": \"A screenshot name\", \"description\": \"A screenshot description\", \"filename\":\"/path/to/my/screenshot.png\"}' \\\n--access_token <token>"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "title": "screenshot/update/parameters",
-                "properties": {
-                  "branch": {
-                    "description": "specify the branch to use",
-                    "type": "string",
-                    "example": "my-feature-branch"
-                  },
-                  "name": {
-                    "description": "Name of the screenshot",
-                    "type": "string",
-                    "example": "A screenshot name"
-                  },
-                  "description": {
-                    "description": "Description of the screenshot",
-                    "type": "string",
-                    "example": "A screenshot description"
-                  },
-                  "filename": {
-                    "description": "Screenshot file",
-                    "type": "string",
-                    "format": "binary",
-                    "example": "/path/to/my/screenshot.png"
-                  }
-                }
-              }
-            }
           }
         },
         "x-cli-version": "2.5"
