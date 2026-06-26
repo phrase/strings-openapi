@@ -5116,7 +5116,8 @@
         "schema": {
           "type": "string"
         },
-        "style": "simple"
+        "style": "simple",
+        "example": "2024-03-15T09:00:00Z"
       },
       "If-None-Match": {
         "description": "ETag condition, see [Conditional GET requests / HTTP Caching](/en/api/strings/pagination#conditional-get-requests-%2F-http-caching) (optional)",
@@ -5127,7 +5128,8 @@
         "schema": {
           "type": "string"
         },
-        "style": "simple"
+        "style": "simple",
+        "example": "W/\"123456789\""
       },
       "account_id": {
         "in": "path",
@@ -9862,7 +9864,7 @@
           },
           {
             "lang": "CLI v2",
-            "source": "phrase locales download \\\n  --project_id <project_id> \\\n  --id <id> \\\n  --if_modified_since \"ifModifiedSince_example\" \\\n  --if_none_match \"ifNoneMatch_example\" \\\n  --branch \"my-feature-branch\" \\\n  --file_format \"yml\" \\\n  --tags \"feature1,feature2\" \\\n  --tag \"feature\" \\\n  --include_empty_translations true \\\n  --exclude_empty_zero_forms true \\\n  --include_translated_keys true \\\n  --keep_notranslate_tags true \\\n  --convert_emoji true \\\n  --format_options '{ }' \\\n  --encoding \"encoding_example\" \\\n  --skip_unverified_translations true \\\n  --include_unverified_translations true \\\n  --use_last_reviewed_version true \\\n  --fallback_locale_id \"fallbackLocaleId_example\" \\\n  --use_locale_fallback true \\\n  --fallback_for_unverified_translations true \\\n  --source_locale_id \"sourceLocaleId_example\" \\\n  --translation_key_prefix \"prefix_\" \\\n  --filter_by_prefix true \\\n  --custom_metadata_filters '{ }' \\\n  --locale_ids '[\"de\",\"en\"]' \\\n  --updated_since \"2023-01-01T00:00:00Z\" \\\n  --access_token <token>"
+            "source": "phrase locales download \\\n  --project_id <project_id> \\\n  --id <id> \\\n  --if_modified_since \"2024-03-15T09:00:00Z\" \\\n  --if_none_match \"W/\\\"123456789\\\"\" \\\n  --branch \"my-feature-branch\" \\\n  --file_format \"yml\" \\\n  --tags \"feature1,feature2\" \\\n  --tag \"feature\" \\\n  --include_empty_translations true \\\n  --exclude_empty_zero_forms true \\\n  --include_translated_keys true \\\n  --keep_notranslate_tags true \\\n  --convert_emoji true \\\n  --format_options '{ }' \\\n  --encoding \"encoding_example\" \\\n  --skip_unverified_translations true \\\n  --include_unverified_translations true \\\n  --use_last_reviewed_version true \\\n  --fallback_locale_id \"fallbackLocaleId_example\" \\\n  --use_locale_fallback true \\\n  --fallback_for_unverified_translations true \\\n  --source_locale_id \"sourceLocaleId_example\" \\\n  --translation_key_prefix \"prefix_\" \\\n  --filter_by_prefix true \\\n  --custom_metadata_filters '{ }' \\\n  --locale_ids '[\"de\",\"en\"]' \\\n  --updated_since \"2023-01-01T00:00:00Z\" \\\n  --access_token <token>"
           }
         ],
         "x-cli-command": "locales download",
@@ -10069,7 +10071,7 @@
           },
           {
             "lang": "CLI v2",
-            "source": "phrase locale_downloads create \\\n  --project_id <project_id> \\\n  --locale_id <locale_id> \\\n  --if_modified_since \"ifModifiedSince_example\" \\\n  --if_none_match \"ifNoneMatch_example\" \\\n  --data '{ \"file_format\": \"yml\", \"branch\": \"my-feature-branch\", \"tags\": \"feature1,feature2\", \"include_empty_translations\": true, \"exclude_empty_zero_forms\": true, \"include_translated_keys\": true, \"keep_notranslate_tags\": true, \"format_options\": {\"format_options\":{\"foo\":\"bar\"}}, \"encoding\": \"UTF-8\", \"include_unverified_translations\": true, \"use_last_reviewed_version\": null, \"locale_ids\": [\"de\",\"en\"], \"fallback_locale_id\": \"abcd1234abcd1234abcd1234abcd1234\", \"use_locale_fallback\": false, \"fallback_for_unverified_translations\": false, \"source_locale_id\": \"abcd1234abcd1234abcd1234abcd1234\", \"custom_metadata_filters\": null, \"translation_key_prefix\": \"prefix_\", \"filter_by_prefix\": null, \"updated_since\": \"2023-01-01T00:00:00Z\" }' \\\n  --access_token <token>"
+            "source": "phrase locale_downloads create \\\n  --project_id <project_id> \\\n  --locale_id <locale_id> \\\n  --if_modified_since \"2024-03-15T09:00:00Z\" \\\n  --if_none_match \"W/\\\"123456789\\\"\" \\\n  --data '{ \"file_format\": \"yml\", \"branch\": \"my-feature-branch\", \"tags\": \"feature1,feature2\", \"include_empty_translations\": true, \"exclude_empty_zero_forms\": true, \"include_translated_keys\": true, \"keep_notranslate_tags\": true, \"format_options\": {\"format_options\":{\"foo\":\"bar\"}}, \"encoding\": \"UTF-8\", \"include_unverified_translations\": true, \"use_last_reviewed_version\": null, \"locale_ids\": [\"de\",\"en\"], \"fallback_locale_id\": \"abcd1234abcd1234abcd1234abcd1234\", \"use_locale_fallback\": false, \"fallback_for_unverified_translations\": false, \"source_locale_id\": \"abcd1234abcd1234abcd1234abcd1234\", \"custom_metadata_filters\": null, \"translation_key_prefix\": \"prefix_\", \"filter_by_prefix\": null, \"updated_since\": \"2023-01-01T00:00:00Z\" }' \\\n  --access_token <token>"
           }
         ],
         "x-cli-command": "locale_downloads create",
@@ -10153,7 +10155,7 @@
           },
           {
             "lang": "CLI v2",
-            "source": "phrase locale_downloads show \\\n  --project_id <project_id> \\\n  --locale_id <locale_id> \\\n  --id <id> \\\n  --if_modified_since \"ifModifiedSince_example\" \\\n  --if_none_match \"ifNoneMatch_example\" \\\n  --access_token <token>"
+            "source": "phrase locale_downloads show \\\n  --project_id <project_id> \\\n  --locale_id <locale_id> \\\n  --id <id> \\\n  --if_modified_since \"2024-03-15T09:00:00Z\" \\\n  --if_none_match \"W/\\\"123456789\\\"\" \\\n  --access_token <token>"
           }
         ],
         "x-cli-command": "locale_downloads show",
@@ -27395,7 +27397,7 @@
           },
           {
             "lang": "CLI v2",
-            "source": "phrase translations list \\\n  --project_id <project_id> \\\n  --if_modified_since \"ifModifiedSince_example\" \\\n  --if_none_match \"ifNoneMatch_example\" \\\n  --page \"1\" \\\n  --per_page \"25\" \\\n  --branch \"my-feature-branch\" \\\n  --key_id \"abcd1234cdef1234abcd1234cdef1234\" \\\n  --locale_id \"abcd1234cdef1234abcd1234cdef1234\" \\\n  --sort \"updated_at\" \\\n  --order \"desc\" \\\n  --q \"PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center\" \\\n  --access_token <token>"
+            "source": "phrase translations list \\\n  --project_id <project_id> \\\n  --if_modified_since \"2024-03-15T09:00:00Z\" \\\n  --if_none_match \"W/\\\"123456789\\\"\" \\\n  --page \"1\" \\\n  --per_page \"25\" \\\n  --branch \"my-feature-branch\" \\\n  --key_id \"abcd1234cdef1234abcd1234cdef1234\" \\\n  --locale_id \"abcd1234cdef1234abcd1234cdef1234\" \\\n  --sort \"updated_at\" \\\n  --order \"desc\" \\\n  --q \"PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center\" \\\n  --access_token <token>"
           }
         ],
         "x-cli-command": "translations list",
