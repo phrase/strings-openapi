@@ -151,10 +151,20 @@ bundling, walks the compiled JSON/YAML, and appends each operation's CLI sample
 from `examples/cli.yaml`, matched on `operationId`. A missing example is a no-op
 (no CLI sample for that op), never an error.
 
-Build wiring (`make bundle`): bundle YAML → `make examples` (regenerates
-`examples/cli.yaml`) → bundle JSON+YAML → inject into both. The generator ignores
-`x-code-samples`, so the injected samples in `tmp/compiled.yaml` do not affect a
-subsequent `make examples`.
+Build wiring:
+
+- `make bundle` (Node only): bundle JSON+YAML → inject the **committed**
+  `examples/cli.yaml` into both. No Java/openapi-generator, so the `lint` and
+  `compare-output` CI jobs (Node only) work. `compare-output` reproduces
+  `doc/compiled.json` by running the same inject step, so it must stay in sync with
+  `make bundle`.
+- `make examples` (needs Java): regenerates `examples/cli.yaml` from
+  `tmp/compiled.yaml`. Invoked by `make cli` (which then re-runs `make bundle` to
+  inject the refreshed examples), and runnable standalone after param/x-cli-command
+  changes. Kept out of `bundle` precisely so `bundle`/`lint` stay Node-only.
+
+The generator ignores `x-code-samples`, so injected samples in `tmp/compiled.yaml`
+do not affect a subsequent `make examples`.
 
 ## When the template genuinely can't compute something
 

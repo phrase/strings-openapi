@@ -40,9 +40,14 @@ You added an endpoint in Phrase Strings. In this project you do the following:
 
 The `CLI v2` entries in `x-code-samples` are **generated**, not hand-written. They
 are produced into `examples/cli.yaml` from each endpoint's `x-cli-command` and
-parameters, and injected into the compiled spec (`doc/compiled.json`) during
-`make bundle`. Do not add `CLI v2` samples to path files by hand — only the
-hand-written `Curl` sample and the `x-cli-command` field belong there.
+parameters (during `make cli` / `npm start`, which needs Java) and injected into
+the compiled spec (`doc/compiled.json`) during `make bundle` (Node only). Do not
+add `CLI v2` samples to path files by hand — only the hand-written `Curl` sample
+and the `x-cli-command` field belong there.
+
+`examples/cli.yaml` is committed and kept in sync by `npm start`. If you change an
+endpoint's parameters or `x-cli-command` without a full rebuild, run `make examples`
+then `make bundle` to refresh it.
 
 ## Workflow
 

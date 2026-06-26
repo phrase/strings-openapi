@@ -14,13 +14,14 @@ lint:
 	make bundle
 	bash ./lint.sh
 bundle:
-	npx swagger-cli bundle -t yaml -w 300 main.yaml > tmp/compiled.yaml
-	make examples
 	npx swagger-cli bundle -t json -w 300 main.yaml > doc/compiled.json
 	npx swagger-cli bundle -t yaml -w 300 main.yaml > tmp/compiled.yaml
 	node scripts/inject-cli-examples.js doc/compiled.json tmp/compiled.yaml
 
 # Regenerate examples/cli.yaml from the bundled spec (examples-only, no client build).
+# Needs Java/openapi-generator, so it is part of client generation (see `cli`),
+# not `bundle`. Run this manually after changing an endpoint's parameters or
+# x-cli-command, then re-run `make bundle` to inject the refreshed examples.
 # Requires tmp/compiled.yaml to exist (produced by `make bundle`).
 examples:
 	openapi-generator-cli generate -i tmp/compiled.yaml -g go -o tmp/cli-examples -c ./openapi-generator/cli_examples_lang.yaml -e handlebars
@@ -49,3 +50,5 @@ cli:
 	go install golang.org/x/tools/cmd/goimports@v0.24.0
 	goimports -w clients/cli
 	cd clients/cli && go mod tidy
+	make examples
+	make bundle
