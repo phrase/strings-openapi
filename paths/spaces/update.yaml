@@ -36,13 +36,6 @@ x-code-samples:
       -X PATCH \
       -d '{"name":"My Android Projects"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase spaces update \
-    --account_id <account_id> \
-    --id <id> \
-    --data '{"name": "My Android Projects"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -55,4 +48,5 @@ requestBody:
             description: New name of the space
             type: string
             example: My Android Projects
+x-cli-command: spaces update
 x-cli-version: '2.5'

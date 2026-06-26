@@ -45,9 +45,4 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X POST \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase automations deactivate \
-    --account_id <account_id> \
-    --id <id> \
-    --access_token <token>
+x-cli-command: automations deactivate

@@ -29,9 +29,25 @@ The `change_type` is one of the following:
 You added an endpoint in Phrase Strings. In this project you do the following:
 
 1. Add newly added schema (if any) to `/schemas/` directory and to `schemas.yaml`
-2. Add new endpoints to `/paths/` directory and reference it in `paths.yaml`
+2. Add new endpoints to `/paths/` directory and reference it in `paths.yaml`. Each
+   path file must include an `x-cli-command` field with the CLI command for the
+   endpoint, e.g. `x-cli-command: screenshots create` (the parent command plus the
+   subcommand). This drives the auto-generated CLI code sample.
 3. `npm start` to re-build the clients
 4. Open a PR with an informative title (e.g. `feat(API): Add an API endpoint for cat pics`)
+
+### CLI code samples
+
+The `CLI v2` entries in `x-code-samples` are **generated**, not hand-written. They
+are produced into `examples/cli.yaml` from each endpoint's `x-cli-command` and
+parameters (during `make cli` / `npm start`, which needs Java) and injected into
+the compiled spec (`doc/compiled.json`) during `make bundle` (Node only). Do not
+add `CLI v2` samples to path files by hand — only the hand-written `Curl` sample
+and the `x-cli-command` field belong there.
+
+`examples/cli.yaml` is committed and kept in sync by `npm start`. If you change an
+endpoint's parameters or `x-cli-command` without a full rebuild, run `make examples`
+then `make bundle` to refresh it.
 
 ## Workflow
 

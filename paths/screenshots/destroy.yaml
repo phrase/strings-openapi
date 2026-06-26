@@ -38,11 +38,5 @@ x-code-samples:
       -X DELETE \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase screenshots delete \
-    --project_id <project_id> \
-    --id <id> \
-    --branch my-feature-branch \
-    --access_token <token>
+x-cli-command: screenshots delete
 x-cli-version: '2.5'

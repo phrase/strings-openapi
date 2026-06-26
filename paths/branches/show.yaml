@@ -41,10 +41,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/branches/:name" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase branches show \
-    --project_id <project_id> \
-    --name <name> \
-    --access_token <token>
+x-cli-command: branches show
 x-cli-version: '2.5'

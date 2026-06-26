@@ -49,11 +49,5 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch"' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase jobs lock \
-    --project_id <project_id> \
-    --id <id> \
-    --branch my-feature-branch \
-    --access_token <token>
+x-cli-command: jobs lock
 x-cli-version: '2.5'

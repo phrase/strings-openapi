@@ -27,12 +27,5 @@ x-code-samples:
       -X DELETE \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase job_locales delete \
-    --project_id <project_id> \
-    --job_id <job_id> \
-    --id <id> \
-    --branch my-feature-branch \
-    --access_token <token>
+x-cli-command: job_locales delete
 x-cli-version: '2.5'

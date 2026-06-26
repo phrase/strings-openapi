@@ -39,9 +39,5 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X PATCH \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase notification_groups mark_as_read \
-    --id <id> \
-    --access_token <token>
+x-cli-command: notification_groups mark_as_read
 x-cli-version: '2.5'

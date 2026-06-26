@@ -70,14 +70,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/keys?branch=my-feature-branch&sort=updated_at&order=desc&q=mykey*%20translated:true&locale_id=abcd1234abcd1234abcd1234abcd1234" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase keys list \
-    --project_id <project_id> \
-    --branch my-feature-branch \
-    --sort updated_at \
-    --order desc \
-    --query 'mykey* translated:true' \
-    --locale_id abcd1234abcd1234abcd1234abcd1234 \
-    --access_token <token>
+x-cli-command: keys list
 x-cli-version: '2.5'

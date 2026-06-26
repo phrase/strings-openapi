@@ -38,10 +38,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/accounts/:account_id/distributions/:distribution_id/release_triggers" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase release_triggers list \
-    --account_id <account_id> \
-    --distribution_id <distribution_id> \
-    --access_token <token>
+x-cli-command: release_triggers list
 x-cli-version: '2.28'

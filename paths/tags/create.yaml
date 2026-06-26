@@ -42,12 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch","name":"my-feature"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase tags create \
-    --project_id <project_id> \
-    --data '{"branch":"my-feature-branch", "name":"my-feature"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -66,4 +60,5 @@ requestBody:
             description: Name of the tag
             type: string
             example: my-feature
+x-cli-command: tags create
 x-cli-version: '2.5'

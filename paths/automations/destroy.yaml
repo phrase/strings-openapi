@@ -32,9 +32,4 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase automations delete \
-    --account_id <account_id> \
-    --id <id> \
-    --access_token <token>
+x-cli-command: automations delete

@@ -42,12 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"name":"date.formats.*"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase blacklisted_keys create \
-    --project_id <project_id> \
-    --data '{"name":"'date.formats.*'"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -62,4 +56,5 @@ requestBody:
             description: Blocked key name
             type: string
             example: date.formats.*
+x-cli-command: blacklisted_keys create
 x-cli-version: '2.5'

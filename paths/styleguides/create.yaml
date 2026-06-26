@@ -40,14 +40,8 @@ x-code-samples:
     curl "https://api.phrase.com/v2/projects/:project_id/styleguides" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X POST \
-      -d '{"title":"Web application style guide","audience":"customer-facing","target_audience":"teenager","grammatical_person":"first_person_singular","vocabulary_type":"technical","business":"We are a travel site that helps customers find the best hotels and flights.","company_branding":"ACME Inc. should never be translated.","formatting":"Never use capital letters","glossary_terms":"Apartment, cabin, loft","grammar_consistency":","literal_translation":"Neutral","overall_tone":"Tone should be fun and light","samples":"http://www.myexample.com/my/document/path/to/samples.pdf"}' \
+      -d '{"title":"Web application style guide","audience":"customer-facing","target_audience":"teenager","grammatical_person":"first_person_singular","vocabulary_type":"technical","business":"We are a travel site that helps customers find the best hotels and flights.","company_branding":"ACME Inc. should never be translated.","formatting":"Never use capital letters","glossary_terms":"Apartment, cabin, loft","grammar_consistency":"Use informal pronouns and consistent present-tense conjugation","literal_translation":"Neutral","overall_tone":"Tone should be fun and light","samples":"http://www.myexample.com/my/document/path/to/samples.pdf"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase styleguides create \
-    --project_id <project_id> \
-    --data '{"title": "Web application style guide", "audience":"customer-facing", "target_audience":"teenager", "grammatical_person":"first_person_singular", "vocabulary_type":"technical", "business": "We are a travel site that helps customers find the best hotels and flights.", "company_branding": "ACME Inc. should never be translated.", "formatting": "Never use capital letters", "glossary_terms": "Apartment, cabin, loft", "grammar_consistency":", "literal_translation":"Neutral", "overall_tone": "Tone should be fun and light", "samples": "http://www.myexample.com/my/document/path/to/samples.pdf"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -119,7 +113,7 @@ requestBody:
           grammar_consistency:
             description: Formal or informal pronouns, consistent conjugation, grammatical gender
             type: string
-            example: ''
+            example: Use informal pronouns and consistent present-tense conjugation
           literal_translation:
             description: 'Can be one of: Cultural/Conversational, Literal, Neutral.'
             type: string
@@ -132,4 +126,5 @@ requestBody:
             description: Provide links to sample product pages, FAQ pages, etc. to give the translator a point of reference. You can also provide past translations. Even snippets or short paragraphs are helpful for maintaining consistency.
             type: string
             example: http://www.myexample.com/my/document/path/to/samples.pdf
+x-cli-command: style_guides create
 x-cli-version: '2.5'

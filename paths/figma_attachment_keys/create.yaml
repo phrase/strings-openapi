@@ -33,12 +33,5 @@ x-code-samples:
         -F branch=my-feature-branch \
         -F id=key_id \
         -H 'Content-Type: application/json'
-  - lang: CLI v2
-    source: |-
-      phrase figma_attachment attach_to_key \
-      --project_id <project_id> \
-      --figma_attachment_id <figma_attachment_id> \
-      --id <id> \
-      --branch my-feature-branch \
-      --access_token <token>
+x-cli-command: keys_figma_attachments attach_to_key
 x-cli-version: "2.13"

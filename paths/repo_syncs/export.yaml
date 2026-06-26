@@ -63,9 +63,4 @@ x-code-samples:
       -X POST \
       -H 'Content-Type: application/json' \
       -d '{"pr_branch":"my-feature-branch", "branch":"my-strings-branch"}'
-- lang: CLI v2
-  source: |-
-    phrase repo_syncs export \
-    --id <repo_sync_id> \
-    --data '{"pr_branch":"my-feature-branch", "branch":"my-strings-branch"}' \
-    --access_token <token>
+x-cli-command: repo_syncs export

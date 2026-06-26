@@ -42,11 +42,5 @@ x-code-samples:
     curl "https://api.phrase.com/v2/accounts/:account_id/distributions/:distribution_id/releases/:id/publish" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X POST
-- lang: CLI v2
-  source: |-
-    phrase releases publish \
-    --account_id <account_id> \
-    --distribution_id <distribution_id> \
-    --id <id> \
-    --access_token <token>
+x-cli-command: releases publish
 x-cli-version: '2.5'

@@ -60,3 +60,4 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -H "Content-Type: application/json" \
       -d '{"child_key_ids": ["ijkl9012mnop3456ijkl9012mnop3456", "abcd1234efgh5678abcd1234efgh5678"]}'
+x-cli-command: linked_keys create

@@ -50,11 +50,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/projects/:project_id/tags/:name?branch=my-feature-branch" \
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase tags show \
-    --project_id <project_id> \
-    --name <name> \
-    --branch my-feature-branch \
-    --access_token <token>
+x-cli-command: tags show
 x-cli-version: '2.5'

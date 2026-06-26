@@ -32,12 +32,5 @@ x-code-samples:
     curl "https://api.phrase.com/v2/accounts/:account_id/glossaries/:glossary_id/terms/:term_id/translations/:id" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE
-- lang: CLI v2
-  source: |-
-    phrase glossary_term_translations delete \
-    --account_id <account_id> \
-    --glossary_id <glossary_id> \
-    --term_id <term_id> \
-    --id <id> \
-    --access_token <token>
+x-cli-command: glossary_term_translations delete
 x-cli-version: '2.5'

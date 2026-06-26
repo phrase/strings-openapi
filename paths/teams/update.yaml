@@ -36,13 +36,6 @@ x-code-samples:
       -X PATCH \
       -d '{"name":"German Translators"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase teams update \
-    --account_id <account_id> \
-    --id <id> \
-    --data '{"name": "German Translators"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -55,4 +48,5 @@ requestBody:
             description: New name of the team
             type: string
             example: German Translators
+x-cli-command: teams update
 x-cli-version: '2.5'
