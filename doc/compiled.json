@@ -31596,7 +31596,7 @@
                     ]
                   },
                   "project_ids": {
-                    "description": "List of project IDs to associate with the automation.\nCurrently, only the first ID in the array is used.\nThe array format leaves room for future support of multiple projects.\n",
+                    "description": "List of project IDs to associate with the automation.\nProviding more than one project ID requires the `advanced_job_automation`\nplan feature; accounts without this feature receive a 422 response with\nerror field `project_ids`.\n",
                     "type": "array",
                     "items": {
                       "type": "string"
@@ -31825,7 +31825,7 @@
                     ]
                   },
                   "project_ids": {
-                    "description": "List of project IDs to associate with the automation.\nCurrently, only the first ID in the array is used.\nThe array format leaves room for future support of multiple projects.\n",
+                    "description": "List of project IDs to associate with the automation.\nProviding more than one project ID requires the `advanced_job_automation`\nplan feature; accounts without this feature receive a 422 response with\nerror field `project_ids`.\n",
                     "type": "array",
                     "items": {
                       "type": "string"
