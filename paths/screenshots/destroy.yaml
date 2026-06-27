@@ -1,6 +1,7 @@
 ---
 summary: Delete a screenshot
-description: Delete an existing screenshot.
+description: |
+  Permanently removes a screenshot and all its associated markers from the project. Use this when you need to fully remove a screenshot that is no longer relevant — for example, after a UI redesign renders the captured screen obsolete. This is a hard delete: the screenshot record and every key-to-region marker linked to it are destroyed together and cannot be recovered.
 operationId: screenshot/delete
 tags:
 - Screenshots
@@ -19,30 +20,14 @@ responses:
     "$ref": "../../responses.yaml#/204"
   '400':
     "$ref": "../../responses.yaml#/400"
-  '404':
-    "$ref": "../../responses.yaml#/404"
   '401':
     "$ref": "../../responses.yaml#/401"
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this screenshot, or when the account does not have the Attachable Screenshots feature.
+  '404':
+    "$ref": "../../responses.yaml#/404"
   '422':
     "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
-x-code-samples:
-- lang: Curl
-  source: |-
-    curl "https://api.phrase.com/v2/projects/:project_id/screenshots/:id" \
-      -u USERNAME_OR_ACCESS_TOKEN \
-      -X DELETE \
-      -d '{"branch":"my-feature-branch"}' \
-      -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase screenshots delete \
-    --project_id <project_id> \
-    --id <id> \
-    --branch my-feature-branch \
-    --access_token <token>
 x-cli-version: '2.5'
