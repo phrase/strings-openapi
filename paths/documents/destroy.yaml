@@ -24,4 +24,11 @@ responses:
     "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
+x-code-samples:
+- lang: CLI v2
+  source: |-
+    phrase documents delete \
+    --project_id <project_id> \
+    --id <id> \
+    --access_token <token>
 x-cli-version: '2.5'
