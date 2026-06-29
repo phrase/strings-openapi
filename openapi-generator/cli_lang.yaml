@@ -2,6 +2,6 @@
 generatorName: go
 outputDir: clients/cli
 packageName: phrase
-packageVersion: 2.66.0
+packageVersion: 2.66.1
 templateDir: openapi-generator/templates/cli
 apiNameSuffix: Api
