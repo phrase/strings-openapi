@@ -21616,6 +21616,12 @@
             "$ref": "#/components/parameters/id"
           }
         ],
+        "x-code-samples": [
+          {
+            "lang": "CLI v2",
+            "source": "phrase screenshots update \\\n--project_id <project_id> \\\n--id <id> \\\n--data '{\"branch\":\"my-feature-branch\", \"name\": \"A screenshot name\", \"description\": \"A screenshot description\", \"filename\":\"/path/to/my/screenshot.png\"}' \\\n--access_token <token>"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {

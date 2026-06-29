@@ -13,6 +13,14 @@ parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
 - "$ref": "../../parameters.yaml#/project_id"
 - "$ref": "../../parameters.yaml#/id"
+x-code-samples:
+- lang: CLI v2
+  source: |-
+    phrase screenshots update \
+    --project_id <project_id> \
+    --id <id> \
+    --data '{"branch":"my-feature-branch", "name": "A screenshot name", "description": "A screenshot description", "filename":"/path/to/my/screenshot.png"}' \
+    --access_token <token>
 requestBody:
   required: true
   content:
