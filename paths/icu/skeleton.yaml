@@ -11,6 +11,12 @@ tags:
 - ICU
 parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+x-code-samples:
+- lang: CLI v2
+  source: |-
+    phrase icu skeleton \
+    --data '{"content":"{number, plural, one {One} other {%{n}}}","locale_codes":["en"],"zero_form_enabled": true}' \
+    --access_token <token>
 requestBody:
   required: true
   content:

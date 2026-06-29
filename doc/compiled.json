@@ -5624,6 +5624,12 @@
             "$ref": "#/components/parameters/X-PhraseApp-OTP"
           }
         ],
+        "x-code-samples": [
+          {
+            "lang": "CLI v2",
+            "source": "phrase icu skeleton \\\n--data '{\"content\":\"{number, plural, one {One} other {%{n}}}\",\"locale_codes\":[\"en\"],\"zero_form_enabled\": true}' \\\n--access_token <token>"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
