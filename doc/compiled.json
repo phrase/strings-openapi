@@ -6717,6 +6717,12 @@
             "$ref": "#/components/responses/429"
           }
         },
+        "x-code-samples": [
+          {
+            "lang": "CLI v2",
+            "source": "phrase figma_attachment detach_from_key \\\n--project_id <project_id> \\\n--figma_attachment_id <figma_attachment_id> \\\n--id <id> \\\n--branch my-feature-branch \\\n--access_token <token>"
+          }
+        ],
         "x-cli-version": "2.13"
       }
     },

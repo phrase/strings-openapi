@@ -38,4 +38,13 @@ responses:
     "$ref": "../../responses.yaml#/422"
   "429":
     "$ref": "../../responses.yaml#/429"
+x-code-samples:
+  - lang: CLI v2
+    source: |-
+      phrase figma_attachment detach_from_key \
+      --project_id <project_id> \
+      --figma_attachment_id <figma_attachment_id> \
+      --id <id> \
+      --branch my-feature-branch \
+      --access_token <token>
 x-cli-version: "2.13"
