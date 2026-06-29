@@ -49,3 +49,5 @@ x-code-samples:
     curl -i "https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links/1234abcd1234cdef1234abcd1234cdef" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE
+
+x-cli-command: linked_keys destroy

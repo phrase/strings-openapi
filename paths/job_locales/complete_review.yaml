@@ -37,14 +37,6 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase job_locales complete \
-    --project_id <project_id> \
-    --job_id <job_id> \
-    --id <id> \
-    --data '{"branch":"my-feature-branch"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -57,4 +49,5 @@ requestBody:
             description: specify the branch to use
             type: string
             example: my-feature-branch
+x-cli-command: job_locales complete_review
 x-cli-version: '2.5'

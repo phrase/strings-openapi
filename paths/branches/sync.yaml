@@ -46,13 +46,6 @@ x-code-samples:
       -X PATCH \
       -d '{"strategy":"use_main"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase branches sync \
-    --project_id <project_id> \
-    --name <name> \
-    --data '{"strategy":"use_main"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -69,3 +62,5 @@ requestBody:
               - use_main
               - use_branch
             example: use_main
+
+x-cli-command: branches sync

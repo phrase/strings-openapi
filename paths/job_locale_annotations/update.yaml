@@ -43,15 +43,6 @@ x-code-samples:
       -X PATCH \
       -d '{"value":"Some value..."}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase job_locale_annotations update \
-    --project_id <project_id> \
-    --job_id <job_id> \
-    --job_locale_id <job_locale_id> \
-    --id <id> \
-    --data '{"value": "Some value..."}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -68,4 +59,5 @@ requestBody:
             description: Branch name of the job
             type: string
             example: my-feature-branch
+x-cli-command: job_annotations update
 x-cli-version: '2.43'

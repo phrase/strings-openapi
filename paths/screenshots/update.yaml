@@ -45,13 +45,6 @@ x-code-samples:
       -F name=A%20screenshot%20name \
       -F description=A%20screenshot%20description \
       -F filename=@/path/to/my/screenshot.png
-- lang: CLI v2
-  source: |-
-    phrase screenshots update \
-    --project_id <project_id> \
-    --id <id> \
-    --data '{"branch":"my-feature-branch", "name": "A screenshot name", "description": "A screenshot description", "filename":"/path/to/my/screenshot.png"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -77,4 +70,5 @@ requestBody:
             type: string
             format: binary
             example: "/path/to/my/screenshot.png"
+x-cli-command: screenshots update
 x-cli-version: '2.5'

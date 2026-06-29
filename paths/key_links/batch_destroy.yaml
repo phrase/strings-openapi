@@ -67,3 +67,5 @@ x-code-samples:
         -X DELETE \
         -H "Content-Type: application/json" \
         -d '{"child_key_ids": ["feature.subtitle", "nav.home"], "strategy": "keep_content"}'
+
+x-cli-command: linked_keys batch_destroy

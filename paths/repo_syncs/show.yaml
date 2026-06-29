@@ -38,10 +38,5 @@ x-code-samples:
   source: |-
     curl "https://api.phrase.com/v2/accounts/ab12cd34/repo_syncs/56ef78"\
       -u USERNAME_OR_ACCESS_TOKEN
-- lang: CLI v2
-  source: |-
-    phrase repo_syncs show \
-    --id <id> \
-    --account_id abcd1234 \
-    --access_token <token>
+x-cli-command: repo_syncs show
 x-cli-version: '2.24'

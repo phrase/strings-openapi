@@ -41,12 +41,6 @@ x-code-samples:
         -X PATCH \
         -d '{"branch":"my-feature-branch","q":"PhraseApp*%reviewed:false%20tags:feature,center"}' \
         -H 'Content-Type: application/json'
-  - lang: CLI v2
-    source: |-
-      phrase translations unreview-collection \
-      --project_id <project_id> \
-      --data '{"branch":"my-feature-branch", "q":"'PhraseApp*%reviewed:false%20tags:feature,center'"}' \
-      --access_token <token>
 requestBody:
   required: true
   content:
@@ -75,4 +69,5 @@ requestBody:
               Find more examples [here](/en/api/strings/usage-examples).
             type: string
             example: PhraseApp*%reviewed:true%20tags:feature,center
+x-cli-command: translations unreview-collection
 x-cli-version: '2.41'

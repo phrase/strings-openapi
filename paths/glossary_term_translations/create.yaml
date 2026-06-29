@@ -44,14 +44,6 @@ x-code-samples:
       -X POST \
       -d '{"locale_code":"en-US","content":"My translated term"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase glossary_term_translations create \
-    --account_id <account_id> \
-    --glossary_id <glossary_id> \
-    --term_id <term_id> \
-    --data '{"locale_code":"en-US", "content": "My translated term"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -71,4 +63,5 @@ requestBody:
             description: The content of the translation
             type: string
             example: My translated term
+x-cli-command: glossary_term_translations create
 x-cli-version: '2.5'

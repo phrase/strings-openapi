@@ -46,13 +46,6 @@ x-code-samples:
       -X PATCH \
       -d '{"name":"my-branch"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase branches update \
-    --project_id <project_id> \
-    --name <name> \
-    --data '{"name":"my-branch"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -65,4 +58,5 @@ requestBody:
             description: Name of the branch
             type: string
             example: my-branch
+x-cli-command: branches update
 x-cli-version: '2.5'

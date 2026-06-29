@@ -36,13 +36,6 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch","locale_id":"abcd1234cdef1234abcd1234cdef1234","user_ids":["abcd1234cdef1234abcd1234cdef1234"],"reviewer_ids":["abcd1234cdef1234abcd1234cdef1234"], "translator_team_ids":["abcd1234cdef1234abcd1234cdef1234"]}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase job_template_locales create \
-    --project_id <project_id> \
-    --job_template_id <job_template_id> \
-    --data '{"branch":"my-feature-branch", "locale_id":"abcd1234cdef1234abcd1234cdef1234", "user_ids": "abcd1234cdef1234abcd1234cdef1234", "reviewer_ids": "abcd1234cdef1234abcd1234cdef1234", "translator_team_ids":"abcd1234cdef1234abcd1234cdef1234"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -89,4 +82,5 @@ requestBody:
             - abcd1234cdef1234abcd1234cdef1234
         required:
         - locale_id
+x-cli-command: job_template_locales create
 x-cli-version: '2.6.8'

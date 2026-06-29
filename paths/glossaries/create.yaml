@@ -42,12 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"name":"My term base","project_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235","space_ids":["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"]}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase glossaries create \
-    --account_id <account_id> \
-    --data '{"name":"My term base", "project_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235", "space_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -74,4 +68,5 @@ requestBody:
             example:
             - abcd1234abcd1234abcd1234
             - abcd1234abcd1234abcd1235
+x-cli-command: glossaries create
 x-cli-version: '2.5'

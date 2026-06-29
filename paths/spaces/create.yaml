@@ -35,12 +35,6 @@ x-code-samples:
       -X POST \
       -d '{"name":"My Android Projects"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase spaces create \
-    --account_id <account_id> \
-    --data '{"name": "My Android Projects"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -55,4 +49,5 @@ requestBody:
             description: Name of the space
             type: string
             example: My Android Projects
+x-cli-command: spaces create
 x-cli-version: '2.5'

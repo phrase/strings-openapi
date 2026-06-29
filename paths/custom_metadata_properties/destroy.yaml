@@ -27,10 +27,5 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase custom_metadata_properties delete \
-    --account_id <account_id> \
-    --id <id> \
-    --access_token <token>
+x-cli-command: custom_metadata delete
 x-cli-version: '2.9'

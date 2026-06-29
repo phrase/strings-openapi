@@ -23,10 +23,5 @@ x-code-samples:
     curl "https://api.phrase.com/v2/accounts/:account_id/spaces/:id" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE
-- lang: CLI v2
-  source: |-
-    phrase spaces delete \
-    --account_id <account_id> \
-    --id <id> \
-    --access_token <token>
+x-cli-command: spaces delete
 x-cli-version: '2.5'

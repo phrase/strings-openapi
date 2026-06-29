@@ -43,13 +43,6 @@ x-code-samples:
       -X PATCH \
       -d '{"name":"MY_VARIABLE","value":"Hello World"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase variables update \
-    --project_id <project_id> \
-    --name <name> \
-    --data '{"name":"MY_VARIABLE","value":"Hello World"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -66,4 +59,5 @@ requestBody:
             description: Value of the variable
             type: string
             example: Hello World
+x-cli-command: variables update
 x-cli-version: '2.5'

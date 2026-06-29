@@ -43,12 +43,6 @@ x-code-samples:
         -F name=My%20Android%20Project \
         -F main_format=yml \
         -F shares_translation_memory=true
-  - lang: CLI v2
-    source: |-
-      phrase projects update \
-      --id <id> \
-      --data '{"name": "My Android Project", "main_format":"yml", "shares_translation_memory":true}' \
-      --access_token <token>
 requestBody:
   required: true
   content:
@@ -199,4 +193,5 @@ requestBody:
             description: "(Optional) CLDR plural-rule version used by the project."
             type: string
             example: "legacy"
+x-cli-command: projects update
 x-cli-version: "2.6.3"

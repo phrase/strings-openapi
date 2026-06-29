@@ -42,12 +42,6 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","q":"mykey* translated:true","locale_id":"abcd1234abcd1234abcd1234abcd1234","tags":"landing-page,release-1.2"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase keys tag \
-    --project_id <project_id> \
-    --data '{"branch":"my-feature-branch", "q":"'mykey* translated:true'", "locale_id":"abcd1234abcd1234abcd1234abcd1234", "tags":"landing-page,release-1.2"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -84,4 +78,5 @@ requestBody:
             description: Tag or comma-separated list of tags to add to the matching collection of keys
             type: string
             example: landing-page,release-1.2
+x-cli-command: keys tag
 x-cli-version: '2.5'

@@ -43,13 +43,6 @@ x-code-samples:
       -X POST \
       -d '{"term":"MyCompany","description":"Use this when refering to our company","translatable":true,"case_sensitive":true}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase glossary_terms create \
-    --account_id <account_id> \
-    --glossary_id <glossary_id> \
-    --data '{"term":"MyCompany", "description": "Use this when refering to our company", "translatable":true, "case_sensitive":true}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -76,4 +69,5 @@ requestBody:
             description: Indicates whether the term is case sensitive
             type: boolean
             example: true
+x-cli-command: glossary_terms create
 x-cli-version: '2.5'

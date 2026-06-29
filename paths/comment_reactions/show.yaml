@@ -46,13 +46,5 @@ x-code-samples:
       -X GET \
       -d '{"branch":"my-feature-branch"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase reactions show \
-    --project_id <project_id> \
-    --key_id <key_id> \
-    --comment_id <comment_id> \
-    --id <id> \
-    --branch my-feature-branch \
-    --access_token <token>
+x-cli-command: comment_reactions show
 x-cli-version: '2.9'

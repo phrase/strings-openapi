@@ -42,12 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"branch":"my-feature-branch","name":"template","briefing":"text"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase job_templates create \
-    --project_id <project_id> \
-    --data '{"branch":"my-feature-branch", "name":"template", "briefing":"text"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -78,4 +72,5 @@ requestBody:
             example: abcd1234cdef1234abcd1234cdef1234
         required:
         - name
+x-cli-command: job_templates create
 x-cli-version: '2.5'

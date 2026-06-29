@@ -15,6 +15,7 @@ If-Modified-Since:
   schema:
     type: string
   style: simple
+  example: '2024-03-15T09:00:00Z'
 If-None-Match:
   description: 'ETag condition, see [Conditional GET requests / HTTP Caching](/en/api/strings/pagination#conditional-get-requests-%2F-http-caching) (optional)'
   explode: false
@@ -24,6 +25,7 @@ If-None-Match:
   schema:
     type: string
   style: simple
+  example: 'W/"123456789"'
 account_id:
   in: path
   name: account_id

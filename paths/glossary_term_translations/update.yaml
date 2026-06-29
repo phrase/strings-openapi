@@ -45,15 +45,6 @@ x-code-samples:
       -X PATCH \
       -d '{"locale_code":"en-US","content":"My translated term"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase glossary_term_translations update \
-    --account_id <account_id> \
-    --glossary_id <glossary_id> \
-    --term_id <term_id> \
-    --id <id> \
-    --data '{"locale_code":"en-US", "content": "My translated term"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -70,4 +61,5 @@ requestBody:
             description: The content of the translation
             type: string
             example: My translated term
+x-cli-command: glossary_term_translations update
 x-cli-version: '2.5'

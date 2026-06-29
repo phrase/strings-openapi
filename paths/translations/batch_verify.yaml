@@ -42,12 +42,6 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","q":"PhraseApp*%20unverified:true%20tags:feature,center"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase translations verify-collection \
-    --project_id <project_id> \
-    --data '{"branch":"my-feature-branch", "q":"'PhraseApp*%20unverified:true%20tags:feature,center'"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -80,4 +74,5 @@ requestBody:
               Find more examples [here](/en/api/strings/usage-examples).
             type: string
             example: PhraseApp*%20unverified:true%20tags:feature,center
+x-cli-command: translations verify-collection
 x-cli-version: '2.5'

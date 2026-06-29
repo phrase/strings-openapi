@@ -154,13 +154,5 @@ x-code-samples:
         -X POST \
         -d '{"branch":"my-feature-branch","file_format":"yml","tags":"feature1,feature","custom_metadata_filters":{"tone":"friendly"}}' \
         -H 'Content-Type: application/json'
-  - lang: CLI v2
-    source: |-
-      phrase locale_downloads create \
-      --project_id <project_id> \
-      --locale_id <locale_id> \
-      --branch my-feature-branch \
-      --file_format yml \
-      --tags feature1,feature2 \
-      --access_token <token>
+x-cli-command: locale_downloads create
 x-cli-version: "2.29.0"

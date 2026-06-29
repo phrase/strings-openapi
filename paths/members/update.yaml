@@ -42,13 +42,6 @@ x-code-samples:
       -X PATCH \
       -d '{"role":"Developer","strategy":"set","project_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235","locale_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235","default_locale_codes":["de","en"],"space_ids":["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"],"permissions":{"create_upload":true,"review_translations":true}}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase members update \
-    --account_id <account_id> \
-    --id <id> \
-    --data '{"role":"Developer", "strategy":"set", "project_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235", "locale_ids":"abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235", "default_locale_codes":["de","en"], "space_ids":["abcd1234abcd1234abcd1234","abcd1234abcd1234abcd1235"], "permissions":"{"create_upload"=>true, "review_translations"=>true}"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -97,4 +90,5 @@ requestBody:
             example:
               create_upload: true
               review_translations: true
+x-cli-command: members update
 x-cli-version: '2.5'

@@ -49,12 +49,6 @@ x-code-samples:
       -F max_characters_allowed=140 \
       -F screenshot=@/path/to/my/screenshot.png \
       -F custom_metadata[property]=value
-- lang: CLI v2
-  source: |-
-    phrase keys create \
-    --project_id <project_id> \
-    --data '{"branch":"my-feature-branch", "name":"home.index.headline", "description": "Some description worth knowing...", "name_plural":"home.index.headlines", "data_type":"number", "tags":"awesome-feature,needs-proofreading", "max_characters_allowed":"140", "screenshot":"/path/to/my/screenshot.png", "custom_metadata": {"property" => "value"}}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -161,4 +155,5 @@ requestBody:
             type: string
             example: string
 
+x-cli-command: keys create
 x-cli-version: '2.5'

@@ -37,14 +37,6 @@ x-code-samples:
       -X PATCH \
       -d '{"locale_name":"de-1","locale_code:"de-DE","user_ids":["abcd1234cdef1234abcd1234cdef1234"],"reviewer_ids":["abcd1234cdef1234abcd1234cdef1234"],"translator_team_ids":["abcd1234cdef1234abcd1234cdef1234"]}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase organization_job_template_locales update \
-    --account_id <account_id> \
-    --job_template_id <job_template_id> \
-    --job_template_locale_id <job_template_locale_id> \
-    --data '{"locale_name": "de-1", "locale_code: "de-DE", "user_ids": "abcd1234cdef1234abcd1234cdef1234", "reviewer_ids": "abcd1234cdef1234abcd1234cdef1234","translator_team_ids": "abcd1234cdef1234abcd1234cdef1234"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -89,4 +81,5 @@ requestBody:
               type: string
             example:
             - abcd1234cdef1234abcd1234cdef1234
+x-cli-command: organization_job_template_locales update
 x-cli-version: "2.7.0"

@@ -31,10 +31,5 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X DELETE \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase organization_job_templates delete \
-    --account_id <account_id> \
-    --id <id> \
-    --access_token <token>
+x-cli-command: organization_job_templates delete
 x-cli-version: "2.7.0"

@@ -21,6 +21,7 @@ jobs:
           node-version: "24.14.1"
       - run: npm install
       - run: npx swagger-cli bundle -t json -w 300 main.yaml > doc/compiled_new.json
+      - run: node scripts/inject-cli-examples.js doc/compiled_new.json
       - run: diff doc/compiled.json doc/compiled_new.json
 
   compile-go:

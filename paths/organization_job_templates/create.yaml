@@ -42,12 +42,6 @@ x-code-samples:
       -X POST \
       -d '{"name":"template","briefing":"text"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase organization_job_templates create \
-    --account_id <account_id> \
-    --data '{"name":"template", "briefing":"text"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -70,4 +64,5 @@ requestBody:
             example: true
         required:
         - name
+x-cli-command: organization_job_templates create
 x-cli-version: "2.7.0"

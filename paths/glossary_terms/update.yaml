@@ -44,14 +44,6 @@ x-code-samples:
       -X PATCH \
       -d '{"term":"MyCompany","description":"Use this when refering to our company","translatable":true,"case_sensitive":true}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase glossary_terms update \
-    --account_id <account_id> \
-    --glossary_id <glossary_id> \
-    --id <id> \
-    --data '{"term":"MyCompany", "description": "Use this when refering to our company", "translatable":true, "case_sensitive":true}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -76,4 +68,5 @@ requestBody:
             description: Indicates whether the term is case sensitive
             type: boolean
             example: true
+x-cli-command: glossary_terms update
 x-cli-version: '2.5'

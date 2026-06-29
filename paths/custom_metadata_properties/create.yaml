@@ -77,10 +77,5 @@ x-code-samples:
       -X POST \
       -d '{"name":"Fruit","data_type":"multi_select","description":"A healthy snack for all ages","project_ids":["1","2","3"],"value_options":["apple","banana","coconut"]}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase custom_metadata_properties create \
-    --account_id <account_id> \
-    --data '{"name":"Fruit","data_type":"multi_select","description":"A healthy snack for all ages","project_ids":["1","2","3"],"value_options":["apple","banana","coconut"]}' \
-    --access_token <token>
+x-cli-command: custom_metadata create
 x-cli-version: '2.9'

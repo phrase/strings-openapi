@@ -40,8 +40,5 @@ x-code-samples:
       -u USERNAME_OR_ACCESS_TOKEN \
       -X POST \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase notifications mark_all_as_read \
-    --access_token <token>
+x-cli-command: notifications mark_all_as_read
 x-cli-version: '2.5'

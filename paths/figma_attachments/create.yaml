@@ -48,12 +48,6 @@ x-code-samples:
         -X POST \
         -F branch=my-feature-branch \
         -F url=https://figma.com/file/xxxxx/sample \
-  - lang: CLI v2
-    source: |-
-      phrase figma_attachment create \
-      --project_id <project_id> \
-      --data '{"branch":"my-feature-branch", "url":"https://figma.com/file/xxxxx/sample"}' \
-      --access_token <token>
 requestBody:
   required: true
   content:
@@ -72,4 +66,5 @@ requestBody:
             description: Figma file url
             type: string
             example: https://figma.com/file/xxxxx/sample
+x-cli-command: figma_attachments create
 x-cli-version: "2.13"

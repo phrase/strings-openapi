@@ -43,13 +43,6 @@ x-code-samples:
       -X PATCH \
       -d '{"branch":"my-feature-branch","name":"template","briefing":"text"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase job_templates update \
-    --project_id <project_id> \
-    --id <id> \
-    --data '{"branch":"my-feature-branch", "name":"template", "briefing":"text"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -80,4 +73,5 @@ requestBody:
             example: abcd1234cdef1234abcd1234cdef1234
         required:
         - name
+x-cli-command: job_templates update
 x-cli-version: '2.5'

@@ -31,10 +31,5 @@ x-code-samples:
     curl "https://api.phrase.com/v2/projects/:project_id/jobs/:job_id/annotations" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X GET
-- lang: CLI v2
-  source: |-
-    phrase job_annotations list \
-    --project_id <project_id> \
-    --job_id <job_id> \
-    --access_token <token>
+x-cli-command: job_annotations list
 x-cli-version: '2.43'

@@ -49,12 +49,6 @@ x-code-samples:
       -X POST \
       -d '{"name":"my-branch"}' \
       -H 'Content-Type: application/json'
-- lang: CLI v2
-  source: |-
-    phrase branches create \
-    --project_id <project_id> \
-    --data '{"name":"my-branch"}' \
-    --access_token <token>
 requestBody:
   required: true
   content:
@@ -73,4 +67,5 @@ requestBody:
             description: Name of an existing branch to use as the base for the new branch.
             type: string
             example: parent-branch
+x-cli-command: branches create
 x-cli-version: '2.5'
