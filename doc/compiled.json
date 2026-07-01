@@ -21776,7 +21776,7 @@
       },
       "delete": {
         "summary": "Delete a screenshot",
-        "description": "Delete an existing screenshot.",
+        "description": "Permanently removes a screenshot and all its associated markers from the project. Use this when you need to fully remove a screenshot that is no longer relevant — for example, after a UI redesign renders the captured screen obsolete. This is a hard delete: the screenshot record and every key-to-region marker linked to it are destroyed together and cannot be recovered.\n",
         "operationId": "screenshot/delete",
         "tags": [
           "Screenshots"
@@ -21812,8 +21812,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this screenshot, or when the account does not have the Attachable Screenshots feature."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -21826,10 +21825,6 @@
           }
         },
         "x-code-samples": [
-          {
-            "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -d '{\"branch\":\"my-feature-branch\"}' \\\n  -H 'Content-Type: application/json'"
-          },
           {
             "lang": "CLI v2",
             "source": "phrase screenshots delete \\\n--project_id <project_id> \\\n--id <id> \\\n--branch my-feature-branch \\\n--access_token <token>"
