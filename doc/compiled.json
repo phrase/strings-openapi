@@ -6688,15 +6688,7 @@
         ],
         "responses": {
           "204": {
-            "description": "The key was successfully detached from the Figma attachment. No content is returned.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "title": "figma_attachment_keys/destroy/response"
-                }
-              }
-            }
+            "description": "The key was successfully detached from the Figma attachment. No content is returned."
           },
           "400": {
             "$ref": "#/components/responses/400"
