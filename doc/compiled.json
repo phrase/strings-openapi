@@ -6001,7 +6001,7 @@
     "/projects/{project_id}/documents/{id}": {
       "delete": {
         "summary": "Delete document",
-        "description": "Delete an existing document.",
+        "description": "Permanently deletes a document and all of its associated translation segments from the project. Use this when you want to remove a document that is no longer needed; the deletion cannot be reversed and all associated segments will be lost.\n",
         "operationId": "document/delete",
         "tags": [
           "Documents"
@@ -6028,8 +6028,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this document."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -6042,10 +6041,6 @@
           }
         },
         "x-code-samples": [
-          {
-            "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/documents/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -H 'Content-Type: application/json'"
-          },
           {
             "lang": "CLI v2",
             "source": "phrase documents delete \\\n--project_id <project_id> \\\n--id <id> \\\n--access_token <token>"
