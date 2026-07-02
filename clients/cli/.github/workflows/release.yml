@@ -35,15 +35,28 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ steps.version.outputs.VERSION }}
-      - name: Upload built binaries
+      - name: Upload built binaries as artifact
         uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist/
+      - name: Publish release
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # pin@v1
+        with:
+          files: |
+            dist/phrase_macosx_*
+            dist/phrase_linux_*
+            dist/phrase_windows_*
+          draft: false
+          name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   sign_and_notarize:
     runs-on: macos-latest
     needs: release
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -63,13 +76,10 @@ jobs:
           NOTARIZATION_APPLE_ID: ${{ secrets.NOTARIZATION_APPLE_ID }}
           NOTARIZATION_APP_PASSWORD: ${{ secrets.NOTARIZATION_APP_PASSWORD }}
           NOTARIZATION_TEAM_ID: ${{ secrets.NOTARIZATION_TEAM_ID }}
-      - name: Upload signed binaries and publish release
+      - name: Upload signed macOS binaries
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # pin@v1
         with:
-          files: |
-            dist/phrase_macosx_*
-            dist/phrase_linux_*
-            dist/phrase_windows_*
+          files: dist/phrase_macosx_*
           overwrite: true
           draft: false
           name: ${{ github.ref_name }}
@@ -78,7 +88,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   brew:
     runs-on: ubuntu-latest
-    needs: sign_and_notarize
+    needs: [release, sign_and_notarize]
+    if: always() && needs.release.result == 'success'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
