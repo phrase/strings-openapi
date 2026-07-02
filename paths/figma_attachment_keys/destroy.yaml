@@ -1,6 +1,9 @@
 ---
 summary: Detach the Figma attachment from a key
-description: Detach the Figma attachment from a key
+description: |
+  Removes the many-to-many association between a translation key and a Figma attachment. Neither the translation key nor the Figma attachment is deleted — only the link between them is removed. Use this when a key no longer corresponds to the design element represented by the Figma frame, or when cleaning up stale key associations after a design update.
+
+  This endpoint is only available on plans that include the Figma Screenshots feature.
 operationId: figma_attachment/detach_from_key
 tags:
   - Key's Figma attachments
@@ -17,21 +20,20 @@ parameters:
       type: string
 responses:
   "204":
-    "$ref": "../../responses.yaml#/204"
+    description: The key was successfully detached from the Figma attachment. No content is returned.
   "400":
     "$ref": "../../responses.yaml#/400"
+  "401":
+    "$ref": "../../responses.yaml#/401"
+  "403":
+    "$ref": "../../responses.yaml#/403"
   "404":
     "$ref": "../../responses.yaml#/404"
+  "422":
+    "$ref": "../../responses.yaml#/422"
   "429":
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
-  - lang: Curl
-    source: |-
-      curl "https://api.phrase.com/v2/projects/:project_id/figma_attachments/:figma_attachment_id/keys/:id" \
-        -u USERNAME_OR_ACCESS_TOKEN \
-        -X DELETE \
-        -F branch=my-feature-branch \
-        -H 'Content-Type: application/json'
   - lang: CLI v2
     source: |-
       phrase figma_attachment detach_from_key \
