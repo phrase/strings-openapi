@@ -1,6 +1,9 @@
 ---
 summary: Link child keys to a parent key
-description: Creates links between a given parent key and one or more child keys.
+description: |
+  Designates a translation key as a parent and links one or more child keys to it. Once linked, child keys receive a special reference marker as their translation content, signalling that their translations are derived from the parent. Use this when you want to group related keys — for example, a short label and its long-form variant — so translators see them in context together.
+
+  Pass an empty child_key_ids array to mark the key as a parent without linking any children yet. Both the parent key and every child key must belong to the main project; branch keys cannot participate in key links. A child key can have at most one parent at a time; attempting to link a child that already has a parent returns a 422 error with code CHILD_IS_ALREADY_LINKED. Parent and child key plurality must match — linking a plural child to a non-plural parent (or vice versa) also returns a 422.
 operationId: key_links/create
 tags:
 - Linked Keys
@@ -19,15 +22,21 @@ requestBody:
         title: key_links/create/parameters
         properties:
           child_key_ids:
-            description: The IDs of the child keys to link to the parent key. Can be left empty, to only mark the given translation-key as parent
+            description: Codes of the keys to link as children. Pass an empty array to mark the parent key without linking any children.
             type: array
-            example: ["child_key_id1", "child_key_id2"]
+            example:
+              - "ijkl9012mnop3456ijkl9012mnop3456"
+              - "abcd1234efgh5678abcd1234efgh5678"
             items:
               type: string
+      example:
+        child_key_ids:
+          - "ijkl9012mnop3456ijkl9012mnop3456"
+          - "abcd1234efgh5678abcd1234efgh5678"
 
 responses:
   '201':
-    description: Created
+    description: Key link reference created.
     content:
       application/json:
         schema:
@@ -38,10 +47,16 @@ responses:
     "$ref": "../../responses.yaml#/401"
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to link this key.
   '404':
     "$ref": "../../responses.yaml#/404"
   '422':
     "$ref": "../../responses.yaml#/422"
   '429':
     "$ref": "../../responses.yaml#/429"
+x-code-samples:
+- lang: Curl
+  source: |-
+    curl -X POST "https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links" \
+      -u USERNAME_OR_ACCESS_TOKEN \
+      -H "Content-Type: application/json" \
+      -d '{"child_key_ids": ["ijkl9012mnop3456ijkl9012mnop3456", "abcd1234efgh5678abcd1234efgh5678"]}'

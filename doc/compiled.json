@@ -4808,6 +4808,66 @@
             },
             "description": "The child translation keys linked to the parent."
           }
+        },
+        "example": {
+          "created_at": "2024-03-15T10:22:00Z",
+          "updated_at": "2024-03-15T10:22:00Z",
+          "created_by": {
+            "id": "usr1a2b3c4d5e6f7a8b9c",
+            "username": "jane.doe",
+            "name": "Jane Doe",
+            "gravatar_uid": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+          },
+          "updated_by": {
+            "id": "usr1a2b3c4d5e6f7a8b9c",
+            "username": "jane.doe",
+            "name": "Jane Doe",
+            "gravatar_uid": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+          },
+          "account": {
+            "id": "acct9z8y7x6w5v4u3t2s",
+            "name": "Acme Translations",
+            "slug": "acme-translations",
+            "company": "Acme Corp",
+            "created_at": "2023-01-10T08:00:00Z",
+            "updated_at": "2023-06-01T12:00:00Z",
+            "company_logo_url": "https://example.com/logos/acme.png"
+          },
+          "parent": {
+            "id": "ijkl9012mnop3456ijkl9012",
+            "name": "home.hero.title",
+            "plural": false,
+            "use_ordinal_rules": false,
+            "data_type": "string",
+            "tags": [
+              "ui",
+              "homepage"
+            ]
+          },
+          "children": [
+            {
+              "id": "ijkl9012mnop3456ijkl9012mnop3456",
+              "name": "home.hero.title_short",
+              "plural": false,
+              "use_ordinal_rules": false,
+              "data_type": "string",
+              "tags": [
+                "ui",
+                "homepage"
+              ]
+            },
+            {
+              "id": "abcd1234efgh5678abcd1234efgh5678",
+              "name": "home.hero.title_long",
+              "plural": false,
+              "use_ordinal_rules": false,
+              "data_type": "string",
+              "tags": [
+                "ui",
+                "homepage"
+              ]
+            }
+          ]
         }
       },
       "repo_sync": {
@@ -5614,7 +5674,7 @@
     "/icu/skeleton": {
       "post": {
         "summary": "Build ICU skeletons",
-        "description": "Returns ICU skeletons for multiple locale codes based on a source content.",
+        "description": "Generates ICU (International Components for Unicode) message format skeletons for a given source string across one or more locales. An ICU skeleton strips the literal text from a pluralized or select message while preserving its structural rules — argument names, plural categories, select cases, and ordinal forms — adjusted to the pluralization rules of each requested locale.\n\nUse this endpoint to normalize translation templates before importing them into locale files, or to validate that a source string carries the plural forms required by a target language.\n\nEither `content` or `id` must be provided — supplying both or neither returns 400. When `id` is used and the referenced translation does not exist, the endpoint returns 404. When the source string is not valid ICU message format syntax, the endpoint returns 422 with an `error` field describing the parse failure.\n",
         "operationId": "icu/skeleton",
         "tags": [
           "ICU"
@@ -5624,6 +5684,78 @@
             "$ref": "#/components/parameters/X-PhraseApp-OTP"
           }
         ],
+        "x-code-samples": [
+          {
+            "lang": "CLI v2",
+            "source": "phrase icu skeleton \\\n--data '{\"content\":\"{number, plural, one {One} other {%{n}}}\",\"locale_codes\":[\"en\"],\"zero_form_enabled\": true}' \\\n--access_token <token>"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "icu/skeleton/parameters",
+                "properties": {
+                  "content": {
+                    "description": "Source ICU message string to derive skeletons from. Mutually exclusive with `id`; exactly one of the two must be provided.\n",
+                    "type": "string",
+                    "example": "{count, plural, one {One item} other {# items}}"
+                  },
+                  "id": {
+                    "description": "Code of an existing translation to source content from. Mutually exclusive with `content`; exactly one of the two must be provided. Returns 404 when the translation does not exist.\n",
+                    "type": "string",
+                    "example": "abcd1234abcd1234abcd1234abcd1234"
+                  },
+                  "locale_codes": {
+                    "description": "Locale codes for which to generate skeletons. The pluralization rules of each locale determine which plural forms appear in the output.\n",
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "en"
+                    },
+                    "example": [
+                      "en",
+                      "de"
+                    ]
+                  },
+                  "keep_content": {
+                    "description": "When true, preserves the existing translation text in each plural form and adds any missing forms for the locale rather than stripping all literal content.",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "zero_form_enabled": {
+                    "description": "When true, includes the zero plural form in the generated skeleton for locales that support it.",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "cldr_version": {
+                    "description": "Pluralization rule set to apply when constructing skeletons. Accepted values are `legacy` and `cldr_41`. Defaults to `legacy` when omitted.",
+                    "type": "string",
+                    "enum": [
+                      "legacy",
+                      "cldr_41"
+                    ],
+                    "example": "cldr_41"
+                  }
+                },
+                "oneOf": [
+                  {
+                    "required": [
+                      "content"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "id"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -5656,73 +5788,31 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `read` scope."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
           },
-          "429": {
-            "$ref": "#/components/responses/429"
-          }
-        },
-        "x-code-samples": [
-          {
-            "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/icu/skeleton\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -d '{\"content\":\"{number, plural, one {One} other {%{n}}}\",\"locale_codes\":[\"en\"],\"zero_form_enabled\": true}' \\\n  -H 'Content-Type: application/json'"
-          },
-          {
-            "lang": "CLI v2",
-            "source": "phrase icu skeleton \\\n--data '{\"content\":\"{number, plural, one {One} other {%{n}}}\",\"locale_codes\":[\"en\"],\"zero_form_enabled\": true}' \\\n--access_token <token>"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "title": "icu/skeleton/parameters",
-                "properties": {
-                  "content": {
-                    "description": "Source content to derive skeletons from. Mutually exclusive with `id`; exactly one of the two must be provided.\n",
-                    "type": "string",
-                    "example": "{number, plural, one {One} other {%{n}}}"
-                  },
-                  "id": {
-                    "description": "Translation code to source content from. Mutually exclusive with `content`; exactly one of the two must be provided.\n",
-                    "type": "string",
-                    "example": "abcd1234abcd1234abcd1234abcd1234"
-                  },
-                  "locale_codes": {
-                    "description": "Locale codes",
-                    "type": "array",
-                    "items": {
+          "422": {
+            "description": "Unprocessable entity. Returned when the source string is not valid ICU message format syntax. The response body contains an `error` field with a human-readable description of the parse failure. Correct the ICU syntax in the source string and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "icu/skeleton/error",
+                  "properties": {
+                    "error": {
                       "type": "string",
-                      "example": "en"
-                    },
-                    "example": [
-                      "en"
-                    ]
-                  },
-                  "keep_content": {
-                    "description": "Keep the content and add missing plural forms for each locale",
-                    "type": "boolean",
-                    "example": null
-                  },
-                  "zero_form_enabled": {
-                    "description": "Indicates whether the zero form should be included or excluded in the returned skeletons",
-                    "type": "boolean",
-                    "example": null
-                  },
-                  "cldr_version": {
-                    "description": "Strings supports two CLDR variants, when it comes to pluralization rules. \\\nYou can choose which one you want to use when constructing the skeletons. Possible values \\\nare `legacy` and `cldr_41`. Default value is `legacy`.",
-                    "type": "string",
-                    "example": "cldr_41"
+                      "description": "Human-readable description of the ICU message format parse failure.",
+                      "example": "Expected \"#\" but \"x\" found."
+                    }
                   }
                 }
               }
             }
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
           }
         },
         "x-cli-version": "2.9"
@@ -5811,7 +5901,7 @@
     "/projects/{project_id}/documents": {
       "get": {
         "summary": "List documents",
-        "description": "List all documents the current user has access to.",
+        "description": "Returns all documents in a project that the authenticated user has read access to. A Document is a source file — an HTML or DOCX file — that has been uploaded to Phrase Strings and whose content is segmented into translation keys for localization.\n\nUse this endpoint to enumerate documents before downloading, previewing, or triggering translation workflows for individual files.\n\nThe q parameter performs a prefix match on the document name (case-insensitive). For example, passing q=invoice returns documents whose names begin with \"invoice\" but not documents containing \"invoice\" elsewhere in the name.\n",
         "operationId": "documents/list",
         "tags": [
           "Documents"
@@ -5821,19 +5911,20 @@
             "$ref": "#/components/parameters/X-PhraseApp-OTP"
           },
           {
+            "$ref": "#/components/parameters/project_id"
+          },
+          {
             "$ref": "#/components/parameters/page"
           },
           {
             "$ref": "#/components/parameters/per_page"
           },
           {
-            "$ref": "#/components/parameters/project_id"
-          },
-          {
-            "description": "Search query. Filters documents by name (case-insensitive substring match).",
+            "description": "Filter documents by name prefix. Returns documents whose name starts with the given value (case-insensitive).",
+            "example": "invoice",
             "name": "q",
             "in": "query",
-            "example": "invoice",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -5872,6 +5963,25 @@
                       "updated_at": "2015-01-28T09:52:53Z"
                     }
                   }
+                },
+                "examples": {
+                  "success": {
+                    "summary": "Example document list response",
+                    "value": [
+                      {
+                        "id": "abcd1234cdef1234abcd1234cdef1234",
+                        "name": "email.html",
+                        "created_at": "2015-01-28T09:52:53Z",
+                        "updated_at": "2015-03-04T11:22:30Z"
+                      },
+                      {
+                        "id": "ef012345ef012345ef012345ef012345",
+                        "name": "invoice.docx",
+                        "created_at": "2015-02-10T14:30:00Z",
+                        "updated_at": "2015-03-01T08:00:00Z"
+                      }
+                    ]
+                  }
                 }
               }
             },
@@ -5900,8 +6010,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list documents in this project."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -5911,10 +6020,6 @@
           }
         },
         "x-code-samples": [
-          {
-            "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/documents?project_id=asdf\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
-          },
           {
             "lang": "CLI v2",
             "source": "phrase documents list \\\n--project_id <project_id> \\\n--access_token <token>"
@@ -5926,7 +6031,7 @@
     "/projects/{project_id}/documents/{id}": {
       "delete": {
         "summary": "Delete document",
-        "description": "Delete an existing document.",
+        "description": "Permanently deletes a document and all of its associated translation segments from the project. Use this when you want to remove a document that is no longer needed; the deletion cannot be reversed and all associated segments will be lost.\n",
         "operationId": "document/delete",
         "tags": [
           "Documents"
@@ -5953,8 +6058,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to delete this document."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -5967,10 +6071,6 @@
           }
         },
         "x-code-samples": [
-          {
-            "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/documents/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -H 'Content-Type: application/json'"
-          },
           {
             "lang": "CLI v2",
             "source": "phrase documents delete \\\n--project_id <project_id> \\\n--id <id> \\\n--access_token <token>"
@@ -21527,7 +21627,7 @@
     "/projects/{project_id}/screenshots/{id}": {
       "get": {
         "summary": "Get a single screenshot",
-        "description": "Get details on a single screenshot for a given project.",
+        "description": "Returns a single screenshot belonging to the specified project. Use this to retrieve the screenshot's name, description, hosted image URL, and marker count after uploading, or before creating, updating, or inspecting its markers. The response is a synchronous, idempotent read — repeated calls return the same record without side effects.\n\nThe Attachable Screenshots feature must be enabled on the account.\n",
         "operationId": "screenshot/show",
         "tags": [
           "Screenshots"
@@ -21547,6 +21647,7 @@
             "example": "my-feature-branch",
             "name": "branch",
             "in": "query",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -21581,8 +21682,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `read` scope, when the requesting user is not allowed to read this screenshot, or when the account does not have the Attachable Screenshots feature."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -21592,10 +21692,6 @@
           }
         },
         "x-code-samples": [
-          {
-            "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id?branch=my-feature-branch\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
-          },
           {
             "lang": "CLI v2",
             "source": "phrase screenshots show \\\n--project_id <project_id> \\\n--id <id> \\\n--branch my-feature-branch \\\n--access_token <token>"
@@ -21711,7 +21807,7 @@
       },
       "delete": {
         "summary": "Delete a screenshot",
-        "description": "Delete an existing screenshot.",
+        "description": "Permanently removes a screenshot and all its associated markers from the project. Use this when you need to fully remove a screenshot that is no longer relevant — for example, after a UI redesign renders the captured screen obsolete. This is a hard delete: the screenshot record and every key-to-region marker linked to it are destroyed together and cannot be recovered.\n",
         "operationId": "screenshot/delete",
         "tags": [
           "Screenshots"
@@ -21747,8 +21843,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope, when the requesting user is not allowed to delete this screenshot, or when the account does not have the Attachable Screenshots feature."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -21761,10 +21856,6 @@
           }
         },
         "x-code-samples": [
-          {
-            "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/screenshots/:id\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -d '{\"branch\":\"my-feature-branch\"}' \\\n  -H 'Content-Type: application/json'"
-          },
           {
             "lang": "CLI v2",
             "source": "phrase screenshots delete \\\n--project_id <project_id> \\\n--id <id> \\\n--branch my-feature-branch \\\n--access_token <token>"
@@ -31100,7 +31191,7 @@
     "/projects/{project_id}/keys/{id}/key_links": {
       "delete": {
         "summary": "Batch unlink child keys from a parent key",
-        "description": "Unlinks multiple child keys from a given parent key in a single operation.",
+        "description": "Removes one or more child keys from a parent key's linked-key group, or dissolves the entire group by setting unlink_parent to true.\n\nUse this when you need to detach specific child keys from a shared translation source, or to fully break apart a linked-key group so each key manages its own translations independently. When child keys are unlinked, their translations are updated with a copy of the parent's current content (strategy keep_content, the default) or cleared (strategy remove_content).\n\nThis operation is only available on main projects. It returns 422 when a child key in `child_key_ids` is not currently linked to the parent, or when a translation update fails while unlinking.\n",
         "operationId": "key_links/batch_destroy",
         "tags": [
           "Linked Keys"
@@ -31117,7 +31208,7 @@
           }
         ],
         "requestBody": {
-          "required": true,
+          "required": false,
           "content": {
             "application/json": {
               "schema": {
@@ -31128,20 +31219,30 @@
                 "title": "key_links/batch_destroy/parameters",
                 "properties": {
                   "child_key_ids": {
-                    "description": "The IDs of the child keys to unlink from the parent key.",
+                    "description": "Codes of the child keys to unlink. Required when unlink_parent is false or omitted. Ignored when unlink_parent is true.",
                     "type": "array",
                     "example": [
-                      "child_key_id1",
-                      "child_key_id2"
+                      "feature.subtitle",
+                      "nav.home"
                     ],
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "feature.subtitle"
                     }
                   },
                   "unlink_parent": {
-                    "description": "Whether to unlink the parent key as well and unmark it as linked-key.",
+                    "description": "When true, dissolves the entire linked-key group by unlinking all children and removing the group. The child_key_ids field is ignored when this is set to true.",
                     "type": "boolean",
                     "default": false
+                  },
+                  "strategy": {
+                    "type": "string",
+                    "description": "Controls what happens to child key translation content after unlinking. keep_content (default) copies the parent translation into each child; remove_content clears each child translation.",
+                    "enum": [
+                      "keep_content",
+                      "remove_content"
+                    ],
+                    "default": "keep_content"
                   }
                 }
               }
@@ -31150,7 +31251,14 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Updated linked-key group reference after the unlink operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/key_link"
+                }
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -31159,8 +31267,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to unlink keys for this parent."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -31171,11 +31278,17 @@
           "429": {
             "$ref": "#/components/responses/429"
           }
-        }
+        },
+        "x-code-samples": [
+          {
+            "lang": "Curl",
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"child_key_ids\": [\"feature.subtitle\", \"nav.home\"], \"strategy\": \"keep_content\"}'"
+          }
+        ]
       },
       "get": {
         "summary": "List child keys of a parent key",
-        "description": "Returns detailed information about a parent key, including its linked child keys.",
+        "description": "Returns the key link record for a parent key, including all child keys associated with it. Key linking lets translation keys share translations — a child key inherits content from its designated parent. Use this endpoint to inspect which keys are linked under a given parent before unlinking them or auditing translation consistency across related keys.\n\nThe key identified by `id` must be designated as a parent key (it must have at least one child key linked to it). Listing the links of a key that is not a parent returns 400.\n",
         "operationId": "key_links/index",
         "tags": [
           "Linked Keys"
@@ -31203,29 +31316,13 @@
             }
           },
           "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "example": {
-                    "message": "Key <parent_key_code> is not a parent key"
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "401": {
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to read key links for this key."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -31237,7 +31334,7 @@
       },
       "post": {
         "summary": "Link child keys to a parent key",
-        "description": "Creates links between a given parent key and one or more child keys.",
+        "description": "Designates a translation key as a parent and links one or more child keys to it. Once linked, child keys receive a special reference marker as their translation content, signalling that their translations are derived from the parent. Use this when you want to group related keys — for example, a short label and its long-form variant — so translators see them in context together.\n\nPass an empty child_key_ids array to mark the key as a parent without linking any children yet. Both the parent key and every child key must belong to the main project; branch keys cannot participate in key links. A child key can have at most one parent at a time; attempting to link a child that already has a parent returns a 422 error with code CHILD_IS_ALREADY_LINKED. Parent and child key plurality must match — linking a plural child to a non-plural parent (or vice versa) also returns a 422.\n",
         "operationId": "key_links/create",
         "tags": [
           "Linked Keys"
@@ -31265,24 +31362,30 @@
                 "title": "key_links/create/parameters",
                 "properties": {
                   "child_key_ids": {
-                    "description": "The IDs of the child keys to link to the parent key. Can be left empty, to only mark the given translation-key as parent",
+                    "description": "Codes of the keys to link as children. Pass an empty array to mark the parent key without linking any children.",
                     "type": "array",
                     "example": [
-                      "child_key_id1",
-                      "child_key_id2"
+                      "ijkl9012mnop3456ijkl9012mnop3456",
+                      "abcd1234efgh5678abcd1234efgh5678"
                     ],
                     "items": {
                       "type": "string"
                     }
                   }
                 }
+              },
+              "example": {
+                "child_key_ids": [
+                  "ijkl9012mnop3456ijkl9012mnop3456",
+                  "abcd1234efgh5678abcd1234efgh5678"
+                ]
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "Key link reference created.",
             "content": {
               "application/json": {
                 "schema": {
@@ -31298,8 +31401,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to link this key."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -31310,13 +31412,19 @@
           "429": {
             "$ref": "#/components/responses/429"
           }
-        }
+        },
+        "x-code-samples": [
+          {
+            "lang": "Curl",
+            "source": "curl -X POST \"https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"child_key_ids\": [\"ijkl9012mnop3456ijkl9012mnop3456\", \"abcd1234efgh5678abcd1234efgh5678\"]}'"
+          }
+        ]
       }
     },
     "/projects/{project_id}/keys/{id}/key_links/{child_key_id}": {
       "delete": {
         "summary": "Unlink a child key from a parent key",
-        "description": "Unlinks a single child key from a given parent key.",
+        "description": "Removes a single child key from a parent key's link group. A link group is the relationship model that keeps child keys synchronized with a parent: while linked, a child key's translations are derived from the parent's content. When you call this endpoint, the child key leaves the group and becomes independent — its existing translations are updated with the parent's current content and then marked unverified, signalling that reviewers should confirm the content is still appropriate for the child's context.\n\nUse this endpoint when you need to detach one specific child key while keeping other children linked. To detach multiple children at once, use the batch unlink endpoint. This operation is only available on main projects.\n\nIt returns 422 when the child key is not currently linked to the specified parent key, or when a translation update fails during the unlink process.\n",
         "operationId": "key_links/destroy",
         "tags": [
           "Linked Keys"
@@ -31334,16 +31442,29 @@
           {
             "in": "path",
             "name": "child_key_id",
+            "description": "The ID of the child translation key to unlink from the parent.",
             "required": true,
-            "description": "The ID of the child key to unlink.",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "1234abcd1234cdef1234abcd1234cdef"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "The child key was successfully unlinked from the parent key. The response body is empty.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            },
+            "content": {}
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -31352,8 +31473,7 @@
             "$ref": "#/components/responses/401"
           },
           "403": {
-            "$ref": "#/components/responses/403",
-            "description": "Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to unlink this key."
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -31364,7 +31484,13 @@
           "429": {
             "$ref": "#/components/responses/429"
           }
-        }
+        },
+        "x-code-samples": [
+          {
+            "lang": "Curl",
+            "source": "curl -i \"https://api.phrase.com/v2/projects/:project_id/keys/:id/key_links/1234abcd1234cdef1234abcd1234cdef\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X DELETE"
+          }
+        ]
       }
     },
     "/accounts/{account_id}/automations": {
