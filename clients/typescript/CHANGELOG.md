@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.26.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.25.0...typescript-v3.26.0) (2026-09-03)
+
+
+### Features
+
+* **API:** add Checks API endpoints ([#1242](https://github.com/phrase/strings-openapi/issues/1242)) ([0be2f2c](https://github.com/phrase/strings-openapi/commit/0be2f2c9f17f2488a936387e4f6824760c3b6a7c))
+
 ## [3.25.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.24.0...typescript-v3.25.0) (2026-08-31)
 
 
