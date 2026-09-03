@@ -167,6 +167,10 @@ requestBody:
             description: "(Optional) Requires autotranslate_enabled to be true"
             type: boolean
             example: true
+          fallback_for_unverified_translations:
+            description: "(Optional) When enabled, the fallback locale's translation is used on export for unverified translations in addition to empty ones. Requires a fallback locale to be configured on the locale."
+            type: boolean
+            example: false
           default_encoding:
             description: "(Optional) Sets the default encoding for Uploads. If you leave it empty, we will try to guess it automatically for you when you Upload a file. You can still override this value by setting the [`file_encoding`](/en/api/strings/uploads/upload-a-new-file) parameter for Uploads."
             type: string

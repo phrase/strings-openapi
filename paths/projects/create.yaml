@@ -175,6 +175,10 @@ requestBody:
             description: "(Optional) Requires autotranslate_enabled to be true"
             type: boolean
             example: true
+          fallback_for_unverified_translations:
+            description: "(Optional) When enabled, the fallback locale's translation is used on export for unverified translations in addition to empty ones. Requires a fallback locale to be configured on the locale."
+            type: boolean
+            example: false
           autocomplete_job_enabled:
             description: "(Optional) Enable autocomplete-job behavior so that newly created keys and locales are automatically added to in-progress jobs."
             type: boolean

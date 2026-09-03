@@ -2301,6 +2301,10 @@
                 "type": "boolean",
                 "example": false
               },
+              "fallback_for_unverified_translations": {
+                "type": "boolean",
+                "example": false
+              },
               "autocomplete_job_enabled": {
                 "type": "boolean",
                 "example": false
@@ -2348,6 +2352,7 @@
               "autotranslate_use_machine_translation": false,
               "autotranslate_use_translation_memory": true,
               "autotranslate_overwrite_unverified_translations": false,
+              "fallback_for_unverified_translations": false,
               "autocomplete_job_enabled": false,
               "default_encoding": "UTF-8",
               "cldr_version": "legacy",
@@ -17955,6 +17960,11 @@
                     "type": "boolean",
                     "example": true
                   },
+                  "fallback_for_unverified_translations": {
+                    "description": "(Optional) When enabled, the fallback locale's translation is used on export for unverified translations in addition to empty ones. Requires a fallback locale to be configured on the locale.",
+                    "type": "boolean",
+                    "example": false
+                  },
                   "autocomplete_job_enabled": {
                     "description": "(Optional) Enable autocomplete-job behavior so that newly created keys and locales are automatically added to in-progress jobs.",
                     "type": "boolean",
@@ -18298,6 +18308,11 @@
                     "description": "(Optional) Requires autotranslate_enabled to be true",
                     "type": "boolean",
                     "example": true
+                  },
+                  "fallback_for_unverified_translations": {
+                    "description": "(Optional) When enabled, the fallback locale's translation is used on export for unverified translations in addition to empty ones. Requires a fallback locale to be configured on the locale.",
+                    "type": "boolean",
+                    "example": false
                   },
                   "default_encoding": {
                     "description": "(Optional) Sets the default encoding for Uploads. If you leave it empty, we will try to guess it automatically for you when you Upload a file. You can still override this value by setting the [`file_encoding`](/en/api/strings/uploads/upload-a-new-file) parameter for Uploads.",
