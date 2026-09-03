@@ -217,8 +217,8 @@ requestBody:
             description: "(Optional) List of placeholder styles enabled for the project."
             type: array
             items:
-              type: string
+              "$ref": "../../schemas/placeholder_style.yaml#/placeholder_style"
             example:
-              - "angular"
-              - "iOS"
+              - "rails_i18n"
+              - "java_properties"
 x-cli-version: "2.6.3"

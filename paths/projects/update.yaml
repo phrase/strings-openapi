@@ -181,10 +181,10 @@ requestBody:
             description: "(Optional) List of placeholder styles enabled for the project."
             type: array
             items:
-              type: string
+              "$ref": "../../schemas/placeholder_style.yaml#/placeholder_style"
             example:
-              - "angular"
-              - "iOS"
+              - "rails_i18n"
+              - "java_properties"
           autocomplete_job_enabled:
             description: "(Optional) Enable autocomplete-job behavior so that newly created keys and locales are automatically added to in-progress jobs."
             type: boolean

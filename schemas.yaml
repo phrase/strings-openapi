@@ -20,6 +20,8 @@ schemas:
     "$ref": schemas/custom_metadata_property.yaml#/custom_metadata_property
   custom_metadata_data_type:
     "$ref": schemas/custom_metadata_data_type.yaml#/data_type
+  placeholder_style:
+    "$ref": schemas/placeholder_style.yaml#/placeholder_style
   key_preview:
     "$ref": schemas/key_preview.yaml#/key_preview
   affected_count:

@@ -1,0 +1,28 @@
+---
+placeholder_style:
+  type: string
+  description: >-
+    Placeholder style supported for detecting and highlighting variable
+    placeholders in translation keys. This list may grow over time as new
+    styles are added.
+  x-extensible-enum:
+    - rails_i18n
+    - i18next_nesting
+    - gettext_python
+    - cstyle
+    - python_strings
+    - dot_net
+    - java_properties
+    - laravel
+    - square_brackets
+    - single_percentage
+    - double_percentage
+    - emoji
+    - dollar_style
+    - nsis
+    - razor
+    - double_curly
+    - xliffg
+    - xliff
+    - liquid
+  example: rails_i18n

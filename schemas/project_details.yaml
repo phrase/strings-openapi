@@ -66,10 +66,10 @@ project_details:
       placeholder_styles:
         type: array
         items:
-          type: string
+          "$ref": "./placeholder_style.yaml#/placeholder_style"
         example:
-          - "angular"
-          - "iOS"
+          - "rails_i18n"
+          - "java_properties"
       branch:
         "$ref": "./branch.yaml#/branch"
 
@@ -95,5 +95,5 @@ project_details:
       cldr_version: "legacy"
       job_locking_enabled: false
       placeholder_styles:
-        - "angular"
-        - "iOS"
+        - "rails_i18n"
+        - "java_properties"
