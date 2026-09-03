@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.27.0](https://github.com/phrase/strings-openapi/compare/python-v3.26.0...python-v3.27.0) (2026-09-03)
+
+
+### Features
+
+* **API:** add Checks API endpoints ([#1242](https://github.com/phrase/strings-openapi/issues/1242)) ([0be2f2c](https://github.com/phrase/strings-openapi/commit/0be2f2c9f17f2488a936387e4f6824760c3b6a7c))
+
 ## [3.26.0](https://github.com/phrase/strings-openapi/compare/python-v3.25.0...python-v3.26.0) (2026-09-03)
 
 
