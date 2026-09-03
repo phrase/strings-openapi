@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.68.0](https://github.com/phrase/strings-openapi/compare/cli-v2.67.2...cli-v2.68.0) (2026-09-03)
+
+
+### Features
+
+* **API:** add Checks API endpoints ([#1242](https://github.com/phrase/strings-openapi/issues/1242)) ([0be2f2c](https://github.com/phrase/strings-openapi/commit/0be2f2c9f17f2488a936387e4f6824760c3b6a7c))
+* **API:** document tm_ids and term_base_ids params on projects API ([#1244](https://github.com/phrase/strings-openapi/issues/1244)) ([c8a2eea](https://github.com/phrase/strings-openapi/commit/c8a2eeab870236e46a8f87770c5499f0d6ffd2ca))
+
+
+### Bug Fixes
+
+* **cli:** guard nil file panic in generated download commands ([#1241](https://github.com/phrase/strings-openapi/issues/1241)) ([e8f3f61](https://github.com/phrase/strings-openapi/commit/e8f3f61d87148d1e14c963b6324059bd08b4d056))
+
 ## [2.67.2](https://github.com/phrase/strings-openapi/compare/cli-v2.67.1...cli-v2.67.2) (2026-08-25)
 
 
