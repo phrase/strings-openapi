@@ -1,0 +1,27 @@
+machine_translation_settings:
+  type: object
+  properties:
+    default_service:
+      type: string
+      nullable: true
+      description: >
+        The default machine translation engine configured for the account.
+        Returns "microsoft_translate" when no service has been explicitly configured.
+        Supported values: language_ai_translate, aita_translate, microsoft_translate,
+        google_translate, amazon_translate, intento_translate, gpt_translate.
+      example: google_translate
+    machine_translation_units_used:
+      type: integer
+      description: Number of machine translation characters consumed in the current billing period.
+      example: 12500
+    machine_translation_units_total:
+      type: integer
+      description: Total machine translation character quota granted for the current billing period.
+      example: 1000000
+    locale_provider_mappings:
+      type: array
+      description: >
+        Per-locale-pair provider overrides. When a matching mapping exists for a
+        source/target locale pair, that provider takes precedence over the account default.
+      items:
+        "$ref": "./machine_translation_locale_provider_mapping.yaml#/machine_translation_locale_provider_mapping"

@@ -135,6 +135,9 @@
       "name": "Locale Downloads"
     },
     {
+      "name": "Machine Translation"
+    },
+    {
       "name": "Members",
       "description": "With the members endpoints you can do basic [team and user management](https://support.phrase.com/hc/en-us/articles/5709742418716) via API. A user can have the role Manager, Developer or Translator each with its own access rights. Developers and translators need resources like projects and locales assigned in order to access them.\n"
     },
@@ -5341,6 +5344,54 @@
             "name": "My Project"
           },
           "details": null
+        }
+      },
+      "machine_translation_settings": {
+        "type": "object",
+        "properties": {
+          "default_service": {
+            "type": "string",
+            "nullable": true,
+            "description": "The default machine translation engine configured for the account. Returns \"microsoft_translate\" when no service has been explicitly configured. Supported values: language_ai_translate, aita_translate, microsoft_translate, google_translate, amazon_translate, intento_translate, gpt_translate.\n",
+            "example": "google_translate"
+          },
+          "machine_translation_units_used": {
+            "type": "integer",
+            "description": "Number of machine translation characters consumed in the current billing period.",
+            "example": 12500
+          },
+          "machine_translation_units_total": {
+            "type": "integer",
+            "description": "Total machine translation character quota granted for the current billing period.",
+            "example": 1000000
+          },
+          "locale_provider_mappings": {
+            "type": "array",
+            "description": "Per-locale-pair provider overrides. When a matching mapping exists for a source/target locale pair, that provider takes precedence over the account default.\n",
+            "items": {
+              "$ref": "#/components/schemas/machine_translation_locale_provider_mapping"
+            }
+          }
+        }
+      },
+      "machine_translation_locale_provider_mapping": {
+        "type": "object",
+        "properties": {
+          "source_locale_code": {
+            "type": "string",
+            "description": "The locale code of the source language for this mapping.",
+            "example": "en"
+          },
+          "target_locale_code": {
+            "type": "string",
+            "description": "The locale code of the target language for this mapping.",
+            "example": "de"
+          },
+          "service": {
+            "type": "string",
+            "description": "The translation service applied when translating from source to target locale.",
+            "example": "google_translate"
+          }
         }
       }
     },
@@ -33333,6 +33384,360 @@
           {
             "lang": "Curl",
             "source": "curl \"https://api.phrase.com/v2/accounts/:account_id/automation_events\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
+          }
+        ]
+      }
+    },
+    "/accounts/{account_id}/machine_translation_settings": {
+      "get": {
+        "operationId": "machine_translation_settings/show",
+        "summary": "Get machine translation settings",
+        "description": "Returns the machine translation configuration for the account, including the\ndefault translation service, current machine translation unit usage, and any\nlocale-pair-specific provider mappings.\n",
+        "tags": [
+          "Machine Translation"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-PhraseApp-OTP"
+          },
+          {
+            "$ref": "#/components/parameters/account_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/machine_translation_settings"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          }
+        },
+        "security": [
+          {
+            "Basic": []
+          },
+          {
+            "Token": []
+          },
+          {
+            "OAuthImplicit": [
+              "read"
+            ]
+          },
+          {
+            "OAuthExplicit": [
+              "read"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "machine_translation_settings/update",
+        "summary": "Update machine translation settings",
+        "description": "Sets the default machine translation service for the account. Requires write\naccess to the account's machine translation settings. Passing an empty or\nabsent value for `default_service` resets the account to its plan default\n(Microsoft Translate).\n",
+        "tags": [
+          "Machine Translation"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-PhraseApp-OTP"
+          },
+          {
+            "$ref": "#/components/parameters/account_id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "machine_translation_settings/update/parameters",
+                "properties": {
+                  "default_service": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "The machine translation engine to use as the account default. Supported values: language_ai_translate, aita_translate, microsoft_translate, google_translate, amazon_translate, intento_translate, gpt_translate. Pass null or an empty string to reset to the plan default.\n",
+                    "example": "google_translate"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/machine_translation_settings"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          }
+        },
+        "security": [
+          {
+            "Basic": []
+          },
+          {
+            "Token": []
+          },
+          {
+            "OAuthImplicit": [
+              "write"
+            ]
+          },
+          {
+            "OAuthExplicit": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/accounts/{account_id}/machine_translation_locale_provider_mappings": {
+      "post": {
+        "operationId": "machine_translation_locale_provider_mappings/create",
+        "summary": "Create a locale provider mapping",
+        "description": "Creates a locale-pair-specific machine translation provider override for the\naccount. When a mapping exists for a given source/target locale pair, that\nprovider is used instead of the account default. Only one mapping may exist\nper source/target locale pair; attempting to create a duplicate returns a\nvalidation error. The source and target locale codes must differ.\n",
+        "tags": [
+          "Machine Translation"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-PhraseApp-OTP"
+          },
+          {
+            "$ref": "#/components/parameters/account_id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "machine_translation_locale_provider_mappings/create/parameters",
+                "required": [
+                  "source_locale_code",
+                  "target_locale_code",
+                  "service"
+                ],
+                "properties": {
+                  "source_locale_code": {
+                    "type": "string",
+                    "description": "The locale code of the source language (e.g. \"en\").",
+                    "example": "en"
+                  },
+                  "target_locale_code": {
+                    "type": "string",
+                    "description": "The locale code of the target language (e.g. \"de\"). Must differ from source_locale_code.\n",
+                    "example": "de"
+                  },
+                  "service": {
+                    "type": "string",
+                    "description": "The machine translation service to use for this locale pair. Must be a service enabled for the account.\n",
+                    "example": "google_translate"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/machine_translation_locale_provider_mapping"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          }
+        },
+        "security": [
+          {
+            "Basic": []
+          },
+          {
+            "Token": []
+          },
+          {
+            "OAuthImplicit": [
+              "write"
+            ]
+          },
+          {
+            "OAuthExplicit": [
+              "write"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "machine_translation_locale_provider_mappings/destroy",
+        "summary": "Delete a locale provider mapping",
+        "description": "Removes the machine translation provider override for the specified source\nand target locale pair. The mapping is identified by locale codes supplied\nas query parameters rather than a path ID.\n",
+        "tags": [
+          "Machine Translation"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-PhraseApp-OTP"
+          },
+          {
+            "$ref": "#/components/parameters/account_id"
+          },
+          {
+            "name": "source_locale_code",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The locale code of the source language of the mapping to delete.",
+            "example": "en"
+          },
+          {
+            "name": "target_locale_code",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The locale code of the target language of the mapping to delete.",
+            "example": "de"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          }
+        },
+        "security": [
+          {
+            "Basic": []
+          },
+          {
+            "Token": []
+          },
+          {
+            "OAuthImplicit": [
+              "write"
+            ]
+          },
+          {
+            "OAuthExplicit": [
+              "write"
+            ]
           }
         ]
       }

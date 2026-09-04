@@ -768,3 +768,13 @@
 "/accounts/{account_id}/automation_events":
   get:
     "$ref": "./paths/automation_events/index.yaml"
+"/accounts/{account_id}/machine_translation_settings":
+  get:
+    "$ref": "./paths/machine_translation_settings/show.yaml"
+  patch:
+    "$ref": "./paths/machine_translation_settings/update.yaml"
+"/accounts/{account_id}/machine_translation_locale_provider_mappings":
+  post:
+    "$ref": "./paths/machine_translation_locale_provider_mappings/create.yaml"
+  delete:
+    "$ref": "./paths/machine_translation_locale_provider_mappings/destroy-collection.yaml"

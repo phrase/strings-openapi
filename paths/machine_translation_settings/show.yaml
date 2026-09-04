@@ -1,0 +1,41 @@
+---
+operationId: machine_translation_settings/show
+summary: Get machine translation settings
+description: |
+  Returns the machine translation configuration for the account, including the
+  default translation service, current machine translation unit usage, and any
+  locale-pair-specific provider mappings.
+tags:
+  - Machine Translation
+parameters:
+  - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+  - "$ref": "../../parameters.yaml#/account_id"
+responses:
+  '200':
+    description: OK
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+    content:
+      application/json:
+        schema:
+          "$ref": "../../schemas/machine_translation_settings.yaml#/machine_translation_settings"
+  '400':
+    "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+  '429':
+    "$ref": "../../responses.yaml#/429"
+security:
+  - Basic: []
+  - Token: []
+  - OAuthImplicit:
+      - read
+  - OAuthExplicit:
+      - read

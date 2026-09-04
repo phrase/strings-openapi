@@ -173,6 +173,7 @@ tags:
   - name: Linked Keys
   - name: Locales
   - name: Locale Downloads
+  - name: Machine Translation
   - name: Members
     description: |
       With the members endpoints you can do basic [team and user management](https://support.phrase.com/hc/en-us/articles/5709742418716) via API. A user can have the role Manager, Developer or Translator each with its own access rights. Developers and translators need resources like projects and locales assigned in order to access them.

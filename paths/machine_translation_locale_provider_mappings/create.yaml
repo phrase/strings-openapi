@@ -1,0 +1,73 @@
+---
+operationId: machine_translation_locale_provider_mappings/create
+summary: Create a locale provider mapping
+description: |
+  Creates a locale-pair-specific machine translation provider override for the
+  account. When a mapping exists for a given source/target locale pair, that
+  provider is used instead of the account default. Only one mapping may exist
+  per source/target locale pair; attempting to create a duplicate returns a
+  validation error. The source and target locale codes must differ.
+tags:
+  - Machine Translation
+parameters:
+  - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+  - "$ref": "../../parameters.yaml#/account_id"
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        title: machine_translation_locale_provider_mappings/create/parameters
+        required:
+          - source_locale_code
+          - target_locale_code
+          - service
+        properties:
+          source_locale_code:
+            type: string
+            description: The locale code of the source language (e.g. "en").
+            example: en
+          target_locale_code:
+            type: string
+            description: >
+              The locale code of the target language (e.g. "de").
+              Must differ from source_locale_code.
+            example: de
+          service:
+            type: string
+            description: >
+              The machine translation service to use for this locale pair.
+              Must be a service enabled for the account.
+            example: google_translate
+responses:
+  '201':
+    description: Created
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+    content:
+      application/json:
+        schema:
+          "$ref": "../../schemas/machine_translation_locale_provider_mapping.yaml#/machine_translation_locale_provider_mapping"
+  '400':
+    "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+  '422':
+    "$ref": "../../responses.yaml#/422"
+  '429':
+    "$ref": "../../responses.yaml#/429"
+security:
+  - Basic: []
+  - Token: []
+  - OAuthImplicit:
+      - write
+  - OAuthExplicit:
+      - write

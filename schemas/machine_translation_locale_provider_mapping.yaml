@@ -1,0 +1,15 @@
+machine_translation_locale_provider_mapping:
+  type: object
+  properties:
+    source_locale_code:
+      type: string
+      description: The locale code of the source language for this mapping.
+      example: en
+    target_locale_code:
+      type: string
+      description: The locale code of the target language for this mapping.
+      example: de
+    service:
+      type: string
+      description: The translation service applied when translating from source to target locale.
+      example: google_translate

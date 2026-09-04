@@ -1,0 +1,53 @@
+---
+operationId: machine_translation_locale_provider_mappings/destroy
+summary: Delete a locale provider mapping
+description: |
+  Removes the machine translation provider override for the specified source
+  and target locale pair. The mapping is identified by locale codes supplied
+  as query parameters rather than a path ID.
+tags:
+  - Machine Translation
+parameters:
+  - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+  - "$ref": "../../parameters.yaml#/account_id"
+  - name: source_locale_code
+    in: query
+    required: true
+    schema:
+      type: string
+    description: The locale code of the source language of the mapping to delete.
+    example: en
+  - name: target_locale_code
+    in: query
+    required: true
+    schema:
+      type: string
+    description: The locale code of the target language of the mapping to delete.
+    example: de
+responses:
+  '204':
+    description: The resource was deleted successfully.
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+  '400':
+    "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+  '404':
+    "$ref": "../../responses.yaml#/404"
+  '429':
+    "$ref": "../../responses.yaml#/429"
+security:
+  - Basic: []
+  - Token: []
+  - OAuthImplicit:
+      - write
+  - OAuthExplicit:
+      - write

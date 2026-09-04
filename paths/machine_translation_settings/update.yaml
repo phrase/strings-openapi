@@ -1,0 +1,62 @@
+---
+operationId: machine_translation_settings/update
+summary: Update machine translation settings
+description: |
+  Sets the default machine translation service for the account. Requires write
+  access to the account's machine translation settings. Passing an empty or
+  absent value for `default_service` resets the account to its plan default
+  (Microsoft Translate).
+tags:
+  - Machine Translation
+parameters:
+  - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+  - "$ref": "../../parameters.yaml#/account_id"
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        title: machine_translation_settings/update/parameters
+        properties:
+          default_service:
+            type: string
+            nullable: true
+            description: >
+              The machine translation engine to use as the account default.
+              Supported values: language_ai_translate, aita_translate,
+              microsoft_translate, google_translate, amazon_translate,
+              intento_translate, gpt_translate. Pass null or an empty string
+              to reset to the plan default.
+            example: google_translate
+responses:
+  '200':
+    description: OK
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+    content:
+      application/json:
+        schema:
+          "$ref": "../../schemas/machine_translation_settings.yaml#/machine_translation_settings"
+  '400':
+    "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+  '422':
+    "$ref": "../../responses.yaml#/422"
+  '429':
+    "$ref": "../../responses.yaml#/429"
+security:
+  - Basic: []
+  - Token: []
+  - OAuthImplicit:
+      - write
+  - OAuthExplicit:
+      - write

@@ -180,3 +180,7 @@ schemas:
     "$ref": schemas/automation.yaml#/automation
   automation_event:
     "$ref": schemas/automation_event.yaml#/automation_event
+  machine_translation_settings:
+    "$ref": schemas/machine_translation_settings.yaml#/machine_translation_settings
+  machine_translation_locale_provider_mapping:
+    "$ref": schemas/machine_translation_locale_provider_mapping.yaml#/machine_translation_locale_provider_mapping
