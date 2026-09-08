@@ -1,3 +1,5 @@
+(node:3238) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
 {
   "openapi": "3.0.3",
   "info": {
@@ -2099,7 +2101,8 @@
             "type": "string"
           },
           "state": {
-            "type": "string"
+            "type": "string",
+            "description": "Processing state of the upload: `initialized`, `processing`, `success`, or `error`. `error` means processing failed — for example the file could not be parsed, or a provided `file_format` didn't match the file's actual content. Poll this field until it leaves `initialized`/`processing` to get the final outcome.\n"
           },
           "error_message": {
             "type": "string",
@@ -16811,7 +16814,7 @@
     "/projects/{project_id}/uploads": {
       "post": {
         "summary": "Upload a new file",
-        "description": "Upload a new language file. Creates necessary resources in your project.\n\nNote: be aware of [upload limits](https://support.phrase.com/hc/en-us/articles/8548271212188-Phrase-Strings-Limits#file-size-upload-limits-0-0).\n",
+        "description": "Upload a new language file. Creates necessary resources in your project.\n\nThe upload is processed asynchronously: this endpoint returns `201 Created` once the file has been accepted and enqueued, not once processing has finished. Poll `GET /projects/{project_id}/uploads/{id}` and check the `state` field — `error` means processing failed (for example, an unparseable file or a `file_format` that doesn't match the file's actual content).\n\nNote: be aware of [upload limits](https://support.phrase.com/hc/en-us/articles/8548271212188-Phrase-Strings-Limits#file-size-upload-limits-0-0).\n",
         "operationId": "upload/create",
         "tags": [
           "Uploads"
@@ -16869,11 +16872,11 @@
         "x-code-samples": [
           {
             "lang": "Curl",
-            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/uploads\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -F branch=my-feature-branch \\\n  -F file=@/path/to/my/file.json \\\n  -F file_format=json \\\n  -F locale_id=abcd1234cdef1234abcd1234cdef1234 \\\n  -F tags=awesome-feature,needs-proofreading \\\n  -F locale_mapping[en]=2 \\\n  -F format_options[foo]=bar"
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/uploads\" \\\n  -u USERNAME_OR_ACCESS_TOKEN \\\n  -X POST \\\n  -F branch=my-feature-branch \\\n  -F file=@/path/to/my/file.json \\\n  -F locale_id=abcd1234cdef1234abcd1234cdef1234 \\\n  -F tags=awesome-feature,needs-proofreading \\\n  -F locale_mapping[en]=2 \\\n  -F format_options[foo]=bar"
           },
           {
             "lang": "CLI v2",
-            "source": "phrase uploads create \\\n--project_id <project_id> \\\n--branch my-feature-branch \\\n--file /path/to/my/file.json \\\n--file_format json \\\n--locale_id abcd1234cdef1234abcd1234cdef1234 \\\n--tags awesome-feature,needs-proofreading \\\n--locale_mapping '{\"en\": \"2\"}' \\\n--format_options '{\"foo\": \"bar\"}' \\\n--access_token <token>"
+            "source": "phrase uploads create \\\n--project_id <project_id> \\\n--branch my-feature-branch \\\n--file /path/to/my/file.json \\\n--locale_id abcd1234cdef1234abcd1234cdef1234 \\\n--tags awesome-feature,needs-proofreading \\\n--locale_mapping '{\"en\": \"2\"}' \\\n--format_options '{\"foo\": \"bar\"}' \\\n--access_token <token>"
           }
         ],
         "requestBody": {
@@ -16901,7 +16904,7 @@
                     "example": "/path/to/my/file.json"
                   },
                   "file_format": {
-                    "description": "File format. Auto-detected when possible and not specified.",
+                    "description": "File format of the uploaded file (e.g. `json`, `simple_json`, `yml`). Optional — when omitted, the format is auto-detected from the file's content. We recommend omitting this parameter and letting auto-detection handle it rather than guessing.\n\nIf provided, it must match the actual content of the file being uploaded, not just the project's main format — a mismatch causes the upload to fail (see `state: error`).\n",
                     "type": "string",
                     "example": "json"
                   },
@@ -17115,7 +17118,7 @@
     "/projects/{project_id}/uploads/{id}": {
       "get": {
         "summary": "Get a single upload",
-        "description": "View details and summary for a single upload.",
+        "description": "View details and summary for a single upload. Use this endpoint to poll for the outcome of an upload created via `POST /projects/{project_id}/uploads` — check the `state` field.\n",
         "operationId": "upload/show",
         "tags": [
           "Uploads"

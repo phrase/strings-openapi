@@ -2,6 +2,8 @@ summary: Upload a new file
 description: |
   Upload a new language file. Creates necessary resources in your project.
 
+  The upload is processed asynchronously: this endpoint returns `201 Created` once the file has been accepted and enqueued, not once processing has finished. Poll `GET /projects/{project_id}/uploads/{id}` and check the `state` field — `error` means processing failed (for example, an unparseable file or a `file_format` that doesn't match the file's actual content).
+
   Note: be aware of [upload limits](https://support.phrase.com/hc/en-us/articles/8548271212188-Phrase-Strings-Limits#file-size-upload-limits-0-0).
 operationId: upload/create
 tags:
@@ -44,7 +46,6 @@ x-code-samples:
         -X POST \
         -F branch=my-feature-branch \
         -F file=@/path/to/my/file.json \
-        -F file_format=json \
         -F locale_id=abcd1234cdef1234abcd1234cdef1234 \
         -F tags=awesome-feature,needs-proofreading \
         -F locale_mapping[en]=2 \
@@ -55,7 +56,6 @@ x-code-samples:
       --project_id <project_id> \
       --branch my-feature-branch \
       --file /path/to/my/file.json \
-      --file_format json \
       --locale_id abcd1234cdef1234abcd1234cdef1234 \
       --tags awesome-feature,needs-proofreading \
       --locale_mapping '{"en": "2"}' \
@@ -83,7 +83,10 @@ requestBody:
             format: binary
             example: "/path/to/my/file.json"
           file_format:
-            description: File format. Auto-detected when possible and not specified.
+            description: |
+              File format of the uploaded file (e.g. `json`, `simple_json`, `yml`). Optional — when omitted, the format is auto-detected from the file's content. We recommend omitting this parameter and letting auto-detection handle it rather than guessing.
+
+              If provided, it must match the actual content of the file being uploaded, not just the project's main format — a mismatch causes the upload to fail (see `state: error`).
             type: string
             example: json
           locale_id:

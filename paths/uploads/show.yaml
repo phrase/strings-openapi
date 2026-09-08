@@ -1,6 +1,7 @@
 ---
 summary: Get a single upload
-description: View details and summary for a single upload.
+description: |
+  View details and summary for a single upload. Use this endpoint to poll for the outcome of an upload created via `POST /projects/{project_id}/uploads` — check the `state` field.
 operationId: upload/show
 tags:
 - Uploads
