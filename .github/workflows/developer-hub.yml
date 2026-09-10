@@ -10,11 +10,11 @@ jobs:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
     steps:
-      - name: Send repository_dispatch to phrase/developer-hub
+      - name: Send repository_dispatch to Phrase-Engineering/developer-hub
         uses: peter-evans/repository-dispatch@0eae9e597ebc81bcc8c2220e34ddff4bc7c769b3
         with:
           token: ${{ secrets.DISPATCH_DEVELOPER_HUB_TOKEN }}
-          repository: phrase/developer-hub
+          repository: Phrase-Engineering/developer-hub
           event-type: trigger-strings-workflow
           client-payload: >-
             {
