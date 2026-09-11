@@ -11,6 +11,13 @@ upload:
       type: string
     state:
       type: string
+    error_message:
+      type: string
+      nullable: true
+      description: |
+        A user-facing message explaining why the upload failed, or `null` if the upload did not fail.
+
+        This message is intended for display only. Its wording may change at any time and it should not be parsed or relied upon programmatically.
     tag:
       type: string
       description: |
@@ -66,6 +73,7 @@ upload:
     filename: example.json
     format: json
     state: success
+    error_message: null
     tag: tag
     summary:
       locales_created: 2

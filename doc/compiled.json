@@ -2101,6 +2101,11 @@
           "state": {
             "type": "string"
           },
+          "error_message": {
+            "type": "string",
+            "nullable": true,
+            "description": "A user-facing message explaining why the upload failed, or `null` if the upload did not fail.\n\nThis message is intended for display only. Its wording may change at any time and it should not be parsed or relied upon programmatically.\n"
+          },
           "tag": {
             "type": "string",
             "description": "Unique tag of the upload\n"
@@ -2170,6 +2175,7 @@
           "filename": "example.json",
           "format": "json",
           "state": "success",
+          "error_message": null,
           "tag": "tag",
           "summary": {
             "locales_created": 2,
