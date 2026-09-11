@@ -1,5 +1,3 @@
-(node:3238) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
-(Use `node --trace-deprecation ...` to show where the warning was created)
 {
   "openapi": "3.0.3",
   "info": {
@@ -16904,7 +16902,7 @@
                     "example": "/path/to/my/file.json"
                   },
                   "file_format": {
-                    "description": "File format of the uploaded file (e.g. `json`, `simple_json`, `yml`). Optional — when omitted, the format is auto-detected from the file's content. We recommend omitting this parameter and letting auto-detection handle it rather than guessing.\n\nIf provided, it must match the actual content of the file being uploaded, not just the project's main format — a mismatch causes the upload to fail (see `state: error`).\n",
+                    "description": "File format of the uploaded file, given as a format's `api_name`. See our [Formats API Endpoint](/en/api/strings/formats/list-formats) for the full list of supported formats.\n\nOptional. When omitted, Phrase tries to auto-detect the format from the file's content. This is not always possible for JSON files, since several JSON-based formats (e.g. `json`, `simple_json`, `nested_json`) share the same structure.\n",
                     "type": "string",
                     "example": "json"
                   },

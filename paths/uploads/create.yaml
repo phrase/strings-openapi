@@ -84,9 +84,9 @@ requestBody:
             example: "/path/to/my/file.json"
           file_format:
             description: |
-              File format of the uploaded file (e.g. `json`, `simple_json`, `yml`). Optional — when omitted, the format is auto-detected from the file's content. We recommend omitting this parameter and letting auto-detection handle it rather than guessing.
+              File format of the uploaded file, given as a format's `api_name`. See our [Formats API Endpoint](/en/api/strings/formats/list-formats) for the full list of supported formats.
 
-              If provided, it must match the actual content of the file being uploaded, not just the project's main format — a mismatch causes the upload to fail (see `state: error`).
+              Optional. When omitted, Phrase tries to auto-detect the format from the file's content. This is not always possible for JSON files, since several JSON-based formats (e.g. `json`, `simple_json`, `nested_json`) share the same structure.
             type: string
             example: json
           locale_id:
