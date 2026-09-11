@@ -1,5 +1,15 @@
 # Changelog
 
+## [4.27.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.26.0...ruby-v4.27.0) (2026-09-11)
+
+
+### Features
+
+* **API:** add Checks API endpoints ([#1242](https://github.com/phrase/strings-openapi/issues/1242)) ([0be2f2c](https://github.com/phrase/strings-openapi/commit/0be2f2c9f17f2488a936387e4f6824760c3b6a7c))
+* **API:** add created_since filter to check issues list #STRINGS-3043 ([#1256](https://github.com/phrase/strings-openapi/issues/1256)) ([01f2da7](https://github.com/phrase/strings-openapi/commit/01f2da7da6fcae20ca8d76d1e8ab42a7f31a8918))
+* **API:** add machine translation settings and locale provider mapping endpoints #STRINGS-2977 ([#1252](https://github.com/phrase/strings-openapi/issues/1252)) ([eeb265f](https://github.com/phrase/strings-openapi/commit/eeb265f432a2ae9c43fdc2f41ad09a01ef35690d))
+* **API:** document tm_ids and term_base_ids params on projects API ([#1244](https://github.com/phrase/strings-openapi/issues/1244)) ([c8a2eea](https://github.com/phrase/strings-openapi/commit/c8a2eeab870236e46a8f87770c5499f0d6ffd2ca))
+
 ## [4.26.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.25.0...ruby-v4.26.0) (2026-08-03)
 
 
