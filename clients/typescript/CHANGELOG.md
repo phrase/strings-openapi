@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.26.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.25.0...typescript-v3.26.0) (2026-09-14)
+
+
+### Features
+
+* **API:** add Checks API endpoints ([#1242](https://github.com/phrase/strings-openapi/issues/1242)) ([0be2f2c](https://github.com/phrase/strings-openapi/commit/0be2f2c9f17f2488a936387e4f6824760c3b6a7c))
+* **API:** add created_since filter to check issues list #STRINGS-3043 ([#1256](https://github.com/phrase/strings-openapi/issues/1256)) ([01f2da7](https://github.com/phrase/strings-openapi/commit/01f2da7da6fcae20ca8d76d1e8ab42a7f31a8918))
+* **API:** add machine translation settings and locale provider mapping endpoints #STRINGS-2977 ([#1252](https://github.com/phrase/strings-openapi/issues/1252)) ([eeb265f](https://github.com/phrase/strings-openapi/commit/eeb265f432a2ae9c43fdc2f41ad09a01ef35690d))
+* **API:** add name filter query parameter to spaces list #STRINGS-3036 ([#1267](https://github.com/phrase/strings-openapi/issues/1267)) ([3b54f73](https://github.com/phrase/strings-openapi/commit/3b54f73252698dd93411cfaffff3a97ea114be92))
+
 ## [3.25.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.24.0...typescript-v3.25.0) (2026-08-31)
 
 
