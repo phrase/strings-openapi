@@ -1,22 +1,51 @@
 ---
-summary: Search across projects
+summary: Search translations and keys across projects
 description: |
-  Search for keys and translations in all account projects
-  
+  Search for translation keys and translations across every project the user can access in the account. Optionally narrow the search to a subset of projects using `project_ids`.
+
   *Note: Search is limited to 10000 results and may not include recently updated data depending on the project sizes.*
 operationId: search/in_account
 tags:
-- Search
+- Translations
 parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
 - "$ref": "../../parameters.yaml#/account_id"
+- description: Search query, matched against both translation content and key names.
+  example: keyword
+  name: query
+  in: query
+  required: false
+  schema:
+    type: string
+- description: Restrict results to translations in this locale.
+  example: de_DE
+  name: locale_code
+  in: query
+  required: false
+  schema:
+    type: string
+- description: |
+    Restrict the search to the given project codes. When omitted, the search spans every project the user can access in this account.
+  name: project_ids
+  in: query
+  required: false
+  schema:
+    type: array
+    items:
+      type: string
+    example:
+    - abcd1234abcd1234abcd1234abcd1234
+- "$ref": "../../parameters.yaml#/page"
+- "$ref": "../../parameters.yaml#/per_page"
 responses:
   '200':
     description: OK
     content:
       application/json:
         schema:
-          "$ref": "../../schemas/account_search_result.yaml#/account_search_result"
+          type: array
+          items:
+            "$ref": "../../schemas/account_search_result.yaml#/account_search_result"
     headers:
       X-Rate-Limit-Limit:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
@@ -34,55 +63,19 @@ responses:
     "$ref": "../../responses.yaml#/401"
   '403':
     "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to read the account's translation keys.
+    description: Forbidden. Returned when the access token lacks the `read` scope or when the requesting user does not belong to this account.
   '429':
     "$ref": "../../responses.yaml#/429"
 x-code-samples:
 - lang: Curl
   source: |-
-    curl "https://api.phrase.com/v2/accounts/:account_id/search" \
+    curl "https://api.phrase.com/v2/accounts/:account_id/search?query=keyword&locale_code=de_DE&page=1&per_page=25" \
       -u USERNAME_OR_ACCESS_TOKEN \
-      -X POST \
-      -F query=keyword \
-      -F locale_code=localecode \
-      -F page=1 \
-      -F per_page=25 \
+      -X POST
 - lang: CLI v2
   source: |-
     phrase search in_account \
     --account_id <account_id> \
-    --data '{"q":"keyword","locale_code": "de","page": 1,"per_page": 25}' \
+    --data '{"query":"keyword","locale_code": "de_DE","page": 1,"per_page": 25}' \
     --access_token <token>
-requestBody:
-  required: true
-  content:
-    application/json:
-      schema:
-        type: object
-        title: search/in_account/parameters
-        properties:
-          query:
-            description: Search query
-            type: string
-            example: keyword
-          locale_code:
-            description: Locale code
-            type: string
-            example: de_DE
-          page:
-            description: Page
-            type: integer
-            example: 1
-          per_page:
-            description: Number of results per page
-            type: integer
-            example: 25
-          project_ids:
-            description: |
-              Limit the search to the given project codes. When omitted, the search spans every project the user can access in this account.
-            type: array
-            items:
-              type: string
-            example:
-              - abcd1234abcd1234abcd1234abcd1234
 x-cli-version: '2.5'

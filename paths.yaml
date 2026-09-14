@@ -621,6 +621,9 @@
 "/projects/{project_id}/translations/search":
   post:
     "$ref": "./paths/translations/search.yaml"
+"/accounts/{account_id}/search":
+  post:
+    "$ref": "./paths/search/in_account.yaml"
 "/projects/{project_id}/translations/{id}":
   get:
     "$ref": "./paths/translations/show.yaml"
@@ -680,9 +683,6 @@
 "/notification_groups/{id}/mark_as_read":
   patch:
     "$ref": "./paths/notification_groups/mark_as_read.yaml"
-"/accounts/{account_id}/search":
-  post:
-    "$ref": "./paths/search/in_account.yaml"
 "/projects/{project_id}/jobs/{job_id}/comments/{id}":
   get:
     "$ref": "./paths/job_comments/show.yaml"

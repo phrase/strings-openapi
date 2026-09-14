@@ -242,7 +242,6 @@ tags:
       You can import translations from your repository to Phrase and export translations from Phrase to your repository.
   - name: Repo Sync Events
   - name: Reports
-  - name: Search
   - name: Screenshot Markers
   - name: Screenshots
   - name: Spaces
