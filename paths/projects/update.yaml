@@ -216,6 +216,9 @@ requestBody:
             description: "(Optional) Collation used when sorting translation keys alphabetically."
             type: string
             example: unicode_ci
+            enum:
+              - "general_ci"
+              - "unicode_ci"
           cldr_version:
             description: >-
               (Optional) CLDR plural-rule version used by the project. Pass
