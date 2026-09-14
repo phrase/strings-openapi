@@ -18275,7 +18275,7 @@
       },
       "patch": {
         "summary": "Update a project",
-        "description": "Update an existing project.",
+        "description": "Update an existing project, including its review workflow, pre-translation/autotranslate\nrules, and machine-translation configuration (see workflow, machine_translation_enabled,\nand the autotranslate_* fields below).",
         "operationId": "project/update",
         "tags": [
           "Projects"
