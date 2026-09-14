@@ -26657,6 +26657,16 @@
           },
           {
             "$ref": "#/components/parameters/per_page"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Filter results by name. Supports the prefix-match syntax `name:<value>`, which returns only spaces whose names begin with `<value>`. Other query formats are ignored; omitting `q` returns all accessible spaces.\n",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "name:Engineering"
+            }
           }
         ],
         "responses": {
@@ -26692,6 +26702,12 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
           },
           "404": {
             "$ref": "#/components/responses/404"

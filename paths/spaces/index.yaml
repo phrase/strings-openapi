@@ -9,6 +9,16 @@ parameters:
 - "$ref": "../../parameters.yaml#/account_id"
 - "$ref": "../../parameters.yaml#/page"
 - "$ref": "../../parameters.yaml#/per_page"
+- name: q
+  in: query
+  description: >
+    Filter results by name. Supports the prefix-match syntax `name:<value>`,
+    which returns only spaces whose names begin with `<value>`.
+    Other query formats are ignored; omitting `q` returns all accessible spaces.
+  required: false
+  schema:
+    type: string
+    example: "name:Engineering"
 responses:
   '200':
     description: OK
@@ -31,6 +41,10 @@ responses:
         "$ref": "../../headers.yaml#/Pagination"
   '400':
     "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
   '404':
     "$ref": "../../responses.yaml#/404"
   '429':
