@@ -21742,7 +21742,7 @@
       },
       "patch": {
         "summary": "Update a member",
-        "description": "Update user permissions in the account. Developers and translators need `project_ids` and `locale_ids` assigned to access them. Access token scope must include `team.manage`.",
+        "description": "Update user permissions in the account. Developers and translators need `project_ids` and `locale_ids` assigned to access them. To grant account-wide language access instead of access scoped to specific projects, use `default_locale_codes`. Access token scope must include `team.manage`.",
         "operationId": "member/update",
         "tags": [
           "Members"
@@ -21833,12 +21833,12 @@
                     "example": "abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235"
                   },
                   "locale_ids": {
-                    "description": "List of locale ids the user has access to.",
+                    "description": "List of locale ids the user has access to. This is project-scoped and must be paired with `project_ids` (and `strategy`) to take effect; it does not grant account-wide language access.",
                     "type": "string",
                     "example": "abcd1234abcd1234abcd1234,abcd1234abcd1234abcd1235"
                   },
                   "default_locale_codes": {
-                    "description": "List of default locales for the user.",
+                    "description": "List of default locales for the user, applied across all of the user's projects. This is the account-level field corresponding to \"Language access\" in the translator profile UI.",
                     "type": "array",
                     "items": {
                       "type": "string"
