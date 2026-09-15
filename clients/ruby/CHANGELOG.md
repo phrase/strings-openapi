@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.28.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.27.0...ruby-v4.28.0) (2026-09-14)
+
+
+### Features
+
+* **API:** add name filter query parameter to spaces list #STRINGS-3036 ([#1267](https://github.com/phrase/strings-openapi/issues/1267)) ([3b54f73](https://github.com/phrase/strings-openapi/commit/3b54f73252698dd93411cfaffff3a97ea114be92))
+
 ## [4.27.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.26.0...ruby-v4.27.0) (2026-09-11)
 
 
