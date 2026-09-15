@@ -5,10 +5,10 @@ description: |
 
   Branch project provisioning runs asynchronously, so the newly created branch is returned in a transitional state (typically `creating_branch`) and only reaches `success` once the underlying project has been set up. Poll the branch resource until its `state` becomes `success` before performing further operations on it.
 
-  Requires the Branching feature to be enabled on the account.
+  Requires the Branching feature to be enabled on the account. Additionally, the project's "Enable Branching" setting must be turned on (configurable in the project's Advanced settings). If branching is not enabled at the project level, the request is rejected with a `422` error.
 
   *Note: Creating a new branch may take several minutes depending on the project size.*
-operationId: branch/create
+operationId: branches/create
 tags:
 - Branches
 parameters:
@@ -61,7 +61,7 @@ requestBody:
     application/json:
       schema:
         type: object
-        title: branch/create/parameters
+        title: branches/create/parameters
         required:
           - name
         properties:
