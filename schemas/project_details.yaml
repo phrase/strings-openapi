@@ -63,6 +63,12 @@ project_details:
       cldr_version:
         type: string
         example: "legacy"
+      translation_keys_sort_collation:
+        type: string
+        example: "unicode_ci"
+        enum:
+          - "general_ci"
+          - "unicode_ci"
       job_locking_enabled:
         type: boolean
         example: false
@@ -97,6 +103,7 @@ project_details:
       autocomplete_job_enabled: false
       default_encoding: "UTF-8"
       cldr_version: "legacy"
+      translation_keys_sort_collation: "unicode_ci"
       job_locking_enabled: false
       placeholder_styles:
         - "rails_i18n"
