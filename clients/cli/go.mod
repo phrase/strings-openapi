@@ -28,7 +28,7 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	golang.org/x/oauth2 v0.27.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/text v0.39.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )
 
