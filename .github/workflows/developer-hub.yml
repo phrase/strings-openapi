@@ -10,10 +10,19 @@ jobs:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
     steps:
+      - name: Developer Hub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.DEVELOPER_HUB_APP_ID }}
+          private-key: ${{ secrets.DEVELOPER_HUB_APP_PRIVATE_KEY }}
+          owner: Phrase-Engineering
+          repositories: developer-hub
+
       - name: Send repository_dispatch to Phrase-Engineering/developer-hub
         uses: peter-evans/repository-dispatch@0eae9e597ebc81bcc8c2220e34ddff4bc7c769b3
         with:
-          token: ${{ secrets.DISPATCH_DEVELOPER_HUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           repository: Phrase-Engineering/developer-hub
           event-type: trigger-strings-workflow
           client-payload: >-
