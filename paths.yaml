@@ -431,6 +431,9 @@
     "$ref": "./paths/members/update.yaml"
   delete:
     "$ref": "./paths/members/destroy.yaml"
+"/projects/{project_id}/members":
+  get:
+    "$ref": "./paths/members/index_project.yaml"
 "/projects/{project_id}/members/{id}":
   patch:
     "$ref": "./paths/members/update_settings.yaml"
