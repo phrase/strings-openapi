@@ -46,7 +46,7 @@ func TestValidateIsType(t *testing.T) {
 	case err != nil:
 		t.Errorf("didn't expect an error, got %q", err)
 	case res != t2:
-		t.Errorf("expected value to be %q, got %q", t2, res)
+		t.Errorf("expected value to be %d, got %d", t2, res)
 	}
 
 	switch _, err := ValidateIsInt("a", t3); {
