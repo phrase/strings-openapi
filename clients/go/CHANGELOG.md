@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.32.0](https://github.com/phrase/strings-openapi/compare/go-v4.31.0...go-v4.32.0) (2026-09-18)
+
+
+### Features
+
+* **API:** document GET /projects/{project_id}/members list endpoint STRINGS-3471 ([#1276](https://github.com/phrase/strings-openapi/issues/1276)) ([fbf8448](https://github.com/phrase/strings-openapi/commit/fbf844851b3fa67604c55fe8b16166006a89b74f))
+
 ## [4.31.0](https://github.com/phrase/strings-openapi/compare/go-v4.30.0...go-v4.31.0) (2026-09-17)
 
 
