@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.27.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.26.0...typescript-v3.27.0) (2026-09-18)
+
+
+### Features
+
+* **API:** document GET /projects/{project_id}/members list endpoint STRINGS-3471 ([#1276](https://github.com/phrase/strings-openapi/issues/1276)) ([fbf8448](https://github.com/phrase/strings-openapi/commit/fbf844851b3fa67604c55fe8b16166006a89b74f))
+
 ## [3.26.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.25.0...typescript-v3.26.0) (2026-09-17)
 
 
