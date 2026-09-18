@@ -4,6 +4,9 @@
 "/formats":
   get:
     "$ref": "./paths/formats/index.yaml"
+"/languages":
+  get:
+    "$ref": "./paths/languages/index.yaml"
 "/projects/{project_id}/documents":
   get:
     "$ref": "./paths/documents/index.yaml"

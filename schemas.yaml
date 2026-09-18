@@ -72,6 +72,8 @@ schemas:
     "$ref": schemas/upload.yaml#/upload
   format:
     "$ref": schemas/format.yaml#/format
+  languages:
+    "$ref": schemas/language.yaml#/languages
   project:
     "$ref": schemas/project.yaml#/project
   project_details:

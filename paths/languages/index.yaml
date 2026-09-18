@@ -1,0 +1,35 @@
+---
+summary: List supported languages
+description: |
+  Returns all languages/locale codes that Phrase Strings recognizes, mapped to their
+  human-readable display name. This endpoint does not require authentication.
+operationId: languages/list
+tags:
+- Supported Languages
+responses:
+  '200':
+    description: OK
+    content:
+      application/json:
+        schema:
+          "$ref": "../../schemas/language.yaml#/languages"
+        examples:
+          default:
+            value:
+              de: German
+              en: English
+              fr: French
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+  '400':
+    "$ref": "../../responses.yaml#/400"
+x-code-samples:
+- lang: Curl
+  source: |-
+    curl "https://api.phrase.com/v2/languages" \
+      -u USERNAME_OR_ACCESS_TOKEN
