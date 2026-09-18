@@ -1,12 +1,11 @@
 ---
-summary: List languages
+summary: List supported languages
 description: |
   Returns all languages/locale codes that Phrase Strings recognizes, mapped to their
-  human-readable display name. This endpoint does not require authentication and is
-  not subject to rate limiting.
+  human-readable display name. This endpoint does not require authentication.
 operationId: languages/list
 tags:
-- Languages
+- Supported Languages
 responses:
   '200':
     description: OK

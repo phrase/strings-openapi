@@ -126,9 +126,6 @@
       "name": "Keys"
     },
     {
-      "name": "Languages"
-    },
-    {
       "name": "Linked Keys"
     },
     {
@@ -199,6 +196,9 @@
     },
     {
       "name": "Style guides"
+    },
+    {
+      "name": "Supported Languages"
     },
     {
       "name": "Tags"
@@ -6267,11 +6267,11 @@
     },
     "/languages": {
       "get": {
-        "summary": "List languages",
-        "description": "Returns all languages/locale codes that Phrase Strings recognizes, mapped to their\nhuman-readable display name. This endpoint does not require authentication and is\nnot subject to rate limiting.\n",
+        "summary": "List supported languages",
+        "description": "Returns all languages/locale codes that Phrase Strings recognizes, mapped to their\nhuman-readable display name. This endpoint does not require authentication.\n",
         "operationId": "languages/list",
         "tags": [
-          "Languages"
+          "Supported Languages"
         ],
         "responses": {
           "200": {
