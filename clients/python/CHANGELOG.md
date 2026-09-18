@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.28.0](https://github.com/phrase/strings-openapi/compare/python-v3.27.0...python-v3.28.0) (2026-09-18)
+
+
+### Features
+
+* **API:** document GET /projects/{project_id}/members list endpoint STRINGS-3471 ([#1276](https://github.com/phrase/strings-openapi/issues/1276)) ([fbf8448](https://github.com/phrase/strings-openapi/commit/fbf844851b3fa67604c55fe8b16166006a89b74f))
+
 ## [3.27.0](https://github.com/phrase/strings-openapi/compare/python-v3.26.0...python-v3.27.0) (2026-09-17)
 
 
