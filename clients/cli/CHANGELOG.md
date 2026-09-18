@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.69.0](https://github.com/phrase/strings-openapi/compare/cli-v2.68.0...cli-v2.69.0) (2026-09-18)
+
+
+### Features
+
+* **API:** document GET /projects/{project_id}/members list endpoint STRINGS-3471 ([#1276](https://github.com/phrase/strings-openapi/issues/1276)) ([fbf8448](https://github.com/phrase/strings-openapi/commit/fbf844851b3fa67604c55fe8b16166006a89b74f))
+
 ## [2.68.0](https://github.com/phrase/strings-openapi/compare/cli-v2.67.2...cli-v2.68.0) (2026-09-17)
 
 
