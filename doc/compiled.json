@@ -21948,6 +21948,138 @@
         "x-cli-version": "2.5"
       }
     },
+    "/projects/{project_id}/members": {
+      "get": {
+        "summary": "List project members",
+        "description": "Get all members active in the project. Access token scope must include `read`.",
+        "operationId": "members/by_project",
+        "tags": [
+          "Members"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-PhraseApp-OTP"
+          },
+          {
+            "$ref": "#/components/parameters/project_id"
+          },
+          {
+            "description": "Specify a query to search for members by name or email (including wildcards).",
+            "example": "jane*",
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter members to those assigned to the job identified by this id.",
+            "example": "abcd1234cdef1234abcd1234cdef1234",
+            "name": "job_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/per_page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "title": "project_member",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "username": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "position": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    },
+                    "example": {
+                      "id": "acbdacbdacbdacbdacbdacbd",
+                      "username": "myname",
+                      "name": "My Name",
+                      "position": "Lead Developer",
+                      "created_at": "2020-12-07T12:56:21Z",
+                      "updated_at": "2020-12-09T12:56:21Z"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              },
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              },
+              "Pagination": {
+                "$ref": "#/components/headers/Pagination"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403",
+            "description": "Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list members in this project."
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          }
+        },
+        "x-code-samples": [
+          {
+            "lang": "Curl",
+            "source": "curl \"https://api.phrase.com/v2/projects/:project_id/members\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
+          },
+          {
+            "lang": "CLI v2",
+            "source": "phrase members by_project \\\n--project_id <project_id> \\\n--access_token <token>"
+          }
+        ],
+        "x-cli-version": "2.5"
+      }
+    },
     "/projects/{project_id}/members/{id}": {
       "patch": {
         "summary": "Update a member's project settings",

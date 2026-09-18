@@ -1,0 +1,67 @@
+---
+summary: List project members
+description: |-
+  Get all members active in the project. Access token scope must include `read`.
+operationId: members/by_project
+tags:
+- Members
+parameters:
+- "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+- "$ref": "../../parameters.yaml#/project_id"
+- description: |-
+    Specify a query to search for members by name or email (including wildcards).
+  example: jane*
+  name: q
+  in: query
+  schema:
+    type: string
+- description: Filter members to those assigned to the job identified by this id.
+  example: abcd1234cdef1234abcd1234cdef1234
+  name: job_id
+  in: query
+  schema:
+    type: string
+- "$ref": "../../parameters.yaml#/page"
+- "$ref": "../../parameters.yaml#/per_page"
+responses:
+  '200':
+    description: OK
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            "$ref": "../../schemas/project_member.yaml#/project_member"
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+      Link:
+        "$ref": "../../headers.yaml#/Link"
+      Pagination:
+        "$ref": "../../headers.yaml#/Pagination"
+  '400':
+    "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+    description: Forbidden. Returned when the access token lacks the `read` scope or when the requesting user is not allowed to list members in this project.
+  '404':
+    "$ref": "../../responses.yaml#/404"
+  '429':
+    "$ref": "../../responses.yaml#/429"
+x-code-samples:
+- lang: Curl
+  source: |-
+    curl "https://api.phrase.com/v2/projects/:project_id/members" \
+      -u USERNAME_OR_ACCESS_TOKEN
+- lang: CLI v2
+  source: |-
+    phrase members by_project \
+    --project_id <project_id> \
+    --access_token <token>
+x-cli-version: '2.5'
