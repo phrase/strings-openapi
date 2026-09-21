@@ -198,6 +198,9 @@
       "name": "Style guides"
     },
     {
+      "name": "Supported Languages"
+    },
+    {
       "name": "Tags"
     },
     {
@@ -2276,6 +2279,19 @@
           "default_file": "./config/locales/<locale_name>.yml",
           "renders_default_locale": false,
           "includes_locale_information": false
+        }
+      },
+      "languages": {
+        "type": "object",
+        "title": "languages",
+        "description": "Map of all languages supported by Phrase Strings, keyed by their language/locale code. Each value is the human-readable display name for that code.",
+        "additionalProperties": {
+          "type": "string"
+        },
+        "example": {
+          "de": "German",
+          "en": "English",
+          "fr": "French"
         }
       },
       "project": {
@@ -6247,6 +6263,57 @@
           }
         ],
         "x-cli-version": "2.5"
+      }
+    },
+    "/languages": {
+      "get": {
+        "summary": "List supported languages",
+        "description": "Returns all languages/locale codes that Phrase Strings recognizes, mapped to their\nhuman-readable display name. This endpoint does not require authentication.\n",
+        "operationId": "languages/list",
+        "tags": [
+          "Supported Languages"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/languages"
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "de": "German",
+                      "en": "English",
+                      "fr": "French"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          }
+        },
+        "x-code-samples": [
+          {
+            "lang": "Curl",
+            "source": "curl \"https://api.phrase.com/v2/languages\" \\\n  -u USERNAME_OR_ACCESS_TOKEN"
+          }
+        ]
       }
     },
     "/projects/{project_id}/documents": {

@@ -1,0 +1,14 @@
+---
+languages:
+  type: object
+  title: languages
+  description: >-
+    Map of all languages supported by Phrase Strings, keyed by their
+    language/locale code. Each value is the human-readable display name
+    for that code.
+  additionalProperties:
+    type: string
+  example:
+    de: German
+    en: English
+    fr: French
