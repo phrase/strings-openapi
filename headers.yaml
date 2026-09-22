@@ -14,6 +14,17 @@ X-Rate-Limit-Limit:
   description: The number of allowed requests in the current period
   schema:
     type: integer
+X-Rate-Limit-Reason:
+  description: >-
+    Indicates why the request was rate limited. Present only on 429
+    responses. `global-rate` means the per-account request-rate quota was
+    exceeded; `global-concurrency` means the concurrent-request limit was
+    exceeded.
+  schema:
+    type: string
+    enum:
+      - global-rate
+      - global-concurrency
 X-Rate-Limit-Remaining:
   description: The number of remaining requests in the current period
   schema:
