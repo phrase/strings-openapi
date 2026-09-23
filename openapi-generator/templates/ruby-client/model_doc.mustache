@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ```ruby
 require '{{moduleName}}'
 
-instance = {{moduleName}}::{{classname}}.new({{#vars}}{{name}}: {{example}}{{^-last}},
+instance = {{moduleName}}::{{classname}}.new({{#vars}}{{name}}: {{#isBinary}}File.new('/path/to/file'){{/isBinary}}{{^isBinary}}{{example}}{{/isBinary}}{{^-last}},
                                  {{/-last}}{{/vars}})
 ```
 
