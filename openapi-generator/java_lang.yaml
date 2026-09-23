@@ -20,4 +20,5 @@ scmDeveloperConnection: scm:git:git@github.com:phrase/openapi.git
 scmUrl: https://github.com/phrase/strings-openapi
 java8: true
 dateLibrary: java8
+hideGenerationTimestamp: true
 templateDir: openapi-generator/templates/java

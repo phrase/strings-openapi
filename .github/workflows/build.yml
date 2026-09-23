@@ -3,6 +3,13 @@ on:
   push:
     branches:
       - main
+# Serialize runs: concurrent runs finish in arbitrary order, and an older
+# commit's run finishing last would overwrite a newer sync (e.g. revert a
+# release). Only the newest pending run is kept, which is fine since it
+# generates from the latest main.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
   build-go:
     runs-on: ubuntu-latest
@@ -64,7 +71,7 @@ jobs:
           # Verify the generated CLI compiles against the freshly generated go
           # client, so this does not depend on a released phrase-go version
           # that may lag behind the spec.
-          (cd ./clients/cli && go mod edit -replace github.com/phrase/phrase-go/v4=../go && go build . && go mod edit -dropreplace github.com/phrase/phrase-go/v4)
+          (cd ./clients/cli && go mod edit -replace github.com/phrase/phrase-go/v4=../go && go build -o /dev/null . && go mod edit -dropreplace github.com/phrase/phrase-go/v4)
           git clone https://$API_TOKEN_GITHUB@github.com/phrase/phrase-cli.git clones/cli &> /dev/null
           rsync -avI --delete --exclude='.git/' clients/cli/ clones/cli
           cd clones/cli
