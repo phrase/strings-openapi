@@ -13517,6 +13517,10 @@
                     "description": "The API id of the source language. This locale will be set as source locale for the job template. If not provided, the project default locale will be used.",
                     "type": "string",
                     "example": "abcd1234cdef1234abcd1234cdef1234"
+                  },
+                  "owner_id": {
+                    "description": "Code of the account member to set as the job template owner. The referenced\nuser must also be a member of the project; passing the code of an account member\nwho is not a project member returns a 404. When omitted or blank, no owner is\npre-set; the user who creates a job from this template is assigned as owner\nat job-creation time.\n",
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -13710,6 +13714,10 @@
                     "description": "The API id of the source language. This locale will be set as source locale for the job template. If not provided, the project default locale will be used.",
                     "type": "string",
                     "example": "abcd1234cdef1234abcd1234cdef1234"
+                  },
+                  "owner_id": {
+                    "description": "Code of the account member to set as the job template owner. The referenced\nuser must also be a member of the project; passing the code of an account member\nwho is not a project member returns a 404. Pass an empty string to clear a\npreviously set owner; when blank, jobs created from this template will default\nto assigning the job creator as owner.\n",
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -31594,6 +31602,10 @@
                     "description": "Automatically translate the job using machine translation.",
                     "type": "boolean",
                     "example": true
+                  },
+                  "owner_id": {
+                    "description": "Code of the account member to set as the job template owner. When omitted\nor blank, no owner is pre-set; the user who creates a job from this template\nis assigned as its owner at job-creation time.\n",
+                    "type": "string"
                   }
                 },
                 "required": [
@@ -31768,6 +31780,10 @@
                     "description": "Automatically translate the job using machine translation.",
                     "type": "boolean",
                     "example": true
+                  },
+                  "owner_id": {
+                    "description": "Code of the account member to set as the job template owner.\nPass an empty string to clear a previously set owner; when blank,\nthe owner is set to null and jobs created from this template will\ndefault to assigning the job creator as owner.\n",
+                    "type": "string"
                   }
                 },
                 "required": [

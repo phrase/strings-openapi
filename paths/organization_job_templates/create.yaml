@@ -68,6 +68,12 @@ requestBody:
             description: Automatically translate the job using machine translation.
             type: boolean
             example: true
+          owner_id:
+            description: |
+              Code of the account member to set as the job template owner. When omitted
+              or blank, no owner is pre-set; the user who creates a job from this template
+              is assigned as its owner at job-creation time.
+            type: string
         required:
         - name
 x-cli-version: "2.7.0"
