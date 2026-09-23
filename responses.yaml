@@ -109,6 +109,8 @@
     Too many requests. The rate limit has been exceeded. Wait until the time
     indicated by the `X-Rate-Limit-Reset` response header before retrying.
   headers:
+    X-Rate-Limit-Reason:
+      $ref: "./headers.yaml#/X-Rate-Limit-Reason"
     X-Rate-Limit-Limit:
       $ref: "./headers.yaml#/X-Rate-Limit-Limit"
     X-Rate-Limit-Remaining:

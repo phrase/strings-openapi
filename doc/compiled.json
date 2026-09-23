@@ -350,6 +350,16 @@
           "type": "integer"
         }
       },
+      "X-Rate-Limit-Reason": {
+        "description": "Indicates why the request was rate limited. Present only on 429 responses. `global-rate` means the per-user request-rate quota was exceeded; `global-concurrency` means the concurrent-request limit was exceeded.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "global-rate",
+            "global-concurrency"
+          ]
+        }
+      },
       "X-Rate-Limit-Remaining": {
         "description": "The number of remaining requests in the current period",
         "schema": {
@@ -6022,6 +6032,9 @@
       "429": {
         "description": "Too many requests. The rate limit has been exceeded. Wait until the time indicated by the `X-Rate-Limit-Reset` response header before retrying.",
         "headers": {
+          "X-Rate-Limit-Reason": {
+            "$ref": "#/components/headers/X-Rate-Limit-Reason"
+          },
           "X-Rate-Limit-Limit": {
             "$ref": "#/components/headers/X-Rate-Limit-Limit"
           },
