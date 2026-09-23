@@ -24,9 +24,6 @@
         "name": {
           "type": "string"
         },
-        "email": {
-          "type": "string"
-        },
         "gravatar_uid": {
           "type": "string"
         }
@@ -35,7 +32,6 @@
         "id",
         "username",
         "name",
-        "email",
         "gravatar_uid"
       ]
     },
