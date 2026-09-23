@@ -351,7 +351,7 @@
         }
       },
       "X-Rate-Limit-Reason": {
-        "description": "Indicates why the request was rate limited. Present only on 429 responses. `global-rate` means the per-account request-rate quota was exceeded; `global-concurrency` means the concurrent-request limit was exceeded.",
+        "description": "Indicates why the request was rate limited. Present only on 429 responses. `global-rate` means the per-user request-rate quota was exceeded; `global-concurrency` means the concurrent-request limit was exceeded.",
         "schema": {
           "type": "string",
           "enum": [
