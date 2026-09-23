@@ -10,9 +10,9 @@ Name | Type | Description | Notes
 ## Code Sample
 
 ```ruby
-require '{{moduleName}}'
+require '{{gemName}}'
 
-instance = {{moduleName}}::{{classname}}.new({{#vars}}{{name}}: {{#isBinary}}File.new('/path/to/file'){{/isBinary}}{{^isBinary}}{{example}}{{/isBinary}}{{^-last}},
+instance = {{moduleName}}::{{classname}}.new({{#vars}}{{name}}: {{#isBinary}}File.new('/path/to/file'){{/isBinary}}{{^isBinary}}{{#isString}}'{{{example}}}'{{/isString}}{{^isString}}{{#isDateTime}}Time.parse('{{{example}}}'){{/isDateTime}}{{^isDateTime}}{{{example}}}{{/isDateTime}}{{/isString}}{{/isBinary}}{{^-last}},
                                  {{/-last}}{{/vars}})
 ```
 

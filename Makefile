@@ -19,8 +19,11 @@ bundle:
 watch_bundle:
 	make lint
 	npx swagger-cli bundle -t json -w 300 main.yaml > doc/compiled.json
+# The generator renders missing examples as "null" and object params as "{ ... }",
+# which mustache can't detect; rewrite them so the doc code samples are valid Ruby.
 ruby:
 	openapi-generator-cli generate -i tmp/compiled.yaml -g ruby -o clients/ruby -c ./openapi-generator/ruby_lang.yaml
+	perl -pi -e "s/: (?:null|'null'|Time\.parse\('null'\))(?=[,)]\$$)/: nil/; s/\{ \.\.\. \}/{}/g" clients/ruby/docs/*.md
 go:
 	openapi-generator-cli generate -i tmp/compiled.yaml -g go -o clients/go -c ./openapi-generator/go_lang.yaml --global-property apiTests=false,modelTests=false
 	go install golang.org/x/tools/cmd/goimports@v0.24.0
