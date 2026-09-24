@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.29.0](https://github.com/phrase/strings-openapi/compare/python-v3.28.0...python-v3.29.0) (2026-09-24)
+
+
+### Features
+
+* **API:** add page/per_page params to repo_syncs list endpoint #STRINGS-3518 ([#1297](https://github.com/phrase/strings-openapi/issues/1297)) ([414261f](https://github.com/phrase/strings-openapi/commit/414261fe370337ed78dd4a5144c98132bc91ee7a))
+
 ## [3.28.0](https://github.com/phrase/strings-openapi/compare/python-v3.27.0...python-v3.28.0) (2026-09-23)
 
 
