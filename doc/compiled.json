@@ -6592,8 +6592,8 @@
     },
     "/projects/{project_id}/report/locales": {
       "get": {
-        "summary": "List Locale Reports",
-        "description": "List all locale reports for the given project",
+        "summary": "List Locale Reports (word count, character count, translation statistics)",
+        "description": "List all locale reports for the given project. Each report includes translation statistics per locale, including word count and character count fields (`source_word_count`, `word_count`, `word_count_unverified`, `word_count_missing`) as well as translation completion statistics (`keys_count`, `completed_translations_count`, `untranslated_keys_count`, `unverified_translations_count`, `reviewed_translations_count`, and their percentages). Use the `tag` parameter to scope the report to a specific job (e.g. its job tag) to get job-scoped word count statistics.",
         "operationId": "report/locales/list",
         "tags": [
           "Reports"
