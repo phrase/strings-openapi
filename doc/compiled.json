@@ -9655,12 +9655,12 @@
                     "example": "my-feature-branch"
                   },
                   "name": {
-                    "description": "Locale name",
+                    "description": "Locale name. Must be unique per project.",
                     "type": "string",
                     "example": "de"
                   },
                   "code": {
-                    "description": "Locale ISO code",
+                    "description": "Locale ISO code. Unlike `name`, `code` is not required to be unique per project - creating a locale whose `code` duplicates an existing locale's `code` in the same project will succeed rather than error, resulting in two locales that share the same code.",
                     "type": "string",
                     "example": "de-DE"
                   },
