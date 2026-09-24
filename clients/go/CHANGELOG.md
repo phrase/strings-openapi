@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.33.0](https://github.com/phrase/strings-openapi/compare/go-v4.32.0...go-v4.33.0) (2026-09-24)
+
+
+### Features
+
+* **API:** add page/per_page params to repo_syncs list endpoint #STRINGS-3518 ([#1297](https://github.com/phrase/strings-openapi/issues/1297)) ([414261f](https://github.com/phrase/strings-openapi/commit/414261fe370337ed78dd4a5144c98132bc91ee7a))
+
 ## [4.32.0](https://github.com/phrase/strings-openapi/compare/go-v4.31.0...go-v4.32.0) (2026-09-23)
 
 
