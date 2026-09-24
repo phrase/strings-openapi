@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.70.0](https://github.com/phrase/strings-openapi/compare/cli-v2.69.1...cli-v2.70.0) (2026-09-24)
+
+
+### Features
+
+* **API:** add page/per_page params to repo_syncs list endpoint #STRINGS-3518 ([#1297](https://github.com/phrase/strings-openapi/issues/1297)) ([414261f](https://github.com/phrase/strings-openapi/commit/414261fe370337ed78dd4a5144c98132bc91ee7a))
+
 ## [2.69.1](https://github.com/phrase/strings-openapi/compare/cli-v2.69.0...cli-v2.69.1) (2026-09-23)
 
 
