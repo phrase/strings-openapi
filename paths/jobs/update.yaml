@@ -8,6 +8,7 @@ parameters:
 - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
 - "$ref": "../../parameters.yaml#/project_id"
 - "$ref": "../../parameters.yaml#/id"
+- "$ref": "../../parameters.yaml#/branch"
 responses:
   '200':
     description: OK
@@ -38,17 +39,18 @@ responses:
 x-code-samples:
 - lang: Curl
   source: |-
-    curl "https://api.phrase.com/v2/projects/:project_id/jobs/:id" \
+    curl "https://api.phrase.com/v2/projects/:project_id/jobs/:id?branch=my-feature-branch" \
       -u USERNAME_OR_ACCESS_TOKEN \
       -X PATCH \
-      -d '{"branch":"my-feature-branch","name":"de","briefing":"de-DE","due_date":"2017-08-15","ticket_url":"https://example.atlassian.net/browse/FOO"}' \
+      -d '{"name":"de","briefing":"de-DE","due_date":"2017-08-15","ticket_url":"https://example.atlassian.net/browse/FOO"}' \
       -H 'Content-Type: application/json'
 - lang: CLI v2
   source: |-
     phrase jobs update \
     --project_id <project_id> \
     --id <id> \
-    --data '{"branch":"my-feature-branch", "name":"de", "briefing":"de-DE", "due_date":"2017-08-15", "ticket_url":"https://example.atlassian.net/browse/FOO"}' \
+    --branch my-feature-branch \
+    --data '{"name":"de", "briefing":"de-DE", "due_date":"2017-08-15", "ticket_url":"https://example.atlassian.net/browse/FOO"}' \
     --access_token <token>
 requestBody:
   required: true
@@ -58,10 +60,6 @@ requestBody:
         type: object
         title: job/update/parameters
         properties:
-          branch:
-            description: specify the branch to use
-            type: string
-            example: my-feature-branch
           name:
             description: Job name
             type: string
