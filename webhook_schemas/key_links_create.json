@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "event": {
+      "type": "string",
+      "enum": ["key_links:create"]
+    },
+    "message": { "type": "string" },
+    "sent_at": { "type": "string" },
+    "user": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "username": { "type": "string" },
+        "name": { "type": ["string", "null"] },
+        "gravatar_uid": { "type": ["string", "null"] }
+      },
+      "required": ["id", "username", "name", "gravatar_uid"]
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "main_format": { "type": ["string", "null"] },
+        "project_image_url": { "type": ["string", "null"], "format": "uri" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "point_of_contact": {
+          "type": ["object", "null"],
+          "properties": {
+            "id": { "type": "string" },
+            "username": { "type": "string" },
+            "name": { "type": ["string", "null"] },
+            "gravatar_uid": { "type": ["string", "null"] }
+          },
+          "required": ["id", "username", "name", "gravatar_uid"]
+        }
+      },
+      "required": ["id", "name", "main_format", "created_at", "updated_at"]
+    },
+    "branch": {
+      "type": ["object", "null"],
+      "properties": {
+        "name": { "type": "string" }
+      },
+      "required": ["name"]
+    },
+    "parent_key": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "plural": { "type": "boolean" },
+        "use_ordinal_rules": { "type": "boolean" },
+        "data_type": { "type": "string" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["id", "name", "plural", "use_ordinal_rules", "data_type", "tags"]
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" }
+        },
+        "required": ["id", "name"]
+      }
+    }
+  },
+  "required": ["event", "message", "sent_at", "user", "project", "parent_key", "children"]
+}

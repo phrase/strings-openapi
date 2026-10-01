@@ -1,0 +1,243 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "event": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "sent_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "gravatar_uid": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "name",
+        "gravatar_uid"
+      ]
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "main_format": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "main_format",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "branch": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "check_issue": {
+      "type": "object",
+      "title": "check_issue",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "check_name": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "dismissed_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "solved_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "translation": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "content": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "unverified": {
+              "type": "boolean"
+            },
+            "excluded": {
+              "type": "boolean"
+            },
+            "plural_suffix": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "created_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updated_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "key": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "plural": {
+                  "type": "boolean"
+                },
+                "use_ordinal_rules": {
+                  "type": "boolean"
+                },
+                "data_type": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "plural",
+                "use_ordinal_rules",
+                "data_type",
+                "tags"
+              ]
+            },
+            "locale": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "code"
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "content",
+            "created_at",
+            "updated_at",
+            "key",
+            "locale"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "check_name",
+        "state",
+        "description",
+        "dismissed_at",
+        "solved_at",
+        "created_at",
+        "updated_at",
+        "translation"
+      ]
+    }
+  },
+  "required": [
+    "event",
+    "message",
+    "project",
+    "check_issue"
+  ]
+}
