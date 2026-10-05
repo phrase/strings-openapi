@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.30.1](https://github.com/phrase/strings-openapi/compare/ruby-v4.30.0...ruby-v4.30.1) (2026-10-05)
+
+
+### Bug Fixes
+
+* **API:** move job update branch param from body to query #STRINGS-3488 ([#1306](https://github.com/phrase/strings-openapi/issues/1306)) ([a8f2673](https://github.com/phrase/strings-openapi/commit/a8f267314ff1b1a3e3848df1b15cc5647ba434cb))
+
 ## [4.30.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.29.0...ruby-v4.30.0) (2026-10-05)
 
 
