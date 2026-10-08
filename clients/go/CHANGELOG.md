@@ -1,5 +1,19 @@
 # Changelog
 
+## [4.33.0](https://github.com/phrase/strings-openapi/compare/go-v4.32.0...go-v4.33.0) (2026-10-08)
+
+
+### Features
+
+* **API:** add page/per_page params to repo_syncs list endpoint #STRINGS-3518 ([#1297](https://github.com/phrase/strings-openapi/issues/1297)) ([414261f](https://github.com/phrase/strings-openapi/commit/414261fe370337ed78dd4a5144c98132bc91ee7a))
+
+
+### Bug Fixes
+
+* **API:** move job update branch param from body to query #STRINGS-3488 ([#1306](https://github.com/phrase/strings-openapi/issues/1306)) ([a8f2673](https://github.com/phrase/strings-openapi/commit/a8f267314ff1b1a3e3848df1b15cc5647ba434cb))
+* **cli:** add testify to Go template to stop build-cli failures ([#1311](https://github.com/phrase/strings-openapi/issues/1311)) ([715f835](https://github.com/phrase/strings-openapi/commit/715f835a6fece54886bb7c93d0ca1fbae2e26209))
+* **deps:** bump vulnerable dependency versions in Go and Java templates ([#1309](https://github.com/phrase/strings-openapi/issues/1309)) ([262fd3d](https://github.com/phrase/strings-openapi/commit/262fd3d2a06c195f2cc71c5f2887e8e05273794a))
+
 ## [4.32.0](https://github.com/phrase/strings-openapi/compare/go-v4.31.0...go-v4.32.0) (2026-09-23)
 
 
