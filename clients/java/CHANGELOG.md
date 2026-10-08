@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.27.0](https://github.com/phrase/strings-openapi/compare/java-v3.26.0...java-v3.27.0) (2026-10-08)
+
+
+### Features
+
+* **API:** add page/per_page params to repo_syncs list endpoint #STRINGS-3518 ([#1297](https://github.com/phrase/strings-openapi/issues/1297)) ([414261f](https://github.com/phrase/strings-openapi/commit/414261fe370337ed78dd4a5144c98132bc91ee7a))
+
+
+### Bug Fixes
+
+* **API:** move job update branch param from body to query #STRINGS-3488 ([#1306](https://github.com/phrase/strings-openapi/issues/1306)) ([a8f2673](https://github.com/phrase/strings-openapi/commit/a8f267314ff1b1a3e3848df1b15cc5647ba434cb))
+* **deps:** bump vulnerable dependency versions in Go and Java templates ([#1309](https://github.com/phrase/strings-openapi/issues/1309)) ([262fd3d](https://github.com/phrase/strings-openapi/commit/262fd3d2a06c195f2cc71c5f2887e8e05273794a))
+
 ## [3.26.0](https://github.com/phrase/strings-openapi/compare/java-v3.25.0...java-v3.26.0) (2026-09-23)
 
 
