@@ -22,4 +22,7 @@ When adding or editing a request-body property for a resource, apply it to both 
 
 ## Commits and PR titles
 
-Use `docs(STRINGS-XXXX): <summary>` for commit messages and PR titles (matches git log history), not the `JIRA-KEY - title` default.
+PR titles are used to generate client library changelogs and version bumps. Follow the "PR titles" section of the README (https://github.com/phrase/strings-openapi#pr-titles): `change_type(affected_library): description #STRINGS-TICKET`, e.g. `docs(API): clarify field description #STRINGS-1234`.
+
+- `change_type`: `feat` (new endpoints, properties, query parameters), `fix` (schema fixes), `docs` (description-only changes, no schema change), `build` (build system or CI changes).
+- `affected_library`: most commonly `API`; schema changes always use `API`.
