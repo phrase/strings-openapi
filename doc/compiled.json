@@ -5794,6 +5794,20 @@
           "type": "string"
         }
       },
+      "webhook_delivery_status": {
+        "in": "query",
+        "name": "status",
+        "description": "Filter deliveries by outcome. `success` returns deliveries with a 2xx response code or a soft error. `failed` returns all other deliveries, including exceptions and timeouts without a response code.\n",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "success",
+            "failed"
+          ]
+        },
+        "example": "failed"
+      },
       "q": {
         "description": "Specify a query to do broad search for keys by name (including wildcards).\n\nThe following qualifiers are also supported in the search term:\n\n- `ids:key_id,...` for queries on a comma-separated list of ids\n- `name:key_name` for text queries on exact key names - spaces, commas, and colons  need to be escaped with double backslashes\n- `tags:tag_name` to filter for keys with certain tags\n- `translated:{true|false}` for translation status (also requires `locale_id` to be specified)\n- `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n- `unmentioned_in_upload:upload_id,...` to filter keys unmentioned within upload. When multiple upload IDs provided, matches only keys not mentioned in **all** uploads\n\n**Caution:** Query parameters with empty values will be treated as though they are not included in the request and will be ignored.\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
         "example": "mykey* translated:true",
@@ -31236,6 +31250,9 @@
           },
           {
             "$ref": "#/components/parameters/response_status_codes"
+          },
+          {
+            "$ref": "#/components/parameters/webhook_delivery_status"
           }
         ],
         "responses": {

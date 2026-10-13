@@ -253,6 +253,18 @@ response_status_codes:
   required: false
   schema:
     type: string
+webhook_delivery_status:
+  in: query
+  name: status
+  description: |
+    Filter deliveries by outcome. `success` returns deliveries with a 2xx response code or a soft error. `failed` returns all other deliveries, including exceptions and timeouts without a response code.
+  required: false
+  schema:
+    type: string
+    enum:
+    - success
+    - failed
+  example: failed
 q:
   description: |
     Specify a query to do broad search for keys by name (including wildcards).
