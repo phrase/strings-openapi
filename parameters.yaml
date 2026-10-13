@@ -257,7 +257,7 @@ webhook_delivery_status:
   in: query
   name: status
   description: |
-    Filter deliveries by outcome. `success` returns deliveries with a 2xx response code or a soft error. `failed` returns all other deliveries, including exceptions and timeouts without a response code. Can be combined with `response_status_codes`.
+    Filter deliveries by outcome. `success` returns deliveries with a 2xx response code or a soft error. `failed` returns all other deliveries, including exceptions and timeouts without a response code.
   required: false
   schema:
     type: string
