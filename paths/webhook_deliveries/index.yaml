@@ -9,6 +9,7 @@ parameters:
 - "$ref": "../../parameters.yaml#/project_id"
 - "$ref": "../../parameters.yaml#/webhook_id"
 - "$ref": "../../parameters.yaml#/response_status_codes"
+- "$ref": "../../parameters.yaml#/webhook_delivery_status"
 responses:
   '200':
     description: OK
