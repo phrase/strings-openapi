@@ -65,10 +65,12 @@ requestBody:
           secret:
             description: Webhook secret used to calculate signature. If empty, the default project secret will be used.
             type: string
+            nullable: true
             example: secr3t
           description:
             description: Webhook description
             type: string
+            nullable: true
             example: My webhook for chat notifications
           events:
             description: List of event names to trigger the webhook (separated by comma)

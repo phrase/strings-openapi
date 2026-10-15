@@ -63,6 +63,7 @@ requestBody:
           description:
             description: Description of the release
             type: string
+            nullable: true
             example: My first Release
           platforms:
             description: List of platforms the release should support.
@@ -75,10 +76,12 @@ requestBody:
           app_min_version:
             description: Minimum version of the app that the release supports in semver format
             type: string
+            nullable: true
             example: 2.5.0
           app_max_version:
             description: Maximum version of the app that the release supports in semver format
             type: string
+            nullable: true
             example: 3.0.0
           branch:
             description: Branch used for release
