@@ -28702,16 +28702,19 @@
                   "branch": {
                     "description": "specify the branch to use",
                     "type": "string",
+                    "nullable": true,
                     "example": "my-feature-branch"
                   },
                   "content": {
-                    "description": "Translation content",
+                    "description": "Translation content. Send an empty string or `null` to clear the translation's content; omit the field to leave it unchanged.",
                     "type": "string",
+                    "nullable": true,
                     "example": "My translation"
                   },
                   "plural_suffix": {
                     "description": "Plural suffix. Can be one of: zero, one, two, few, many, other. Must be specified if the key associated to the translation is pluralized.",
                     "type": "string",
+                    "nullable": true,
                     "example": null
                   },
                   "unverified": {
