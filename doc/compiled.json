@@ -28706,7 +28706,7 @@
                     "example": "my-feature-branch"
                   },
                   "content": {
-                    "description": "Translation content. Send an empty string or `null` to clear the translation's content; omit the field to leave it unchanged.",
+                    "description": "Translation content. Send an empty string to clear the translation's content; omit the field to leave it unchanged.",
                     "type": "string",
                     "nullable": true,
                     "example": "My translation"
