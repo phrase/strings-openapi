@@ -24608,8 +24608,9 @@
                     "example": "home.index.headline"
                   },
                   "description": {
-                    "description": "Key description (usually includes contextual information for translators)",
+                    "description": "Key description (usually includes contextual information for translators). Send an empty string to clear the description; omit the field to leave it unchanged.",
                     "type": "string",
+                    "nullable": true,
                     "example": "Some description worth knowing..."
                   },
                   "plural": {
