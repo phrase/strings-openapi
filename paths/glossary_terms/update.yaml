@@ -67,6 +67,7 @@ requestBody:
           description:
             description: Description of term
             type: string
+            nullable: true
             example: Use this when refering to our company
           translatable:
             description: Indicates whether the term should be used for all languages or can be translated

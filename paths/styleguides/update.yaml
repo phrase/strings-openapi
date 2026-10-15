@@ -65,6 +65,7 @@ requestBody:
           audience:
             description: Audience description
             type: string
+            nullable: true
             example: customer-facing
           target_audience:
             description: Target audience for the translations.
@@ -103,33 +104,41 @@ requestBody:
           business:
             description: Description of the business
             type: string
+            nullable: true
             example: We are a travel site that helps customers find the best hotels and flights.
           company_branding:
             description: Company branding to remain consistent.
             type: string
+            nullable: true
             example: ACME Inc. should never be translated.
           formatting:
             description: Formatting requirements and character limitations.
             type: string
+            nullable: true
             example: Never use capital letters
           glossary_terms:
             description: List of terms and/or phrases that need to be translated consistently.
             type: string
+            nullable: true
             example: Apartment, cabin, loft
           grammar_consistency:
             description: Formal or informal pronouns, consistent conjugation, grammatical gender
             type: string
+            nullable: true
             example: ''
           literal_translation:
             description: 'Can be one of: Cultural/Conversational, Literal, Neutral.'
             type: string
+            nullable: true
             example: Neutral
           overall_tone:
             description: Tone requirement descriptions
             type: string
+            nullable: true
             example: Tone should be fun and light
           samples:
             description: Provide links to sample product pages, FAQ pages, etc. to give the translator a point of reference. You can also provide past translations. Even snippets or short paragraphs are helpful for maintaining consistency.
             type: string
+            nullable: true
             example: http://www.myexample.com/my/document/path/to/samples.pdf
 x-cli-version: '2.5'

@@ -32,6 +32,7 @@ requestBody:
             description: description of property
             example: A healthy snack for all ages
             type: string
+            nullable: true
           value_options:
             description: value options of property (only applies to single or multi select properties)
             example:

@@ -89,6 +89,7 @@ requestBody:
           fallback_locale_id:
             description: Fallback locale for empty translations. Can be a locale name or id.
             type: string
+            nullable: true
             example: abcd1234abcd1234abcd1234abcd1234
           unverify_new_translations:
             description: Indicates that new translations for this locale should be marked as unverified. Part of the [Advanced Workflows](https://support.phrase.com/hc/en-us/articles/5784094755484) feature.
@@ -109,5 +110,6 @@ requestBody:
           language_ai_profile:
             description: Identifier of the Language AI profile to use for this locale.
             type: string
+            nullable: true
             example: abcd1234abcd1234abcd1234abcd1234
 x-cli-version: '2.5'
