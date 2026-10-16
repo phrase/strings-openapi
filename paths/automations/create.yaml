@@ -79,6 +79,13 @@ requestBody:
               When `true`, the automation only acts on locales that changed since its last run. Defaults to `false`.
             type: boolean
             example: false
+          include_branches:
+            description: >
+              When true, the automation also runs against branches of the configured
+              projects. The designated job owner must have permission to create jobs
+              in branches for every configured project; otherwise the request is
+              rejected with 403.
+            type: boolean
 responses:
   '201':
     description: Created
