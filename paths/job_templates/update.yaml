@@ -69,6 +69,7 @@ requestBody:
           briefing:
             description: Briefing for the translators
             type: string
+            nullable: true
             example: text
           autotranslate:
             description: Automatically translate the job using machine translation.

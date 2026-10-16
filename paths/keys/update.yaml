@@ -88,6 +88,7 @@ requestBody:
           name_plural:
             description: Plural name for the key (used in some file formats, e.g. Gettext)
             type: string
+            nullable: true
             example: home.index.headlines
           data_type:
             description: 'Type of the key. Can be one of the following: string, number, boolean, array, markdown.'
@@ -123,14 +124,17 @@ requestBody:
           original_file:
             description: Original file attribute. Used in some formats, e.g. XLIFF.
             type: string
+            nullable: true
             example:
           localized_format_string:
             description: NSStringLocalizedFormatKey attribute. Used in .stringsdict format.
             type: string
+            nullable: true
             example:
           localized_format_key:
             description: NSStringLocalizedFormatKey attribute. Used in .stringsdict format.
             type: string
+            nullable: true
             example:
           custom_metadata:
             description: Updates/Creates custom metadata property name and value pairs to be associated with key. If you want to delete a custom metadata property, you can set its value to null. If you want to update a custom metadata property, you can set its value to the new value.

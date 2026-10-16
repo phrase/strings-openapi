@@ -65,5 +65,6 @@ requestBody:
           value:
             description: Value of the variable
             type: string
+            nullable: true
             example: Hello World
 x-cli-version: '2.5'

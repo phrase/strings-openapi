@@ -7676,6 +7676,7 @@
                   "audience": {
                     "description": "Audience description",
                     "type": "string",
+                    "nullable": true,
                     "example": "customer-facing"
                   },
                   "target_audience": {
@@ -7721,41 +7722,49 @@
                   "business": {
                     "description": "Description of the business",
                     "type": "string",
+                    "nullable": true,
                     "example": "We are a travel site that helps customers find the best hotels and flights."
                   },
                   "company_branding": {
                     "description": "Company branding to remain consistent.",
                     "type": "string",
+                    "nullable": true,
                     "example": "ACME Inc. should never be translated."
                   },
                   "formatting": {
                     "description": "Formatting requirements and character limitations.",
                     "type": "string",
+                    "nullable": true,
                     "example": "Never use capital letters"
                   },
                   "glossary_terms": {
                     "description": "List of terms and/or phrases that need to be translated consistently.",
                     "type": "string",
+                    "nullable": true,
                     "example": "Apartment, cabin, loft"
                   },
                   "grammar_consistency": {
                     "description": "Formal or informal pronouns, consistent conjugation, grammatical gender",
                     "type": "string",
+                    "nullable": true,
                     "example": ""
                   },
                   "literal_translation": {
                     "description": "Can be one of: Cultural/Conversational, Literal, Neutral.",
                     "type": "string",
+                    "nullable": true,
                     "example": "Neutral"
                   },
                   "overall_tone": {
                     "description": "Tone requirement descriptions",
                     "type": "string",
+                    "nullable": true,
                     "example": "Tone should be fun and light"
                   },
                   "samples": {
                     "description": "Provide links to sample product pages, FAQ pages, etc. to give the translator a point of reference. You can also provide past translations. Even snippets or short paragraphs are helpful for maintaining consistency.",
                     "type": "string",
+                    "nullable": true,
                     "example": "http://www.myexample.com/my/document/path/to/samples.pdf"
                   }
                 }
@@ -8158,7 +8167,8 @@
                   "description": {
                     "description": "description of property",
                     "example": "A healthy snack for all ages",
-                    "type": "string"
+                    "type": "string",
+                    "nullable": true
                   },
                   "value_options": {
                     "description": "value options of property (only applies to single or multi select properties)",
@@ -9935,6 +9945,7 @@
                   "fallback_locale_id": {
                     "description": "Fallback locale for empty translations. Can be a locale name or id.",
                     "type": "string",
+                    "nullable": true,
                     "example": "abcd1234abcd1234abcd1234abcd1234"
                   },
                   "unverify_new_translations": {
@@ -9960,6 +9971,7 @@
                   "language_ai_profile": {
                     "description": "Identifier of the Language AI profile to use for this locale.",
                     "type": "string",
+                    "nullable": true,
                     "example": "abcd1234abcd1234abcd1234abcd1234"
                   }
                 }
@@ -11495,6 +11507,7 @@
                   "description": {
                     "description": "Description of the release",
                     "type": "string",
+                    "nullable": true,
                     "example": "My first Release"
                   },
                   "platforms": {
@@ -11511,11 +11524,13 @@
                   "app_min_version": {
                     "description": "Minimum version of the app that the release supports in semver format",
                     "type": "string",
+                    "nullable": true,
                     "example": "2.5.0"
                   },
                   "app_max_version": {
                     "description": "Maximum version of the app that the release supports in semver format",
                     "type": "string",
+                    "nullable": true,
                     "example": "3.0.0"
                   },
                   "branch": {
@@ -11989,11 +12004,13 @@
                   "app_min_version": {
                     "description": "The created releases will be available only for apps with version greater or equal to this value",
                     "type": "string",
+                    "nullable": true,
                     "example": "1.0.0"
                   },
                   "app_max_version": {
                     "description": "The created releases will be available only for apps with version less or equal to this value",
                     "type": "string",
+                    "nullable": true,
                     "example": "2.0.0"
                   }
                 }
@@ -12635,6 +12652,7 @@
                   "briefing": {
                     "description": "Briefing for the translators",
                     "type": "string",
+                    "nullable": true,
                     "example": "de-DE"
                   },
                   "due_date": {
@@ -12647,6 +12665,7 @@
                   "ticket_url": {
                     "description": "URL to a ticket for this job (e.g. Jira, Trello)",
                     "type": "string",
+                    "nullable": true,
                     "example": "https://example.atlassian.net/browse/FOO"
                   },
                   "target_locale_ids": {
@@ -13719,6 +13738,7 @@
                   "briefing": {
                     "description": "Briefing for the translators",
                     "type": "string",
+                    "nullable": true,
                     "example": "text"
                   },
                   "autotranslate": {
@@ -14564,6 +14584,7 @@
                   "note": {
                     "description": "A note to help you remember what the access is used for.",
                     "type": "string",
+                    "nullable": true,
                     "example": "My Deploy Script"
                   },
                   "scopes": {
@@ -16531,11 +16552,13 @@
                   "secret": {
                     "description": "Webhook secret used to calculate signature. If empty, the default project secret will be used.",
                     "type": "string",
+                    "nullable": true,
                     "example": "secr3t"
                   },
                   "description": {
                     "description": "Webhook description",
                     "type": "string",
+                    "nullable": true,
                     "example": "My webhook for chat notifications"
                   },
                   "events": {
@@ -18478,6 +18501,7 @@
                   "point_of_contact": {
                     "description": "(Optional) User ID of the point of contact for the project. Pass `null` to unset.",
                     "type": "string",
+                    "nullable": true,
                     "example": "abcd1234"
                   },
                   "main_format": {
@@ -20064,6 +20088,7 @@
                   "value": {
                     "description": "Annotation value",
                     "type": "string",
+                    "nullable": true,
                     "example": "Some value..."
                   },
                   "branch": {
@@ -20294,6 +20319,7 @@
                   "value": {
                     "description": "Annotation value",
                     "type": "string",
+                    "nullable": true,
                     "example": "Some value..."
                   },
                   "branch": {
@@ -20713,6 +20739,7 @@
                   "value": {
                     "description": "Value of the variable",
                     "type": "string",
+                    "nullable": true,
                     "example": "Hello World"
                   }
                 }
@@ -22673,6 +22700,7 @@
                   "description": {
                     "description": "Description of the screenshot",
                     "type": "string",
+                    "nullable": true,
                     "example": "A screenshot description"
                   },
                   "filename": {
@@ -23103,6 +23131,7 @@
                   "description": {
                     "description": "Description of term",
                     "type": "string",
+                    "nullable": true,
                     "example": "Use this when refering to our company"
                   },
                   "translatable": {
@@ -24878,6 +24907,7 @@
                   "name_plural": {
                     "description": "Plural name for the key (used in some file formats, e.g. Gettext)",
                     "type": "string",
+                    "nullable": true,
                     "example": "home.index.headlines"
                   },
                   "data_type": {
@@ -24921,16 +24951,19 @@
                   "original_file": {
                     "description": "Original file attribute. Used in some formats, e.g. XLIFF.",
                     "type": "string",
+                    "nullable": true,
                     "example": null
                   },
                   "localized_format_string": {
                     "description": "NSStringLocalizedFormatKey attribute. Used in .stringsdict format.",
                     "type": "string",
+                    "nullable": true,
                     "example": null
                   },
                   "localized_format_key": {
                     "description": "NSStringLocalizedFormatKey attribute. Used in .stringsdict format.",
                     "type": "string",
+                    "nullable": true,
                     "example": null
                   },
                   "custom_metadata": {
@@ -31799,6 +31832,7 @@
                   "briefing": {
                     "description": "Briefing for the translators",
                     "type": "string",
+                    "nullable": true,
                     "example": "text"
                   },
                   "autotranslate": {

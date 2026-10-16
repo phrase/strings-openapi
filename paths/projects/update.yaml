@@ -72,6 +72,7 @@ requestBody:
           point_of_contact:
             description: (Optional) User ID of the point of contact for the project. Pass `null` to unset.
             type: string
+            nullable: true
             example: abcd1234
           main_format:
             description: (Optional) Main file format specified by its API Extension name. Used for locale downloads if no format is specified. For API Extension names of available file formats see [Format Guide](https://support.phrase.com/hc/en-us/sections/6111343326364) or our [Formats API Endpoint](#formats).

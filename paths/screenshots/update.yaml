@@ -71,6 +71,7 @@ requestBody:
           description:
             description: Description of the screenshot
             type: string
+            nullable: true
             example: A screenshot description
           filename:
             description: Screenshot file
