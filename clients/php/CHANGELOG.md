@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.28.0](https://github.com/phrase/strings-openapi/compare/php-v3.27.0...php-v3.28.0) (2026-10-16)
+
+
+### Features
+
+* **API:** add include_branches field to automations request and response #STRINGS-3748 ([#1329](https://github.com/phrase/strings-openapi/issues/1329)) ([0219fce](https://github.com/phrase/strings-openapi/commit/0219fce491ceaa02a78ffddb72349ea27cd56d47))
+* **API:** add status filter to webhook deliveries list ([#1317](https://github.com/phrase/strings-openapi/issues/1317)) ([3890f8c](https://github.com/phrase/strings-openapi/commit/3890f8cef2fc7195b0920ccfc2b323c72b56d5ca))
+
 ## [3.27.0](https://github.com/phrase/strings-openapi/compare/php-v3.26.0...php-v3.27.0) (2026-10-08)
 
 
