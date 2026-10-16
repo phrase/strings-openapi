@@ -35,6 +35,12 @@ automation:
     include_only_updated_locales:
       type: boolean
       description: When `true`, the automation only acts on locales that changed since its last run.
+    include_branches:
+      type: boolean
+      description: >
+        When true, the automation targets branches of the configured projects in
+        addition to the main project. Requires the designated job owner to have
+        permission to create jobs in branches for every configured project.
     tags:
       type: array
       items:
