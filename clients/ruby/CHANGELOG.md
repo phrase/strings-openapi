@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.31.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.30.1...ruby-v4.31.0) (2026-10-16)
+
+
+### Features
+
+* **API:** add include_branches field to automations request and response #STRINGS-3748 ([#1329](https://github.com/phrase/strings-openapi/issues/1329)) ([0219fce](https://github.com/phrase/strings-openapi/commit/0219fce491ceaa02a78ffddb72349ea27cd56d47))
+* **API:** add status filter to webhook deliveries list ([#1317](https://github.com/phrase/strings-openapi/issues/1317)) ([3890f8c](https://github.com/phrase/strings-openapi/commit/3890f8cef2fc7195b0920ccfc2b323c72b56d5ca))
+
 ## [4.30.1](https://github.com/phrase/strings-openapi/compare/ruby-v4.30.0...ruby-v4.30.1) (2026-10-05)
 
 
