@@ -33,7 +33,9 @@ parameters:
 
     The following qualifiers are supported in the query:
     
-    * `id:translation_id,...` for queries on a comma-separated list of ids
+    * `id:translation_id,...` for queries on a comma-separated list of translation ids
+    * `locale.id:locale_id,...` for queries on a comma-separated list of locale ids
+    * `locale.name:locale_name,...` for queries on a comma-separated list of locale names
     * `unverified:{true|false}` for verification status
     * `tags:XYZ` for tags on the translation
     * `excluded:{true|false}` for exclusion status

@@ -1,6 +1,9 @@
 ---
 summary: Unverify translations by query
-description: Mark translations matching query as unverified.
+description: |
+  Mark translations matching query as unverified.
+
+  To unverify the translations of specific keys, filter by key id (and optionally locale) directly, for example `key.id:KEY_ID_1,KEY_ID_2 locale.id:LOCALE_ID`. There is no need to look up translation ids first.
 operationId: translations/unverify-collection
 tags:
 - Translations
@@ -67,7 +70,11 @@ requestBody:
               *Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*
 
               The following qualifiers are supported in the query:
-              * `id:translation_id,...` for queries on a comma-separated list of ids
+              * `id:translation_id,...` for queries on a comma-separated list of translation ids
+              * `key.id:key_id,...` for queries on a comma-separated list of translation key ids
+              * `key.name:key_name,...` for queries on a comma-separated list of translation key names
+              * `locale.id:locale_id,...` for queries on a comma-separated list of locale ids
+              * `locale.name:locale_name,...` for queries on a comma-separated list of locale names
               * `tags:XYZ` for tags on the translation
               * `unverified:{true|false}` for verification status
               * `excluded:{true|false}` for exclusion status
