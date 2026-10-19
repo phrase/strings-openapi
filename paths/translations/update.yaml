@@ -61,17 +61,15 @@ requestBody:
           branch:
             description: specify the branch to use
             type: string
-            nullable: true
             example: my-feature-branch
           content:
-            description: Translation content. Send an empty string to clear the translation's content; omit the field to leave it unchanged. Prefer an empty string over `null`; the Phrase CLI drops `null` values before sending.
+            description: Translation content. Send an empty string or `null` to clear the translation's content; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example: My translation
           plural_suffix:
             description: 'Plural suffix. Can be one of: zero, one, two, few, many, other. Must be specified if the key associated to the translation is pluralized.'
             type: string
-            nullable: true
             example:
           unverified:
             description: Indicates whether translation is unverified. Part of the [Advanced Workflows](https://support.phrase.com/hc/en-us/articles/5784094755484) feature.
