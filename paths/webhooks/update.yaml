@@ -65,10 +65,9 @@ requestBody:
           secret:
             description: Webhook secret used to calculate signature. If empty, the default project secret will be used.
             type: string
-            nullable: true
             example: secr3t
           description:
-            description: Webhook description
+            description: Webhook description. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example: My webhook for chat notifications

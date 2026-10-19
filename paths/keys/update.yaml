@@ -87,7 +87,7 @@ requestBody:
             type: boolean
             example:
           name_plural:
-            description: Plural name for the key (used in some file formats, e.g. Gettext)
+            description: Plural name for the key (used in some file formats, e.g. Gettext) Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example: home.index.headlines
@@ -123,17 +123,17 @@ requestBody:
             type: boolean
             example:
           original_file:
-            description: Original file attribute. Used in some formats, e.g. XLIFF.
+            description: Original file attribute. Used in some formats, e.g. XLIFF. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example:
           localized_format_string:
-            description: NSStringLocalizedFormatKey attribute. Used in .stringsdict format.
+            description: NSStringLocalizedFormatKey attribute. Used in .stringsdict format. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example:
           localized_format_key:
-            description: NSStringLocalizedFormatKey attribute. Used in .stringsdict format.
+            description: NSStringLocalizedFormatKey attribute. Used in .stringsdict format. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example:

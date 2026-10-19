@@ -87,7 +87,7 @@ requestBody:
             type: string
             example: abcd1234abcd1234abcd1234abcd1234
           fallback_locale_id:
-            description: Fallback locale for empty translations. Can be a locale name or id.
+            description: Fallback locale for empty translations. Can be a locale name or id. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example: abcd1234abcd1234abcd1234abcd1234
@@ -108,7 +108,7 @@ requestBody:
             type: boolean
             example:
           language_ai_profile:
-            description: Identifier of the Language AI profile to use for this locale.
+            description: Identifier of the Language AI profile to use for this locale. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example: abcd1234abcd1234abcd1234abcd1234

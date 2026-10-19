@@ -70,7 +70,7 @@ requestBody:
             type: string
             example: My Android Project
           point_of_contact:
-            description: (Optional) User ID of the point of contact for the project. Pass `null` to unset.
+            description: (Optional) User ID of the point of contact for the project. Pass `null` or an empty string to unset. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example: abcd1234

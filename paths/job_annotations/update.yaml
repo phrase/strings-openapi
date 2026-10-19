@@ -61,7 +61,6 @@ requestBody:
           value:
             description: Annotation value
             type: string
-            nullable: true
             example: Some value...
           branch:
             description: Branch name of the job

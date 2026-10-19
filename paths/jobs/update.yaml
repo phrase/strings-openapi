@@ -65,7 +65,7 @@ requestBody:
             type: string
             example: de
           briefing:
-            description: Briefing for the translators
+            description: Briefing for the translators. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example: de-DE
@@ -81,7 +81,7 @@ requestBody:
             format: date-time
             example: '2017-08-16'
           ticket_url:
-            description: URL to a ticket for this job (e.g. Jira, Trello)
+            description: URL to a ticket for this job (e.g. Jira, Trello) Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example: https://example.atlassian.net/browse/FOO

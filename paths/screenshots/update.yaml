@@ -69,7 +69,7 @@ requestBody:
             type: string
             example: A screenshot name
           description:
-            description: Description of the screenshot
+            description: Description of the screenshot. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example: A screenshot description

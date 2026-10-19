@@ -7680,7 +7680,7 @@
                     "example": "Web application style guide"
                   },
                   "audience": {
-                    "description": "Audience description",
+                    "description": "Audience description. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "customer-facing"
@@ -7726,49 +7726,49 @@
                     "example": "technical"
                   },
                   "business": {
-                    "description": "Description of the business",
+                    "description": "Description of the business. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "We are a travel site that helps customers find the best hotels and flights."
                   },
                   "company_branding": {
-                    "description": "Company branding to remain consistent.",
+                    "description": "Company branding to remain consistent. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "ACME Inc. should never be translated."
                   },
                   "formatting": {
-                    "description": "Formatting requirements and character limitations.",
+                    "description": "Formatting requirements and character limitations. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "Never use capital letters"
                   },
                   "glossary_terms": {
-                    "description": "List of terms and/or phrases that need to be translated consistently.",
+                    "description": "List of terms and/or phrases that need to be translated consistently. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "Apartment, cabin, loft"
                   },
                   "grammar_consistency": {
-                    "description": "Formal or informal pronouns, consistent conjugation, grammatical gender",
+                    "description": "Formal or informal pronouns, consistent conjugation, grammatical gender. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": ""
                   },
                   "literal_translation": {
-                    "description": "Can be one of: Cultural/Conversational, Literal, Neutral.",
+                    "description": "Can be one of: Cultural/Conversational, Literal, Neutral. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "Neutral"
                   },
                   "overall_tone": {
-                    "description": "Tone requirement descriptions",
+                    "description": "Tone requirement descriptions. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "Tone should be fun and light"
                   },
                   "samples": {
-                    "description": "Provide links to sample product pages, FAQ pages, etc. to give the translator a point of reference. You can also provide past translations. Even snippets or short paragraphs are helpful for maintaining consistency.",
+                    "description": "Provide links to sample product pages, FAQ pages, etc. to give the translator a point of reference. You can also provide past translations. Even snippets or short paragraphs are helpful for maintaining consistency. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "http://www.myexample.com/my/document/path/to/samples.pdf"
@@ -8171,7 +8171,7 @@
                     }
                   },
                   "description": {
-                    "description": "description of property",
+                    "description": "description of property. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "example": "A healthy snack for all ages",
                     "type": "string",
                     "nullable": true
@@ -9949,7 +9949,7 @@
                     "example": "abcd1234abcd1234abcd1234abcd1234"
                   },
                   "fallback_locale_id": {
-                    "description": "Fallback locale for empty translations. Can be a locale name or id.",
+                    "description": "Fallback locale for empty translations. Can be a locale name or id. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "abcd1234abcd1234abcd1234abcd1234"
@@ -9975,7 +9975,7 @@
                     "example": null
                   },
                   "language_ai_profile": {
-                    "description": "Identifier of the Language AI profile to use for this locale.",
+                    "description": "Identifier of the Language AI profile to use for this locale. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "abcd1234abcd1234abcd1234abcd1234"
@@ -11511,7 +11511,7 @@
                 "title": "release/update/parameters",
                 "properties": {
                   "description": {
-                    "description": "Description of the release",
+                    "description": "Description of the release. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "My first Release"
@@ -11528,13 +11528,13 @@
                     ]
                   },
                   "app_min_version": {
-                    "description": "Minimum version of the app that the release supports in semver format",
+                    "description": "Minimum version of the app that the release supports in semver format. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "2.5.0"
                   },
                   "app_max_version": {
-                    "description": "Maximum version of the app that the release supports in semver format",
+                    "description": "Maximum version of the app that the release supports in semver format. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "3.0.0"
@@ -12010,13 +12010,11 @@
                   "app_min_version": {
                     "description": "The created releases will be available only for apps with version greater or equal to this value",
                     "type": "string",
-                    "nullable": true,
                     "example": "1.0.0"
                   },
                   "app_max_version": {
                     "description": "The created releases will be available only for apps with version less or equal to this value",
                     "type": "string",
-                    "nullable": true,
                     "example": "2.0.0"
                   }
                 }
@@ -12662,7 +12660,7 @@
                     "example": "de"
                   },
                   "briefing": {
-                    "description": "Briefing for the translators",
+                    "description": "Briefing for the translators. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "de-DE"
@@ -12681,7 +12679,7 @@
                     "example": "2017-08-16"
                   },
                   "ticket_url": {
-                    "description": "URL to a ticket for this job (e.g. Jira, Trello)",
+                    "description": "URL to a ticket for this job (e.g. Jira, Trello) Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "https://example.atlassian.net/browse/FOO"
@@ -13754,7 +13752,7 @@
                     "example": "template"
                   },
                   "briefing": {
-                    "description": "Briefing for the translators",
+                    "description": "Briefing for the translators. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "text"
@@ -14602,7 +14600,6 @@
                   "note": {
                     "description": "A note to help you remember what the access is used for.",
                     "type": "string",
-                    "nullable": true,
                     "example": "My Deploy Script"
                   },
                   "scopes": {
@@ -16570,11 +16567,10 @@
                   "secret": {
                     "description": "Webhook secret used to calculate signature. If empty, the default project secret will be used.",
                     "type": "string",
-                    "nullable": true,
                     "example": "secr3t"
                   },
                   "description": {
-                    "description": "Webhook description",
+                    "description": "Webhook description. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "My webhook for chat notifications"
@@ -18517,7 +18513,7 @@
                     "example": "My Android Project"
                   },
                   "point_of_contact": {
-                    "description": "(Optional) User ID of the point of contact for the project. Pass `null` to unset.",
+                    "description": "(Optional) User ID of the point of contact for the project. Pass `null` or an empty string to unset. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "abcd1234"
@@ -20106,7 +20102,6 @@
                   "value": {
                     "description": "Annotation value",
                     "type": "string",
-                    "nullable": true,
                     "example": "Some value..."
                   },
                   "branch": {
@@ -20337,7 +20332,6 @@
                   "value": {
                     "description": "Annotation value",
                     "type": "string",
-                    "nullable": true,
                     "example": "Some value..."
                   },
                   "branch": {
@@ -20757,7 +20751,6 @@
                   "value": {
                     "description": "Value of the variable",
                     "type": "string",
-                    "nullable": true,
                     "example": "Hello World"
                   }
                 }
@@ -22716,7 +22709,7 @@
                     "example": "A screenshot name"
                   },
                   "description": {
-                    "description": "Description of the screenshot",
+                    "description": "Description of the screenshot. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "A screenshot description"
@@ -23147,7 +23140,7 @@
                     "example": "MyCompany"
                   },
                   "description": {
-                    "description": "Description of term",
+                    "description": "Description of term. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "Use this when refering to our company"
@@ -24924,7 +24917,7 @@
                     "example": null
                   },
                   "name_plural": {
-                    "description": "Plural name for the key (used in some file formats, e.g. Gettext)",
+                    "description": "Plural name for the key (used in some file formats, e.g. Gettext) Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "home.index.headlines"
@@ -24968,19 +24961,19 @@
                     "example": null
                   },
                   "original_file": {
-                    "description": "Original file attribute. Used in some formats, e.g. XLIFF.",
+                    "description": "Original file attribute. Used in some formats, e.g. XLIFF. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": null
                   },
                   "localized_format_string": {
-                    "description": "NSStringLocalizedFormatKey attribute. Used in .stringsdict format.",
+                    "description": "NSStringLocalizedFormatKey attribute. Used in .stringsdict format. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": null
                   },
                   "localized_format_key": {
-                    "description": "NSStringLocalizedFormatKey attribute. Used in .stringsdict format.",
+                    "description": "NSStringLocalizedFormatKey attribute. Used in .stringsdict format. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": null
@@ -31850,7 +31843,7 @@
                     "example": "template"
                   },
                   "briefing": {
-                    "description": "Briefing for the translators",
+                    "description": "Briefing for the translators. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
                     "nullable": true,
                     "example": "text"

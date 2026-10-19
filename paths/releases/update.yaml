@@ -61,7 +61,7 @@ requestBody:
         title: release/update/parameters
         properties:
           description:
-            description: Description of the release
+            description: Description of the release. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example: My first Release
@@ -74,12 +74,12 @@ requestBody:
             - android
             - ios
           app_min_version:
-            description: Minimum version of the app that the release supports in semver format
+            description: Minimum version of the app that the release supports in semver format. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example: 2.5.0
           app_max_version:
-            description: Maximum version of the app that the release supports in semver format
+            description: Maximum version of the app that the release supports in semver format. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
             nullable: true
             example: 3.0.0
