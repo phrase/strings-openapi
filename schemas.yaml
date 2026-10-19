@@ -102,6 +102,8 @@ schemas:
     "$ref": schemas/translation_order.yaml#/translation_order
   pre_translation:
     "$ref": schemas/pre_translation.yaml#/pre_translation
+  translation_query:
+    "$ref": schemas/translation_query.yaml#/translation_query
   translation_version:
     "$ref": schemas/translation_version.yaml#/translation_version
   translation_version_with_user:

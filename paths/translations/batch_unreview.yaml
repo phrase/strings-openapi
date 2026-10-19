@@ -60,23 +60,5 @@ requestBody:
             type: string
             example: my-feature-branch
           q:
-            description: |
-              Specify a query to find translations by content (including wildcards).
-
-              *Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*
-
-              The following qualifiers are supported in the query:
-              * `id:translation_id,...` for queries on a comma-separated list of translation ids
-              * `key.id:key_id,...` for queries on a comma-separated list of translation key ids
-              * `key.name:key_name,...` for queries on a comma-separated list of translation key names
-              * `locale.id:locale_id,...` for queries on a comma-separated list of locale ids
-              * `locale.name:locale_name,...` for queries on a comma-separated list of locale names
-              * `tags:XYZ` for tags on the translation
-              * `unverified:{true|false}` for verification status
-              * `excluded:{true|false}` for exclusion status
-              * `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries
-
-              Find more examples [here](/en/api/strings/usage-examples).
-            type: string
-            example: PhraseApp*%reviewed:true%20tags:feature,center
+            "$ref": "../../schemas/translation_query.yaml#/translation_query"
 x-cli-version: '2.41'
