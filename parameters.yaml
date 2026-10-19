@@ -310,6 +310,50 @@ translations_q:
   example: PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center
   schema:
     type: string
+translations_locale_q:
+  in: query
+  name: q
+  description: |
+    Specify a query to find translations by content (including wildcards).
+
+    *Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*
+
+    The following qualifiers are supported in the query:
+    * `id:translation_id,...` for queries on a comma-separated list of translation ids
+    * `key.id:key_id,...` for queries on a comma-separated list of translation key ids
+    * `key.name:key_name,...` for queries on a comma-separated list of translation key names
+    * `tags:XYZ` for tags on the translation
+    * `unverified:{true|false}` for verification status
+    * `excluded:{true|false}` for exclusion status
+    * `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries
+    * `reviewed_after:2013-02-21T00:00:00Z` for fetching translations that were reviewed after the given timestamp
+
+    Find more examples [here](/en/api/strings/usage-examples).
+  example: PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center
+  schema:
+    type: string
+translations_key_q:
+  in: query
+  name: q
+  description: |
+    Specify a query to find translations by content (including wildcards).
+
+    *Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*
+
+    The following qualifiers are supported in the query:
+    * `id:translation_id,...` for queries on a comma-separated list of translation ids
+    * `locale.id:locale_id,...` for queries on a comma-separated list of locale ids
+    * `locale.name:locale_name,...` for queries on a comma-separated list of locale names
+    * `tags:XYZ` for tags on the translation
+    * `unverified:{true|false}` for verification status
+    * `excluded:{true|false}` for exclusion status
+    * `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries
+    * `reviewed_after:2013-02-21T00:00:00Z` for fetching translations that were reviewed after the given timestamp
+
+    Find more examples [here](/en/api/strings/usage-examples).
+  example: PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center
+  schema:
+    type: string
 job_owner:
   description: filter by user owning job
   example: abcd1234cdef1234abcd1234cdef1234

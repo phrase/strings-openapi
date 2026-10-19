@@ -28,7 +28,7 @@ parameters:
   in: query
   schema:
     type: string
-- "$ref": "../../parameters.yaml#/translations_q"
+- "$ref": "../../parameters.yaml#/translations_key_q"
 responses:
   '200':
     description: OK

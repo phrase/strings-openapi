@@ -5835,6 +5835,24 @@
           "type": "string"
         }
       },
+      "translations_locale_q": {
+        "in": "query",
+        "name": "q",
+        "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n* `id:translation_id,...` for queries on a comma-separated list of translation ids\n* `key.id:key_id,...` for queries on a comma-separated list of translation key ids\n* `key.name:key_name,...` for queries on a comma-separated list of translation key names\n* `tags:XYZ` for tags on the translation\n* `unverified:{true|false}` for verification status\n* `excluded:{true|false}` for exclusion status\n* `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n* `reviewed_after:2013-02-21T00:00:00Z` for fetching translations that were reviewed after the given timestamp\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
+        "example": "PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "translations_key_q": {
+        "in": "query",
+        "name": "q",
+        "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n* `id:translation_id,...` for queries on a comma-separated list of translation ids\n* `locale.id:locale_id,...` for queries on a comma-separated list of locale ids\n* `locale.name:locale_name,...` for queries on a comma-separated list of locale names\n* `tags:XYZ` for tags on the translation\n* `unverified:{true|false}` for verification status\n* `excluded:{true|false}` for exclusion status\n* `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n* `reviewed_after:2013-02-21T00:00:00Z` for fetching translations that were reviewed after the given timestamp\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
+        "example": "PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center",
+        "schema": {
+          "type": "string"
+        }
+      },
       "job_owner": {
         "description": "filter by user owning job",
         "example": "abcd1234cdef1234abcd1234cdef1234",
@@ -28520,7 +28538,7 @@
             }
           },
           {
-            "$ref": "#/components/parameters/translations_q"
+            "$ref": "#/components/parameters/translations_locale_q"
           }
         ],
         "responses": {
@@ -28636,7 +28654,7 @@
             }
           },
           {
-            "$ref": "#/components/parameters/translations_q"
+            "$ref": "#/components/parameters/translations_key_q"
           }
         ],
         "responses": {
