@@ -74,7 +74,7 @@ requestBody:
             type: string
             example: home.index.headline
           description:
-            description: Key description (usually includes contextual information for translators). Send an empty string to clear the description; omit the field to leave it unchanged.
+            description: Key description (usually includes contextual information for translators). Send an empty string to clear the description; omit the field to leave it unchanged. Prefer an empty string over `null`; the Phrase CLI drops `null` values before sending.
             type: string
             nullable: true
             example: Some description worth knowing...
