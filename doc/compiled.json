@@ -24879,8 +24879,9 @@
                     "example": "home.index.headline"
                   },
                   "description": {
-                    "description": "Key description (usually includes contextual information for translators)",
+                    "description": "Key description (usually includes contextual information for translators). Send an empty string or `null` to clear the description; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
+                    "nullable": true,
                     "example": "Some description worth knowing..."
                   },
                   "plural": {
@@ -28998,8 +28999,9 @@
                     "example": "my-feature-branch"
                   },
                   "content": {
-                    "description": "Translation content",
+                    "description": "Translation content. Send an empty string or `null` to clear the translation's content; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.",
                     "type": "string",
+                    "nullable": true,
                     "example": "My translation"
                   },
                   "plural_suffix": {
