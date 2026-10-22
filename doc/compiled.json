@@ -12319,6 +12319,12 @@
                     "example": "2017-08-15",
                     "nullable": true
                   },
+                  "review_due_date": {
+                    "description": "Date the review of the job should be finished. Must not be before `due_date`.",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2017-08-16"
+                  },
                   "ticket_url": {
                     "description": "URL to a ticket for this job (e.g. Jira, Trello)",
                     "type": "string",
@@ -12643,6 +12649,12 @@
                     "format": "date-time",
                     "example": "2017-08-15",
                     "nullable": true
+                  },
+                  "review_due_date": {
+                    "description": "Date the review of the job should be finished. Must not be before `due_date`.",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2017-08-16"
                   },
                   "ticket_url": {
                     "description": "URL to a ticket for this job (e.g. Jira, Trello)",
