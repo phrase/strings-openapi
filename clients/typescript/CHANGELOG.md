@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.29.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.28.0...typescript-v3.29.0) (2026-10-22)
+
+
+### Features
+
+* **API:** add include_branches field to automations request and response #STRINGS-3748 ([#1329](https://github.com/phrase/strings-openapi/issues/1329)) ([0219fce](https://github.com/phrase/strings-openapi/commit/0219fce491ceaa02a78ffddb72349ea27cd56d47))
+* **API:** add status filter to webhook deliveries list ([#1317](https://github.com/phrase/strings-openapi/issues/1317)) ([3890f8c](https://github.com/phrase/strings-openapi/commit/3890f8cef2fc7195b0920ccfc2b323c72b56d5ca))
+
+
+### Bug Fixes
+
+* **API:** add review_due_date to job create and update requests #STRINGS-3938 ([#1333](https://github.com/phrase/strings-openapi/issues/1333)) ([312388b](https://github.com/phrase/strings-openapi/commit/312388b1f53e463455022cc1601f01d1a2aa65e7))
+
 ## [3.28.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.27.0...typescript-v3.28.0) (2026-10-08)
 
 
