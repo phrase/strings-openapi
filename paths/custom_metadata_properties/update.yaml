@@ -29,9 +29,10 @@ requestBody:
             items:
               type: string
           description:
-            description: description of property
+            description: description of property. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             example: A healthy snack for all ages
             type: string
+            nullable: true
           value_options:
             description: value options of property (only applies to single or multi select properties)
             example:

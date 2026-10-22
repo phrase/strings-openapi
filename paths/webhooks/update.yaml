@@ -67,8 +67,9 @@ requestBody:
             type: string
             example: secr3t
           description:
-            description: Webhook description
+            description: Webhook description. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
+            nullable: true
             example: My webhook for chat notifications
           events:
             description: List of event names to trigger the webhook (separated by comma)

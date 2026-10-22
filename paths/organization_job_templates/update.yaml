@@ -61,8 +61,9 @@ requestBody:
             type: string
             example: template
           briefing:
-            description: Briefing for the translators
+            description: Briefing for the translators. Send an empty string or `null` to clear the value; omit the field to leave it unchanged. The Phrase CLI drops `null` values before sending, so use an empty string there.
             type: string
+            nullable: true
             example: text
           autotranslate:
             description: Automatically translate the job using machine translation.
