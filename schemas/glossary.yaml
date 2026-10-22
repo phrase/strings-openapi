@@ -7,6 +7,10 @@ glossary:
       type: string
     name:
       type: string
+    terms_count:
+      type: integer
+      description: Number of terms in the glossary.
+      example: 42
     projects:
       type: array
       items:
@@ -24,6 +28,7 @@ glossary:
   example:
     id: abcd1234cdef1234abcd1234cdef1234
     name: My glossary
+    terms_count: 42
     projects:
     - id: abcd1234cdef1234abcd1234cdef1234
       name: My Android Project
