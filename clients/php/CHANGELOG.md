@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.30.0](https://github.com/phrase/strings-openapi/compare/php-v3.29.0...php-v3.30.0) (2026-10-23)
+
+
+### Features
+
+* **API:** add uploads array to repo sync import event show response #STRINGS-3739 ([#1342](https://github.com/phrase/strings-openapi/issues/1342)) ([b5a07de](https://github.com/phrase/strings-openapi/commit/b5a07decfa83958869e9ce9363d45646cc8fa523))
+
 ## [3.29.0](https://github.com/phrase/strings-openapi/compare/php-v3.28.0...php-v3.29.0) (2026-10-23)
 
 
