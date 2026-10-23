@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.30.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.29.0...typescript-v3.30.0) (2026-10-23)
+
+
+### Features
+
+* **API:** add terms_count field to glossary responses #STRINGS-3924 ([#1334](https://github.com/phrase/strings-openapi/issues/1334)) ([9eab4dc](https://github.com/phrase/strings-openapi/commit/9eab4dcc28074b581934d603ec6f653efe100d72))
+
+
+### Bug Fixes
+
+* **API:** make clearable string fields on update endpoints nullable #STRINGS-3652 ([#1326](https://github.com/phrase/strings-openapi/issues/1326)) ([3eb4b6f](https://github.com/phrase/strings-openapi/commit/3eb4b6fe2481f5ad199ae5e3c88eaecabc4d62da))
+* **API:** make translation content and key description nullable #STRINGS-3652 ([#1325](https://github.com/phrase/strings-openapi/issues/1325)) ([2f18702](https://github.com/phrase/strings-openapi/commit/2f1870215d4c84a382ab3cfa76dd9f922dad5903))
+
 ## [3.29.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.28.0...typescript-v3.29.0) (2026-10-22)
 
 
