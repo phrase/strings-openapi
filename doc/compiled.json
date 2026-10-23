@@ -5221,6 +5221,32 @@
             "items": {
               "type": "string"
             }
+          },
+          "uploads": {
+            "type": "array",
+            "nullable": true,
+            "description": "The uploads associated with this import event, or `null` if no upload batch has been created yet. Each entry identifies a single file upload by its public code (`id`) and its current public state (`state`). Present on show responses only; absent from list responses.\nPossible `state` values: `initialized`, `waiting_for_preview`, `processing`, `success`, `error`.\n",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "The upload's public identifier (code).",
+                  "example": "abcd1234"
+                },
+                "state": {
+                  "type": "string",
+                  "description": "The upload's current public state. Multiple internal processing states are collapsed to `processing`; both internal error states are collapsed to `error`.\n",
+                  "enum": [
+                    "initialized",
+                    "waiting_for_preview",
+                    "processing",
+                    "success",
+                    "error"
+                  ]
+                }
+              }
+            }
           }
         },
         "example": {
@@ -26772,6 +26798,12 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "description": "Forbidden. Possible causes: missing or insufficient OAuth scope (requires `read`); the `gitlab_sync` plan feature is not enabled for the account; the authenticated user does not have read access to Git Syncs on this account.\n"
           },
           "404": {
             "$ref": "#/components/responses/404"
