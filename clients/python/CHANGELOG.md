@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.32.0](https://github.com/phrase/strings-openapi/compare/python-v3.31.0...python-v3.32.0) (2026-10-23)
+
+
+### Features
+
+* **API:** add uploads array to repo sync import event show response #STRINGS-3739 ([#1342](https://github.com/phrase/strings-openapi/issues/1342)) ([b5a07de](https://github.com/phrase/strings-openapi/commit/b5a07decfa83958869e9ce9363d45646cc8fa523))
+
 ## [3.31.0](https://github.com/phrase/strings-openapi/compare/python-v3.30.0...python-v3.31.0) (2026-10-23)
 
 
