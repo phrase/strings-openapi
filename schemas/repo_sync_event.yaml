@@ -25,6 +25,37 @@ repo_sync_event:
       type: array
       items:
         type: string
+    uploads:
+      type: array
+      nullable: true
+      description: >
+        The uploads associated with this import event, or `null` if no
+        upload batch has been created yet. Each entry identifies a single
+        file upload by its public code (`id`) and its current public
+        state (`state`). Present on show responses only; absent from list
+        responses.
+
+        Possible `state` values: `initialized`, `waiting_for_preview`,
+        `processing`, `success`, `error`.
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The upload's public identifier (code).
+            example: abcd1234
+          state:
+            type: string
+            description: >
+              The upload's current public state. Multiple internal
+              processing states are collapsed to `processing`; both
+              internal error states are collapsed to `error`.
+            enum:
+              - initialized
+              - waiting_for_preview
+              - processing
+              - success
+              - error
   example:
     type: import
     created_at: '2015-01-28T09:52:53Z'

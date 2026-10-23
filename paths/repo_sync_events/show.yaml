@@ -25,6 +25,13 @@ responses:
         "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
   '400':
     "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    description: >
+      Forbidden. Possible causes: missing or insufficient OAuth scope (requires
+      `read`); the `gitlab_sync` plan feature is not enabled for the account;
+      the authenticated user does not have read access to Git Syncs on this account.
   '404':
     "$ref": "../../responses.yaml#/404"
   '429':
