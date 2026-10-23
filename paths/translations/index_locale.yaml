@@ -29,24 +29,7 @@ parameters:
   in: query
   schema:
     type: string
-- description: |
-    Specify a query to find translations by content (including wildcards).
-
-    *Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*
-
-    The following qualifiers are supported in the query:
-    - `id:translation_id,...` for queries on a comma-separated list of ids
-    - `unverified:{true|false}` for verification status
-    - `tags:XYZ` for tags on the translation
-    - `excluded:{true|false}` for exclusion status
-    - `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries
-
-    Find more examples [here](/en/api/strings/usage-examples).
-  example: PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center
-  name: q
-  in: query
-  schema:
-    type: string
+- "$ref": "../../parameters.yaml#/translations_locale_q"
 responses:
   '200':
     description: OK

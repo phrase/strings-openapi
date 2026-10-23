@@ -3127,6 +3127,11 @@
           }
         }
       },
+      "translation_query": {
+        "type": "string",
+        "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n* `id:translation_id,...` for queries on a comma-separated list of translation ids\n* `key.id:key_id,...` for queries on a comma-separated list of translation key ids\n* `key.name:key_name,...` for queries on a comma-separated list of translation key names\n* `locale.id:locale_id,...` for queries on a comma-separated list of locale ids\n* `locale.name:locale_name,...` for queries on a comma-separated list of locale names\n* `tags:XYZ` for tags on the translation\n* `unverified:{true|false}` for verification status\n* `excluded:{true|false}` for exclusion status\n* `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n* `reviewed_after:2013-02-21T00:00:00Z` for fetching translations that were reviewed after the given timestamp\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
+        "example": "key.name:home.title,home.subtitle locale.name:de-DE tags:feature"
+      },
       "translation_version": {
         "type": "object",
         "title": "translation_version",
@@ -5849,6 +5854,33 @@
         "example": "mykey* translated:true",
         "name": "q",
         "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "translations_q": {
+        "in": "query",
+        "name": "q",
+        "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n* `id:translation_id,...` for queries on a comma-separated list of translation ids\n* `key.id:key_id,...` for queries on a comma-separated list of translation key ids\n* `key.name:key_name,...` for queries on a comma-separated list of translation key names\n* `locale.id:locale_id,...` for queries on a comma-separated list of locale ids\n* `locale.name:locale_name,...` for queries on a comma-separated list of locale names\n* `tags:XYZ` for tags on the translation\n* `unverified:{true|false}` for verification status\n* `excluded:{true|false}` for exclusion status\n* `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n* `reviewed_after:2013-02-21T00:00:00Z` for fetching translations that were reviewed after the given timestamp\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
+        "example": "PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "translations_locale_q": {
+        "in": "query",
+        "name": "q",
+        "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n* `id:translation_id,...` for queries on a comma-separated list of translation ids\n* `key.id:key_id,...` for queries on a comma-separated list of translation key ids\n* `key.name:key_name,...` for queries on a comma-separated list of translation key names\n* `tags:XYZ` for tags on the translation\n* `unverified:{true|false}` for verification status\n* `excluded:{true|false}` for exclusion status\n* `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n* `reviewed_after:2013-02-21T00:00:00Z` for fetching translations that were reviewed after the given timestamp\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
+        "example": "PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "translations_key_q": {
+        "in": "query",
+        "name": "q",
+        "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n* `id:translation_id,...` for queries on a comma-separated list of translation ids\n* `locale.id:locale_id,...` for queries on a comma-separated list of locale ids\n* `locale.name:locale_name,...` for queries on a comma-separated list of locale names\n* `tags:XYZ` for tags on the translation\n* `unverified:{true|false}` for verification status\n* `excluded:{true|false}` for exclusion status\n* `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n* `reviewed_after:2013-02-21T00:00:00Z` for fetching translations that were reviewed after the given timestamp\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
+        "example": "PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center",
         "schema": {
           "type": "string"
         }
@@ -28335,13 +28367,7 @@
             }
           },
           {
-            "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n\n* `id:translation_id,...` for queries on a comma-separated list of ids\n* `tags:XYZ` for tags on the translation\n* `unverified:{true|false}` for verification status\n* `excluded:{true|false}` for exclusion status\n* `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n* `reviewed_after:2013-02-21T00:00:00Z` for fetching translations that were reviewed after the given timestamp\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
-            "example": "PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center",
-            "name": "q",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/translations_q"
           }
         ],
         "responses": {
@@ -28589,13 +28615,7 @@
             }
           },
           {
-            "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n- `id:translation_id,...` for queries on a comma-separated list of ids\n- `unverified:{true|false}` for verification status\n- `tags:XYZ` for tags on the translation\n- `excluded:{true|false}` for exclusion status\n- `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
-            "example": "PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center",
-            "name": "q",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/translations_locale_q"
           }
         ],
         "responses": {
@@ -28711,13 +28731,7 @@
             }
           },
           {
-            "description": "Specify a query to find translations by content (including wildcards).\n\nThe following qualifiers are supported in the query:\n\n* `id:translation_id,...` for queries on a comma-separated list of ids\n* `unverified:{true|false}` for verification status\n* `tags:XYZ` for tags on the translation\n* `excluded:{true|false}` for exclusion status\n* `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
-            "example": "PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center",
-            "name": "q",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/translations_key_q"
           }
         ],
         "responses": {
@@ -28882,9 +28896,7 @@
                     "example": "desc"
                   },
                   "q": {
-                    "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n\n- `id:translation_id,...` for queries on a comma-separated list of ids\n- `tags:XYZ` for tags on the translation\n- `unverified:{true|false}` for verification status\n- `excluded:{true|false}` for exclusion status\n- `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
-                    "type": "string",
-                    "example": "PhraseApp*%20unverified:true%20excluded:true%20tags:feature,center"
+                    "$ref": "#/components/schemas/translation_query"
                   }
                 }
               }
@@ -29739,9 +29751,7 @@
                     "example": "fc2f11dd6a658fa9652f6f0a9ebee688"
                   },
                   "q": {
-                    "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n* `id:translation_id,...` for queries on a comma-separated list of ids\n* `tags:XYZ` for tags on the translation\n* `unverified:{true|false}` for verification status\n* `excluded:{true|false}` for exclusion status\n* `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
-                    "type": "string",
-                    "example": "PhraseApp*%20unverified:true%20tags:feature,center"
+                    "$ref": "#/components/schemas/translation_query"
                   }
                 }
               }
@@ -29754,7 +29764,7 @@
     "/projects/{project_id}/translations/unverify": {
       "patch": {
         "summary": "Unverify translations by query",
-        "description": "Mark translations matching query as unverified.",
+        "description": "Mark translations matching query as unverified.\n\nTo unverify the translations of specific keys, filter by key id (and optionally locale) directly, for example `key.id:KEY_ID_1,KEY_ID_2 locale.id:LOCALE_ID`. There is no need to look up translation ids first.\n",
         "operationId": "translations/unverify-collection",
         "tags": [
           "Translations"
@@ -29833,9 +29843,7 @@
                     "example": "my-feature-branch"
                   },
                   "q": {
-                    "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n* `id:translation_id,...` for queries on a comma-separated list of ids\n* `tags:XYZ` for tags on the translation\n* `unverified:{true|false}` for verification status\n* `excluded:{true|false}` for exclusion status\n* `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
-                    "type": "string",
-                    "example": "PhraseApp*%20verified:true%20tags:feature,center"
+                    "$ref": "#/components/schemas/translation_query"
                   },
                   "sort": {
                     "description": "Sort criteria. Can be one of: key_name, created_at, updated_at.",
@@ -29937,9 +29945,7 @@
                     "example": "my-feature-branch"
                   },
                   "q": {
-                    "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n\n* `id:translation_id,...` for queries on a comma-separated list of ids\n* `tags:XYZ` for tags on the translation\n* `unverified:{true|false}` for verification status\n* `excluded:{true|false}` for exclusion status\n* `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
-                    "type": "string",
-                    "example": "PhraseApp*%reviewed:false%20tags:feature,center"
+                    "$ref": "#/components/schemas/translation_query"
                   }
                 }
               }
@@ -30031,9 +30037,7 @@
                     "example": "my-feature-branch"
                   },
                   "q": {
-                    "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n* `id:translation_id,...` for queries on a comma-separated list of ids\n* `tags:XYZ` for tags on the translation\n* `unverified:{true|false}` for verification status\n* `excluded:{true|false}` for exclusion status\n* `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
-                    "type": "string",
-                    "example": "PhraseApp*%reviewed:true%20tags:feature,center"
+                    "$ref": "#/components/schemas/translation_query"
                   }
                 }
               }
@@ -30122,9 +30126,7 @@
                     "example": "my-feature-branch"
                   },
                   "q": {
-                    "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n\n* `id:translation_id,...` for queries on a comma-separated list of ids\n* `tags:XYZ` for tags on the translation\n* `unverified:{true|false}` for verification status\n* `excluded:{true|false}` for exclusion status\n* `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
-                    "type": "string",
-                    "example": "PhraseApp*%20verified:true%20tags:feature,center"
+                    "$ref": "#/components/schemas/translation_query"
                   },
                   "sort": {
                     "description": "Sort criteria. Can be one of: key_name, created_at, updated_at.",
@@ -30223,9 +30225,7 @@
                     "example": "my-feature-branch"
                   },
                   "q": {
-                    "description": "Specify a query to find translations by content (including wildcards).\n\n*Note: Search is limited to 10000 results and may not include recently updated data (depending on the project size).*\n\nThe following qualifiers are supported in the query:\n- `id:translation_id,...` for queries on a comma-separated list of ids\n- `tags:XYZ` for tags on the translation\n- `unverified:{true|false}` for verification status\n- `excluded:{true|false}` for exclusion status\n- `updated_at:{>=|<=}2013-02-21T00:00:00Z` for date range queries\n\nFind more examples [here](/en/api/strings/usage-examples).\n",
-                    "type": "string",
-                    "example": "PhraseApp*%20verified:true%20tags:feature,center"
+                    "$ref": "#/components/schemas/translation_query"
                   },
                   "sort": {
                     "description": "Sort criteria. Can be one of: key_name, created_at, updated_at.",
