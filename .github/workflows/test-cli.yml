@@ -43,7 +43,7 @@ jobs:
           go build .
           go test -v ./...
       - name: Install Ruby and rspec
-        uses: ruby/setup-ruby@354a1ad156761f5ee2b7b13fa8e09943a5e8d252
+        uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
         with:
           ruby-version: '3.2'
           bundler-cache: true
@@ -53,7 +53,7 @@ jobs:
           cd ./clients/cli
           bundle exec rspec --format documentation
       - name: License check
-        uses: phrase/actions/lawa-ci@v1
+        uses: phrase/actions/lawa-ci@d2b850633ae97af7b9e7507bdb8ed8c8e2f3da5d # main, includes setup-ruby v1.335.0
         with:
           github-token: ${{ secrets.GH_LAWA_ACCESS_TOKEN }}
           decisions-file: .license-decisions.yml
