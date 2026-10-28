@@ -6,7 +6,8 @@ jobs:
     uses: phrase/actions/.github/workflows/lawa-npm-ci.yml@main
     with:
       node-version: "24.14.1"
-      ruby-version: 3.1.3
+      ruby-version: "3.3"
+      ruby-bundler-version: 2.5.23
       decisions-file: config/license-decisions.yml
     secrets:
       github-token: ${{ secrets.GH_LAWA_ACCESS_TOKEN }}
