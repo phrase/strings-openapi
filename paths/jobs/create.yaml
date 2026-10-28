@@ -28,8 +28,10 @@ responses:
   '401':
     "$ref": "../../responses.yaml#/401"
   '403':
-    "$ref": "../../responses.yaml#/403"
-    description: Forbidden. Returned when the access token lacks the `write` scope or when the requesting user is not allowed to create jobs in this project.
+    description: >
+      Forbidden. Returned when the OAuth token lacks the `write` scope
+      or when the authenticated user does not have permission to create
+      jobs in the given project.
   '422':
     "$ref": "../../responses.yaml#/422"
   '429':
@@ -114,7 +116,12 @@ requestBody:
             example:
             - abcd1234cdef1234abcd1234cdef1234
           job_template_id:
-            description: id of a job template you would like to model the created job after. Any manually added parameters will take preference over template attributes. Mutually exclusive with `target_locale_ids`.
+            description: >
+              id of a job template you would like to model the created job after.
+              Any manually added parameters will take preference over template attributes.
+              Mutually exclusive with `target_locale_ids`. The calling user must have
+              read access to the template; if the template exists but is not accessible,
+              the request returns 404.
             type: string
             example: abcd1234cdef1234abcd1234cdef1234
           autotranslate:
