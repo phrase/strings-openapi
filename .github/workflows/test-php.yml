@@ -19,7 +19,7 @@ jobs:
           version: '12.1'
           configuration: ./clients/php/phpunit.xml.dist
       - name: License check
-        uses: phrase/actions/lawa-ci@5de107f3791db1fd25c83d4bea22bad7ad00c274 # phrase/actions#41
+        uses: phrase/actions/lawa-ci@13b7fdde389e4f4c5dff6426b917eb242a1b7861 # phrase/actions main (#41)
         with:
           github-token: ${{ secrets.GH_LAWA_ACCESS_TOKEN }}
           decisions-file: .license-decisions.yml
