@@ -20,7 +20,7 @@ jobs:
           pip install -r requirements.txt -r test-requirements.txt
           pytest
       - name: License check
-        uses: phrase/actions/lawa-ci@c3d58738c105564266452945b38fc074e91c3e15 # phrase/actions#40
+        uses: phrase/actions/lawa-ci@ad0e5ea2c97fb2705dfea691a7a84334c3d3b1b3 # phrase/actions main (#40)
         with:
           github-token: ${{ secrets.GH_LAWA_ACCESS_TOKEN }}
           decisions-file: .license-decisions.yml
