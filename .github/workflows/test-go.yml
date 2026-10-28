@@ -19,6 +19,7 @@ jobs:
       - name: License check
         uses: phrase/actions/lawa-ci@d2b850633ae97af7b9e7507bdb8ed8c8e2f3da5d # main, includes setup-ruby v1.335.0
         with:
+          ruby-bundler-version: 2.5.23
           github-token: ${{ secrets.GH_LAWA_ACCESS_TOKEN }}
           decisions-file: .license-decisions.yml
           working-directory: clients/go
