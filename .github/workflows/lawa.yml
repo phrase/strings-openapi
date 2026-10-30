@@ -3,11 +3,9 @@ on: push
 jobs:
   lawa-npm-ci:
     name: NPM license checks
-    uses: phrase/actions/.github/workflows/lawa-npm-ci.yml@main
+    uses: phrase/actions/.github/workflows/lawa-npm-ci.yml@13b7fdde389e4f4c5dff6426b917eb242a1b7861 # phrase/actions main (#41)
     with:
       node-version: "24.14.1"
-      ruby-version: "3.3"
-      ruby-bundler-version: 2.5.23
       decisions-file: config/license-decisions.yml
     secrets:
       github-token: ${{ secrets.GH_LAWA_ACCESS_TOKEN }}

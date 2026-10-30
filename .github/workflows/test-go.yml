@@ -17,9 +17,8 @@ jobs:
           cd ./clients/go
           go test ./... -v
       - name: License check
-        uses: phrase/actions/lawa-ci@d2b850633ae97af7b9e7507bdb8ed8c8e2f3da5d # main, includes setup-ruby v1.335.0
+        uses: phrase/actions/lawa-ci@13b7fdde389e4f4c5dff6426b917eb242a1b7861 # phrase/actions main (#41)
         with:
-          ruby-bundler-version: 2.5.23
           github-token: ${{ secrets.GH_LAWA_ACCESS_TOKEN }}
           decisions-file: .license-decisions.yml
           working-directory: clients/go
