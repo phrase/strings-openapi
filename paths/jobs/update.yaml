@@ -96,4 +96,8 @@ requestBody:
             description: Automatically translate the job using machine translation
             type: boolean
             example: true
+          exclude_linked_child_keys:
+            description: Exclude linked child keys from the job. When set to `true`, linked child keys already in the job are removed and none can be added while the option is enabled.
+            type: boolean
+            example: false
 x-cli-version: '2.5'

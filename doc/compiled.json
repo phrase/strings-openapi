@@ -3782,6 +3782,11 @@
                 "type": "boolean",
                 "description": "`true` if the job has been locked by the project's job-locking workflow (translations attached to the job are read-only until the job advances).\n"
               },
+              "exclude_linked_child_keys": {
+                "type": "boolean",
+                "description": "`true` if linked child keys are excluded from this job. While enabled, linked child keys cannot be added to the job.\n",
+                "example": false
+              },
               "automation_id": {
                 "type": "string",
                 "nullable": true,
@@ -3996,6 +4001,11 @@
                 "items": {
                   "$ref": "#/components/schemas/locale_preview"
                 }
+              },
+              "exclude_linked_child_keys": {
+                "type": "boolean",
+                "description": "`true` if jobs created from this template exclude linked child keys.\n",
+                "example": false
               }
             },
             "example": {
@@ -4998,6 +5008,11 @@
                 "items": {
                   "$ref": "#/components/schemas/locale_preview"
                 }
+              },
+              "exclude_linked_child_keys": {
+                "type": "boolean",
+                "description": "`true` if jobs created from this template exclude linked child keys.\n",
+                "example": false
               }
             },
             "example": {
@@ -12447,6 +12462,11 @@
                     "description": "Automatically translate the job using machine translation.",
                     "type": "boolean",
                     "example": true
+                  },
+                  "exclude_linked_child_keys": {
+                    "description": "Exclude linked child keys from the job. While enabled, linked child keys cannot be added to the job. Defaults to `false`.",
+                    "type": "boolean",
+                    "example": false
                   }
                 }
               }
@@ -12755,6 +12775,11 @@
                     "description": "Automatically translate the job using machine translation",
                     "type": "boolean",
                     "example": true
+                  },
+                  "exclude_linked_child_keys": {
+                    "description": "Exclude linked child keys from the job. When set to `true`, linked child keys already in the job are removed and none can be added while the option is enabled.",
+                    "type": "boolean",
+                    "example": false
                   }
                 }
               }
@@ -13621,6 +13646,11 @@
                     "type": "boolean",
                     "example": true
                   },
+                  "exclude_linked_child_keys": {
+                    "description": "Exclude linked child keys from jobs created from this template. Defaults to `false`.",
+                    "type": "boolean",
+                    "example": false
+                  },
                   "source_locale_id": {
                     "description": "The API id of the source language. This locale will be set as source locale for the job template. If not provided, the project default locale will be used.",
                     "type": "string",
@@ -13818,6 +13848,11 @@
                     "description": "Automatically translate the job using machine translation.",
                     "type": "boolean",
                     "example": true
+                  },
+                  "exclude_linked_child_keys": {
+                    "description": "Exclude linked child keys from jobs created from this template.",
+                    "type": "boolean",
+                    "example": false
                   },
                   "source_locale_id": {
                     "description": "The API id of the source language. This locale will be set as source locale for the job template. If not provided, the project default locale will be used.",
@@ -31705,6 +31740,11 @@
                     "type": "boolean",
                     "example": true
                   },
+                  "exclude_linked_child_keys": {
+                    "description": "Exclude linked child keys from jobs created from this template. Defaults to `false`.",
+                    "type": "boolean",
+                    "example": false
+                  },
                   "owner_id": {
                     "description": "Code of the account member to set as the job template owner. When omitted\nor blank, no owner is pre-set; the user who creates a job from this template\nis assigned as its owner at job-creation time.\n",
                     "type": "string"
@@ -31883,6 +31923,11 @@
                     "description": "Automatically translate the job using machine translation.",
                     "type": "boolean",
                     "example": true
+                  },
+                  "exclude_linked_child_keys": {
+                    "description": "Exclude linked child keys from jobs created from this template.",
+                    "type": "boolean",
+                    "example": false
                   },
                   "owner_id": {
                     "description": "Code of the account member to set as the job template owner.\nPass an empty string to clear a previously set owner; when blank,\nthe owner is set to null and jobs created from this template will\ndefault to assigning the job creator as owner.\n",

@@ -30,6 +30,11 @@ job_details:
           type: boolean
           description: |
             `true` if the job has been locked by the project's job-locking workflow (translations attached to the job are read-only until the job advances).
+        exclude_linked_child_keys:
+          type: boolean
+          description: |
+            `true` if linked child keys are excluded from this job. While enabled, linked child keys cannot be added to the job.
+          example: false
         automation_id:
           type: string
           nullable: true
