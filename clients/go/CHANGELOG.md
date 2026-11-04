@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.37.0](https://github.com/phrase/strings-openapi/compare/go-v4.36.0...go-v4.37.0) (2026-11-04)
+
+
+### Features
+
+* **API:** add exclude_linked_child_keys to jobs and job templates #STRINGS-4424 ([#1356](https://github.com/phrase/strings-openapi/issues/1356)) ([46690ee](https://github.com/phrase/strings-openapi/commit/46690ee15758d6d500aa5eec5e264f1686f50200))
+
 ## [4.36.0](https://github.com/phrase/strings-openapi/compare/go-v4.35.0...go-v4.36.0) (2026-10-29)
 
 
