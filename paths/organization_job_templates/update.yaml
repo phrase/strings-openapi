@@ -69,6 +69,10 @@ requestBody:
             description: Automatically translate the job using machine translation.
             type: boolean
             example: true
+          exclude_linked_child_keys:
+            description: Exclude linked child keys from jobs created from this template.
+            type: boolean
+            example: false
           owner_id:
             description: |
               Code of the account member to set as the job template owner.

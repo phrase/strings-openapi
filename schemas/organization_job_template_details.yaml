@@ -13,6 +13,11 @@ organization_job_template_details:
         type: array
         items:
           "$ref": "./locale_preview.yaml#/locale_preview"
+      exclude_linked_child_keys:
+        type: boolean
+        description: |
+          `true` if jobs created from this template exclude linked child keys.
+        example: false
     example:
       owner:
         id: abcd1234cdef1234abcd1234cdef1234

@@ -72,6 +72,10 @@ requestBody:
             description: Automatically translate the job using machine translation.
             type: boolean
             example: true
+          exclude_linked_child_keys:
+            description: Exclude linked child keys from jobs created from this template. Defaults to `false`.
+            type: boolean
+            example: false
           source_locale_id:
             description: The API id of the source language. This locale will be set as source locale for the job template. If not provided, the project default locale will be used.
             type: string
