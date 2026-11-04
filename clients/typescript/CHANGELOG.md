@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.32.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.31.0...typescript-v3.32.0) (2026-11-04)
+
+
+### Features
+
+* **API:** add exclude_linked_child_keys to jobs and job templates #STRINGS-4424 ([#1356](https://github.com/phrase/strings-openapi/issues/1356)) ([46690ee](https://github.com/phrase/strings-openapi/commit/46690ee15758d6d500aa5eec5e264f1686f50200))
+
 ## [3.31.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.30.0...typescript-v3.31.0) (2026-10-23)
 
 
