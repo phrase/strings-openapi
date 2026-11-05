@@ -1,0 +1,15 @@
+---
+translation_key_linked_key_parent:
+  type: object
+  nullable: true
+  description: The parent key's public identifier and name. Set for child keys.
+  title: translation_key_linked_key_parent
+  properties:
+    id:
+      type: string
+      description: The parent key's public identifier (code).
+      example: abc12345def67890abc12345def67890
+    name:
+      type: string
+      description: The parent key's name.
+      example: home.welcome.title

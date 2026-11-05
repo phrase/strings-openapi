@@ -2882,40 +2882,8 @@
             "format": "date-time"
           },
           "linked_key": {
-            "description": "Describes this key's role in a parent–child link relationship.\nOnly present in the response when `include_linked_keys=true` is passed.\n`null` when the key has no active link (either unlinked, or the parent\nhas been deleted).\n",
-            "type": "object",
-            "properties": {
-              "role": {
-                "type": "string",
-                "enum": [
-                  "parent",
-                  "child"
-                ],
-                "description": "Whether this key is the parent or the child in the link relationship.\n"
-              },
-              "parent": {
-                "description": "The parent key's public identifier and name. Set for child keys; `null` for parent keys.\n",
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string",
-                    "description": "The parent key's public identifier (code).",
-                    "example": "abc12345def67890abc12345def67890"
-                  },
-                  "name": {
-                    "type": "string",
-                    "description": "The parent key's name.",
-                    "example": "home.welcome.title"
-                  }
-                }
-              },
-              "children_count": {
-                "type": "integer",
-                "nullable": true,
-                "description": "The number of linked child keys. Set for parent keys; `null` for child keys.\n",
-                "example": 3
-              }
-            }
+            "description": "Only returned by the list and search endpoints when `include_linked_keys=true` is passed. `null` means the key is not linked.\n",
+            "$ref": "#/components/schemas/translation_key_linked_key"
           }
         },
         "example": {
@@ -3000,6 +2968,54 @@
             }
           }
         ]
+      },
+      "translation_key_linked_key": {
+        "type": "object",
+        "nullable": true,
+        "title": "translation_key_linked_key",
+        "description": "Describes a key's role in a parent–child link relationship.",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "Whether this key is the parent or the child in the link relationship.",
+            "enum": [
+              "parent",
+              "child"
+            ]
+          },
+          "parent": {
+            "$ref": "#/components/schemas/translation_key_linked_key_parent"
+          },
+          "children_count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "The number of linked child keys. Set for parent keys.",
+            "example": 3
+          }
+        },
+        "example": {
+          "role": "parent",
+          "parent": null,
+          "children_count": 3
+        }
+      },
+      "translation_key_linked_key_parent": {
+        "type": "object",
+        "nullable": true,
+        "description": "The parent key's public identifier and name. Set for child keys.",
+        "title": "translation_key_linked_key_parent",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The parent key's public identifier (code).",
+            "example": "abc12345def67890abc12345def67890"
+          },
+          "name": {
+            "type": "string",
+            "description": "The parent key's name.",
+            "example": "home.welcome.title"
+          }
+        }
       },
       "affected_resources": {
         "type": "object",

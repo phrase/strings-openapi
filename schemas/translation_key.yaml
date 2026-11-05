@@ -28,41 +28,10 @@ translation_key:
       type: string
       format: date-time
     linked_key:
-      description: |
-        Describes this key's role in a parent–child link relationship.
-        Only present in the response when `include_linked_keys=true` is passed.
-        `null` when the key has no active link (either unlinked, or the parent
-        has been deleted).
-      type: object
-      properties:
-        role:
-          type: string
-          enum:
-            - parent
-            - child
-          description: >
-            Whether this key is the parent or the child in the link relationship.
-        parent:
-          description: >
-            The parent key's public identifier and name. Set for child keys;
-            `null` for parent keys.
-          type: object
-          properties:
-            id:
-              type: string
-              description: The parent key's public identifier (code).
-              example: "abc12345def67890abc12345def67890"
-            name:
-              type: string
-              description: The parent key's name.
-              example: "home.welcome.title"
-        children_count:
-          type: integer
-          nullable: true
-          description: >
-            The number of linked child keys. Set for parent keys;
-            `null` for child keys.
-          example: 3
+      description: >
+        Only returned by the list and search endpoints when
+        `include_linked_keys=true` is passed. `null` means the key is not linked.
+      "$ref": "./translation_key_linked_key.yaml#/translation_key_linked_key"
   example:
     id: abcd1234cdef1234abcd1234cdef1234
     name: home.index.headline

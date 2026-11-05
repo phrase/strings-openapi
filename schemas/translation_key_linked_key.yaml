@@ -1,0 +1,24 @@
+---
+translation_key_linked_key:
+  type: object
+  nullable: true
+  title: translation_key_linked_key
+  description: Describes a key's role in a parent–child link relationship.
+  properties:
+    role:
+      type: string
+      description: Whether this key is the parent or the child in the link relationship.
+      enum:
+      - parent
+      - child
+    parent:
+      "$ref": "./translation_key_linked_key_parent.yaml#/translation_key_linked_key_parent"
+    children_count:
+      type: integer
+      nullable: true
+      description: The number of linked child keys. Set for parent keys.
+      example: 3
+  example:
+    role: parent
+    parent:
+    children_count: 3
