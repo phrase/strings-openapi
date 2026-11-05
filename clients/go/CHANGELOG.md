@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.38.0](https://github.com/phrase/strings-openapi/compare/go-v4.37.0...go-v4.38.0) (2026-11-05)
+
+
+### Features
+
+* **API:** add linked_key field to key list responses #STRINGS-4425 ([#1361](https://github.com/phrase/strings-openapi/issues/1361)) ([e2cd0cd](https://github.com/phrase/strings-openapi/commit/e2cd0cdf327bed106f7c37f97324e77e997f0994))
+
 ## [4.37.0](https://github.com/phrase/strings-openapi/compare/go-v4.36.0...go-v4.37.0) (2026-11-04)
 
 
