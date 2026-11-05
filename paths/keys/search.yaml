@@ -9,6 +9,18 @@ parameters:
 - "$ref": "../../parameters.yaml#/project_id"
 - "$ref": "../../parameters.yaml#/page"
 - "$ref": "../../parameters.yaml#/per_page"
+- name: include_linked_keys
+  in: query
+  description: >
+    When set to `true`, each key object in the response includes a
+    `linked_key` field describing whether the key is a parent or child in a
+    key-link relationship, and the number of children (for parent keys) or
+    the parent's id and name (for child keys). Keys with no active link
+    return `linked_key: null`. Omit this parameter or set it to `false` to
+    leave the `linked_key` field out of the response entirely.
+  required: false
+  schema:
+    type: boolean
 responses:
   '200':
     description: OK

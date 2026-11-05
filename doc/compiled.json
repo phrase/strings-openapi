@@ -2880,6 +2880,10 @@
           "updated_at": {
             "type": "string",
             "format": "date-time"
+          },
+          "linked_key": {
+            "description": "Only returned by the list and search endpoints when `include_linked_keys=true` is passed. `null` means the key is not linked.\n",
+            "$ref": "#/components/schemas/translation_key_linked_key"
           }
         },
         "example": {
@@ -2964,6 +2968,54 @@
             }
           }
         ]
+      },
+      "translation_key_linked_key": {
+        "type": "object",
+        "nullable": true,
+        "title": "translation_key_linked_key",
+        "description": "Describes a key's role in a parent–child link relationship.",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "Whether this key is the parent or the child in the link relationship.",
+            "enum": [
+              "parent",
+              "child"
+            ]
+          },
+          "parent": {
+            "$ref": "#/components/schemas/translation_key_linked_key_parent"
+          },
+          "children_count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "The number of linked child keys. Set for parent keys.",
+            "example": 3
+          }
+        },
+        "example": {
+          "role": "parent",
+          "parent": null,
+          "children_count": 3
+        }
+      },
+      "translation_key_linked_key_parent": {
+        "type": "object",
+        "nullable": true,
+        "description": "The parent key's public identifier and name. Set for child keys.",
+        "title": "translation_key_linked_key_parent",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The parent key's public identifier (code).",
+            "example": "abc12345def67890abc12345def67890"
+          },
+          "name": {
+            "type": "string",
+            "description": "The parent key's name.",
+            "example": "home.welcome.title"
+          }
+        }
       },
       "affected_resources": {
         "type": "object",
@@ -24355,6 +24407,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "include_linked_keys",
+            "in": "query",
+            "description": "When set to `true`, each key object in the response includes a `linked_key` field describing whether the key is a parent or child in a key-link relationship, and the number of children (for parent keys) or the parent's id and name (for child keys). Keys with no active link return `linked_key: null`. Omit this parameter or set it to `false` to leave the `linked_key` field out of the response entirely.\n",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
@@ -24727,6 +24788,15 @@
           },
           {
             "$ref": "#/components/parameters/per_page"
+          },
+          {
+            "name": "include_linked_keys",
+            "in": "query",
+            "description": "When set to `true`, each key object in the response includes a `linked_key` field describing whether the key is a parent or child in a key-link relationship, and the number of children (for parent keys) or the parent's id and name (for child keys). Keys with no active link return `linked_key: null`. Omit this parameter or set it to `false` to leave the `linked_key` field out of the response entirely.\n",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {

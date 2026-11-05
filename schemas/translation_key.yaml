@@ -27,6 +27,11 @@ translation_key:
     updated_at:
       type: string
       format: date-time
+    linked_key:
+      description: >
+        Only returned by the list and search endpoints when
+        `include_linked_keys=true` is passed. `null` means the key is not linked.
+      "$ref": "./translation_key_linked_key.yaml#/translation_key_linked_key"
   example:
     id: abcd1234cdef1234abcd1234cdef1234
     name: home.index.headline

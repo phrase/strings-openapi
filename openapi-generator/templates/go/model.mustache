@@ -34,7 +34,7 @@ type {{classname}} struct {
 {{#description}}
 	// {{{description}}}
 {{/description}}
-	{{name}} {{#isNullable}}*{{/isNullable}}{{^isNullable}}{{#isBoolean}}*{{/isBoolean}}{{/isNullable}}{{{dataType}}} `{{#vendorExtensions.x-json-tag}}{{{.}}}{{/vendorExtensions.x-json-tag}}{{^vendorExtensions.x-json-tag}}json:"{{baseName}}{{^required}},omitempty{{/required}}"{{/vendorExtensions.x-json-tag}}{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{name}} {{#isNullable}}*{{/isNullable}}{{^isNullable}}{{#isBoolean}}*{{/isBoolean}}{{/isNullable}}{{#isModel}}{{#isNullable}}{{{complexType}}}{{/isNullable}}{{^isNullable}}{{{dataType}}}{{/isNullable}}{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}} `{{#vendorExtensions.x-json-tag}}{{{.}}}{{/vendorExtensions.x-json-tag}}{{^vendorExtensions.x-json-tag}}json:"{{baseName}}{{^required}},omitempty{{/required}}"{{/vendorExtensions.x-json-tag}}{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/allVars}}
 }
 {{/isEnum}}

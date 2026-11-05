@@ -96,6 +96,10 @@ schemas:
     "$ref": schemas/translation_key.yaml#/translation_key
   translation_key_details:
     "$ref": schemas/translation_key_details.yaml#/translation_key_details
+  translation_key_linked_key:
+    "$ref": schemas/translation_key_linked_key.yaml#/translation_key_linked_key
+  translation_key_linked_key_parent:
+    "$ref": schemas/translation_key_linked_key_parent.yaml#/translation_key_linked_key_parent
   affected_resources:
     "$ref": schemas/affected_resources.yaml#/affected_resources
   translation_order:
