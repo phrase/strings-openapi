@@ -2880,6 +2880,44 @@
           "updated_at": {
             "type": "string",
             "format": "date-time"
+          },
+          "linked_key": {
+            "nullable": true,
+            "description": "Describes this key's role in a parent–child link relationship.\nOnly present in the response when `include_linked_keys=true` is passed.\n`null` when the key has no active link (either unlinked, or the parent\nhas been deleted).\n",
+            "type": "object",
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": [
+                  "parent",
+                  "child"
+                ],
+                "description": "Whether this key is the parent or the child in the link relationship.\n"
+              },
+              "parent": {
+                "nullable": true,
+                "description": "The parent key's public identifier and name. Set for child keys; `null` for parent keys.\n",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "The parent key's public identifier (code).",
+                    "example": "abc12345def67890abc12345def67890"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The parent key's name.",
+                    "example": "home.welcome.title"
+                  }
+                }
+              },
+              "children_count": {
+                "type": "integer",
+                "nullable": true,
+                "description": "The number of linked child keys. Set for parent keys; `null` for child keys.\n",
+                "example": 3
+              }
+            }
           }
         },
         "example": {
@@ -24355,6 +24393,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "include_linked_keys",
+            "in": "query",
+            "description": "When set to `true`, each key object in the response includes a `linked_key` field describing whether the key is a parent or child in a key-link relationship, and the number of children (for parent keys) or the parent's id and name (for child keys). Keys with no active link return `linked_key: null`. Omit this parameter or set it to `false` to leave the `linked_key` field out of the response entirely.\n",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
@@ -24727,6 +24774,15 @@
           },
           {
             "$ref": "#/components/parameters/per_page"
+          },
+          {
+            "name": "include_linked_keys",
+            "in": "query",
+            "description": "When set to `true`, each key object in the response includes a `linked_key` field describing whether the key is a parent or child in a key-link relationship, and the number of children (for parent keys) or the parent's id and name (for child keys). Keys with no active link return `linked_key: null`. Omit this parameter or set it to `false` to leave the `linked_key` field out of the response entirely.\n",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
