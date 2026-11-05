@@ -2882,7 +2882,6 @@
             "format": "date-time"
           },
           "linked_key": {
-            "nullable": true,
             "description": "Describes this key's role in a parent–child link relationship.\nOnly present in the response when `include_linked_keys=true` is passed.\n`null` when the key has no active link (either unlinked, or the parent\nhas been deleted).\n",
             "type": "object",
             "properties": {
@@ -2895,7 +2894,6 @@
                 "description": "Whether this key is the parent or the child in the link relationship.\n"
               },
               "parent": {
-                "nullable": true,
                 "description": "The parent key's public identifier and name. Set for child keys; `null` for parent keys.\n",
                 "type": "object",
                 "properties": {

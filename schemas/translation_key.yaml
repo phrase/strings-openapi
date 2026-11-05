@@ -28,7 +28,6 @@ translation_key:
       type: string
       format: date-time
     linked_key:
-      nullable: true
       description: |
         Describes this key's role in a parent–child link relationship.
         Only present in the response when `include_linked_keys=true` is passed.
@@ -44,7 +43,6 @@ translation_key:
           description: >
             Whether this key is the parent or the child in the link relationship.
         parent:
-          nullable: true
           description: >
             The parent key's public identifier and name. Set for child keys;
             `null` for parent keys.

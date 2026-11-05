@@ -240,7 +240,8 @@ public class KeysApiTest {
         String order = null;
         String q = null;
         String localeId = null;
-        List<TranslationKey> response = api.keysList(projectId, xPhraseAppOTP, page, perPage, branch, sort, order, q, localeId);
+        Boolean includeLinkedKeys = null;
+        List<TranslationKey> response = api.keysList(projectId, xPhraseAppOTP, page, perPage, branch, sort, order, q, localeId, includeLinkedKeys);
 
         // TODO: test validations
     }
@@ -260,7 +261,8 @@ public class KeysApiTest {
         String xPhraseAppOTP = null;
         Integer page = null;
         Integer perPage = null;
-        List<TranslationKey> response = api.keysSearch(projectId, keysSearchParameters, xPhraseAppOTP, page, perPage);
+        Boolean includeLinkedKeys = null;
+        List<TranslationKey> response = api.keysSearch(projectId, keysSearchParameters, xPhraseAppOTP, page, perPage, includeLinkedKeys);
 
         // TODO: test validations
     }
