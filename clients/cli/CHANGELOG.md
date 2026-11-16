@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.74.0](https://github.com/phrase/strings-openapi/compare/cli-v2.73.0...cli-v2.74.0) (2026-11-16)
+
+
+### Features
+
+* **API:** add owner, export_triggers, and export_schedule to repo sync responses and request bodies #STRINGS-4401 ([#1370](https://github.com/phrase/strings-openapi/issues/1370)) ([8889946](https://github.com/phrase/strings-openapi/commit/8889946d3608a53b436e8c0e7dd8b5765687e916))
+
 ## [2.73.0](https://github.com/phrase/strings-openapi/compare/cli-v2.72.0...cli-v2.73.0) (2026-11-05)
 
 
