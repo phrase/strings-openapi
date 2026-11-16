@@ -3282,6 +3282,30 @@
           "gravatar_uid": "205e460b479e2e5b48aec07710c08d50"
         }
       },
+      "user_short": {
+        "type": "object",
+        "title": "user_short",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "gravatar_uid": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "id": "abcd1234cdef1234abcd1234cdef1234",
+          "username": "johndoe",
+          "name": "John Doe",
+          "gravatar_uid": "205e460b479e2e5b48aec07710c08d50"
+        }
+      },
       "user": {
         "type": "object",
         "title": "user",
@@ -5233,6 +5257,55 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "owner": {
+            "$ref": "#/components/schemas/user_short"
+          },
+          "export_triggers": {
+            "type": "array",
+            "description": "Events that trigger an automatic export. Only present when the automatic export feature is enabled for the account. Possible values: `schedule` (runs on the configured schedule), `branch_merged` (runs when a branch is merged in the connected repository), `job_completed` (runs when a translation job completes in the project).\n",
+            "items": {
+              "type": "string",
+              "enum": [
+                "schedule",
+                "branch_merged",
+                "job_completed"
+              ]
+            }
+          },
+          "export_schedule": {
+            "type": "object",
+            "nullable": true,
+            "description": "Schedule configuration for automatic exports. Only present when the automatic export feature is enabled for the account. `null` when the `schedule` trigger is not active.\n",
+            "properties": {
+              "frequency": {
+                "type": "string",
+                "description": "How often the export runs. `cron` means a fully custom cron expression is used (`cron_schedule` holds the raw expression).\n",
+                "enum": [
+                  "hour",
+                  "day",
+                  "week",
+                  "month",
+                  "cron"
+                ]
+              },
+              "cron_schedule": {
+                "type": "string",
+                "description": "The underlying cron expression. Derived automatically from `frequency`, `time`, and day fields when using a named frequency; provided verbatim when `frequency` is `cron`.\n",
+                "example": "0 9 * * 1"
+              },
+              "time_zone": {
+                "type": "string",
+                "description": "IANA time zone name used to interpret the schedule.",
+                "example": "Europe/Berlin"
+              },
+              "next_run_at": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true,
+                "description": "When the next scheduled export will run, in UTC."
+              }
+            }
           }
         },
         "example": {
@@ -26453,7 +26526,7 @@
             "$ref": "#/components/responses/404"
           },
           "422": {
-            "$ref": "#/components/responses/422"
+            "description": "Unprocessable. Returned when model validation fails (e.g. duplicate project + repo + branch combination, invalid `export_triggers` values) or when `export_triggers`/`export_schedule` are provided but the automatic export feature is not enabled for the account.\n"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -26543,6 +26616,62 @@
                     "description": "Custom API endpoint URL for self-hosted Git instances. Required when `connection_type` is `self_hosted`.",
                     "type": "string",
                     "example": "https://git.example.com/api/v4"
+                  },
+                  "owner_id": {
+                    "type": "string",
+                    "description": "Code of the user who will own this repo sync. Automated actions run as this user. Defaults to the account owner when not set.\n"
+                  },
+                  "export_triggers": {
+                    "type": "array",
+                    "description": "Events that should trigger an automatic export. Requires the automatic export feature to be enabled for the account; returns `422` otherwise. Accepted values: `schedule`, `branch_merged`, `job_completed`.\n",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "schedule",
+                        "branch_merged",
+                        "job_completed"
+                      ]
+                    }
+                  },
+                  "export_schedule": {
+                    "type": "object",
+                    "description": "Schedule settings for automatic exports. Required when `export_triggers` includes `schedule`. Requires the automatic export feature to be enabled.\n",
+                    "properties": {
+                      "frequency": {
+                        "type": "string",
+                        "enum": [
+                          "hour",
+                          "day",
+                          "week",
+                          "month",
+                          "cron"
+                        ]
+                      },
+                      "time": {
+                        "type": "string",
+                        "description": "Time of day for the export (HH:MM format). Used with `day`, `week`, and `month` frequencies.",
+                        "example": "09:00"
+                      },
+                      "time_zone": {
+                        "type": "string",
+                        "description": "IANA time zone name.",
+                        "example": "Europe/Berlin"
+                      },
+                      "days_of_week": {
+                        "type": "string",
+                        "description": "Comma-separated day numbers (0=Sunday … 6=Saturday). Used with `week` frequency.",
+                        "example": "1,3"
+                      },
+                      "day_of_month": {
+                        "type": "integer",
+                        "description": "Day of the month (1–31). Used with `month` frequency."
+                      },
+                      "cron_schedule": {
+                        "type": "string",
+                        "description": "Raw cron expression. Used when `frequency` is `cron`.",
+                        "example": "0 9 * * 1"
+                      }
+                    }
                   }
                 }
               }
@@ -26621,6 +26750,134 @@
           }
         ],
         "x-cli-version": "2.24"
+      },
+      "patch": {
+        "summary": "Update a repo sync",
+        "description": "Update settings for an existing Repo Sync. Sending `owner_id`, `export_triggers`, or `export_schedule` requires the caller to have `manage_github_sync?` permission on the project (returns `403` otherwise). Sending `export_triggers` or `export_schedule` when the automatic export feature is not enabled for the account returns `422`.\n",
+        "operationId": "repo_sync/update",
+        "tags": [
+          "Repo Syncs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-PhraseApp-OTP"
+          },
+          {
+            "$ref": "#/components/parameters/account_id"
+          },
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/repo_sync"
+                }
+              }
+            },
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "description": "Forbidden. Possible causes: insufficient OAuth scope (requires `write`); caller does not have `manage_git_syncs?` permission on the account; or `owner_id`, `export_triggers`, or `export_schedule` was provided but the caller does not have `manage_github_sync?` permission on the project.\n"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "description": "Unprocessable. Returned when model validation fails or when `export_triggers`/`export_schedule` are provided but the automatic export feature is not enabled for the account.\n"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "repo_sync/update/parameters",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Display name for the repo sync."
+                  },
+                  "owner_id": {
+                    "type": "string",
+                    "description": "Code of the user to assign as owner. Requires `manage_github_sync?` permission on the project; returns `403` if not satisfied.\n"
+                  },
+                  "export_triggers": {
+                    "type": "array",
+                    "description": "Replaces the current set of automatic export triggers. Requires `manage_github_sync?` permission on the project and the automatic export feature to be enabled for the account. Accepted values: `schedule`, `branch_merged`, `job_completed`.\n",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "schedule",
+                        "branch_merged",
+                        "job_completed"
+                      ]
+                    }
+                  },
+                  "export_schedule": {
+                    "type": "object",
+                    "description": "Updates the schedule for automatic exports. Only applied when `export_triggers` includes `schedule`. Requires `manage_github_sync?` permission and the automatic export feature to be enabled.\n",
+                    "properties": {
+                      "frequency": {
+                        "type": "string",
+                        "enum": [
+                          "hour",
+                          "day",
+                          "week",
+                          "month",
+                          "cron"
+                        ]
+                      },
+                      "time": {
+                        "type": "string",
+                        "example": "09:00"
+                      },
+                      "time_zone": {
+                        "type": "string",
+                        "example": "Europe/Berlin"
+                      },
+                      "days_of_week": {
+                        "type": "string",
+                        "example": "1,3"
+                      },
+                      "day_of_month": {
+                        "type": "integer"
+                      },
+                      "cron_schedule": {
+                        "type": "string",
+                        "example": "0 9 * * 1"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/accounts/{account_id}/repo_syncs/{id}/export": {

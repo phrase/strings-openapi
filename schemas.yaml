@@ -114,6 +114,8 @@ schemas:
     "$ref": schemas/translation_version_with_user.yaml#/translation_version_with_user
   user_preview:
     "$ref": schemas/user_preview.yaml#/user_preview
+  user_short:
+    "$ref": schemas/user_short.yaml#/user_short
   user:
     "$ref": schemas/user.yaml#/user
   current_user:
