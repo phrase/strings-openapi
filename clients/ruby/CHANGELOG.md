@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.35.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.34.0...ruby-v4.35.0) (2026-11-16)
+
+
+### Features
+
+* **API:** add owner, export_triggers, and export_schedule to repo sync responses and request bodies #STRINGS-4401 ([#1370](https://github.com/phrase/strings-openapi/issues/1370)) ([8889946](https://github.com/phrase/strings-openapi/commit/8889946d3608a53b436e8c0e7dd8b5765687e916))
+
 ## [4.34.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.33.0...ruby-v4.34.0) (2026-11-05)
 
 
