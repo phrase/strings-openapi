@@ -1,0 +1,105 @@
+---
+summary: Update a repo sync
+description: >
+  Update settings for an existing Repo Sync. Sending `owner_id`,
+  `export_triggers`, or `export_schedule` requires the caller to have
+  `manage_github_sync?` permission on the project (returns `403` otherwise).
+  Sending `export_triggers` or `export_schedule` when the automatic export
+  feature is not enabled for the account returns `422`.
+operationId: repo_sync/update
+tags:
+- Repo Syncs
+parameters:
+- "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+- "$ref": "../../parameters.yaml#/account_id"
+- "$ref": "../../parameters.yaml#/id"
+responses:
+  '200':
+    description: OK
+    content:
+      application/json:
+        schema:
+          "$ref": "../../schemas/repo_sync.yaml#/repo_sync"
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+  '400':
+    "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    description: >
+      Forbidden. Possible causes: insufficient OAuth scope (requires `write`);
+      caller does not have `manage_git_syncs?` permission on the account; or
+      `owner_id`, `export_triggers`, or `export_schedule` was provided but
+      the caller does not have `manage_github_sync?` permission on the project.
+  '404':
+    "$ref": "../../responses.yaml#/404"
+  '422':
+    "$ref": "../../responses.yaml#/422"
+  '429':
+    "$ref": "../../responses.yaml#/429"
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        title: repo_sync/update/parameters
+        properties:
+          name:
+            type: string
+            description: Display name for the repo sync.
+          owner_id:
+            type: string
+            description: >
+              Code of the user to assign as owner. Requires
+              `manage_github_sync?` permission on the project; returns `403`
+              if not satisfied.
+          export_triggers:
+            type: array
+            description: >
+              Replaces the current set of automatic export triggers. Requires
+              `manage_github_sync?` permission on the project and the
+              automatic export feature to be enabled for the account.
+              Accepted values: `schedule`, `branch_merged`, `job_completed`.
+            items:
+              type: string
+              enum:
+                - schedule
+                - branch_merged
+                - job_completed
+          export_schedule:
+            type: object
+            description: >
+              Updates the schedule for automatic exports. Only applied when
+              `export_triggers` includes `schedule`. Requires
+              `manage_github_sync?` permission and the automatic export
+              feature to be enabled.
+            properties:
+              frequency:
+                type: string
+                enum:
+                  - hour
+                  - day
+                  - week
+                  - month
+                  - cron
+              time:
+                type: string
+                example: "09:00"
+              time_zone:
+                type: string
+                example: "Europe/Berlin"
+              days_of_week:
+                type: string
+                example: "1,3"
+              day_of_month:
+                type: integer
+              cron_schedule:
+                type: string
+                example: "0 9 * * 1"

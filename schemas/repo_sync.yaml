@@ -38,6 +38,57 @@ repo_sync:
       type: string
       format: date-time
       nullable: true
+    owner:
+      "$ref": "./user_short.yaml#/user_short"
+    export_triggers:
+      type: array
+      description: >
+        Events that trigger an automatic export. Only present when the automatic
+        export feature is enabled for the account. Possible values: `schedule`
+        (runs on the configured schedule), `branch_merged` (runs when a branch
+        is merged in the connected repository), `job_completed` (runs when a
+        translation job completes in the project).
+      items:
+        type: string
+        enum:
+          - schedule
+          - branch_merged
+          - job_completed
+    export_schedule:
+      type: object
+      nullable: true
+      description: >
+        Schedule configuration for automatic exports. Only present when the
+        automatic export feature is enabled for the account. `null` when the
+        `schedule` trigger is not active.
+      properties:
+        frequency:
+          type: string
+          description: >
+            How often the export runs. `cron` means a fully custom cron
+            expression is used (`cron_schedule` holds the raw expression).
+          enum:
+            - hour
+            - day
+            - week
+            - month
+            - cron
+        cron_schedule:
+          type: string
+          description: >
+            The underlying cron expression. Derived automatically from
+            `frequency`, `time`, and day fields when using a named frequency;
+            provided verbatim when `frequency` is `cron`.
+          example: "0 9 * * 1"
+        time_zone:
+          type: string
+          description: IANA time zone name used to interpret the schedule.
+          example: "Europe/Berlin"
+        next_run_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the next scheduled export will run, in UTC.
   example:
     id: abcd1234cdef1234abcd1234cdef1234
     project:

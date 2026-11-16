@@ -126,4 +126,56 @@ requestBody:
             description: Custom API endpoint URL for self-hosted Git instances. Required when `connection_type` is `self_hosted`.
             type: string
             example: https://git.example.com/api/v4
+          owner_id:
+            type: string
+            description: >
+              Code of the user who will own this repo sync. Automated actions
+              run as this user. Defaults to the account owner when not set.
+          export_triggers:
+            type: array
+            description: >
+              Events that should trigger an automatic export. Requires the
+              automatic export feature to be enabled for the account; returns
+              `422` otherwise. Accepted values: `schedule`, `branch_merged`,
+              `job_completed`.
+            items:
+              type: string
+              enum:
+                - schedule
+                - branch_merged
+                - job_completed
+          export_schedule:
+            type: object
+            description: >
+              Schedule settings for automatic exports. Required when
+              `export_triggers` includes `schedule`. Requires the automatic
+              export feature to be enabled.
+            properties:
+              frequency:
+                type: string
+                enum:
+                  - hour
+                  - day
+                  - week
+                  - month
+                  - cron
+              time:
+                type: string
+                description: Time of day for the export (HH:MM format). Used with `day`, `week`, and `month` frequencies.
+                example: "09:00"
+              time_zone:
+                type: string
+                description: IANA time zone name.
+                example: "Europe/Berlin"
+              days_of_week:
+                type: string
+                description: Comma-separated day numbers (0=Sunday … 6=Saturday). Used with `week` frequency.
+                example: "1,3"
+              day_of_month:
+                type: integer
+                description: Day of the month (1–31). Used with `month` frequency.
+              cron_schedule:
+                type: string
+                description: Raw cron expression. Used when `frequency` is `cron`.
+                example: "0 9 * * 1"
 x-cli-version: '2.60'

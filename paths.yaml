@@ -545,6 +545,8 @@
 "/accounts/{account_id}/repo_syncs/{id}":
   get:
     "$ref": "./paths/repo_syncs/show.yaml"
+  patch:
+    "$ref": "./paths/repo_syncs/update.yaml"
 "/accounts/{account_id}/repo_syncs/{id}/export":
   post:
     "$ref": "./paths/repo_syncs/export.yaml"
