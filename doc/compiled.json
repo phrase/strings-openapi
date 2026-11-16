@@ -26526,7 +26526,7 @@
             "$ref": "#/components/responses/404"
           },
           "422": {
-            "description": "Unprocessable. Returned when model validation fails (e.g. duplicate project + repo + branch combination, invalid `export_triggers` values) or when `export_triggers`/`export_schedule` are provided but the automatic export feature is not enabled for the account.\n"
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -26804,7 +26804,7 @@
             "$ref": "#/components/responses/404"
           },
           "422": {
-            "description": "Unprocessable. Returned when model validation fails or when `export_triggers`/`export_schedule` are provided but the automatic export feature is not enabled for the account.\n"
+            "$ref": "#/components/responses/422"
           },
           "429": {
             "$ref": "#/components/responses/429"
