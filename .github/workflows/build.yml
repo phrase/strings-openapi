@@ -93,9 +93,18 @@ jobs:
             # unreleased master content isn't consumed by anyone.
             go mod download
             go build ./...
+            NEW_RELEASE=true
           fi
           git tag -a $PACKAGE_VERSION -m $PACKAGE_VERSION || true
           git push --tags origin master
+          if [ "$NEW_RELEASE" = true ]; then
+            # Keep a moving "latest" tag on the newest release. Only done for
+            # new release tags, not routine pushes, so it never points at
+            # unreleased master content. phrase-cli's release workflow
+            # excludes this tag (!latest) so it does not re-trigger.
+            git tag -f latest "$PACKAGE_VERSION"^{}
+            git push -f origin refs/tags/latest
+          fi
           else
           echo "  No changes, skipping."
           fi
