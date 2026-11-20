@@ -1,6 +1,8 @@
 package internal
 
 import (
+	"context"
+	"errors"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -35,7 +37,7 @@ func TestRateLimitTransport(t *testing.T) {
 		t.Run(c.name, func(t *testing.T) {
 			var calls int32
 			var slept []time.Duration
-			rateLimitSleep = func(d time.Duration) { slept = append(slept, d) }
+			rateLimitSleep = func(_ context.Context, d time.Duration) error { slept = append(slept, d); return nil }
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				body, _ := io.ReadAll(r.Body)
 				if string(body) != "payload" {
@@ -63,5 +65,28 @@ func TestRateLimitTransport(t *testing.T) {
 				t.Errorf("slept %v, want first delay %s", slept, c.wantDelay)
 			}
 		})
+	}
+}
+
+func TestRateLimitTransportCancelledDuringBackoff(t *testing.T) {
+	prevSleep := rateLimitSleep
+	t.Cleanup(func() { rateLimitSleep = prevSleep })
+	var calls int32
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		atomic.AddInt32(&calls, 1)
+		w.Header().Set("X-Rate-Limit-Reason", "global-concurrency")
+		w.WriteHeader(http.StatusTooManyRequests)
+	}))
+	defer srv.Close()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	rateLimitSleep = func(ctx context.Context, d time.Duration) error {
+		cancel()
+		return sleepContext(ctx, time.Hour)
+	}
+	req, _ := http.NewRequestWithContext(ctx, http.MethodPost, srv.URL, strings.NewReader("payload"))
+	_, err := rateLimitTransport{http.DefaultTransport}.RoundTrip(req)
+	if !errors.Is(err, context.Canceled) || calls != 1 {
+		t.Errorf("err=%v calls=%d, want context.Canceled after 1 call", err, calls)
 	}
 }

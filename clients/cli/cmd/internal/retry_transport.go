@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"net/http"
@@ -14,9 +15,21 @@ const (
 )
 
 var (
-	rateLimitSleep = time.Sleep
+	rateLimitSleep = sleepContext
 	rateLimitNow   = time.Now
 )
+
+// sleepContext waits for d or until ctx is done, whichever comes first.
+func sleepContext(ctx context.Context, d time.Duration) error {
+	timer := time.NewTimer(d)
+	defer timer.Stop()
+	select {
+	case <-timer.C:
+		return nil
+	case <-ctx.Done():
+		return ctx.Err()
+	}
+}
 
 // rateLimitTransport retries requests rejected with 429, either because of
 // the global concurrency limit (retried after a short delay) or the global
@@ -47,12 +60,12 @@ func (t rateLimitTransport) RoundTrip(req *http.Request) (*http.Response, error)
 		resp.Body.Close()
 
 		debugFprintln(fmt.Sprintf("Rate limited (%s), retrying in %s", resp.Header.Get("X-Rate-Limit-Reason"), delay))
-		select {
-		case <-req.Context().Done():
-			return nil, req.Context().Err()
-		default:
+		if err := rateLimitSleep(req.Context(), delay); err != nil {
+			if retry.Body != nil {
+				retry.Body.Close()
+			}
+			return nil, err
 		}
-		rateLimitSleep(delay)
 		req = retry
 	}
 }
