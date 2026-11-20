@@ -404,7 +404,7 @@ RSpec.describe "phrase pull" do
       mock_enqueue!("GET", en_download_path,
         status: 429,
         body: { error: "Concurrency limit exceeded" },
-        headers: { "X-Rate-Limit-Reason" => "global-concurrency" }
+        headers: { "x-rate-limit-reason" => "global-concurrency" }
       )
 
       r = run_cli("pull", config: config)
@@ -419,10 +419,10 @@ RSpec.describe "phrase pull" do
         status: 429,
         body: { error: "Rate limit exceeded" },
         headers: {
-          "X-Rate-Limit-Reason" => "global-rate",
-          "X-Rate-Limit-Limit" => "1000",
-          "X-Rate-Limit-Remaining" => "0",
-          "X-Rate-Limit-Reset" => (Time.now.to_i + 1).to_s
+          "x-rate-limit-reason" => "global-rate",
+          "x-rate-limit-limit" => "1000",
+          "x-rate-limit-remaining" => "0",
+          "x-rate-limit-reset" => (Time.now.to_i + 1).to_s
         }
       )
 
