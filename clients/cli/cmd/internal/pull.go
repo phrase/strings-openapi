@@ -138,6 +138,7 @@ func newClient() *phrase.APIClient {
 	if Config.Credentials.Host != "" {
 		cfg.BasePath = Config.Credentials.Host
 	}
+	cfg.HTTPClient = &http.Client{Transport: rateLimitTransport{http.DefaultTransport}}
 	return phrase.NewAPIClient(cfg)
 }
 
