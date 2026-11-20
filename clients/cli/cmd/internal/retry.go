@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"math/rand/v2"
 	"net/http"
 	"strconv"
 	"time"
@@ -14,7 +15,9 @@ import (
 const (
 	maxDownloadAttempts = 3
 	maxRateLimitRetries = 20
+	maxRateLimitWait    = 10 * time.Minute // total wait per request, then the 429 is returned
 	concurrencyDelay    = 250 * time.Millisecond
+	maxConcurrencyDelay = 5 * time.Second
 )
 
 var (
@@ -48,20 +51,24 @@ func retryTransient(fn func() (transient bool, err error)) error {
 	}
 }
 
-// rateLimitTransport retries requests rejected with 429, either because of
-// the global concurrency limit (retried after a short delay) or the global
-// rate limit (retried once the window resets).
+// rateLimitTransport retries requests rejected with 429. Rate limit
+// rejections are retried once the window resets (X-Rate-Limit-Reset), anything
+// else, e.g. the global concurrency limit, with exponential backoff.
 type rateLimitTransport struct {
 	next http.RoundTripper
 }
 
 func (t rateLimitTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+	var waited time.Duration
 	for attempt := 1; ; attempt++ {
 		resp, err := t.next.RoundTrip(req)
 		if err != nil || resp.StatusCode != http.StatusTooManyRequests || attempt > maxRateLimitRetries {
 			return resp, err
 		}
-		delay := rateLimitDelay(resp)
+		delay, untilReset := rateLimitDelay(resp, attempt)
+		if waited += delay; waited > maxRateLimitWait {
+			return resp, nil
+		}
 
 		// the body is needed to replay the request
 		retry := req.Clone(req.Context())
@@ -76,7 +83,7 @@ func (t rateLimitTransport) RoundTrip(req *http.Request) (*http.Response, error)
 		io.Copy(io.Discard, resp.Body)
 		resp.Body.Close()
 
-		if resp.Header.Get("X-Rate-Limit-Reason") == "global-rate" {
+		if untilReset {
 			print.Warn("Rate limit exceeded. Retrying in %s", delay.Round(time.Second))
 		} else {
 			debugFprintln(fmt.Sprintf("Concurrency limit exceeded, retrying in %s", delay))
@@ -91,14 +98,15 @@ func (t rateLimitTransport) RoundTrip(req *http.Request) (*http.Response, error)
 	}
 }
 
-func rateLimitDelay(resp *http.Response) time.Duration {
-	if resp.Header.Get("X-Rate-Limit-Reason") != "global-rate" {
-		return concurrencyDelay
+// rateLimitDelay returns how long to wait before retrying a 429, and whether
+// that is the time until the rate limit window resets.
+func rateLimitDelay(resp *http.Response, attempt int) (time.Duration, bool) {
+	if resp.Header.Get("X-Rate-Limit-Reason") != "global-concurrency" {
+		// X-Rate-Limit-Remaining is 0 here; X-Rate-Limit-Reset is the unix time the window ends.
+		if reset, err := strconv.ParseInt(resp.Header.Get("X-Rate-Limit-Reset"), 10, 64); err == nil {
+			return max(time.Unix(reset, 0).Sub(rateLimitNow())+time.Second, concurrencyDelay), true
+		}
 	}
-	// X-Rate-Limit-Remaining is 0 here; X-Rate-Limit-Reset is the unix time the window ends.
-	reset, err := strconv.ParseInt(resp.Header.Get("X-Rate-Limit-Reset"), 10, 64)
-	if err != nil {
-		return time.Second
-	}
-	return max(time.Unix(reset, 0).Sub(rateLimitNow())+time.Second, concurrencyDelay)
+	delay := min(concurrencyDelay<<(attempt-1), maxConcurrencyDelay)
+	return delay + rand.N(delay/2), false // jitter, so parallel workers don't retry in lockstep
 }
