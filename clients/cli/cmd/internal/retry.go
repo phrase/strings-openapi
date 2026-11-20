@@ -7,16 +7,19 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/phrase/phrase-cli/cmd/internal/print"
 )
 
 const (
+	maxDownloadAttempts = 3
 	maxRateLimitRetries = 20
 	concurrencyDelay    = 250 * time.Millisecond
 )
 
 var (
-	rateLimitSleep = sleepContext
-	rateLimitNow   = time.Now
+	retrySleep   = sleepContext
+	rateLimitNow = time.Now
 )
 
 // sleepContext waits for d or until ctx is done, whichever comes first.
@@ -28,6 +31,20 @@ func sleepContext(ctx context.Context, d time.Duration) error {
 		return nil
 	case <-ctx.Done():
 		return ctx.Err()
+	}
+}
+
+// retryTransient calls fn up to maxDownloadAttempts times for as long as it
+// fails with an error it reports as transient.
+func retryTransient(fn func() (transient bool, err error)) error {
+	for attempt := 1; ; attempt++ {
+		transient, err := fn()
+		if err == nil || !transient || attempt >= maxDownloadAttempts {
+			return err
+		}
+		delay := time.Second << (attempt - 1) // 1s, 2s
+		debugFprintln(fmt.Sprintf("Download attempt %d/%d failed: %s, retrying in %s", attempt, maxDownloadAttempts, err, delay))
+		retrySleep(context.Background(), delay)
 	}
 }
 
@@ -59,8 +76,12 @@ func (t rateLimitTransport) RoundTrip(req *http.Request) (*http.Response, error)
 		io.Copy(io.Discard, resp.Body)
 		resp.Body.Close()
 
-		debugFprintln(fmt.Sprintf("Rate limited (%s), retrying in %s", resp.Header.Get("X-Rate-Limit-Reason"), delay))
-		if err := rateLimitSleep(req.Context(), delay); err != nil {
+		if resp.Header.Get("X-Rate-Limit-Reason") == "global-rate" {
+			print.Warn("Rate limit exceeded. Retrying in %s", delay.Round(time.Second))
+		} else {
+			debugFprintln(fmt.Sprintf("Concurrency limit exceeded, retrying in %s", delay))
+		}
+		if err := retrySleep(req.Context(), delay); err != nil {
 			if retry.Body != nil {
 				retry.Body.Close()
 			}

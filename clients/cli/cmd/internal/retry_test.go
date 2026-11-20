@@ -15,8 +15,8 @@ import (
 
 func TestRateLimitTransport(t *testing.T) {
 	now := time.Unix(1000, 0)
-	prevSleep, prevNow := rateLimitSleep, rateLimitNow
-	t.Cleanup(func() { rateLimitSleep, rateLimitNow = prevSleep, prevNow })
+	prevSleep, prevNow := retrySleep, rateLimitNow
+	t.Cleanup(func() { retrySleep, rateLimitNow = prevSleep, prevNow })
 	rateLimitNow = func() time.Time { return now }
 
 	cases := []struct {
@@ -37,7 +37,7 @@ func TestRateLimitTransport(t *testing.T) {
 		t.Run(c.name, func(t *testing.T) {
 			var calls int32
 			var slept []time.Duration
-			rateLimitSleep = func(_ context.Context, d time.Duration) error { slept = append(slept, d); return nil }
+			retrySleep = func(_ context.Context, d time.Duration) error { slept = append(slept, d); return nil }
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				body, _ := io.ReadAll(r.Body)
 				if string(body) != "payload" {
@@ -69,8 +69,8 @@ func TestRateLimitTransport(t *testing.T) {
 }
 
 func TestRateLimitTransportCancelledDuringBackoff(t *testing.T) {
-	prevSleep := rateLimitSleep
-	t.Cleanup(func() { rateLimitSleep = prevSleep })
+	prevSleep := retrySleep
+	t.Cleanup(func() { retrySleep = prevSleep })
 	var calls int32
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		atomic.AddInt32(&calls, 1)
@@ -80,7 +80,7 @@ func TestRateLimitTransportCancelledDuringBackoff(t *testing.T) {
 	defer srv.Close()
 
 	ctx, cancel := context.WithCancel(context.Background())
-	rateLimitSleep = func(ctx context.Context, d time.Duration) error {
+	retrySleep = func(ctx context.Context, d time.Duration) error {
 		cancel()
 		return sleepContext(ctx, time.Hour)
 	}
