@@ -1,0 +1,57 @@
+---
+summary: Create or update a project note
+description: |
+  Creates or updates the Markdown-formatted note for a project. If a note
+  already exists it is updated in place; otherwise a new note is created.
+  The note is stored on the main project — branch projects write to the
+  main project's note. `body` is required. Available only when the
+  `project_notes` feature is enabled for the account; returns 404
+  otherwise. Requires manage permissions on the project and the `write`
+  OAuth scope.
+operationId: project_note/update
+tags:
+  - Project Notes
+parameters:
+  - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+  - "$ref": "../../parameters.yaml#/project_id"
+  - "$ref": "../../parameters.yaml#/branch"
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        title: project_note/update/parameters
+        required:
+          - body
+        properties:
+          body:
+            type: string
+            description: Markdown content for the project note (max 65,535 characters).
+            example: "## Project context\n\nThis project contains all marketing strings."
+responses:
+  '200':
+    description: OK
+    headers:
+      X-Rate-Limit-Limit:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Limit"
+      X-Rate-Limit-Remaining:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Remaining"
+      X-Rate-Limit-Reset:
+        "$ref": "../../headers.yaml#/X-Rate-Limit-Reset"
+    content:
+      application/json:
+        schema:
+          "$ref": "../../schemas/note.yaml#/note"
+  '400':
+    "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+  '404':
+    "$ref": "../../responses.yaml#/404"
+  '422':
+    "$ref": "../../responses.yaml#/422"
+  '429':
+    "$ref": "../../responses.yaml#/429"

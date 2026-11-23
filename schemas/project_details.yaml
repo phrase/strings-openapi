@@ -81,6 +81,8 @@ project_details:
           - "java_properties"
       branch:
         "$ref": "./branch.yaml#/branch"
+      note:
+        "$ref": "./note.yaml#/note"
 
     example:
       slug: my-android-project

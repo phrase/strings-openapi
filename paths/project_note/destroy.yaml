@@ -1,0 +1,29 @@
+---
+summary: Delete a project note
+description: |
+  Deletes the note associated with a project. This operation is idempotent
+  — it succeeds silently even when no note exists. The note is resolved
+  against the main project — branch projects delete the main project's
+  note. Available only when the `project_notes` feature is enabled for the
+  account; returns 404 otherwise. Requires manage permissions on the
+  project and the `write` OAuth scope.
+operationId: project_note/destroy
+tags:
+  - Project Notes
+parameters:
+  - "$ref": "../../parameters.yaml#/X-PhraseApp-OTP"
+  - "$ref": "../../parameters.yaml#/project_id"
+  - "$ref": "../../parameters.yaml#/branch"
+responses:
+  '204':
+    "$ref": "../../responses.yaml#/204"
+  '400':
+    "$ref": "../../responses.yaml#/400"
+  '401':
+    "$ref": "../../responses.yaml#/401"
+  '403':
+    "$ref": "../../responses.yaml#/403"
+  '404':
+    "$ref": "../../responses.yaml#/404"
+  '429':
+    "$ref": "../../responses.yaml#/429"

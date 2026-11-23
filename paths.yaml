@@ -331,6 +331,13 @@
     "$ref": "./paths/projects/update.yaml"
   delete:
     "$ref": "./paths/projects/destroy.yaml"
+"/projects/{project_id}/note":
+  get:
+    "$ref": "./paths/project_note/show.yaml"
+  patch:
+    "$ref": "./paths/project_note/update.yaml"
+  delete:
+    "$ref": "./paths/project_note/destroy.yaml"
 "/projects/{project_id}/jobs/{job_id}/locales":
   get:
     "$ref": "./paths/job_locales/index.yaml"
