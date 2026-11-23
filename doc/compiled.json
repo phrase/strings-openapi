@@ -19016,7 +19016,7 @@
     "/projects/{project_id}/note": {
       "get": {
         "summary": "Get a project note",
-        "description": "Returns the Markdown-formatted note attached to a project. The note is\nresolved against the main project — branch projects return the main\nproject's note. Available only when the `project_notes` feature is\nenabled for the account; returns 404 when the feature is disabled or\nwhen no note has been created yet. Requires the `read` OAuth scope.\n",
+        "description": "Returns the Markdown-formatted note attached to a project. The note is\nresolved against the main project — branch projects return the main\nproject's note. Returns 404 when no note has been created yet. Requires\nthe `read` OAuth scope.\n",
         "operationId": "project_note/show",
         "tags": [
           "Project Notes"
@@ -19073,7 +19073,7 @@
       },
       "patch": {
         "summary": "Create or update a project note",
-        "description": "Creates or updates the Markdown-formatted note for a project. If a note\nalready exists it is updated in place; otherwise a new note is created.\nThe note is stored on the main project — branch projects write to the\nmain project's note. `body` is required. Available only when the\n`project_notes` feature is enabled for the account; returns 404\notherwise. Requires manage permissions on the project and the `write`\nOAuth scope.\n",
+        "description": "Creates or updates the Markdown-formatted note for a project. If a note\nalready exists it is updated in place; otherwise a new note is created.\nThe note is stored on the main project — branch projects write to the\nmain project's note. `body` is required. Requires manage permissions on\nthe project and the `write` OAuth scope.\n",
         "operationId": "project_note/update",
         "tags": [
           "Project Notes"
@@ -19154,7 +19154,7 @@
       },
       "delete": {
         "summary": "Delete a project note",
-        "description": "Deletes the note associated with a project. This operation is idempotent\n— it succeeds silently even when no note exists. The note is resolved\nagainst the main project — branch projects delete the main project's\nnote. Available only when the `project_notes` feature is enabled for the\naccount; returns 404 otherwise. Requires manage permissions on the\nproject and the `write` OAuth scope.\n",
+        "description": "Deletes the note associated with a project. This operation is idempotent\n— it succeeds silently even when no note exists. The note is resolved\nagainst the main project — branch projects delete the main project's\nnote. Requires manage permissions on the project and the `write` OAuth\nscope.\n",
         "operationId": "project_note/destroy",
         "tags": [
           "Project Notes"

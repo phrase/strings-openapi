@@ -4,10 +4,8 @@ description: |
   Creates or updates the Markdown-formatted note for a project. If a note
   already exists it is updated in place; otherwise a new note is created.
   The note is stored on the main project — branch projects write to the
-  main project's note. `body` is required. Available only when the
-  `project_notes` feature is enabled for the account; returns 404
-  otherwise. Requires manage permissions on the project and the `write`
-  OAuth scope.
+  main project's note. `body` is required. Requires manage permissions on
+  the project and the `write` OAuth scope.
 operationId: project_note/update
 tags:
   - Project Notes

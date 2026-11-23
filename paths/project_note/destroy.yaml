@@ -4,9 +4,8 @@ description: |
   Deletes the note associated with a project. This operation is idempotent
   — it succeeds silently even when no note exists. The note is resolved
   against the main project — branch projects delete the main project's
-  note. Available only when the `project_notes` feature is enabled for the
-  account; returns 404 otherwise. Requires manage permissions on the
-  project and the `write` OAuth scope.
+  note. Requires manage permissions on the project and the `write` OAuth
+  scope.
 operationId: project_note/destroy
 tags:
   - Project Notes
