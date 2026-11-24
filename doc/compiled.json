@@ -5383,13 +5383,18 @@
               "failure"
             ]
           },
+          "automatic": {
+            "type": "boolean",
+            "description": "When `true`, the sync was triggered automatically (for example by a Zero Touch Localization rule or an automation). When `false`, it was triggered manually.\n"
+          },
           "pull_request_url": {
             "type": "string",
             "description": "URL of the pull request created on export"
           },
           "auto_import": {
             "type": "boolean",
-            "description": "Whether the import was triggered by the repo push event"
+            "deprecated": true,
+            "description": "**Deprecated.** Use `automatic` instead. Only present on import events. Indicates whether the import was triggered automatically.\n"
           },
           "errors": {
             "description": "List of error messages, in case of failure",
@@ -5429,6 +5434,7 @@
           "type": "import",
           "created_at": "2015-01-28T09:52:53Z",
           "status": "failure",
+          "automatic": true,
           "auto_import": true,
           "errors": [
             "Error message 1",
