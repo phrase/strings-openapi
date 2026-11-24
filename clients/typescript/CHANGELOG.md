@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.35.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.34.0...typescript-v3.35.0) (2026-11-24)
+
+
+### Features
+
+* **API:** add project note endpoints and note field to project details ([#1382](https://github.com/phrase/strings-openapi/issues/1382)) ([d8a7dce](https://github.com/phrase/strings-openapi/commit/d8a7dce5ba70d133f457a58512b6234228a8d989))
+
 ## [3.34.0](https://github.com/phrase/strings-openapi/compare/typescript-v3.33.0...typescript-v3.34.0) (2026-11-23)
 
 
