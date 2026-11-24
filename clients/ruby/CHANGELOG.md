@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.36.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.35.0...ruby-v4.36.0) (2026-11-24)
+
+
+### Features
+
+* **API:** add project note endpoints and note field to project details ([#1382](https://github.com/phrase/strings-openapi/issues/1382)) ([d8a7dce](https://github.com/phrase/strings-openapi/commit/d8a7dce5ba70d133f457a58512b6234228a8d989))
+
 ## [4.35.0](https://github.com/phrase/strings-openapi/compare/ruby-v4.34.0...ruby-v4.35.0) (2026-11-23)
 
 
