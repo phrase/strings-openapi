@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.33.0](https://github.com/phrase/strings-openapi/compare/java-v3.32.0...java-v3.33.0) (2026-11-24)
+
+
+### Features
+
+* **API:** add project note endpoints and note field to project details ([#1382](https://github.com/phrase/strings-openapi/issues/1382)) ([d8a7dce](https://github.com/phrase/strings-openapi/commit/d8a7dce5ba70d133f457a58512b6234228a8d989))
+
 ## [3.32.0](https://github.com/phrase/strings-openapi/compare/java-v3.31.0...java-v3.32.0) (2026-11-23)
 
 
