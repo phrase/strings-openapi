@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.41.0](https://github.com/phrase/strings-openapi/compare/go-v4.40.0...go-v4.41.0) (2026-11-24)
+
+
+### Features
+
+* **API:** add automatic field to repo sync event responses, deprecate auto_import #STRINGS-4942 ([#1393](https://github.com/phrase/strings-openapi/issues/1393)) ([f63d8e9](https://github.com/phrase/strings-openapi/commit/f63d8e9e6ecb37878007c0e1ef5c079337ab4134))
+
 ## [4.40.0](https://github.com/phrase/strings-openapi/compare/go-v4.39.0...go-v4.40.0) (2026-11-24)
 
 
