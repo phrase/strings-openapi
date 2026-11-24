@@ -1,0 +1,18 @@
+---
+note:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Unique code identifying the note.
+      example: "abcd1234efgh5678"
+    body:
+      type: string
+      description: Markdown-formatted content of the note (max 65,535 characters).
+      example: "## Project context\n\nThis project contains all marketing strings."
+    created_at:
+      type: string
+      format: date-time
+    updated_at:
+      type: string
+      format: date-time

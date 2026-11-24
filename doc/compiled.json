@@ -161,6 +161,10 @@
       "name": "Pre Translations"
     },
     {
+      "name": "Project Notes",
+      "description": "Manage Markdown-formatted notes attached to projects."
+    },
+    {
       "name": "Projects"
     },
     {
@@ -234,6 +238,7 @@
       "name": "Core Resources",
       "tags": [
         "Projects",
+        "Project Notes",
         "Locales",
         "Keys",
         "Key Format Annotations",
@@ -2310,6 +2315,29 @@
           "fr": "French"
         }
       },
+      "note": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique code identifying the note.",
+            "example": "abcd1234efgh5678"
+          },
+          "body": {
+            "type": "string",
+            "description": "Markdown-formatted content of the note (max 65,535 characters).",
+            "example": "## Project context\n\nThis project contains all marketing strings."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "project": {
         "type": "object",
         "title": "project",
@@ -2500,6 +2528,9 @@
               },
               "branch": {
                 "$ref": "#/components/schemas/branch"
+              },
+              "note": {
+                "$ref": "#/components/schemas/note"
               }
             },
             "example": {
@@ -18980,6 +19011,185 @@
           }
         ],
         "x-cli-version": "2.5"
+      }
+    },
+    "/projects/{project_id}/note": {
+      "get": {
+        "summary": "Get a project note",
+        "description": "Returns the Markdown-formatted note attached to a project. The note is\nresolved against the main project — branch projects return the main\nproject's note. Returns 404 when no note has been created yet. Requires\nthe `read` OAuth scope.\n",
+        "operationId": "project_note/show",
+        "tags": [
+          "Project Notes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-PhraseApp-OTP"
+          },
+          {
+            "$ref": "#/components/parameters/project_id"
+          },
+          {
+            "$ref": "#/components/parameters/branch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Create or update a project note",
+        "description": "Creates or updates the Markdown-formatted note for a project. If a note\nalready exists it is updated in place; otherwise a new note is created.\nThe note is stored on the main project — branch projects write to the\nmain project's note. `body` is required. Requires manage permissions on\nthe project and the `write` OAuth scope.\n",
+        "operationId": "project_note/update",
+        "tags": [
+          "Project Notes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-PhraseApp-OTP"
+          },
+          {
+            "$ref": "#/components/parameters/project_id"
+          },
+          {
+            "$ref": "#/components/parameters/branch"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "project_note/update/parameters",
+                "required": [
+                  "body"
+                ],
+                "properties": {
+                  "body": {
+                    "type": "string",
+                    "description": "Markdown content for the project note (max 65,535 characters).",
+                    "example": "## Project context\n\nThis project contains all marketing strings."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "$ref": "#/components/headers/X-Rate-Limit-Limit"
+              },
+              "X-Rate-Limit-Remaining": {
+                "$ref": "#/components/headers/X-Rate-Limit-Remaining"
+              },
+              "X-Rate-Limit-Reset": {
+                "$ref": "#/components/headers/X-Rate-Limit-Reset"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a project note",
+        "description": "Deletes the note associated with a project. This operation is idempotent\n— it succeeds silently even when no note exists. The note is resolved\nagainst the main project — branch projects delete the main project's\nnote. Requires manage permissions on the project and the `write` OAuth\nscope.\n",
+        "operationId": "project_note/destroy",
+        "tags": [
+          "Project Notes"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/X-PhraseApp-OTP"
+          },
+          {
+            "$ref": "#/components/parameters/project_id"
+          },
+          {
+            "$ref": "#/components/parameters/branch"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          }
+        }
       }
     },
     "/projects/{project_id}/jobs/{job_id}/locales": {
